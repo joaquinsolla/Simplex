@@ -2,7 +2,9 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+
 import 'package:simplex/common/all_common.dart';
+import 'all_pages.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -42,7 +44,7 @@ class _HomeState extends State<Home> {
             colorNavigationBarBackground = const Color(0xff1c1c1f);
             colorNavigationBarText = const Color(0xff3a393e);
             colorMainText = Colors.white;
-            colorSecondText = const Color(0xff3a393e);
+            colorSecondText = const Color(0xff706e74);
         }
       });
 
@@ -52,25 +54,10 @@ class _HomeState extends State<Home> {
     }
 
     List<Widget> homeViews = [
-      // EVENTOS
-      homeArea([
-          headerText('Eventos'),
-      ]),
-
-      // HABITOS
-      homeArea([
-        headerText('Nuevos hábitos'),
-      ]),
-
-      // NOTAS
-      homeArea([
-        headerText('Notas'),
-      ]),
-
-      // AJUSTES
-      homeArea([
-        headerText('Ajustes'),
-      ]),
+      eventsView(context),
+      habitsView(context),
+      notesView(context),
+      settingsView(context)
     ];
 
     return Scaffold(
@@ -101,9 +88,8 @@ class _HomeState extends State<Home> {
       curve: Curves.easeInOutQuart,
       items: <BottomNavyBarItem>[
         myBottomNavyBarItem('Eventos', const Icon(Icons.today_rounded)),
-        myBottomNavyBarItem(
-            'Hábitos', const Icon(Icons.lightbulb_outline_rounded)),
-        myBottomNavyBarItem('Notas', const Icon(Icons.sticky_note_2_outlined)),
+        myBottomNavyBarItem('Hábitos', const Icon(Icons.lightbulb_outline_rounded)),
+        myBottomNavyBarItem('To-Do', const Icon(Icons.check_circle_outline_rounded)),
         myBottomNavyBarItem('Ajustes', const Icon(Icons.settings_outlined)),
       ],
     );
