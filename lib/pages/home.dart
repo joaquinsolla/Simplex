@@ -53,28 +53,24 @@ class _HomeState extends State<Home> {
 
     List<Widget> homeViews = [
       // EVENTOS
-      Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Container(
-          color: colorSecondBackground,
-          child: Text("Page 1",
-              style: TextStyle(
-                  fontSize: 50, fontWeight: FontWeight.bold, color: colorMainText)),),
-        Container(
-          color: colorSecondBackground,
-          child: Text("Page 1",
-              style: TextStyle(
-                  fontSize: 30, fontWeight: FontWeight.normal, color: colorSecondText)),),
-
+      homeArea([
+          headerText('Eventos'),
       ]),
 
       // HABITOS
-      new Center(child: Text("Page 2", style: TextStyle(fontSize: 50))),
+      homeArea([
+        headerText('Nuevos hábitos'),
+      ]),
 
       // NOTAS
-      new Center(child: Text("Page 3", style: TextStyle(fontSize: 50))),
+      homeArea([
+        headerText('Notas'),
+      ]),
 
       // AJUSTES
-      new Center(child: Text("Page 4", style: TextStyle(fontSize: 50)))
+      homeArea([
+        headerText('Ajustes'),
+      ]),
     ];
 
     return Scaffold(
@@ -100,8 +96,8 @@ class _HomeState extends State<Home> {
         setState(() => homeIndex = index);
         _pageController.jumpToPage(index);
       },
-      containerHeight: 70,
-      iconSize: 27.5,
+      containerHeight: deviceHeight*0.08,
+      iconSize: deviceHeight*0.0325,
       curve: Curves.easeInOutQuart,
       items: <BottomNavyBarItem>[
         myBottomNavyBarItem('Eventos', const Icon(Icons.today_rounded)),
