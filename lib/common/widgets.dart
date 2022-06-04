@@ -106,7 +106,7 @@ Column eventBox(String eventName, String? eventDescription, DateTime eventDate) 
           },
         ),
       ),
-      SizedBox(height: deviceHeight*0.01,),
+      SizedBox(height: deviceHeight*0.0125,),
     ],
   );
 }

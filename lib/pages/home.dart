@@ -1,9 +1,9 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/services/sqlite_service.dart';
 import 'all_pages.dart';
 
 class Home extends StatefulWidget {
@@ -15,16 +15,28 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final _pageController = PageController();
+  List<Event> _events = [];
 
   @override
   void initState() {
-    darkMode = SchedulerBinding.instance!.window.platformBrightness == Brightness.dark;
     super.initState();
+    darkMode = SchedulerBinding.instance!.window.platformBrightness == Brightness.dark;
+    initializeDB().whenComplete(() async {
+      _refreshEvents();
+      setState(() {});
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void _refreshEvents() async {
+    final events = await getEvents();
+    setState(() {
+      _events = events;
+    });
   }
 
   @override
@@ -48,13 +60,11 @@ class _HomeState extends State<Home> {
         }
       });
 
-      if (kDebugMode) {
-        print('[OK] Device checked.');
-      }
+      debugPrint('[OK] Device checked.');
     }
 
     List<Widget> homeViews = [
-      eventsView(context),
+      eventsView(context, _events),
       habitsView(context),
       notesView(context),
       settingsView(context)
