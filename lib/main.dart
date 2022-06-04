@@ -1,8 +1,6 @@
-/**
- * APP DESIGNED AND CODED BY:
- * Joaquin Solla Vazquez
- * App repository: https://github.com/joaquinsolla/Simplex
- * */
+/// APP DESIGNED AND CODED BY:
+/// Joaquin Solla Vazquez
+/// App repository: https://github.com/joaquinsolla/Simplex
 
 import 'package:flutter/material.dart';
 
@@ -15,7 +13,8 @@ Future<void> main() async {
     title: "Simplex",
     initialRoute: '/home',
     routes: {
-      '/home': (context) => Home(),
+      '/home': (context) => const Home(),
+      '/add_event': (context) => const AddEvent(),
     },
   ));
 

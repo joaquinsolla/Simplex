@@ -53,10 +53,13 @@ class _HomeState extends State<Home> {
         if (darkMode) {
             colorMainBackground = Colors.black;
             colorSecondBackground = const Color(0xff1c1c1f);
+            colorThirdBackground = const Color(0xff706e74);
+            colorButtonText = const Color(0xff1c1c1f);
             colorNavigationBarBackground = const Color(0xff1c1c1f);
             colorNavigationBarText = const Color(0xff3a393e);
             colorMainText = Colors.white;
             colorSecondText = const Color(0xff706e74);
+            colorThirdText = const Color(0xff3a393e);
         }
       });
 

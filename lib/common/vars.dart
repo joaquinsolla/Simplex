@@ -1,4 +1,4 @@
-/** COMMON VARIABLES HERE */
+/// COMMON VARIABLES HERE
 bool testMode = false;
 bool darkMode = false;
 late final double deviceHeight;
