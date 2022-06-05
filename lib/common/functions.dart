@@ -1,4 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:simplex/services/notification_service.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 
 String monthConversor(DateTime date){
 
@@ -17,4 +22,41 @@ String stringDateToYMD(String date){
   date.substring(0, 2);
 
   return reversedDate;
+}
+
+bool showNotification(BuildContext context, int id, String title, int daysBefore, DateTime now, DateTime eventDay){
+
+  int today = DateTime(now.year, now.month, now.day).millisecondsSinceEpoch;
+  late int notificationDay;
+  if (daysBefore!=30) {
+    notificationDay = DateTime(eventDay.year, eventDay.month, eventDay.day-daysBefore).millisecondsSinceEpoch;
+  } else {
+    notificationDay = DateTime(eventDay.year, eventDay.month-1, eventDay.day).millisecondsSinceEpoch;
+  }
+
+  if (notificationDay > today){
+    int milliNow = now.millisecondsSinceEpoch;
+    late String body;
+
+    WidgetsFlutterBinding.ensureInitialized();
+    NotificationService().initNotification();
+    tz.initializeTimeZones();
+    if (daysBefore == 1) {
+      body = '¡Es mañana!';
+    } else if (daysBefore == 7) {
+      body = '¡Es en una semana!';
+    } else {
+      body = '¡Es en un mes!';
+    }
+    NotificationService().showNotification(id, title, body, notificationDay-milliNow + 1000);
+    debugPrint('[OK] Notification with id: $id ready for $daysBefore days before the event');
+    return true;
+  } else {
+    return false;
+  }
+}
+
+Future<void> cancelNotification(int notificationId) async {
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  await flutterLocalNotificationsPlugin.cancel(notificationId);
 }

@@ -10,6 +10,7 @@ class AddEvent extends StatefulWidget {
 }
 
 class _AddEventState extends State<AddEvent> {
+
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
   final dateController = TextEditingController();
@@ -38,6 +39,7 @@ class _AddEventState extends State<AddEvent> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: homeArea([
@@ -350,10 +352,30 @@ class _AddEventState extends State<AddEvent> {
               dateFocusNode.requestFocus();
             } else {
               try {
-                Event newEvent = Event(id: DateTime.now().millisecondsSinceEpoch, name: nameController.text, description: descriptionController.text, date: DateTime.parse(stringDateToYMD(dateController.text)).millisecondsSinceEpoch, color: selectedColor);
+
+                DateTime now = DateTime.now();
+                int milliNow = int.parse((now.millisecondsSinceEpoch).toString().substring(6));
+
+                int notificationDayId = int.parse("1"+"$milliNow");
+                int notificationWeekId = int.parse("7"+"$milliNow");
+                int notificationMonthId = int.parse("30"+"$milliNow");
+
+                if (dayNotification) dayNotification=showNotification(context, notificationDayId, nameController.text, 1, now, DateTime.parse(stringDateToYMD(dateController.text)));
+                if (weekNotification) weekNotification=showNotification(context, notificationWeekId, nameController.text, 7, now, DateTime.parse(stringDateToYMD(dateController.text)));
+                if (monthNotification) monthNotification=showNotification(context, notificationMonthId, nameController.text, 30, now, DateTime.parse(stringDateToYMD(dateController.text)));
+
+                if (dayNotification==false) notificationDayId=-1;
+                if (weekNotification==false) notificationWeekId=-1;
+                if (monthNotification==false) notificationMonthId=-1;
+
+                Event newEvent = Event(id: milliNow, name: nameController.text, description: descriptionController.text,
+                    date: DateTime.parse(stringDateToYMD(dateController.text)).millisecondsSinceEpoch, color: selectedColor,
+                    notificationDay: notificationDayId, notificationWeek: notificationWeekId, notificationMonth: notificationMonthId);
                 createEvent(newEvent);
+
                 debugPrint('[OK] Event created with id: ' + newEvent.id.toString());
                 Navigator.pushNamed(context, '/home');
+
               } on Exception catch (e) {
                 debugPrint('[ERR] Could not create event: $e');
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
