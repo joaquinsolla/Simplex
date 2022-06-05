@@ -9,7 +9,7 @@ Container eventsView(BuildContext context, List<Event> events) {
       Navigator.pushNamed(context, '/add_event');
     }),
 
-    for (var event in events) eventBox(event.name, event.description, DateTime.fromMicrosecondsSinceEpoch(event.date * 1000)),
+    for (var event in events) eventBox(event.name, event.description, DateTime.fromMicrosecondsSinceEpoch(event.date * 1000), event.color),
 
     if (events.isEmpty) Container(
       height: deviceHeight*0.65,

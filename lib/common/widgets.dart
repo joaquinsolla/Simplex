@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 
@@ -103,7 +101,7 @@ Container checkBoxContainer(CheckboxListTile checkbox){
   );
 }
 
-Column eventBox(String eventName, String? eventDescription, DateTime eventDate) {
+Column eventBox(String eventName, String eventDescription, DateTime eventDate, int color) {
 
   return Column(
     children: [
@@ -111,7 +109,7 @@ Column eventBox(String eventName, String? eventDescription, DateTime eventDate) 
         padding: EdgeInsets.all(deviceWidth * 0.005),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: colorSecondBackground,
+          color: Color(color),
         ),
         child: TextButton(
           child: IntrinsicHeight(
@@ -139,13 +137,20 @@ Column eventBox(String eventName, String? eventDescription, DateTime eventDate) 
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.06, fontWeight: FontWeight.bold))),
-                    if (eventDescription != null) Container(
+                    if (eventDescription.isNotEmpty && color == -1) Container(
                         width: deviceWidth*0.6475,
                         alignment: Alignment.centerLeft,
                         child: Text(eventDescription,
                             maxLines: 5,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(color: colorSecondText, fontSize: deviceWidth * 0.03, fontWeight: FontWeight.normal))),
+                    if (eventDescription.isNotEmpty && color != -1) Container(
+                        width: deviceWidth*0.6475,
+                        alignment: Alignment.centerLeft,
+                        child: Text(eventDescription,
+                            maxLines: 5,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.03, fontWeight: FontWeight.normal))),
                   ],
                 ),
               ],
@@ -170,13 +175,14 @@ Column eventBox(String eventName, String? eventDescription, DateTime eventDate) 
   );
 }
 
-Column formTextField(TextEditingController controller, String fieldName, String hintText) {
+Column formTextField(TextEditingController controller, String fieldName, String hintText, FocusNode focusNode) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(fieldName, style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.045, fontWeight: FontWeight.bold),),
       SizedBox(height: deviceHeight*0.005),
       TextField(
+        focusNode: focusNode,
         style: TextStyle(color: colorMainText),
         controller: controller,
         decoration: InputDecoration(

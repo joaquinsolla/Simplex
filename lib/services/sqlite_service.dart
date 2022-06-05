@@ -14,7 +14,8 @@ Future<Database> initializeDB() async {
           id INTEGER PRIMARY KEY AUTOINCREMENT, 
           name TEXT NOT NULL,
           description TEXT,
-          date DATETIME NOT NULL)""",
+          date DATETIME NOT NULL,
+          color INTEGER NOT NULL)""",
       );
       // TODO: create habits database
       await database.execute(
@@ -58,15 +59,16 @@ Future<void> deleteEvent(String id) async {
 class Event{
   final int id;
   final String name;
-  final String description;
+  String description;
   final int date;
+  final int color;
 
-  Event({required this.id, required this.name, required this.description, required this.date});
+  Event({required this.id, required this.name, required this.description, required this.date, required this.color});
 
   Event.eventFromMap(Map<String, dynamic> item):
-        id=item["id"], name=item["name"], description= item["description"], date= item["date"];
+        id=item["id"], name=item["name"], description= item["description"], date= item["date"], color= item["color"];
 
   Map<String, Object> eventToMap(){
-    return {'id':id, 'name':name, 'description':description, 'date':date};
+    return {'id':id, 'name':name, 'description':description, 'date':date, 'color':color};
   }
 }

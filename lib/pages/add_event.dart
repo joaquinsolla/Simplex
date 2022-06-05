@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/services/sqlite_service.dart';
 
 class AddEvent extends StatefulWidget {
   const AddEvent({Key? key}) : super(key: key);
@@ -13,15 +14,21 @@ class _AddEventState extends State<AddEvent> {
   final descriptionController = TextEditingController();
   final dateController = TextEditingController();
 
+  FocusNode nameFocusNode = FocusNode();
+  FocusNode descriptionFocusNode = FocusNode();
+  FocusNode dateFocusNode = FocusNode();
+
   bool dayNotification = false;
   bool weekNotification = false;
   bool monthNotification = false;
 
+  int selectedColor = -1;
+
   @override
   void dispose() {
+    super.dispose();
     nameController.dispose();
     descriptionController.dispose();
-    super.dispose();
   }
 
   @override
@@ -35,8 +42,8 @@ class _AddEventState extends State<AddEvent> {
       backgroundColor: colorMainBackground,
       body: homeArea([
         addHeader(context, 'Nuevo evento', [
-          formTextField(nameController, 'Nombre', '(Obligatorio)'),
-          formTextField(descriptionController, 'Descripción', '(Opcional)'),
+          formTextField(nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
+          formTextField(descriptionController, 'Descripción', '(Opcional)', descriptionFocusNode),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -49,6 +56,7 @@ class _AddEventState extends State<AddEvent> {
               ),
               SizedBox(height: deviceHeight * 0.005),
               TextField(
+                focusNode: dateFocusNode,
                 controller: dateController,
                 style: TextStyle(color: colorMainText),
                 readOnly: true,
@@ -73,6 +81,118 @@ class _AddEventState extends State<AddEvent> {
         SizedBox(height: deviceHeight * 0.025),
         alternativeFormContainer([
           Text(
+            'Color',
+            style: TextStyle(
+                color: colorMainText,
+                fontSize: deviceWidth * 0.045,
+                fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: deviceHeight * 0.015),
+          Container(
+            alignment: Alignment.center,
+            child: Wrap(children: [
+              Theme(
+                  data: Theme.of(context).copyWith(
+                    unselectedWidgetColor: colorThirdBackground,
+                    disabledColor: colorThirdBackground,
+                  ),
+                  child: Radio(
+                    value: -1,
+                    groupValue: selectedColor,
+                    activeColor: colorThirdBackground,
+                    onChanged: (val) {
+                      setState(() {
+                        selectedColor = val as int;
+                      });
+                    },
+                  )
+              ),
+              Theme(
+                data: Theme.of(context).copyWith(
+                  unselectedWidgetColor: const Color(0xffF44336),
+                  disabledColor: const Color(0xffF44336),
+                ),
+                child: Radio(
+                  value: 0xffF44336,
+                  groupValue: selectedColor,
+                  activeColor: const Color(0xffF44336),
+                  onChanged: (val) {
+                    setState(() {
+                      selectedColor = val as int;
+                    });
+                  },
+                ),
+              ),
+              Theme(
+                data: Theme.of(context).copyWith(
+                  unselectedWidgetColor: const Color(0xffFF9800),
+                  disabledColor: const Color(0xffFF9800),
+                ),
+                child: Radio(
+                  value: 0xffFF9800,
+                  groupValue: selectedColor,
+                  activeColor: const Color(0xffFF9800),
+                  onChanged: (val) {
+                    setState(() {
+                      selectedColor = val as int;
+                    });
+                  },
+                ),
+              ),
+              Theme(
+                data: Theme.of(context).copyWith(
+                  unselectedWidgetColor: const Color(0xff4CAF50),
+                  disabledColor: const Color(0xff4CAF50),
+                ),
+                child: Radio(
+                  value: 0xff4CAF50,
+                  groupValue: selectedColor,
+                  activeColor: const Color(0xff4CAF50),
+                  onChanged: (val) {
+                    setState(() {
+                      selectedColor = val as int;
+                    });
+                  },
+                ),
+              ),
+              Theme(
+                data: Theme.of(context).copyWith(
+                  unselectedWidgetColor: const Color(0xff448AFF),
+                  disabledColor: const Color(0xff448AFF),
+                ),
+                child: Radio(
+                  value: 0xff448AFF,
+                  groupValue: selectedColor,
+                  activeColor: const Color(0xff448AFF),
+                  onChanged: (val) {
+                    setState(() {
+                      selectedColor = val as int;
+                    });
+                  },
+                ),
+              ),
+              Theme(
+                data: Theme.of(context).copyWith(
+                  unselectedWidgetColor: const Color(0xff7C4DFF),
+                  disabledColor: const Color(0xff7C4DFF),
+                ),
+                child: Radio(
+                  value: 0xff7C4DFF,
+                  groupValue: selectedColor,
+                  activeColor: const Color(0xff7C4DFF),
+                  onChanged: (val) {
+                    setState(() {
+                      selectedColor = val as int;
+                    });
+                  },
+                ),
+              ),
+            ],),
+          ),
+        ]),
+        SizedBox(height: deviceHeight * 0.025),
+        alternativeFormContainer([
+          Text(
             'Notificaciones',
             style: TextStyle(
                 color: colorMainText,
@@ -80,7 +200,6 @@ class _AddEventState extends State<AddEvent> {
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.015),
-
           if (dayNotification==false) checkBoxContainer(
             CheckboxListTile(
               title: Text(
@@ -191,14 +310,12 @@ class _AddEventState extends State<AddEvent> {
               controlAffinity: ListTileControlAffinity.leading,
             ),
           ),
-
         ]),
         SizedBox(height: deviceHeight * 0.025),
         TextButton(
           style: TextButton.styleFrom(
             backgroundColor: colorSpecialItem, // Text Color
           ),
-          onPressed: () {},
           child: Container(
               child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -214,12 +331,46 @@ class _AddEventState extends State<AddEvent> {
               ),
             ],
           )),
+          onPressed: () {
+            if (nameController.text.isEmpty){
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text("Debes indicar un nombre"),
+                backgroundColor: Colors.red,
+                behavior: SnackBarBehavior.floating,
+                duration: Duration(seconds: 2),
+              ));
+              nameFocusNode.requestFocus();
+            } else if (dateController.text.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text("Debes indicar una fecha"),
+                backgroundColor: Colors.red,
+                behavior: SnackBarBehavior.floating,
+                duration: Duration(seconds: 2),
+              ));
+              dateFocusNode.requestFocus();
+            } else {
+              try {
+                Event newEvent = Event(id: DateTime.now().millisecondsSinceEpoch, name: nameController.text, description: descriptionController.text, date: DateTime.parse(stringDateToYMD(dateController.text)).millisecondsSinceEpoch, color: selectedColor);
+                createEvent(newEvent);
+                Navigator.pushNamed(context, '/home');
+              } on Exception catch (e) {
+                debugPrint('[ERR] Could not create event: $e');
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Ha ocurrido un error"),
+                  backgroundColor: Colors.red,
+                  behavior: SnackBarBehavior.floating,
+                  duration: Duration(seconds: 2),
+                ));
+              }
+            }
+          },
         ),
+        SizedBox(height: deviceHeight * 0.025),
       ]),
     );
   }
 
-  _dateSelector(BuildContext context) async {
+    _dateSelector(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),

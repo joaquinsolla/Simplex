@@ -10,3 +10,11 @@ String monthConversor(DateTime date){
 String datetimeToString(DateTime dateTime){
   return DateFormat('dd/MM/yyyy').format(dateTime);
 }
+
+String stringDateToYMD(String date){
+  String reversedDate = date.substring(6) + '-' +
+  date.substring(3, 5) + '-' +
+  date.substring(0, 2);
+
+  return reversedDate;
+}
