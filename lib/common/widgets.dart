@@ -103,6 +103,9 @@ Container checkBoxContainer(CheckboxListTile checkbox){
 
 Column eventBox(String eventName, String eventDescription, DateTime eventDate, int color) {
 
+  if (color == -1 && darkMode == false) color = 0xFFFFFFFF;
+  if (color == -1 && darkMode == true) color = 0xff1c1c1f;
+
   return Column(
     children: [
       Container(

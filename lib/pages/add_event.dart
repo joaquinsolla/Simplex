@@ -352,6 +352,7 @@ class _AddEventState extends State<AddEvent> {
               try {
                 Event newEvent = Event(id: DateTime.now().millisecondsSinceEpoch, name: nameController.text, description: descriptionController.text, date: DateTime.parse(stringDateToYMD(dateController.text)).millisecondsSinceEpoch, color: selectedColor);
                 createEvent(newEvent);
+                debugPrint('[OK] Event created with id: ' + newEvent.id.toString());
                 Navigator.pushNamed(context, '/home');
               } on Exception catch (e) {
                 debugPrint('[ERR] Could not create event: $e');
