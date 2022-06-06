@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/services/sqlite_service.dart';
 
 Container homeArea(List<Widget> children) {
   return Container(
@@ -101,10 +102,18 @@ Container checkBoxContainer(CheckboxListTile checkbox){
   );
 }
 
-Column eventBox(String eventName, String eventDescription, DateTime eventDate, int color) {
+Column eventBox(Event event) {
 
-  if (color == -1 && darkMode == false) color = 0xFFFFFFFF;
-  if (color == -1 && darkMode == true) color = 0xff1c1c1f;
+  late int color;
+  if (event.color == -1 && darkMode == false) {
+    color = 0xFFFFFFFF;
+  } else if (event.color == -1 && darkMode == true) {
+    color = 0xff1c1c1f;
+  } else {
+    color = event.color;
+  }
+
+  DateTime eventDate = DateTime.fromMicrosecondsSinceEpoch(event.date * 1000);
 
   return Column(
     children: [
@@ -137,21 +146,21 @@ Column eventBox(String eventName, String eventDescription, DateTime eventDate, i
                     Container(
                         width: deviceWidth*0.6475,
                         alignment: Alignment.centerLeft,
-                        child: Text(eventName,
+                        child: Text(event.name,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.06, fontWeight: FontWeight.bold))),
-                    if (eventDescription.isNotEmpty && color == -1) Container(
+                    if (event.description.isNotEmpty && color == -1) Container(
                         width: deviceWidth*0.6475,
                         alignment: Alignment.centerLeft,
-                        child: Text(eventDescription,
+                        child: Text(event.description,
                             maxLines: 5,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(color: colorSecondText, fontSize: deviceWidth * 0.03, fontWeight: FontWeight.normal))),
-                    if (eventDescription.isNotEmpty && color != -1) Container(
+                    if (event.description.isNotEmpty && color != -1) Container(
                         width: deviceWidth*0.6475,
                         alignment: Alignment.centerLeft,
-                        child: Text(eventDescription,
+                        child: Text(event.description,
                             maxLines: 5,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.03, fontWeight: FontWeight.normal))),

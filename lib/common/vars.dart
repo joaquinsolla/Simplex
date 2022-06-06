@@ -5,3 +5,4 @@ late final double deviceHeight;
 late final double deviceWidth;
 bool deviceChecked = false;
 int homeIndex = 0;
+bool expiredEventsDeleted = false;

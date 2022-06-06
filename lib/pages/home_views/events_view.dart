@@ -8,6 +8,11 @@ Container eventsView(BuildContext context, List<Event> todayEvents, List<Event> 
   String thisMonthAmount = thisMonthEvents.length.toString();
   String restAmount = restOfEvents.length.toString();
 
+  if (expiredEventsDeleted==false){
+    deleteExpiredEvents();
+    expiredEventsDeleted=true;
+  }
+
   return homeArea([
     homeHeader('Eventos', () {
       Navigator.pushNamed(context, '/add_event');
@@ -20,7 +25,7 @@ Container eventsView(BuildContext context, List<Event> todayEvents, List<Event> 
       fontWeight: FontWeight.bold)
     ),
     if (todayEvents.isNotEmpty) SizedBox(height: deviceHeight * 0.01),
-    for (var event in todayEvents) eventBox(event.name, event.description, DateTime.fromMicrosecondsSinceEpoch(event.date * 1000), event.color),
+    for (var event in todayEvents) eventBox(event),
 
     if (thisMonthEvents.isNotEmpty) SizedBox(height: deviceHeight * 0.02),
     if (thisMonthEvents.isNotEmpty) Text('Este mes ($thisMonthAmount)',
@@ -30,7 +35,7 @@ Container eventsView(BuildContext context, List<Event> todayEvents, List<Event> 
             fontWeight: FontWeight.bold)
     ),
     if (thisMonthEvents.isNotEmpty) SizedBox(height: deviceHeight * 0.01),
-    for (var event in thisMonthEvents) eventBox(event.name, event.description, DateTime.fromMicrosecondsSinceEpoch(event.date * 1000), event.color),
+    for (var event in thisMonthEvents) eventBox(event),
 
     if (thisMonthEvents.isNotEmpty) SizedBox(height: deviceHeight * 0.02),
     if (restOfEvents.isNotEmpty) Text('Próximamente ($restAmount)',
@@ -40,7 +45,7 @@ Container eventsView(BuildContext context, List<Event> todayEvents, List<Event> 
             fontWeight: FontWeight.bold)
     ),
     if (restOfEvents.isNotEmpty) SizedBox(height: deviceHeight * 0.01),
-    for (var event in restOfEvents) eventBox(event.name, event.description, DateTime.fromMicrosecondsSinceEpoch(event.date * 1000), event.color),
+    for (var event in restOfEvents) eventBox(event),
 
 
     if (todayEvents.isEmpty && thisMonthEvents.isEmpty && restOfEvents.isEmpty) Container(

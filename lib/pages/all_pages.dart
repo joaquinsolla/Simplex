@@ -1,6 +1,7 @@
 export 'home.dart';
-export 'events_view.dart';
-export 'habits_view.dart';
-export 'todo_view.dart';
-export 'settings_view.dart';
-export 'add_event.dart';
+export 'home_views/events_view.dart';
+export 'home_views/todo_view.dart';
+export 'home_views/settings_view.dart';
+export 'home_views/habits_view.dart';
+export 'events/add_event.dart';
+export 'events/event_details.dart';

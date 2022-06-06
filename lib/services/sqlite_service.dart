@@ -35,11 +35,13 @@ Future<Database> initializeDB() async {
   );
 }
 
+/// EVENTS HERE
 Future<int> createEvent(Event event) async {
   final Database db = await initializeDB();
   final id = await db.insert(
       'events', event.eventToMap(),
       conflictAlgorithm: ConflictAlgorithm.replace);
+  debugPrint("[OK] Event created: $id");
   return id;
 }
 
@@ -80,14 +82,32 @@ Future<List<Event>> getRestOfEvents() async {
   return queryResult.map((e) => Event.eventFromMap(e)).toList();
 }
 
-Future<void> deleteEvent(String id) async {
+Future<void> deleteEventById(String id) async {
   final Database db = await initializeDB();
   try {
     await db.delete("events", where: "id = ?", whereArgs: [id]);
   } catch (err) {
-    debugPrint("[ERR] Could not delete item: $err");
+    debugPrint("[ERR] Could not delete event: $err");
   }
 }
+
+Future<void> deleteExpiredEvents() async {
+
+  int today = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).millisecondsSinceEpoch;
+
+  final Database db = await initializeDB();
+  try {
+    await db.delete("events", where: "date < ?", whereArgs: [today]);
+  } catch (err) {
+    debugPrint("[ERR] Could not delete expired event: $err");
+  }
+}
+
+/// HABITS HERE
+
+/// TO-DOS HERE
+
+/// CLASSES HERE
 
 class Event{
   final int id;
