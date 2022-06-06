@@ -313,78 +313,89 @@ class _AddEventState extends State<AddEvent> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: colorSpecialItem, // Text Color
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: colorSecondBackground,
           ),
-          child: Container(
-              child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.check_rounded,
-                  color: colorButtonText, size: deviceWidth * 0.085),
-              Text(
-                ' Crear evento      ',
-                style: TextStyle(
-                    color: colorButtonText,
-                    fontSize: deviceWidth * 0.05,
-                    fontWeight: FontWeight.bold),
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [ SizedBox(
+              width: deviceWidth*0.8,
+              height: deviceHeight*0.07,
+              child: TextButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.check_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
+                    Text(
+                      ' Crear evento',
+                      style: TextStyle(
+                          color: colorSpecialItem,
+                          fontSize: deviceWidth * 0.05,
+                          fontWeight: FontWeight.normal),
+                    ),
+                    Icon(Icons.check_rounded, color: Colors.transparent, size: deviceWidth * 0.06),
+                  ],
+                ),
+                onPressed: () {
+                  if (nameController.text.isEmpty){
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Debes indicar un nombre"),
+                      backgroundColor: Colors.red,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
+                    nameFocusNode.requestFocus();
+                  } else if (dateController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Debes indicar una fecha"),
+                      backgroundColor: Colors.red,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
+                    dateFocusNode.requestFocus();
+                  } else {
+                    try {
+
+                      DateTime now = DateTime.now();
+                      int milliNow = int.parse((now.millisecondsSinceEpoch).toString().substring(6));
+
+                      int notificationDayId = int.parse("1"+"$milliNow");
+                      int notificationWeekId = int.parse("7"+"$milliNow");
+                      int notificationMonthId = int.parse("30"+"$milliNow");
+
+                      if (dayNotification) dayNotification=showNotification(context, notificationDayId, nameController.text, 1, now, DateTime.parse(stringDateToYMD(dateController.text)));
+                      if (weekNotification) weekNotification=showNotification(context, notificationWeekId, nameController.text, 7, now, DateTime.parse(stringDateToYMD(dateController.text)));
+                      if (monthNotification) monthNotification=showNotification(context, notificationMonthId, nameController.text, 30, now, DateTime.parse(stringDateToYMD(dateController.text)));
+
+                      if (dayNotification==false) notificationDayId=-1;
+                      if (weekNotification==false) notificationWeekId=-1;
+                      if (monthNotification==false) notificationMonthId=-1;
+
+                      Event newEvent = Event(id: milliNow, name: nameController.text, description: descriptionController.text,
+                          date: DateTime.parse(stringDateToYMD(dateController.text)).millisecondsSinceEpoch, color: selectedColor,
+                          notificationDay: notificationDayId, notificationWeek: notificationWeekId, notificationMonth: notificationMonthId);
+                      createEvent(newEvent);
+
+                      Navigator.pushNamed(context, '/home');
+
+                    } on Exception catch (e) {
+                      debugPrint('[ERR] Could not create event: $e');
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Ha ocurrido un error"),
+                        backgroundColor: Colors.red,
+                        behavior: SnackBarBehavior.floating,
+                        duration: Duration(seconds: 2),
+                      ));
+                    }
+                  }
+                },
               ),
-            ],
-          )),
-          onPressed: () {
-            if (nameController.text.isEmpty){
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text("Debes indicar un nombre"),
-                backgroundColor: Colors.red,
-                behavior: SnackBarBehavior.floating,
-                duration: Duration(seconds: 2),
-              ));
-              nameFocusNode.requestFocus();
-            } else if (dateController.text.isEmpty) {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text("Debes indicar una fecha"),
-                backgroundColor: Colors.red,
-                behavior: SnackBarBehavior.floating,
-                duration: Duration(seconds: 2),
-              ));
-              dateFocusNode.requestFocus();
-            } else {
-              try {
-
-                DateTime now = DateTime.now();
-                int milliNow = int.parse((now.millisecondsSinceEpoch).toString().substring(6));
-
-                int notificationDayId = int.parse("1"+"$milliNow");
-                int notificationWeekId = int.parse("7"+"$milliNow");
-                int notificationMonthId = int.parse("30"+"$milliNow");
-
-                if (dayNotification) dayNotification=showNotification(context, notificationDayId, nameController.text, 1, now, DateTime.parse(stringDateToYMD(dateController.text)));
-                if (weekNotification) weekNotification=showNotification(context, notificationWeekId, nameController.text, 7, now, DateTime.parse(stringDateToYMD(dateController.text)));
-                if (monthNotification) monthNotification=showNotification(context, notificationMonthId, nameController.text, 30, now, DateTime.parse(stringDateToYMD(dateController.text)));
-
-                if (dayNotification==false) notificationDayId=-1;
-                if (weekNotification==false) notificationWeekId=-1;
-                if (monthNotification==false) notificationMonthId=-1;
-
-                Event newEvent = Event(id: milliNow, name: nameController.text, description: descriptionController.text,
-                    date: DateTime.parse(stringDateToYMD(dateController.text)).millisecondsSinceEpoch, color: selectedColor,
-                    notificationDay: notificationDayId, notificationWeek: notificationWeekId, notificationMonth: notificationMonthId);
-                createEvent(newEvent);
-
-                Navigator.pushNamed(context, '/home');
-
-              } on Exception catch (e) {
-                debugPrint('[ERR] Could not create event: $e');
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text("Ha ocurrido un error"),
-                  backgroundColor: Colors.red,
-                  behavior: SnackBarBehavior.floating,
-                  duration: Duration(seconds: 2),
-                ));
-              }
-            }
-          },
+            ),],
+          ),
         ),
         SizedBox(height: deviceHeight * 0.025),
       ]),

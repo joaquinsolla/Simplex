@@ -186,6 +186,7 @@ Column formTextField(TextEditingController controller, String fieldName, String 
       Text(fieldName, style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.045, fontWeight: FontWeight.bold),),
       SizedBox(height: deviceHeight*0.005),
       TextField(
+        maxLines: null,
         focusNode: focusNode,
         style: TextStyle(color: colorMainText),
         controller: controller,
