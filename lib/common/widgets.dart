@@ -46,7 +46,7 @@ Column homeHeader(String text, Function() buttonFunction) {
   );
 }
 
-Column addHeader(BuildContext context, String text, List<Widget> formWidgets) {
+Column pageHeader(BuildContext context, String text) {
   return Column(
     children: [
       Row(
@@ -56,24 +56,14 @@ Column addHeader(BuildContext context, String text, List<Widget> formWidgets) {
                 color: colorSpecialItem, size: deviceWidth * 0.08),
             splashRadius: 0.001,
             onPressed: (){
-              Navigator.pop(context);
+              Navigator.pushNamed(context, '/home');
             },
           ),
           SizedBox(width: deviceWidth*0.0075,),
           headerText(text),
         ],
       ),
-      SizedBox(height: deviceHeight*0.03,),
-      Container(
-        padding: EdgeInsets.all(deviceWidth * 0.025),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: colorSecondBackground,
-        ),
-        child: Column(
-          children: formWidgets,
-        ),
-      ),
+      SizedBox(height: deviceHeight*0.03,)
     ],
   );
 }
@@ -102,7 +92,7 @@ Container checkBoxContainer(CheckboxListTile checkbox){
   );
 }
 
-Column eventBox(Event event) {
+Column eventBox(BuildContext context, Event event) {
 
   late int color;
   if (event.color == -1 && darkMode == false) {
@@ -179,7 +169,8 @@ Column eventBox(Event event) {
             // TODO: onPressed pop-up actions menu
           },
           onPressed: (){
-            // TODO: onPressed manage event
+            selectedEvent = event;
+            Navigator.pushNamed(context, '/events/event_details');
           },
         ),
       ),
@@ -217,3 +208,42 @@ Column formTextField(TextEditingController controller, String fieldName, String 
     ],
   );
 }
+
+Container eventActionsButton(IconData icon, Color color, String text, Function() actions){
+
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      color: colorSecondBackground,
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [ SizedBox(
+        width: deviceWidth*0.8,
+        height: deviceHeight*0.07,
+        child: TextButton(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(icon, color: color, size: deviceWidth * 0.06),
+              Text(
+                text,
+                style: TextStyle(
+                    color: color,
+                    fontSize: deviceWidth * 0.05,
+                    fontWeight: FontWeight.normal),
+              ),
+              Icon(icon, color: Colors.transparent, size: deviceWidth * 0.06),
+            ],
+          ),
+          onPressed: (){},
+        ),
+      ),],
+    ),
+  );
+}
+
+
+

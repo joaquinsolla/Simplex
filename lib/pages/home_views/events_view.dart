@@ -15,7 +15,7 @@ Container eventsView(BuildContext context, List<Event> todayEvents, List<Event> 
 
   return homeArea([
     homeHeader('Eventos', () {
-      Navigator.pushNamed(context, '/add_event');
+      Navigator.pushNamed(context, '/events/add_event');
     }),
 
     if (todayEvents.isNotEmpty) Text('Hoy ($todayAmount)',
@@ -25,7 +25,7 @@ Container eventsView(BuildContext context, List<Event> todayEvents, List<Event> 
       fontWeight: FontWeight.bold)
     ),
     if (todayEvents.isNotEmpty) SizedBox(height: deviceHeight * 0.01),
-    for (var event in todayEvents) eventBox(event),
+    for (var event in todayEvents) eventBox(context, event),
 
     if (thisMonthEvents.isNotEmpty) SizedBox(height: deviceHeight * 0.02),
     if (thisMonthEvents.isNotEmpty) Text('Este mes ($thisMonthAmount)',
@@ -35,7 +35,7 @@ Container eventsView(BuildContext context, List<Event> todayEvents, List<Event> 
             fontWeight: FontWeight.bold)
     ),
     if (thisMonthEvents.isNotEmpty) SizedBox(height: deviceHeight * 0.01),
-    for (var event in thisMonthEvents) eventBox(event),
+    for (var event in thisMonthEvents) eventBox(context, event),
 
     if (thisMonthEvents.isNotEmpty) SizedBox(height: deviceHeight * 0.02),
     if (restOfEvents.isNotEmpty) Text('Próximamente ($restAmount)',
@@ -45,7 +45,7 @@ Container eventsView(BuildContext context, List<Event> todayEvents, List<Event> 
             fontWeight: FontWeight.bold)
     ),
     if (restOfEvents.isNotEmpty) SizedBox(height: deviceHeight * 0.01),
-    for (var event in restOfEvents) eventBox(event),
+    for (var event in restOfEvents) eventBox(context, event),
 
 
     if (todayEvents.isEmpty && thisMonthEvents.isEmpty && restOfEvents.isEmpty) Container(

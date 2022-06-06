@@ -14,7 +14,8 @@ Future<void> main() async {
     initialRoute: '/home',
     routes: {
       '/home': (context) => const Home(),
-      '/add_event': (context) => const AddEvent(),
+      '/events/add_event': (context) => const AddEvent(),
+      '/events/event_details': (context) => const EventDetails(),
     },
   ));
 

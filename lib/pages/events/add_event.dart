@@ -43,8 +43,8 @@ class _AddEventState extends State<AddEvent> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: homeArea([
-        addHeader(context, 'Nuevo evento', [
-          formTextField(nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
+        pageHeader(context, 'Nuevo evento'),
+        alternativeFormContainer([formTextField(nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
           formTextField(descriptionController, 'Descripción', '(Opcional)', descriptionFocusNode),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,7 +67,7 @@ class _AddEventState extends State<AddEvent> {
                   filled: true,
                   enabledBorder: OutlineInputBorder(
                     borderSide:
-                        BorderSide(color: colorThirdBackground, width: 1),
+                    BorderSide(color: colorThirdBackground, width: 1),
                   ),
                   focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide(color: colorSpecialItem, width: 2),
@@ -78,8 +78,7 @@ class _AddEventState extends State<AddEvent> {
                 onTap: () => _dateSelector(context),
               ),
             ],
-          ),
-        ]),
+          ),]),
         SizedBox(height: deviceHeight * 0.025),
         alternativeFormContainer([
           Text(
@@ -373,7 +372,6 @@ class _AddEventState extends State<AddEvent> {
                     notificationDay: notificationDayId, notificationWeek: notificationWeekId, notificationMonth: notificationMonthId);
                 createEvent(newEvent);
 
-                debugPrint('[OK] Event created with id: ' + newEvent.id.toString());
                 Navigator.pushNamed(context, '/home');
 
               } on Exception catch (e) {
@@ -393,23 +391,23 @@ class _AddEventState extends State<AddEvent> {
     );
   }
 
-    _dateSelector(BuildContext context) async {
-    final DateTime? selected = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: DateTime(2099),
-        helpText: "SELECCIONA LA FECHA DEL EVENTO",
-        cancelText: "CANCELAR",
-        confirmText: "CONFIRMAR",
-        fieldHintText: "dd/mm/aaaa",
-        fieldLabelText: "Fecha del evento",
-        errorFormatText: "Introduce una fecha válida",
-        errorInvalidText: "La fecha debe ser posterior a hoy");
-    if (selected != null && selected != DateTime.now()) {
-      setState(() {
-        dateController.text = datetimeToString(selected);
-      });
-    }
+  _dateSelector(BuildContext context) async {
+  final DateTime? selected = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2099),
+      helpText: "SELECCIONA LA FECHA DEL EVENTO",
+      cancelText: "CANCELAR",
+      confirmText: "CONFIRMAR",
+      fieldHintText: "dd/mm/aaaa",
+      fieldLabelText: "Fecha del evento",
+      errorFormatText: "Introduce una fecha válida",
+      errorInvalidText: "La fecha debe ser posterior a hoy");
+  if (selected != null && selected != DateTime.now()) {
+    setState(() {
+      dateController.text = datetimeToString(selected);
+    });
   }
+}
 }

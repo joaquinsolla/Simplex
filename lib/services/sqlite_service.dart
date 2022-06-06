@@ -45,6 +45,13 @@ Future<int> createEvent(Event event) async {
   return id;
 }
 
+Future<List<Event>> getEventById(int id) async {
+  final Database db = await initializeDB();
+  final List<Map<String, Object?>> queryResult =
+  await db.query('events', where: "id = ?", whereArgs: [id]);
+  return queryResult.map((e) => Event.eventFromMap(e)).toList();
+}
+
 Future<List<Event>> getAllEvents() async {
   final Database db = await initializeDB();
   final List<Map<String, Object?>> queryResult =

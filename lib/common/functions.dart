@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/services/notification_service.dart';
+import 'package:simplex/services/sqlite_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:simplex/common/all_common.dart';
 
 
 String monthConversor(DateTime date){
@@ -59,4 +61,5 @@ bool showNotification(BuildContext context, int id, String title, int daysBefore
 Future<void> cancelNotification(int notificationId) async {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   await flutterLocalNotificationsPlugin.cancel(notificationId);
+  debugPrint('[OK] Notification canceled');
 }
