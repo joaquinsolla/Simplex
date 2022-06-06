@@ -125,6 +125,7 @@ Column eventBox(String eventName, String eventDescription, DateTime eventDate, i
                   children: [
                     Text(eventDate.day.toString(), style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.0625, fontWeight: FontWeight.bold)),
                     Text(monthConversor(eventDate), style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.04, fontWeight: FontWeight.normal)),
+                    if (DateTime.now().year != eventDate.year) Text(eventDate.year.toString(), style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.034, fontWeight: FontWeight.normal)),
                   ],
                 ),
                 SizedBox(width: deviceWidth*0.0125,),

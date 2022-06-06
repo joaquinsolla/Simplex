@@ -43,10 +43,40 @@ Future<int> createEvent(Event event) async {
   return id;
 }
 
-Future<List<Event>> getEvents() async {
+Future<List<Event>> getAllEvents() async {
   final Database db = await initializeDB();
   final List<Map<String, Object?>> queryResult =
   await db.query('events', orderBy: 'date');
+  return queryResult.map((e) => Event.eventFromMap(e)).toList();
+}
+
+Future<List<Event>> getTodayEvents() async {
+  int today = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).millisecondsSinceEpoch;
+
+  final Database db = await initializeDB();
+  final List<Map<String, Object?>> queryResult =
+  await db.query('events', orderBy: 'date', where: "date = ?", whereArgs: [today]);
+  return queryResult.map((e) => Event.eventFromMap(e)).toList();
+}
+
+Future<List<Event>> getThisMonthEvents() async {
+
+  int today = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).millisecondsSinceEpoch;
+  int nextMonth = DateTime(DateTime.now().year, DateTime.now().month+1, 1).millisecondsSinceEpoch;
+
+  final Database db = await initializeDB();
+  final List<Map<String, Object?>> queryResult =
+  await db.query('events', orderBy: 'date', where: "date > ? AND date < ?", whereArgs: [today, nextMonth]);
+  return queryResult.map((e) => Event.eventFromMap(e)).toList();
+}
+
+Future<List<Event>> getRestOfEvents() async {
+
+  int nextMonth = DateTime(DateTime.now().year, DateTime.now().month+1, 1).millisecondsSinceEpoch;
+
+  final Database db = await initializeDB();
+  final List<Map<String, Object?>> queryResult =
+  await db.query('events', orderBy: 'date', where: "date >= ?", whereArgs: [nextMonth]);
   return queryResult.map((e) => Event.eventFromMap(e)).toList();
 }
 
