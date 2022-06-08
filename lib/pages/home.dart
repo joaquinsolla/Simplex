@@ -16,6 +16,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final _pageController = PageController();
   List<Event> _todayEvents = [];
+  List<Event> _tomorrowEvents = [];
   List<Event> _thisMonthEvents = [];
   List<Event> _restOfEvents = [];
 
@@ -36,10 +37,12 @@ class _HomeState extends State<Home> {
 
   void _refreshEvents() async {
     final todayEvents = await getTodayEvents();
+    final tomorrowEvents = await getTomorrowEvents();
     final thisMonthEvents = await getThisMonthEvents();
     final restOfEvents = await getRestOfEvents();
     setState(() {
       _todayEvents = todayEvents;
+      _tomorrowEvents = tomorrowEvents;
       _thisMonthEvents = thisMonthEvents;
       _restOfEvents = restOfEvents;
     });
@@ -73,7 +76,7 @@ class _HomeState extends State<Home> {
     }
 
     List<Widget> homeViews = [
-      eventsView(context, _todayEvents, _thisMonthEvents, _restOfEvents),
+      eventsView(context, _todayEvents, _tomorrowEvents, _thisMonthEvents, _restOfEvents),
       habitsView(context),
       notesView(context),
       settingsView(context)

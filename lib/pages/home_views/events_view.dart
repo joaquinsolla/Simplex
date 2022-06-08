@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/sqlite_service.dart';
 
-Container eventsView(BuildContext context, List<Event> todayEvents, List<Event> thisMonthEvents, List<Event> restOfEvents) {
+Container eventsView(BuildContext context, List<Event> todayEvents, List<Event> tomorrowEvents, List<Event> thisMonthEvents, List<Event> restOfEvents) {
 
   String todayAmount = todayEvents.length.toString();
+  String tomorrowAmount = tomorrowEvents.length.toString();
   String thisMonthAmount = thisMonthEvents.length.toString();
   String restAmount = restOfEvents.length.toString();
 
@@ -26,6 +27,16 @@ Container eventsView(BuildContext context, List<Event> todayEvents, List<Event> 
     ),
     if (todayEvents.isNotEmpty) SizedBox(height: deviceHeight * 0.01),
     for (var event in todayEvents) eventBox(context, event),
+
+    if (tomorrowEvents.isNotEmpty) SizedBox(height: deviceHeight * 0.02),
+    if (tomorrowEvents.isNotEmpty) Text('Mañana ($tomorrowAmount)',
+        style: TextStyle(
+            color: colorMainText,
+            fontSize: deviceWidth * 0.05,
+            fontWeight: FontWeight.bold)
+    ),
+    if (tomorrowEvents.isNotEmpty) SizedBox(height: deviceHeight * 0.01),
+    for (var event in tomorrowEvents) eventBox(context, event),
 
     if (thisMonthEvents.isNotEmpty) SizedBox(height: deviceHeight * 0.02),
     if (thisMonthEvents.isNotEmpty) Text('Este mes ($thisMonthAmount)',

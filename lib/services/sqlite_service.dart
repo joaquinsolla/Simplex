@@ -68,9 +68,18 @@ Future<List<Event>> getTodayEvents() async {
   return queryResult.map((e) => Event.eventFromMap(e)).toList();
 }
 
+Future<List<Event>> getTomorrowEvents() async {
+  int today = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day+1).millisecondsSinceEpoch;
+
+  final Database db = await initializeDB();
+  final List<Map<String, Object?>> queryResult =
+  await db.query('events', orderBy: 'date', where: "date = ?", whereArgs: [today]);
+  return queryResult.map((e) => Event.eventFromMap(e)).toList();
+}
+
 Future<List<Event>> getThisMonthEvents() async {
 
-  int today = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).millisecondsSinceEpoch;
+  int today = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day+1).millisecondsSinceEpoch;
   int nextMonth = DateTime(DateTime.now().year, DateTime.now().month+1, 1).millisecondsSinceEpoch;
 
   final Database db = await initializeDB();
