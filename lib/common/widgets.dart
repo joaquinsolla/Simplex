@@ -16,12 +16,15 @@ Container homeArea(List<Widget> children) {
   );
 }
 
-Text headerText(String content) {
-  return Text(content,
-      style: TextStyle(
-          color: colorMainText,
-          fontSize: deviceWidth * 0.1,
-          fontWeight: FontWeight.bold));
+Container headerText(String content) {
+  return Container(
+    width: deviceWidth*0.7,
+    child: Text(content,
+        style: TextStyle(
+            color: colorMainText,
+            fontSize: deviceWidth * 0.1,
+            fontWeight: FontWeight.bold)),
+  );
 }
 
 Column homeHeader(String text, Function() buttonFunction) {
@@ -46,7 +49,7 @@ Column homeHeader(String text, Function() buttonFunction) {
   );
 }
 
-Column pageHeader(BuildContext context, String text) {
+Column pageHeader(BuildContext context, String text, String route) {
   return Column(
     children: [
       Row(
@@ -56,7 +59,7 @@ Column pageHeader(BuildContext context, String text) {
                 color: colorSpecialItem, size: deviceWidth * 0.08),
             splashRadius: 0.001,
             onPressed: (){
-              Navigator.pushNamed(context, '/home');
+              Navigator.pushNamed(context, route);
             },
           ),
           SizedBox(width: deviceWidth*0.0075,),

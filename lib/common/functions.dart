@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/services/notification_service.dart';
-import 'package:simplex/services/sqlite_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:simplex/common/all_common.dart';
 
 
 String monthConversor(DateTime date){
@@ -24,6 +22,13 @@ String stringDateToYMD(String date){
   date.substring(0, 2);
 
   return reversedDate;
+}
+
+String millisecondsToStringDate(int millis){
+
+  DateTime date = DateTime.fromMicrosecondsSinceEpoch(millis*1000);
+
+  return datetimeToString(date);
 }
 
 bool showNotification(BuildContext context, int id, String title, int daysBefore, DateTime now, DateTime eventDay){

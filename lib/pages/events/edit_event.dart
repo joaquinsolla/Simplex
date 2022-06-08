@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/sqlite_service.dart';
 
-class AddEvent extends StatefulWidget {
-  const AddEvent({Key? key}) : super(key: key);
+class EditEvent extends StatefulWidget {
+  const EditEvent({Key? key}) : super(key: key);
 
   @override
-  _AddEventState createState() => _AddEventState();
+  _EditEventState createState() => _EditEventState();
 }
 
-class _AddEventState extends State<AddEvent> {
+class _EditEventState extends State<EditEvent> {
 
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -19,11 +19,7 @@ class _AddEventState extends State<AddEvent> {
   FocusNode descriptionFocusNode = FocusNode();
   FocusNode dateFocusNode = FocusNode();
 
-  bool dayNotification = false;
-  bool weekNotification = false;
-  bool monthNotification = false;
-
-  int selectedColor = -1;
+  int selectedColor = selectedEvent!.color;
 
   @override
   void dispose() {
@@ -36,6 +32,9 @@ class _AddEventState extends State<AddEvent> {
   @override
   void initState() {
     super.initState();
+    nameController.text = selectedEvent!.name;
+    descriptionController.text = selectedEvent!.description;
+    dateController.text = millisecondsToStringDate(selectedEvent!.date);
   }
 
   @override
@@ -44,7 +43,7 @@ class _AddEventState extends State<AddEvent> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: homeArea([
-        pageHeader(context, 'Nuevo evento', '/home'),
+        pageHeader(context, 'Editar evento', '/events/event_details'),
         alternativeFormContainer([formTextField(nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
           formTextField(descriptionController, 'Descripción', '(Opcional)', descriptionFocusNode),
           Column(
@@ -56,6 +55,14 @@ class _AddEventState extends State<AddEvent> {
                     color: colorMainText,
                     fontSize: deviceWidth * 0.045,
                     fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: deviceHeight * 0.005),
+              Text(
+                'Editar la fecha del evento hará que se desactiven las notificaciones que había asociadas a él.',
+                style: TextStyle(
+                    color: colorMainText,
+                    fontSize: deviceWidth * 0.035,
+                    fontWeight: FontWeight.normal),
               ),
               SizedBox(height: deviceHeight * 0.005),
               TextField(
@@ -79,7 +86,8 @@ class _AddEventState extends State<AddEvent> {
                 onTap: () => _dateSelector(context),
               ),
             ],
-          ),]),
+          ),
+        ]),
         SizedBox(height: deviceHeight * 0.025),
         alternativeFormContainer([
           Text(
@@ -193,127 +201,6 @@ class _AddEventState extends State<AddEvent> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        alternativeFormContainer([
-          Text(
-            'Notificaciones',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * 0.045,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: deviceHeight * 0.015),
-          if (dayNotification==false) checkBoxContainer(
-            CheckboxListTile(
-              title: Text(
-                'Un día antes',
-                style: TextStyle(
-                    color: colorThirdText,
-                    fontSize: deviceWidth * 0.045,
-                    fontWeight: FontWeight.normal),
-              ),
-              value: dayNotification,
-              onChanged: (newValue) {
-                setState(() {
-                  dayNotification = newValue!;
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
-            ),
-          ),
-          if (dayNotification==true) checkBoxContainer(
-            CheckboxListTile(
-              title: Text(
-                'Un día antes',
-                style: TextStyle(
-                    color: colorMainText,
-                    fontSize: deviceWidth * 0.045,
-                    fontWeight: FontWeight.normal),
-              ),
-              value: dayNotification,
-              onChanged: (newValue) {
-                setState(() {
-                  dayNotification = newValue!;
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
-            ),
-          ),
-          SizedBox(height: deviceHeight * 0.01),
-          if(weekNotification==false) checkBoxContainer(
-            CheckboxListTile(
-              title: Text(
-                'Una semana antes',
-                style: TextStyle(
-                    color: colorThirdText,
-                    fontSize: deviceWidth * 0.045,
-                    fontWeight: FontWeight.normal),
-              ),
-              value: weekNotification,
-              onChanged: (newValue) {
-                setState(() {
-                  weekNotification = newValue!;
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
-            ),
-          ),
-          if(weekNotification==true) checkBoxContainer(
-            CheckboxListTile(
-              title: Text(
-                'Una semana antes',
-                style: TextStyle(
-                    color: colorMainText,
-                    fontSize: deviceWidth * 0.045,
-                    fontWeight: FontWeight.normal),
-              ),
-              value: weekNotification,
-              onChanged: (newValue) {
-                setState(() {
-                  weekNotification = newValue!;
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
-            ),
-          ),
-          SizedBox(height: deviceHeight * 0.01),
-          if (monthNotification==false) checkBoxContainer(
-            CheckboxListTile(
-              title: Text(
-                'Un mes antes',
-                style: TextStyle(
-                    color: colorThirdText,
-                    fontSize: deviceWidth * 0.045,
-                    fontWeight: FontWeight.normal),
-              ),
-              value: monthNotification,
-              onChanged: (newValue) {
-                setState(() {
-                  monthNotification = newValue!;
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
-            ),
-          ),
-          if (monthNotification==true) checkBoxContainer(
-            CheckboxListTile(
-              title: Text(
-                'Un mes antes',
-                style: TextStyle(
-                    color: colorMainText,
-                    fontSize: deviceWidth * 0.045,
-                    fontWeight: FontWeight.normal),
-              ),
-              value: monthNotification,
-              onChanged: (newValue) {
-                setState(() {
-                  monthNotification = newValue!;
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
-            ),
-          ),
-        ]),
-        SizedBox(height: deviceHeight * 0.025),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -332,7 +219,7 @@ class _AddEventState extends State<AddEvent> {
                   children: [
                     Icon(Icons.check_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                     Text(
-                      ' Crear evento',
+                      ' Confirmar cambios ',
                       style: TextStyle(
                           color: colorSpecialItem,
                           fontSize: deviceWidth * 0.05,
@@ -360,31 +247,24 @@ class _AddEventState extends State<AddEvent> {
                     dateFocusNode.requestFocus();
                   } else {
                     try {
-
-                      DateTime now = DateTime.now();
-                      int milliNow = int.parse((now.millisecondsSinceEpoch).toString().substring(6));
-
-                      int notificationDayId = int.parse("1"+"$milliNow");
-                      int notificationWeekId = int.parse("7"+"$milliNow");
-                      int notificationMonthId = int.parse("30"+"$milliNow");
-
-                      if (dayNotification) dayNotification=showNotification(context, notificationDayId, nameController.text, 1, now, DateTime.parse(stringDateToYMD(dateController.text)));
-                      if (weekNotification) weekNotification=showNotification(context, notificationWeekId, nameController.text, 7, now, DateTime.parse(stringDateToYMD(dateController.text)));
-                      if (monthNotification) monthNotification=showNotification(context, notificationMonthId, nameController.text, 30, now, DateTime.parse(stringDateToYMD(dateController.text)));
-
-                      if (dayNotification==false) notificationDayId=-1;
-                      if (weekNotification==false) notificationWeekId=-1;
-                      if (monthNotification==false) notificationMonthId=-1;
-
-                      Event newEvent = Event(id: milliNow, name: nameController.text, description: descriptionController.text,
+                      Event newEvent = Event(id: selectedEvent!.id, name: nameController.text, description: descriptionController.text,
                           date: DateTime.parse(stringDateToYMD(dateController.text)).millisecondsSinceEpoch, color: selectedColor,
-                          notificationDay: notificationDayId, notificationWeek: notificationWeekId, notificationMonth: notificationMonthId);
-                      createEvent(newEvent);
+                          notificationDay: selectedEvent!.notificationDay, notificationWeek: selectedEvent!.notificationWeek,
+                          notificationMonth: selectedEvent!.notificationMonth);
+                      if(dateController.text != millisecondsToStringDate(selectedEvent!.date)) {
+                        if (selectedEvent!.notificationDay != -1) cancelNotification(selectedEvent!.notificationDay);
+                        if (selectedEvent!.notificationWeek != -1) cancelNotification(selectedEvent!.notificationWeek);
+                        if (selectedEvent!.notificationMonth != -1) cancelNotification(selectedEvent!.notificationMonth);
+                        newEvent = Event(id: selectedEvent!.id, name: nameController.text, description: descriptionController.text,
+                            date: DateTime.parse(stringDateToYMD(dateController.text)).millisecondsSinceEpoch, color: selectedColor,
+                            notificationDay: -1, notificationWeek: -1, notificationMonth: -1);
+                      }
 
+                      createEvent(newEvent);
                       Navigator.pushNamed(context, '/home');
 
                     } on Exception catch (e) {
-                      debugPrint('[ERR] Could not create event: $e');
+                      debugPrint('[ERR] Could not edit event: $e');
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Ha ocurrido un error"),
                         backgroundColor: Colors.red,
@@ -399,27 +279,63 @@ class _AddEventState extends State<AddEvent> {
           ),
         ),
         SizedBox(height: deviceHeight * 0.025),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: colorSecondBackground,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [ SizedBox(
+              width: deviceWidth*0.8,
+              height: deviceHeight*0.07,
+              child: TextButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.close_rounded, color: Colors.red, size: deviceWidth * 0.06),
+                    Text(
+                      ' Cancelar ',
+                      style: TextStyle(
+                          color: Colors.red,
+                          fontSize: deviceWidth * 0.05,
+                          fontWeight: FontWeight.normal),
+                    ),
+                    Icon(Icons.close_rounded, color: Colors.transparent, size: deviceWidth * 0.06),
+                  ],
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),],
+          ),
+        ),
+        SizedBox(height: deviceHeight * 0.025),
       ]),
     );
   }
 
   _dateSelector(BuildContext context) async {
-  final DateTime? selected = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2099),
-      helpText: "SELECCIONA LA FECHA DEL EVENTO",
-      cancelText: "CANCELAR",
-      confirmText: "CONFIRMAR",
-      fieldHintText: "dd/mm/aaaa",
-      fieldLabelText: "Fecha del evento",
-      errorFormatText: "Introduce una fecha válida",
-      errorInvalidText: "La fecha debe ser posterior a hoy");
-  if (selected != null && selected != DateTime.now()) {
-    setState(() {
-      dateController.text = datetimeToString(selected);
-    });
+    final DateTime? selected = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2099),
+        helpText: "SELECCIONA LA FECHA DEL EVENTO",
+        cancelText: "CANCELAR",
+        confirmText: "CONFIRMAR",
+        fieldHintText: "dd/mm/aaaa",
+        fieldLabelText: "Fecha del evento",
+        errorFormatText: "Introduce una fecha válida",
+        errorInvalidText: "La fecha debe ser posterior a hoy");
+    if (selected != null && selected != DateTime.now()) {
+      setState(() {
+        dateController.text = datetimeToString(selected);
+      });
+    }
   }
-}
+
 }

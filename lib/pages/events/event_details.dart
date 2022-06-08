@@ -59,7 +59,7 @@ class _EventDetailsState extends State<EventDetails> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: homeArea([
-        pageHeader(context, 'Evento'),
+        pageHeader(context, 'Evento', '/home'),
         alternativeFormContainer([
           Text(
             selectedEvent!.name,
@@ -68,7 +68,7 @@ class _EventDetailsState extends State<EventDetails> {
                 fontSize: deviceWidth * 0.065,
                 fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: deviceHeight * 0.005),
+          SizedBox(height: deviceHeight * 0.01),
           if (selectedEvent!.description == '') Container(
             width: deviceWidth*0.8,
             padding: EdgeInsets.all(deviceWidth * 0.025),
@@ -89,13 +89,23 @@ class _EventDetailsState extends State<EventDetails> {
             child: Text(selectedEvent!.description,
               style: TextStyle(color: colorThirdText, fontSize: deviceWidth * 0.04,),),
           ),
-          SizedBox(height: deviceHeight * 0.02),
+        ]),
+        SizedBox(height: deviceHeight * 0.025),
+        alternativeFormContainer([
           Text(
-            'Fecha del evento: $eventDate',
+            'Fecha: ',
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * 0.0475,
                 fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: deviceHeight * 0.005),
+          Text(
+            eventDate,
+            style: TextStyle(
+                color: colorMainText,
+                fontSize: deviceWidth * 0.04,
+                fontWeight: FontWeight.normal),
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
@@ -211,7 +221,7 @@ class _EventDetailsState extends State<EventDetails> {
         ]),
         SizedBox(height: deviceHeight * 0.025),
         eventActionsButton(Icons.edit, colorSpecialItem, ' Editar evento ', (){
-          // TODO: Edit event
+          Navigator.pushNamed(context, '/events/edit_event');
         }),
         SizedBox(height: deviceHeight * 0.025),
         eventActionsButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){
