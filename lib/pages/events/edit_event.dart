@@ -321,9 +321,9 @@ class _EditEventState extends State<EditEvent> {
   _dateSelector(BuildContext context) async {
     final DateTime? selected = await showDatePicker(
         context: context,
-        initialDate: DateTime.now(),
+        initialDate: DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.date*1000),
         firstDate: DateTime.now(),
-        lastDate: DateTime(2099),
+        lastDate: DateTime(2100),
         helpText: "SELECCIONA LA FECHA DEL EVENTO",
         cancelText: "CANCELAR",
         confirmText: "CONFIRMAR",

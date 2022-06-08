@@ -28,10 +28,6 @@ class _EventDetailsState extends State<EventDetails> {
     String eventDate = DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.date*1000));
     String colorName = 'Por defecto';
     int colorCode = selectedEvent!.color;
-    bool hasNotifications = true;
-
-    if (selectedEvent!.notificationDay==-1 && selectedEvent!.notificationWeek==-1
-        && selectedEvent!.notificationMonth==-1) hasNotifications = false;
 
     if(colorCode == -1 && darkMode == false) colorCode = 0xffe3e3e9;
     else if(colorCode == -1 && darkMode == true) colorCode = 0xff706e74;
@@ -142,29 +138,39 @@ class _EventDetailsState extends State<EventDetails> {
         SizedBox(height: deviceHeight * 0.025),
         alternativeFormContainer([
           Text(
-            'Notificaciones: ',
+            'Gestionar notificaciones: ',
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * 0.0475,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
-          if (hasNotifications == false) Text(
-            'Sin notificaciones',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * 0.04,
-                fontWeight: FontWeight.normal),
-          ),
-          if (selectedEvent!.notificationDay != -1) Row(
+          if (selectedEvent!.notificationDay == -1) Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               IconButton(
-                icon: Icon(Icons.delete_outline_rounded,
-                    color: Colors.red, size: deviceWidth * 0.06),
+                icon: Icon(Icons.add_rounded,
+                    color: colorSpecialItem, size: deviceWidth * 0.06),
                 splashRadius: 0.001,
                 onPressed: (){
-                  deleteNotificationDialog(context, selectedEvent!.notificationDay, 'un día antes', 1);
+                  DateTime now = DateTime.now();
+                  int eventId = selectedEvent!.id;
+                  int notificationDayId = int.parse("1"+"$eventId");
+                  showNotification(context, notificationDayId, selectedEvent!.name, 1, now, DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.date*1000));
+                  Event newEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
+                      date: selectedEvent!.date, color: selectedEvent!.color,
+                      notificationDay: notificationDayId, notificationWeek: selectedEvent!.notificationWeek,
+                      notificationMonth: selectedEvent!.notificationMonth);
+                  createEvent(newEvent);
+                  setState(() {
+                    selectedEvent = newEvent;
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Notificación añadida"),
+                    backgroundColor: Colors.green,
+                    behavior: SnackBarBehavior.floating,
+                    duration: Duration(seconds: 2),
+                  ));
                 },
               ),
               Text(
@@ -176,8 +182,7 @@ class _EventDetailsState extends State<EventDetails> {
               ),
             ],
           ),
-          if (selectedEvent!.notificationDay != -1 && (selectedEvent!.notificationWeek != -1 || selectedEvent!.notificationMonth != -1)) Divider(color: colorThirdText),
-          if (selectedEvent!.notificationWeek != -1) Row(
+          if (selectedEvent!.notificationDay != -1) Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               IconButton(
@@ -185,7 +190,57 @@ class _EventDetailsState extends State<EventDetails> {
                     color: Colors.red, size: deviceWidth * 0.06),
                 splashRadius: 0.001,
                 onPressed: (){
-                  deleteNotificationDialog(context, selectedEvent!.notificationWeek, 'una semana antes', 7);
+                  cancelNotification(selectedEvent!.notificationDay);
+                  setState(() {
+                    selectedEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
+                        date: selectedEvent!.date, color: selectedEvent!.color, notificationDay: -1,
+                        notificationWeek: selectedEvent!.notificationWeek, notificationMonth: selectedEvent!.notificationMonth);
+                    createEvent(selectedEvent!);
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Notificación eliminada"),
+                    backgroundColor: Colors.red,
+                    behavior: SnackBarBehavior.floating,
+                    duration: Duration(seconds: 2),
+                  ));
+                },
+              ),
+              Text(
+                'Un día antes',
+                style: TextStyle(
+                    color: colorMainText,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),
+              ),
+            ],
+          ),
+          Divider(color: colorThirdText),
+          if (selectedEvent!.notificationWeek == -1) Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              IconButton(
+                icon: Icon(Icons.add_rounded,
+                    color: colorSpecialItem, size: deviceWidth * 0.06),
+                splashRadius: 0.001,
+                onPressed: (){
+                  DateTime now = DateTime.now();
+                  int eventId = selectedEvent!.id;
+                  int notificationWeekId = int.parse("7"+"$eventId");
+                  showNotification(context, notificationWeekId, selectedEvent!.name, 7, now, DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.date*1000));
+                  Event newEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
+                      date: selectedEvent!.date, color: selectedEvent!.color,
+                      notificationDay: selectedEvent!.notificationDay, notificationWeek: notificationWeekId,
+                      notificationMonth: selectedEvent!.notificationMonth);
+                  createEvent(newEvent);
+                  setState(() {
+                    selectedEvent = newEvent;
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Notificación añadida"),
+                    backgroundColor: Colors.green,
+                    behavior: SnackBarBehavior.floating,
+                    duration: Duration(seconds: 2),
+                  ));
                 },
               ),
               Text(
@@ -197,7 +252,76 @@ class _EventDetailsState extends State<EventDetails> {
               ),
             ],
           ),
-          if (selectedEvent!.notificationWeek != -1 && selectedEvent!.notificationMonth != -1) Divider(color: colorThirdText),
+          if (selectedEvent!.notificationWeek != -1) Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              IconButton(
+                icon: Icon(Icons.delete_outline_rounded,
+                    color: Colors.red, size: deviceWidth * 0.06),
+                splashRadius: 0.001,
+                onPressed: (){
+                  cancelNotification(selectedEvent!.notificationWeek);
+                  setState(() {
+                    selectedEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
+                        date: selectedEvent!.date, color: selectedEvent!.color, notificationDay: selectedEvent!.notificationDay,
+                        notificationWeek: -1, notificationMonth: selectedEvent!.notificationMonth);
+                    createEvent(selectedEvent!);
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Notificación eliminada"),
+                    backgroundColor: Colors.red,
+                    behavior: SnackBarBehavior.floating,
+                    duration: Duration(seconds: 2),
+                  ));
+                },
+              ),
+              Text(
+                'Una semana antes',
+                style: TextStyle(
+                    color: colorMainText,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),
+              ),
+            ],
+          ),
+          Divider(color: colorThirdText),
+          if (selectedEvent!.notificationMonth == -1) Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              IconButton(
+                icon: Icon(Icons.add_rounded,
+                    color: colorSpecialItem, size: deviceWidth * 0.06),
+                splashRadius: 0.001,
+                onPressed: (){
+                  DateTime now = DateTime.now();
+                  int eventId = selectedEvent!.id;
+                  int notificationMonthId = int.parse("30"+"$eventId");
+                  showNotification(context, notificationMonthId, selectedEvent!.name, 30, now, DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.date*1000));
+                  Event newEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
+                      date: selectedEvent!.date, color: selectedEvent!.color,
+                      notificationDay: selectedEvent!.notificationDay, notificationWeek: selectedEvent!.notificationWeek,
+                      notificationMonth: notificationMonthId);
+                  createEvent(newEvent);
+                  setState(() {
+                    selectedEvent = newEvent;
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Notificación añadida"),
+                    backgroundColor: Colors.green,
+                    behavior: SnackBarBehavior.floating,
+                    duration: Duration(seconds: 2),
+                  ));
+                },
+              ),
+              Text(
+                'Un mes antes',
+                style: TextStyle(
+                    color: colorMainText,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),
+              ),
+            ],
+          ),
           if (selectedEvent!.notificationMonth != -1) Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -206,7 +330,19 @@ class _EventDetailsState extends State<EventDetails> {
                     color: Colors.red, size: deviceWidth * 0.06),
                 splashRadius: 0.001,
                 onPressed: (){
-                  deleteNotificationDialog(context, selectedEvent!.notificationMonth, 'un mes antes', 30);
+                  cancelNotification(selectedEvent!.notificationMonth);
+                  setState(() {
+                    selectedEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
+                        date: selectedEvent!.date, color: selectedEvent!.color, notificationDay: selectedEvent!.notificationDay,
+                        notificationWeek: selectedEvent!.notificationWeek, notificationMonth: -1);
+                    createEvent(selectedEvent!);
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Notificación eliminada"),
+                    backgroundColor: Colors.red,
+                    behavior: SnackBarBehavior.floating,
+                    duration: Duration(seconds: 2),
+                  ));
                 },
               ),
               Text(
@@ -230,74 +366,6 @@ class _EventDetailsState extends State<EventDetails> {
         SizedBox(height: deviceHeight * 0.025),
       ]),
     );
-  }
-
-  void deleteNotificationDialog(BuildContext context, int id, String notificationText, int notificationType) {
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return Dialog(
-            backgroundColor: colorMainBackground,
-            insetPadding: EdgeInsets.fromLTRB(deviceWidth*0.075,deviceHeight*0.4,deviceWidth*0.075,deviceHeight*0.4),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            child: Container(
-              padding: EdgeInsets.fromLTRB(deviceWidth * 0.075, 0.0, deviceWidth * 0.075, 0.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Eliminar notificación', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.05, fontWeight: FontWeight.bold),),
-                  SizedBox(height: deviceHeight*0.01,),
-                  Text('Estás a punto de eliminar la notificación de $notificationText. No podrás volver a programarla una vez eliminada.',
-                    style: TextStyle(color: colorMainText, fontSize: deviceWidth*0.035, fontWeight: FontWeight.normal),textAlign: TextAlign.center,),
-                  SizedBox(height: deviceHeight*0.01,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        child: Text('Cancelar', style: TextStyle(color: colorSecondText, fontSize: deviceWidth*0.04)),
-                        onPressed: (){
-                          Navigator.pop(context);
-                        },
-                      ),
-                      SizedBox(width: deviceWidth*0.075,),
-                      TextButton(
-                        child: Text('Eliminar', style: TextStyle(color: Colors.red, fontSize: deviceWidth*0.04)),
-                        onPressed: (){
-                          cancelNotification(id);
-                          if (notificationType == 1) {
-                            setState(() {
-                              selectedEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
-                                  date: selectedEvent!.date, color: selectedEvent!.color, notificationDay: -1,
-                                  notificationWeek: selectedEvent!.notificationWeek, notificationMonth: selectedEvent!.notificationMonth);
-                              createEvent(selectedEvent!);
-                            });
-                          } else if (notificationType == 7) {
-                            setState(() {
-                              selectedEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
-                                  date: selectedEvent!.date, color: selectedEvent!.color, notificationDay: selectedEvent!.notificationDay,
-                                  notificationWeek: -1, notificationMonth: selectedEvent!.notificationMonth);
-                            });
-                            createEvent(selectedEvent!);
-                          } else {
-                            setState(() {
-                              selectedEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
-                                  date: selectedEvent!.date, color: selectedEvent!.color, notificationDay: selectedEvent!.notificationDay,
-                                  notificationWeek: selectedEvent!.notificationWeek, notificationMonth: -1);
-                            });
-                            createEvent(selectedEvent!);
-                          }
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
   }
 
   void deleteEventDialog(BuildContext context) {
