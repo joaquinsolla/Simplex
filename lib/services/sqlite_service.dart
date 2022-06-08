@@ -89,13 +89,14 @@ Future<List<Event>> getRestOfEvents() async {
   return queryResult.map((e) => Event.eventFromMap(e)).toList();
 }
 
-Future<void> deleteEventById(String id) async {
+Future<void> deleteEventById(int id) async {
   final Database db = await initializeDB();
   try {
     await db.delete("events", where: "id = ?", whereArgs: [id]);
   } catch (err) {
     debugPrint("[ERR] Could not delete event: $err");
   }
+  debugPrint("[OK] Event deleted");
 }
 
 Future<void> deleteExpiredEvents() async {

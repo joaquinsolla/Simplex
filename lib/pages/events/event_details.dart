@@ -130,7 +130,6 @@ class _EventDetailsState extends State<EventDetails> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        // TODO: desactivar notificaciones (con dialogo)
         alternativeFormContainer([
           Text(
             'Notificaciones: ',
@@ -211,9 +210,13 @@ class _EventDetailsState extends State<EventDetails> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        eventActionsButton(Icons.edit, colorSpecialItem, ' Editar evento ', (){}),
+        eventActionsButton(Icons.edit, colorSpecialItem, ' Editar evento ', (){
+          // TODO: Edit event
+        }),
         SizedBox(height: deviceHeight * 0.025),
-        eventActionsButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){}),
+        eventActionsButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){
+          deleteEventDialog(context);
+        }),
         SizedBox(height: deviceHeight * 0.025),
       ]),
     );
@@ -237,7 +240,7 @@ class _EventDetailsState extends State<EventDetails> {
                   Text('Eliminar notificación', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.05, fontWeight: FontWeight.bold),),
                   SizedBox(height: deviceHeight*0.01,),
                   Text('Estás a punto de eliminar la notificación de $notificationText. No podrás volver a programarla una vez eliminada.',
-                    style: TextStyle(color: colorMainText, fontSize: deviceWidth*0.035, fontWeight: FontWeight.normal),),
+                    style: TextStyle(color: colorMainText, fontSize: deviceWidth*0.035, fontWeight: FontWeight.normal),textAlign: TextAlign.center,),
                   SizedBox(height: deviceHeight*0.01,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -276,6 +279,56 @@ class _EventDetailsState extends State<EventDetails> {
                             createEvent(selectedEvent!);
                           }
                           Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  void deleteEventDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return Dialog(
+            backgroundColor: colorMainBackground,
+            insetPadding: EdgeInsets.fromLTRB(deviceWidth*0.075,deviceHeight*0.385,deviceWidth*0.075,deviceHeight*0.385),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            child: Container(
+              padding: EdgeInsets.fromLTRB(deviceWidth * 0.075, 0.0, deviceWidth * 0.075, 0.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Eliminar evento', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.05, fontWeight: FontWeight.bold),),
+                  SizedBox(height: deviceHeight*0.01,),
+                  Text('Estás a punto de eliminar el evento "' + selectedEvent!.name + '". Una vez eliminado no podrás restablecerlo. También se eliminarán sus notificaciones asignadas.',
+                    style: TextStyle(color: colorMainText, fontSize: deviceWidth*0.035, fontWeight: FontWeight.normal),textAlign: TextAlign.center,),
+                  SizedBox(height: deviceHeight*0.01,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        child: Text('Cancelar', style: TextStyle(color: colorSecondText, fontSize: deviceWidth*0.04)),
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                      ),
+                      SizedBox(width: deviceWidth*0.075,),
+                      TextButton(
+                        child: Text('Eliminar', style: TextStyle(color: Colors.red, fontSize: deviceWidth*0.04)),
+                        onPressed: (){
+                          if (selectedEvent!.notificationDay != -1) cancelNotification(selectedEvent!.notificationDay);
+                          if (selectedEvent!.notificationWeek != -1) cancelNotification(selectedEvent!.notificationWeek);
+                          if (selectedEvent!.notificationMonth != -1) cancelNotification(selectedEvent!.notificationMonth);
+                          deleteEventById(selectedEvent!.id);
+                          Navigator.pop(context);
+                          Navigator.pushNamed(context, '/home');
                         },
                       ),
                     ],

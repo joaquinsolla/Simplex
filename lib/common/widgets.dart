@@ -239,7 +239,7 @@ Container eventActionsButton(IconData icon, Color color, String text, Function()
               Icon(icon, color: Colors.transparent, size: deviceWidth * 0.06),
             ],
           ),
-          onPressed: (){},
+          onPressed: actions,
         ),
       ),],
     ),

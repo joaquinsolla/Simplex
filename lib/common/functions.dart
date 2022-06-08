@@ -61,5 +61,5 @@ bool showNotification(BuildContext context, int id, String title, int daysBefore
 Future<void> cancelNotification(int notificationId) async {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   await flutterLocalNotificationsPlugin.cancel(notificationId);
-  debugPrint('[OK] Notification canceled');
+  debugPrint('[OK] Notification $notificationId canceled');
 }
