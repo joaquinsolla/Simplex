@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/sqlite_service.dart';
@@ -44,7 +46,8 @@ class _EditEventState extends State<EditEvent> {
       backgroundColor: colorMainBackground,
       body: homeArea([
         pageHeader(context, 'Editar evento', '/events/event_details'),
-        alternativeFormContainer([formTextField(nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
+        alternativeFormContainer([
+          formTextField(nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
           formTextField(descriptionController, 'Descripción', '(Opcional)', descriptionFocusNode),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,14 +58,6 @@ class _EditEventState extends State<EditEvent> {
                     color: colorMainText,
                     fontSize: deviceWidth * 0.045,
                     fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: deviceHeight * 0.005),
-              Text(
-                'Editar la fecha del evento hará que se desactiven las notificaciones que había asociadas a él.',
-                style: TextStyle(
-                    color: colorMainText,
-                    fontSize: deviceWidth * 0.035,
-                    fontWeight: FontWeight.normal),
               ),
               SizedBox(height: deviceHeight * 0.005),
               TextField(
@@ -84,6 +79,16 @@ class _EditEventState extends State<EditEvent> {
                   hintStyle: TextStyle(color: colorThirdText),
                 ),
                 onTap: () => _dateSelector(context),
+              ),
+              SizedBox(height: deviceHeight * 0.01),
+              Text(
+                'Editar el nombre o la fecha del evento hará que se desactiven las notificaciones que había asociadas a él. '
+                    'Puedes programarlas de nuevo en el apartado de detalles de evento.',
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                    color: colorMainText,
+                    fontSize: deviceWidth * 0.035,
+                    fontWeight: FontWeight.normal),
               ),
             ],
           ),
@@ -251,7 +256,7 @@ class _EditEventState extends State<EditEvent> {
                           date: DateTime.parse(stringDateToYMD(dateController.text)).millisecondsSinceEpoch, color: selectedColor,
                           notificationDay: selectedEvent!.notificationDay, notificationWeek: selectedEvent!.notificationWeek,
                           notificationMonth: selectedEvent!.notificationMonth);
-                      if(dateController.text != millisecondsToStringDate(selectedEvent!.date)) {
+                      if(dateController.text != millisecondsToStringDate(selectedEvent!.date) || nameController.text != selectedEvent!.name) {
                         if (selectedEvent!.notificationDay != -1) cancelNotification(selectedEvent!.notificationDay);
                         if (selectedEvent!.notificationWeek != -1) cancelNotification(selectedEvent!.notificationWeek);
                         if (selectedEvent!.notificationMonth != -1) cancelNotification(selectedEvent!.notificationMonth);
@@ -259,8 +264,8 @@ class _EditEventState extends State<EditEvent> {
                             date: DateTime.parse(stringDateToYMD(dateController.text)).millisecondsSinceEpoch, color: selectedColor,
                             notificationDay: -1, notificationWeek: -1, notificationMonth: -1);
                       }
-
                       createEvent(newEvent);
+
                       Navigator.pushReplacementNamed(context, '/home');
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Evento actualizado correctamente"),
