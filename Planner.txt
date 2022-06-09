@@ -1,9 +1,8 @@
 TO-DO:
-Quitar color al pulsar los botones
 crear widgets en el escritorio
-Mantener pulsado en evento
 poner hora a los eventos
 link para compartir evento
+nombre notificaciones cuando se ha cambiado el nombre del evento
 
 DOING:
 
@@ -14,4 +13,5 @@ limpiar selectedEvent al ir a home
 Poner calendario en formato europeo (días movidos)
 Mayúsculas al comienzo de textfields
 Ordenar por date Y POR COLOR Y POR id
+Mantener pulsado en evento
 

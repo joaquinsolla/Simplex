@@ -436,6 +436,12 @@ class _EventDetailsState extends State<EventDetails> {
                           deleteEventById(selectedEvent!.id);
                           Navigator.pop(context);
                           Navigator.pushReplacementNamed(context, '/home');
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text("Evento eliminado"),
+                            backgroundColor: Colors.green,
+                            behavior: SnackBarBehavior.floating,
+                            duration: Duration(seconds: 2),
+                          ));
                         },
                       ),
                     ],

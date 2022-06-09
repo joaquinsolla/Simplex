@@ -1,6 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/sqlite_service.dart';
+import 'package:focused_menu/focused_menu.dart';
+import 'package:focused_menu/modals.dart';
+
 
 Container homeArea(List<Widget> children) {
   return Container(
@@ -95,7 +100,7 @@ Container checkBoxContainer(CheckboxListTile checkbox){
   );
 }
 
-Column eventBox(BuildContext context, Event event) {
+FocusedMenuHolder eventBox(BuildContext context, Event event) {
 
   late int color;
   if (event.color == -1 && darkMode == false) {
@@ -108,15 +113,117 @@ Column eventBox(BuildContext context, Event event) {
 
   DateTime eventDate = DateTime.fromMicrosecondsSinceEpoch(event.date * 1000);
 
-  return Column(
-    children: [
-      Container(
-        padding: EdgeInsets.all(deviceWidth * 0.005),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Color(color),
+  Color backgroundColor = colorThirdBackground;
+  if (darkMode) backgroundColor = colorSecondBackground;
+
+  return FocusedMenuHolder(
+    onPressed: (){
+      selectedEvent = event;
+      Navigator.pushReplacementNamed(context, '/events/event_details');
+    },
+    menuItems: <FocusedMenuItem>[
+      FocusedMenuItem(
+        backgroundColor: backgroundColor,
+        title: Container(
+          alignment: Alignment.centerLeft,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.open_in_new_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
+              SizedBox(width: deviceWidth*0.025,),
+              Text('Ver detalles', style: TextStyle(
+                  color: colorSpecialItem,
+                  fontSize: deviceWidth * 0.04,
+                  fontWeight: FontWeight.normal),),
+            ],
+          ),
         ),
-        child: TextButton(
+        onPressed: (){
+          selectedEvent = event;
+          Navigator.pushReplacementNamed(context, '/events/event_details');
+        },
+      ),
+      FocusedMenuItem(
+        backgroundColor: backgroundColor,
+        title: Container(
+          alignment: Alignment.centerLeft,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.edit, color: colorSpecialItem, size: deviceWidth * 0.06),
+              SizedBox(width: deviceWidth*0.025,),
+              Text('Editar', style: TextStyle(
+                  color: colorSpecialItem,
+                  fontSize: deviceWidth * 0.04,
+                  fontWeight: FontWeight.normal),),
+            ],
+          ),
+        ),
+        onPressed: (){
+          selectedEvent = event;
+          Navigator.pushReplacementNamed(context, '/events/edit_event');
+        },
+      ),
+      FocusedMenuItem(
+        backgroundColor: backgroundColor,
+        title: Container(
+          alignment: Alignment.centerLeft,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.share_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
+              SizedBox(width: deviceWidth*0.025,),
+              Text('Compartir', style: TextStyle(
+                  color: colorSpecialItem,
+                  fontSize: deviceWidth * 0.04,
+                  fontWeight: FontWeight.normal),),
+            ],
+          ),
+        ),
+        onPressed: (){
+          // TODO: Share events
+        },
+      ),
+      FocusedMenuItem(
+        backgroundColor: backgroundColor,
+        title: Container(
+          alignment: Alignment.centerLeft,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth * 0.06),
+              SizedBox(width: deviceWidth*0.025,),
+              Text('Eliminar', style: TextStyle(
+                  color: Colors.red,
+                  fontSize: deviceWidth * 0.04,
+                  fontWeight: FontWeight.normal),),
+            ],
+          ),
+        ),
+        onPressed: (){
+          selectedEvent = event;
+          if (selectedEvent!.notificationDay != -1) cancelNotification(selectedEvent!.notificationDay);
+          if (selectedEvent!.notificationWeek != -1) cancelNotification(selectedEvent!.notificationWeek);
+          if (selectedEvent!.notificationMonth != -1) cancelNotification(selectedEvent!.notificationMonth);
+          deleteEventById(selectedEvent!.id);
+          Navigator.pushReplacementNamed(context, '/home');
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Evento eliminado"),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 2),
+          ));
+        },
+      ),
+    ],
+    child: Column(
+      children: [
+        Container(
+          padding: EdgeInsets.all(deviceWidth * 0.018),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Color(color),
+          ),
           child: IntrinsicHeight(
             child: Row(
               children: [
@@ -162,23 +269,10 @@ Column eventBox(BuildContext context, Event event) {
               ],
             ),
           ),
-          style: ButtonStyle(
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.5),
-                  )
-              )),
-          onLongPress: (){
-            // TODO: onPressed pop-up actions menu
-          },
-          onPressed: (){
-            selectedEvent = event;
-            Navigator.pushReplacementNamed(context, '/events/event_details');
-          },
         ),
-      ),
-      SizedBox(height: deviceHeight*0.0125,),
-    ],
+        SizedBox(height: deviceHeight*0.0125,),
+      ],
+    ),
   );
 }
 

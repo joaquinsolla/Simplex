@@ -262,6 +262,12 @@ class _EditEventState extends State<EditEvent> {
 
                       createEvent(newEvent);
                       Navigator.pushReplacementNamed(context, '/home');
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Evento actualizado correctamente"),
+                        backgroundColor: Colors.green,
+                        behavior: SnackBarBehavior.floating,
+                        duration: Duration(seconds: 2),
+                      ));
 
                     } on Exception catch (e) {
                       debugPrint('[ERR] Could not edit event: $e');
