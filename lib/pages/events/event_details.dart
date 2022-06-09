@@ -156,21 +156,32 @@ class _EventDetailsState extends State<EventDetails> {
                   DateTime now = DateTime.now();
                   int eventId = selectedEvent!.id;
                   int notificationDayId = int.parse("1"+"$eventId");
-                  showNotification(context, notificationDayId, selectedEvent!.name, 1, now, DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.date*1000));
-                  Event newEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
-                      date: selectedEvent!.date, color: selectedEvent!.color,
-                      notificationDay: notificationDayId, notificationWeek: selectedEvent!.notificationWeek,
-                      notificationMonth: selectedEvent!.notificationMonth);
-                  createEvent(newEvent);
-                  setState(() {
-                    selectedEvent = newEvent;
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Notificación añadida"),
-                    backgroundColor: Colors.green,
-                    behavior: SnackBarBehavior.floating,
-                    duration: Duration(seconds: 2),
-                  ));
+                  bool validNotification = showNotification(context, notificationDayId, selectedEvent!.name, 1, now, DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.date*1000));
+
+                  if (validNotification){
+                    Event newEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
+                        date: selectedEvent!.date, color: selectedEvent!.color,
+                        notificationDay: notificationDayId, notificationWeek: selectedEvent!.notificationWeek,
+                        notificationMonth: selectedEvent!.notificationMonth);
+                    createEvent(newEvent);
+                    setState(() {
+                      selectedEvent = newEvent;
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Notificación añadida"),
+                      backgroundColor: Colors.green,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("No se puede añadir la notificación: El tiempo ya ha vencido"),
+                      backgroundColor: Colors.red,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
+                  }
+
                 },
               ),
               Text(
@@ -199,7 +210,7 @@ class _EventDetailsState extends State<EventDetails> {
                   });
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text("Notificación eliminada"),
-                    backgroundColor: Colors.red,
+                    backgroundColor: Colors.green,
                     behavior: SnackBarBehavior.floating,
                     duration: Duration(seconds: 2),
                   ));
@@ -226,21 +237,30 @@ class _EventDetailsState extends State<EventDetails> {
                   DateTime now = DateTime.now();
                   int eventId = selectedEvent!.id;
                   int notificationWeekId = int.parse("7"+"$eventId");
-                  showNotification(context, notificationWeekId, selectedEvent!.name, 7, now, DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.date*1000));
-                  Event newEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
-                      date: selectedEvent!.date, color: selectedEvent!.color,
-                      notificationDay: selectedEvent!.notificationDay, notificationWeek: notificationWeekId,
-                      notificationMonth: selectedEvent!.notificationMonth);
-                  createEvent(newEvent);
-                  setState(() {
-                    selectedEvent = newEvent;
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Notificación añadida"),
-                    backgroundColor: Colors.green,
-                    behavior: SnackBarBehavior.floating,
-                    duration: Duration(seconds: 2),
-                  ));
+                  bool validNotification = showNotification(context, notificationWeekId, selectedEvent!.name, 7, now, DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.date*1000));
+                  if (validNotification) {
+                    Event newEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
+                        date: selectedEvent!.date, color: selectedEvent!.color,
+                        notificationDay: selectedEvent!.notificationDay, notificationWeek: notificationWeekId,
+                        notificationMonth: selectedEvent!.notificationMonth);
+                    createEvent(newEvent);
+                    setState(() {
+                      selectedEvent = newEvent;
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Notificación añadida"),
+                      backgroundColor: Colors.green,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("No se puede añadir la notificación: El tiempo ya ha vencido"),
+                      backgroundColor: Colors.red,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
+                  }
                 },
               ),
               Text(
@@ -269,7 +289,7 @@ class _EventDetailsState extends State<EventDetails> {
                   });
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text("Notificación eliminada"),
-                    backgroundColor: Colors.red,
+                    backgroundColor: Colors.green,
                     behavior: SnackBarBehavior.floating,
                     duration: Duration(seconds: 2),
                   ));
@@ -296,21 +316,30 @@ class _EventDetailsState extends State<EventDetails> {
                   DateTime now = DateTime.now();
                   int eventId = selectedEvent!.id;
                   int notificationMonthId = int.parse("30"+"$eventId");
-                  showNotification(context, notificationMonthId, selectedEvent!.name, 30, now, DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.date*1000));
-                  Event newEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
-                      date: selectedEvent!.date, color: selectedEvent!.color,
-                      notificationDay: selectedEvent!.notificationDay, notificationWeek: selectedEvent!.notificationWeek,
-                      notificationMonth: notificationMonthId);
-                  createEvent(newEvent);
-                  setState(() {
-                    selectedEvent = newEvent;
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Notificación añadida"),
-                    backgroundColor: Colors.green,
-                    behavior: SnackBarBehavior.floating,
-                    duration: Duration(seconds: 2),
-                  ));
+                  bool validNotification = showNotification(context, notificationMonthId, selectedEvent!.name, 30, now, DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.date*1000));
+                  if (validNotification) {
+                    Event newEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
+                        date: selectedEvent!.date, color: selectedEvent!.color,
+                        notificationDay: selectedEvent!.notificationDay, notificationWeek: selectedEvent!.notificationWeek,
+                        notificationMonth: notificationMonthId);
+                    createEvent(newEvent);
+                    setState(() {
+                      selectedEvent = newEvent;
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Notificación añadida"),
+                      backgroundColor: Colors.green,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("No se puede añadir la notificación: El tiempo ya ha vencido"),
+                      backgroundColor: Colors.red,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
+                  }
                 },
               ),
               Text(
@@ -339,7 +368,7 @@ class _EventDetailsState extends State<EventDetails> {
                   });
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text("Notificación eliminada"),
-                    backgroundColor: Colors.red,
+                    backgroundColor: Colors.green,
                     behavior: SnackBarBehavior.floating,
                     duration: Duration(seconds: 2),
                   ));

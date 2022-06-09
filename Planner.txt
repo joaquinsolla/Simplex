@@ -1,0 +1,14 @@
+TO-DO:
+Quitar color al pulsar los botones
+crear widget
+Mayúsculas al comienzo de textfields
+Mantener pulsado en evento
+Poner calendario en formato europeo (días movidos)
+Ordenar por date Y POR COLOR Y POR id
+poner hora a los eventos
+
+DOING:
+comprobar notificaciones al gestionarlas
+No poder retroceder con navegación del móvil
+
+DONE:
