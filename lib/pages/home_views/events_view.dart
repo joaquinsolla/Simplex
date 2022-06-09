@@ -16,7 +16,7 @@ Container eventsView(BuildContext context, List<Event> todayEvents, List<Event> 
 
   return homeArea([
     homeHeader('Eventos', () {
-      Navigator.pushNamed(context, '/events/add_event');
+      Navigator.pushReplacementNamed(context, '/events/add_event');
     }),
 
     if (todayEvents.isNotEmpty) Text('Hoy ($todayAmount)',

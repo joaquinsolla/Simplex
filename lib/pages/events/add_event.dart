@@ -381,7 +381,7 @@ class _AddEventState extends State<AddEvent> {
                           notificationDay: notificationDayId, notificationWeek: notificationWeekId, notificationMonth: notificationMonthId);
                       createEvent(newEvent);
 
-                      Navigator.pushNamed(context, '/home');
+                      Navigator.pushReplacementNamed(context, '/home');
 
                     } on Exception catch (e) {
                       debugPrint('[ERR] Could not create event: $e');

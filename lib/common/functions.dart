@@ -49,11 +49,11 @@ bool showNotification(BuildContext context, int id, String title, int daysBefore
     NotificationService().initNotification();
     tz.initializeTimeZones();
     if (daysBefore == 1) {
-      body = '¡Es mañana!';
+      body = 'Es mañana.';
     } else if (daysBefore == 7) {
-      body = '¡Es en una semana!';
+      body = 'Es en una semana.';
     } else {
-      body = '¡Es en un mes!';
+      body = 'Es en un mes.';
     }
     NotificationService().showNotification(id, title, body, notificationDay-milliNow + 1000);
     debugPrint('[OK] Notification with id: $id ready for $daysBefore days before the event');

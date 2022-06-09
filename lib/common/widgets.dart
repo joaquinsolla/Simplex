@@ -59,7 +59,7 @@ Column pageHeader(BuildContext context, String text, String route) {
                 color: colorSpecialItem, size: deviceWidth * 0.08),
             splashRadius: 0.001,
             onPressed: (){
-              Navigator.pushNamed(context, route);
+              Navigator.pushReplacementNamed(context, route);
             },
           ),
           SizedBox(width: deviceWidth*0.0075,),
@@ -173,7 +173,7 @@ Column eventBox(BuildContext context, Event event) {
           },
           onPressed: (){
             selectedEvent = event;
-            Navigator.pushNamed(context, '/events/event_details');
+            Navigator.pushReplacementNamed(context, '/events/event_details');
           },
         ),
       ),

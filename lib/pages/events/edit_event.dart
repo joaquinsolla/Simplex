@@ -261,7 +261,7 @@ class _EditEventState extends State<EditEvent> {
                       }
 
                       createEvent(newEvent);
-                      Navigator.pushNamed(context, '/home');
+                      Navigator.pushReplacementNamed(context, '/home');
 
                     } on Exception catch (e) {
                       debugPrint('[ERR] Could not edit event: $e');

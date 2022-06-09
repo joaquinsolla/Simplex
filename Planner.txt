@@ -8,7 +8,7 @@ Ordenar por date Y POR COLOR Y POR id
 poner hora a los eventos
 
 DOING:
-comprobar notificaciones al gestionarlas
-No poder retroceder con navegación del móvil
 
 DONE:
+comprobar notificaciones al gestionarlas
+No poder retroceder con navegación del móvil

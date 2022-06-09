@@ -168,7 +168,7 @@ class _EventDetailsState extends State<EventDetails> {
                       selectedEvent = newEvent;
                     });
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Notificación añadida"),
+                      content: Text("Notificación añadida: Un día antes"),
                       backgroundColor: Colors.green,
                       behavior: SnackBarBehavior.floating,
                       duration: Duration(seconds: 2),
@@ -209,7 +209,7 @@ class _EventDetailsState extends State<EventDetails> {
                     createEvent(selectedEvent!);
                   });
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Notificación eliminada"),
+                    content: Text("Notificación eliminada: Un día antes"),
                     backgroundColor: Colors.green,
                     behavior: SnackBarBehavior.floating,
                     duration: Duration(seconds: 2),
@@ -248,7 +248,7 @@ class _EventDetailsState extends State<EventDetails> {
                       selectedEvent = newEvent;
                     });
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Notificación añadida"),
+                      content: Text("Notificación añadida: Una semana antes"),
                       backgroundColor: Colors.green,
                       behavior: SnackBarBehavior.floating,
                       duration: Duration(seconds: 2),
@@ -288,7 +288,7 @@ class _EventDetailsState extends State<EventDetails> {
                     createEvent(selectedEvent!);
                   });
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Notificación eliminada"),
+                    content: Text("Notificación eliminada: Una semana antes"),
                     backgroundColor: Colors.green,
                     behavior: SnackBarBehavior.floating,
                     duration: Duration(seconds: 2),
@@ -327,7 +327,7 @@ class _EventDetailsState extends State<EventDetails> {
                       selectedEvent = newEvent;
                     });
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Notificación añadida"),
+                      content: Text("Notificación añadida: Un mes antes"),
                       backgroundColor: Colors.green,
                       behavior: SnackBarBehavior.floating,
                       duration: Duration(seconds: 2),
@@ -367,7 +367,7 @@ class _EventDetailsState extends State<EventDetails> {
                     createEvent(selectedEvent!);
                   });
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Notificación eliminada"),
+                    content: Text("Notificación eliminada: Un mes antes"),
                     backgroundColor: Colors.green,
                     behavior: SnackBarBehavior.floating,
                     duration: Duration(seconds: 2),
@@ -386,7 +386,7 @@ class _EventDetailsState extends State<EventDetails> {
         ]),
         SizedBox(height: deviceHeight * 0.025),
         eventActionsButton(Icons.edit, colorSpecialItem, ' Editar evento ', (){
-          Navigator.pushNamed(context, '/events/edit_event');
+          Navigator.pushReplacementNamed(context, '/events/edit_event');
         }),
         SizedBox(height: deviceHeight * 0.025),
         eventActionsButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){
@@ -435,7 +435,7 @@ class _EventDetailsState extends State<EventDetails> {
                           if (selectedEvent!.notificationMonth != -1) cancelNotification(selectedEvent!.notificationMonth);
                           deleteEventById(selectedEvent!.id);
                           Navigator.pop(context);
-                          Navigator.pushNamed(context, '/home');
+                          Navigator.pushReplacementNamed(context, '/home');
                         },
                       ),
                     ],
