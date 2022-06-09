@@ -49,13 +49,15 @@ Future<List<Event>> getEventById(int id) async {
   final Database db = await initializeDB();
   final List<Map<String, Object?>> queryResult =
   await db.query('events', where: "id = ?", whereArgs: [id]);
+  debugPrint('[OK] Read event');
   return queryResult.map((e) => Event.eventFromMap(e)).toList();
 }
 
 Future<List<Event>> getAllEvents() async {
   final Database db = await initializeDB();
   final List<Map<String, Object?>> queryResult =
-  await db.query('events', orderBy: 'date');
+  await db.query('events', orderBy: 'date, color, id');
+  debugPrint('[OK] Read all events');
   return queryResult.map((e) => Event.eventFromMap(e)).toList();
 }
 
@@ -64,7 +66,8 @@ Future<List<Event>> getTodayEvents() async {
 
   final Database db = await initializeDB();
   final List<Map<String, Object?>> queryResult =
-  await db.query('events', orderBy: 'date', where: "date = ?", whereArgs: [today]);
+  await db.query('events', orderBy: 'date, color, id', where: "date = ?", whereArgs: [today]);
+  debugPrint('[OK] Read today events');
   return queryResult.map((e) => Event.eventFromMap(e)).toList();
 }
 
@@ -73,7 +76,8 @@ Future<List<Event>> getTomorrowEvents() async {
 
   final Database db = await initializeDB();
   final List<Map<String, Object?>> queryResult =
-  await db.query('events', orderBy: 'date', where: "date = ?", whereArgs: [today]);
+  await db.query('events', orderBy: 'date, color, id', where: "date = ?", whereArgs: [today]);
+  debugPrint('[OK] Read tomorrow events');
   return queryResult.map((e) => Event.eventFromMap(e)).toList();
 }
 
@@ -84,7 +88,8 @@ Future<List<Event>> getThisMonthEvents() async {
 
   final Database db = await initializeDB();
   final List<Map<String, Object?>> queryResult =
-  await db.query('events', orderBy: 'date', where: "date > ? AND date < ?", whereArgs: [today, nextMonth]);
+  await db.query('events', orderBy: 'date, color, id', where: "date > ? AND date < ?", whereArgs: [today, nextMonth]);
+  debugPrint('[OK] Read this month events');
   return queryResult.map((e) => Event.eventFromMap(e)).toList();
 }
 
@@ -94,7 +99,8 @@ Future<List<Event>> getRestOfEvents() async {
 
   final Database db = await initializeDB();
   final List<Map<String, Object?>> queryResult =
-  await db.query('events', orderBy: 'date', where: "date >= ?", whereArgs: [nextMonth]);
+  await db.query('events', orderBy: 'date, color, id', where: "date >= ?", whereArgs: [nextMonth]);
+  debugPrint('[OK] Read rest of events');
   return queryResult.map((e) => Event.eventFromMap(e)).toList();
 }
 
