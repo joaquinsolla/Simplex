@@ -1,7 +1,6 @@
 TO-DO:
 Quitar color al pulsar los botones
 crear widgets en el escritorio
-Mayúsculas al comienzo de textfields
 Mantener pulsado en evento
 Ordenar por date Y POR COLOR Y POR id
 poner hora a los eventos
@@ -14,3 +13,5 @@ comprobar notificaciones al gestionarlas
 No poder retroceder con navegación del móvil
 limpiar selectedEvent al ir a home
 Poner calendario en formato europeo (días movidos)
+Mayúsculas al comienzo de textfields
+

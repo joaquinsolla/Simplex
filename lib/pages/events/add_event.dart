@@ -45,7 +45,8 @@ class _AddEventState extends State<AddEvent> {
       backgroundColor: colorMainBackground,
       body: homeArea([
         pageHeader(context, 'Nuevo evento', '/home'),
-        alternativeFormContainer([formTextField(nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
+        alternativeFormContainer([
+          formTextField(nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
           formTextField(descriptionController, 'Descripción', '(Opcional)', descriptionFocusNode),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

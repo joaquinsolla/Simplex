@@ -307,7 +307,7 @@ class _EditEventState extends State<EditEvent> {
                   ],
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context, '/events/event_details');
                 },
               ),
             ),],
