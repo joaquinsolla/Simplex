@@ -29,6 +29,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   bottom_navy_bar: ^6.0.0
   sqflite: ^2.0.2+1
   path: ^1.8.0

@@ -26,7 +26,9 @@ class _HomeState extends State<Home> {
     darkMode = SchedulerBinding.instance!.window.platformBrightness == Brightness.dark;
     initializeDB().whenComplete(() async {
       _refreshEvents();
-      setState(() {});
+      setState(() {
+        selectedEvent = null;
+      });
     });
   }
 

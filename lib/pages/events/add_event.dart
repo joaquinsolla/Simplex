@@ -406,9 +406,10 @@ class _AddEventState extends State<AddEvent> {
   _dateSelector(BuildContext context) async {
   final DateTime? selected = await showDatePicker(
       context: context,
+      locale: appLocale,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime(2100),
+      lastDate: DateTime(2099, 12, 31),
       helpText: "SELECCIONA LA FECHA DEL EVENTO",
       cancelText: "CANCELAR",
       confirmText: "CONFIRMAR",
