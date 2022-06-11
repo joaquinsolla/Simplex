@@ -14,16 +14,20 @@ class _AddEventState extends State<AddEvent> {
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
   final dateController = TextEditingController();
+  final timeController = TextEditingController();
 
   FocusNode nameFocusNode = FocusNode();
   FocusNode descriptionFocusNode = FocusNode();
   FocusNode dateFocusNode = FocusNode();
+  FocusNode timeFocusNode = FocusNode();
 
-  bool dayNotification = false;
-  bool weekNotification = false;
-  bool monthNotification = false;
+  bool notification5Min = false;
+  bool notification1Hour = false;
+  bool notification1Day = false;
 
   int selectedColor = -1;
+  late DateTime date;
+  TimeOfDay time = TimeOfDay(hour: 00, minute: 00);
 
   @override
   void dispose() {
@@ -31,6 +35,7 @@ class _AddEventState extends State<AddEvent> {
     nameController.dispose();
     descriptionController.dispose();
     dateController.dispose();
+    timeController.dispose();
   }
 
   @override
@@ -74,13 +79,48 @@ class _AddEventState extends State<AddEvent> {
                   focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide(color: colorSpecialItem, width: 2),
                   ),
-                  hintText: 'dd/mm/aaaa',
+                  hintText: 'dd/mm/aaaa (Obligatorio)',
                   hintStyle: TextStyle(color: colorThirdText),
                 ),
                 onTap: () => _dateSelector(context),
               ),
             ],
-          ),]),
+          ),
+          SizedBox(height: deviceHeight*0.025),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Hora',
+                style: TextStyle(
+                    color: colorMainText,
+                    fontSize: deviceWidth * 0.045,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: deviceHeight * 0.005),
+              TextField(
+                focusNode: timeFocusNode,
+                controller: timeController,
+                style: TextStyle(color: colorMainText),
+                readOnly: true,
+                decoration: InputDecoration(
+                  fillColor: colorThirdBackground,
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide:
+                    BorderSide(color: colorThirdBackground, width: 1),
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: colorSpecialItem, width: 2),
+                  ),
+                  hintText: '00:00 (Por defecto)',
+                  hintStyle: TextStyle(color: colorThirdText),
+                ),
+                onTap: () => _timeSelector(context),
+              ),
+            ],
+          ),
+        ]),
         SizedBox(height: deviceHeight * 0.025),
         alternativeFormContainer([
           Text(
@@ -203,111 +243,111 @@ class _AddEventState extends State<AddEvent> {
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.015),
-          if (dayNotification==false) checkBoxContainer(
+          if (notification5Min==false) checkBoxContainer(
             CheckboxListTile(
               title: Text(
-                'Un día antes',
+                '5 minutos antes',
                 style: TextStyle(
                     color: colorThirdText,
                     fontSize: deviceWidth * 0.045,
                     fontWeight: FontWeight.normal),
               ),
-              value: dayNotification,
+              value: notification5Min,
               onChanged: (newValue) {
                 setState(() {
-                  dayNotification = newValue!;
+                  notification5Min = newValue!;
                 });
               },
               controlAffinity: ListTileControlAffinity.leading,
             ),
           ),
-          if (dayNotification==true) checkBoxContainer(
+          if (notification5Min==true) checkBoxContainer(
             CheckboxListTile(
               title: Text(
-                'Un día antes',
+                '5 minutos antes',
                 style: TextStyle(
                     color: colorMainText,
                     fontSize: deviceWidth * 0.045,
                     fontWeight: FontWeight.normal),
               ),
-              value: dayNotification,
+              value: notification5Min,
               onChanged: (newValue) {
                 setState(() {
-                  dayNotification = newValue!;
+                  notification5Min = newValue!;
                 });
               },
               controlAffinity: ListTileControlAffinity.leading,
             ),
           ),
           SizedBox(height: deviceHeight * 0.01),
-          if(weekNotification==false) checkBoxContainer(
+          if(notification1Hour==false) checkBoxContainer(
             CheckboxListTile(
               title: Text(
-                'Una semana antes',
+                '1 hora antes',
                 style: TextStyle(
                     color: colorThirdText,
                     fontSize: deviceWidth * 0.045,
                     fontWeight: FontWeight.normal),
               ),
-              value: weekNotification,
+              value: notification1Hour,
               onChanged: (newValue) {
                 setState(() {
-                  weekNotification = newValue!;
+                  notification1Hour = newValue!;
                 });
               },
               controlAffinity: ListTileControlAffinity.leading,
             ),
           ),
-          if(weekNotification==true) checkBoxContainer(
+          if(notification1Hour==true) checkBoxContainer(
             CheckboxListTile(
               title: Text(
-                'Una semana antes',
+                '1 hora antes',
                 style: TextStyle(
                     color: colorMainText,
                     fontSize: deviceWidth * 0.045,
                     fontWeight: FontWeight.normal),
               ),
-              value: weekNotification,
+              value: notification1Hour,
               onChanged: (newValue) {
                 setState(() {
-                  weekNotification = newValue!;
+                  notification1Hour = newValue!;
                 });
               },
               controlAffinity: ListTileControlAffinity.leading,
             ),
           ),
           SizedBox(height: deviceHeight * 0.01),
-          if (monthNotification==false) checkBoxContainer(
+          if (notification1Day==false) checkBoxContainer(
             CheckboxListTile(
               title: Text(
-                'Un mes antes',
+                '1 día antes',
                 style: TextStyle(
                     color: colorThirdText,
                     fontSize: deviceWidth * 0.045,
                     fontWeight: FontWeight.normal),
               ),
-              value: monthNotification,
+              value: notification1Day,
               onChanged: (newValue) {
                 setState(() {
-                  monthNotification = newValue!;
+                  notification1Day = newValue!;
                 });
               },
               controlAffinity: ListTileControlAffinity.leading,
             ),
           ),
-          if (monthNotification==true) checkBoxContainer(
+          if (notification1Day==true) checkBoxContainer(
             CheckboxListTile(
               title: Text(
-                'Un mes antes',
+                '1 día antes',
                 style: TextStyle(
                     color: colorMainText,
                     fontSize: deviceWidth * 0.045,
                     fontWeight: FontWeight.normal),
               ),
-              value: monthNotification,
+              value: notification1Day,
               onChanged: (newValue) {
                 setState(() {
-                  monthNotification = newValue!;
+                  notification1Day = newValue!;
                 });
               },
               controlAffinity: ListTileControlAffinity.leading,
@@ -362,24 +402,26 @@ class _AddEventState extends State<AddEvent> {
                   } else {
                     try {
 
-                      DateTime now = DateTime.now();
-                      int milliNow = int.parse((now.millisecondsSinceEpoch).toString().substring(6));
+                      DateTime nowDateTime = DateTime.now();
+                      int id = int.parse((nowDateTime.millisecondsSinceEpoch).toString().substring(6));
 
-                      int notificationDayId = int.parse("1"+"$milliNow");
-                      int notificationWeekId = int.parse("7"+"$milliNow");
-                      int notificationMonthId = int.parse("30"+"$milliNow");
+                      int notification5MinId = int.parse("1"+"$id");
+                      int notification1HourId = int.parse("2"+"$id");
+                      int notification1DayId = int.parse("3"+"$id");
 
-                      if (dayNotification) dayNotification=showNotification(context, notificationDayId, nameController.text, 1, now, DateTime.parse(stringDateToYMD(dateController.text)));
-                      if (weekNotification) weekNotification=showNotification(context, notificationWeekId, nameController.text, 7, now, DateTime.parse(stringDateToYMD(dateController.text)));
-                      if (monthNotification) monthNotification=showNotification(context, notificationMonthId, nameController.text, 30, now, DateTime.parse(stringDateToYMD(dateController.text)));
+                      DateTime fullEventDateTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
 
-                      if (dayNotification==false) notificationDayId=-1;
-                      if (weekNotification==false) notificationWeekId=-1;
-                      if (monthNotification==false) notificationMonthId=-1;
+                      if (notification5Min) notification5Min=showNotification(context, notification5MinId, nameController.text, 1, nowDateTime, fullEventDateTime);
+                      if (notification1Hour) notification1Hour=showNotification(context, notification1HourId, nameController.text, 2, nowDateTime, fullEventDateTime);
+                      if (notification1Day) notification1Day=showNotification(context, notification1DayId, nameController.text, 3, nowDateTime, fullEventDateTime);
 
-                      Event newEvent = Event(id: milliNow, name: nameController.text, description: descriptionController.text,
-                          date: DateTime.parse(stringDateToYMD(dateController.text)).millisecondsSinceEpoch, color: selectedColor,
-                          notificationDay: notificationDayId, notificationWeek: notificationWeekId, notificationMonth: notificationMonthId);
+                      if (notification5Min==false) notification5MinId=-1;
+                      if (notification1Hour==false) notification1HourId=-1;
+                      if (notification1Day==false) notification1DayId=-1;
+
+                      Event newEvent = Event(id: id, name: nameController.text, description: descriptionController.text,
+                          dateTime: fullEventDateTime.millisecondsSinceEpoch, color: selectedColor,
+                          notification5Min: notification5MinId, notification1Hour: notification1HourId, notification1Day: notification1DayId);
                       createEvent(newEvent);
 
                       Navigator.pushReplacementNamed(context, '/home');
@@ -405,23 +447,42 @@ class _AddEventState extends State<AddEvent> {
   }
 
   _dateSelector(BuildContext context) async {
-  final DateTime? selected = await showDatePicker(
+    final DateTime? selected = await showDatePicker(
+        context: context,
+        locale: appLocale,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2099, 12, 31),
+        helpText: "SELECCIONA LA FECHA DEL EVENTO",
+        cancelText: "CANCELAR",
+        confirmText: "CONFIRMAR",
+        fieldHintText: "dd/mm/aaaa",
+        fieldLabelText: "Fecha del evento",
+        errorFormatText: "Introduce una fecha válida",
+        errorInvalidText: "La fecha debe ser posterior a hoy");
+    if (selected != null && selected != DateTime.now()) {
+      setState(() {
+        date=selected;
+        dateController.text = dateToString(selected);
+      });
+    }
+  }
+
+  _timeSelector(BuildContext context) async {
+    final TimeOfDay? selected = await showTimePicker(
       context: context,
-      locale: appLocale,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2099, 12, 31),
-      helpText: "SELECCIONA LA FECHA DEL EVENTO",
+      helpText: "SELECCIONA LA HORA DEL EVENTO",
       cancelText: "CANCELAR",
       confirmText: "CONFIRMAR",
-      fieldHintText: "dd/mm/aaaa",
-      fieldLabelText: "Fecha del evento",
-      errorFormatText: "Introduce una fecha válida",
-      errorInvalidText: "La fecha debe ser posterior a hoy");
-  if (selected != null && selected != DateTime.now()) {
-    setState(() {
-      dateController.text = datetimeToString(selected);
-    });
+      initialTime: TimeOfDay(hour: 0, minute: 0),
+      initialEntryMode: TimePickerEntryMode.dial,
+    );
+    if (selected != null) {
+      setState(() {
+        time=selected;
+        timeController.text = selected.hour.toString().padLeft(2, '0') + ':' + selected.minute.toString().padLeft(2, '0');
+      });
+    }
   }
-}
+
 }

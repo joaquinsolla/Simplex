@@ -60,6 +60,7 @@ class _HomeState extends State<Home> {
       _thisMonthEvents = thisMonthEvents;
       _restOfEvents = restOfEvents;
     });
+    debugPrint('[OK] Read events');
   }
 
   @override

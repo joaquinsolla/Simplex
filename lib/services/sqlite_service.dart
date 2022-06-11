@@ -14,11 +14,11 @@ Future<Database> initializeDB() async {
           id INTEGER PRIMARY KEY, 
           name TEXT NOT NULL,
           description TEXT,
-          date DATETIME NOT NULL,
+          dateTime DATETIME NOT NULL,
           color INTEGER NOT NULL,
-          notificationDay INTEGER NOT NULL,
-          notificationWeek INTEGER NOT NULL,
-          notificationMonth INTEGER NOT NULL)""",
+          notification5Min INTEGER NOT NULL,
+          notification1Hour INTEGER NOT NULL,
+          notification1Day INTEGER NOT NULL)""",
       );
       // TODO: create habits database
       await database.execute(
@@ -35,13 +35,13 @@ Future<Database> initializeDB() async {
   );
 }
 
-/// EVENTS HERE
+/// EVENTS MANAGEMENT HERE
 Future<int> createEvent(Event event) async {
   final Database db = await initializeDB();
   final id = await db.insert(
       'events', event.eventToMap(),
       conflictAlgorithm: ConflictAlgorithm.replace);
-  debugPrint("[OK] Event created: $id");
+  debugPrint("[OK] Event created/updated: $id");
   return id;
 }
 
@@ -56,40 +56,39 @@ Future<List<Event>> getEventById(int id) async {
 Future<List<Event>> getAllEvents() async {
   final Database db = await initializeDB();
   final List<Map<String, Object?>> queryResult =
-  await db.query('events', orderBy: 'date, color, id');
+  await db.query('events', orderBy: 'dateTime, color, id');
   debugPrint('[OK] Read all events');
   return queryResult.map((e) => Event.eventFromMap(e)).toList();
 }
 
 Future<List<Event>> getTodayEvents() async {
   int today = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).millisecondsSinceEpoch;
+  int tomorrow = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day+1).millisecondsSinceEpoch;
 
   final Database db = await initializeDB();
   final List<Map<String, Object?>> queryResult =
-  await db.query('events', orderBy: 'date, color, id', where: "date = ?", whereArgs: [today]);
-  debugPrint('[OK] Read today events');
+  await db.query('events', orderBy: 'dateTime, color, id', where: "dateTime >= ? AND dateTime < ?", whereArgs: [today, tomorrow]);
   return queryResult.map((e) => Event.eventFromMap(e)).toList();
 }
 
 Future<List<Event>> getTomorrowEvents() async {
-  int today = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day+1).millisecondsSinceEpoch;
+  int tomorrow = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day+1).millisecondsSinceEpoch;
+  int pastTomorrow = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day+2).millisecondsSinceEpoch;
 
   final Database db = await initializeDB();
   final List<Map<String, Object?>> queryResult =
-  await db.query('events', orderBy: 'date, color, id', where: "date = ?", whereArgs: [today]);
-  debugPrint('[OK] Read tomorrow events');
+  await db.query('events', orderBy: 'dateTime, color, id', where: "dateTime >= ? AND dateTime < ?", whereArgs: [tomorrow, pastTomorrow]);
   return queryResult.map((e) => Event.eventFromMap(e)).toList();
 }
 
 Future<List<Event>> getThisMonthEvents() async {
 
-  int today = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day+1).millisecondsSinceEpoch;
+  int pastTomorrow = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day+2).millisecondsSinceEpoch;
   int nextMonth = DateTime(DateTime.now().year, DateTime.now().month+1, 1).millisecondsSinceEpoch;
 
   final Database db = await initializeDB();
   final List<Map<String, Object?>> queryResult =
-  await db.query('events', orderBy: 'date, color, id', where: "date > ? AND date < ?", whereArgs: [today, nextMonth]);
-  debugPrint('[OK] Read this month events');
+  await db.query('events', orderBy: 'dateTime, color, id', where: "dateTime >= ? AND dateTime < ?", whereArgs: [pastTomorrow, nextMonth]);
   return queryResult.map((e) => Event.eventFromMap(e)).toList();
 }
 
@@ -99,8 +98,7 @@ Future<List<Event>> getRestOfEvents() async {
 
   final Database db = await initializeDB();
   final List<Map<String, Object?>> queryResult =
-  await db.query('events', orderBy: 'date, color, id', where: "date >= ?", whereArgs: [nextMonth]);
-  debugPrint('[OK] Read rest of events');
+  await db.query('events', orderBy: 'dateTime, color, id', where: "dateTime >= ?", whereArgs: [nextMonth]);
   return queryResult.map((e) => Event.eventFromMap(e)).toList();
 }
 
@@ -120,15 +118,15 @@ Future<void> deleteExpiredEvents() async {
 
   final Database db = await initializeDB();
   try {
-    await db.delete("events", where: "date < ?", whereArgs: [today]);
+    await db.delete("events", where: "dateTime < ?", whereArgs: [today]);
   } catch (err) {
     debugPrint("[ERR] Could not delete expired event: $err");
   }
 }
 
-/// HABITS HERE
+/// HABITS MANAGEMENT HERE
 
-/// TO-DOS HERE
+/// TO-DOS MANAGEMENT HERE
 
 /// CLASSES HERE
 
@@ -136,18 +134,18 @@ class Event{
   final int id;
   final String name;
   String description;
-  final int date;
+  final int dateTime;
   final int color;
-  final int notificationDay;
-  final int notificationWeek;
-  final int notificationMonth;
+  final int notification5Min;
+  final int notification1Hour;
+  final int notification1Day;
 
-  Event({required this.id, required this.name, required this.description, required this.date, required this.color, required this.notificationDay, required this.notificationWeek, required this.notificationMonth});
+  Event({required this.id, required this.name, required this.description, required this.dateTime, required this.color, required this.notification5Min, required this.notification1Hour, required this.notification1Day});
 
   Event.eventFromMap(Map<String, dynamic> item):
-        id=item["id"], name=item["name"], description= item["description"], date=item["date"], color=item["color"], notificationDay=item["notificationDay"], notificationWeek=item["notificationWeek"], notificationMonth=item["notificationMonth"];
+        id=item["id"], name=item["name"], description= item["description"], dateTime=item["dateTime"], color=item["color"], notification5Min=item["notification5Min"], notification1Hour=item["notification1Hour"], notification1Day=item["notification1Day"];
 
   Map<String, Object> eventToMap(){
-    return {'id':id, 'name':name, 'description':description, 'date':date, 'color':color, 'notificationDay':notificationDay, 'notificationWeek':notificationWeek, 'notificationMonth':notificationMonth};
+    return {'id':id, 'name':name, 'description':description, 'dateTime':dateTime, 'color':color, 'notification5Min':notification5Min, 'notification1Hour':notification1Hour, 'notification1Day':notification1Day};
   }
 }

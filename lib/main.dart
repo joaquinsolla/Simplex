@@ -18,8 +18,8 @@ Future<void> main() async {
       GlobalCupertinoLocalizations.delegate,
     ],
     supportedLocales: [
-      Locale('en', ''), // English, no country code
       Locale('es', ''), // Spanish, no country code
+      Locale('en', ''), // English, no country code
     ],
     initialRoute: '/home',
     routes: {

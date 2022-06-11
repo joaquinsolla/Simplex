@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/sqlite_service.dart';
@@ -16,12 +14,17 @@ class _EditEventState extends State<EditEvent> {
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
   final dateController = TextEditingController();
+  final timeController = TextEditingController();
 
   FocusNode nameFocusNode = FocusNode();
   FocusNode descriptionFocusNode = FocusNode();
   FocusNode dateFocusNode = FocusNode();
+  FocusNode timeFocusNode = FocusNode();
 
   int selectedColor = selectedEvent!.color;
+  DateTime fullDateTime = DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.dateTime*1000);
+  late DateTime date;
+  late TimeOfDay time;
 
   @override
   void dispose() {
@@ -34,9 +37,12 @@ class _EditEventState extends State<EditEvent> {
   @override
   void initState() {
     super.initState();
+    date = DateTime(fullDateTime.year, fullDateTime.month, fullDateTime.day);
+    time = TimeOfDay(hour: fullDateTime.hour, minute: fullDateTime.minute);
     nameController.text = selectedEvent!.name;
     descriptionController.text = selectedEvent!.description;
-    dateController.text = millisecondsToStringDate(selectedEvent!.date);
+    dateController.text = millisecondsToStringDate(selectedEvent!.dateTime);
+    timeController.text = millisecondsToStringTime(selectedEvent!.dateTime);
   }
 
   @override
@@ -75,22 +81,56 @@ class _EditEventState extends State<EditEvent> {
                   focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide(color: colorSpecialItem, width: 2),
                   ),
-                  hintText: 'dd/mm/aaaa',
+                  hintText: 'dd/mm/aaaa (Obligatorio)',
                   hintStyle: TextStyle(color: colorThirdText),
                 ),
                 onTap: () => _dateSelector(context),
               ),
-              SizedBox(height: deviceHeight * 0.01),
+            ],
+          ),
+          SizedBox(height: deviceHeight*0.025),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Text(
-                'Editar el nombre o la fecha del evento hará que se desactiven las notificaciones que había asociadas a él. '
-                    'Puedes programarlas de nuevo en el apartado de detalles de evento.',
-                textAlign: TextAlign.justify,
+                'Hora',
                 style: TextStyle(
                     color: colorMainText,
-                    fontSize: deviceWidth * 0.035,
-                    fontWeight: FontWeight.normal),
+                    fontSize: deviceWidth * 0.045,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: deviceHeight * 0.005),
+              TextField(
+                focusNode: timeFocusNode,
+                controller: timeController,
+                style: TextStyle(color: colorMainText),
+                readOnly: true,
+                decoration: InputDecoration(
+                  fillColor: colorThirdBackground,
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide:
+                    BorderSide(color: colorThirdBackground, width: 1),
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: colorSpecialItem, width: 2),
+                  ),
+                  hintText: '00:00 (Por defecto)',
+                  hintStyle: TextStyle(color: colorThirdText),
+                ),
+                onTap: () => _timeSelector(context),
               ),
             ],
+          ),
+          SizedBox(height: deviceHeight * 0.01),
+          Text(
+            'Editar el nombre, la fecha o la hora del evento hará que se desactiven las notificaciones que había asociadas a él. '
+                'Puedes programarlas de nuevo en el apartado de detalles de evento.',
+            textAlign: TextAlign.justify,
+            style: TextStyle(
+                color: colorMainText,
+                fontSize: deviceWidth * 0.035,
+                fontWeight: FontWeight.normal),
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
@@ -242,37 +282,32 @@ class _EditEventState extends State<EditEvent> {
                       duration: Duration(seconds: 2),
                     ));
                     nameFocusNode.requestFocus();
-                  } else if (dateController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Debes indicar una fecha"),
-                      backgroundColor: Colors.red,
-                      behavior: SnackBarBehavior.floating,
-                      duration: Duration(seconds: 2),
-                    ));
-                    dateFocusNode.requestFocus();
                   } else {
                     try {
-                      Event newEvent = Event(id: selectedEvent!.id, name: nameController.text, description: descriptionController.text,
-                          date: DateTime.parse(stringDateToYMD(dateController.text)).millisecondsSinceEpoch, color: selectedColor,
-                          notificationDay: selectedEvent!.notificationDay, notificationWeek: selectedEvent!.notificationWeek,
-                          notificationMonth: selectedEvent!.notificationMonth);
-                      if(dateController.text != millisecondsToStringDate(selectedEvent!.date) || nameController.text != selectedEvent!.name) {
-                        if (selectedEvent!.notificationDay != -1) cancelNotification(selectedEvent!.notificationDay);
-                        if (selectedEvent!.notificationWeek != -1) cancelNotification(selectedEvent!.notificationWeek);
-                        if (selectedEvent!.notificationMonth != -1) cancelNotification(selectedEvent!.notificationMonth);
-                        newEvent = Event(id: selectedEvent!.id, name: nameController.text, description: descriptionController.text,
-                            date: DateTime.parse(stringDateToYMD(dateController.text)).millisecondsSinceEpoch, color: selectedColor,
-                            notificationDay: -1, notificationWeek: -1, notificationMonth: -1);
-                      }
-                      createEvent(newEvent);
 
-                      Navigator.pushReplacementNamed(context, '/home');
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Evento actualizado correctamente"),
-                        backgroundColor: Colors.green,
-                        behavior: SnackBarBehavior.floating,
-                        duration: Duration(seconds: 2),
-                      ));
+                      DateTime newFullDateTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
+
+                      Event newEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: descriptionController.text,
+                          dateTime: newFullDateTime.millisecondsSinceEpoch, color: selectedColor,
+                          notification5Min: selectedEvent!.notification5Min, notification1Hour: selectedEvent!.notification1Hour,
+                          notification1Day: selectedEvent!.notification1Day);
+                      if(newFullDateTime.millisecondsSinceEpoch != selectedEvent!.dateTime || nameController.text != selectedEvent!.name) {
+                        if (selectedEvent!.notification5Min != -1) cancelNotification(selectedEvent!.notification5Min);
+                        if (selectedEvent!.notification1Hour != -1) cancelNotification(selectedEvent!.notification1Hour);
+                        if (selectedEvent!.notification1Day != -1) cancelNotification(selectedEvent!.notification1Day);
+                        newEvent = Event(id: selectedEvent!.id, name: nameController.text, description: descriptionController.text,
+                            dateTime: newFullDateTime.millisecondsSinceEpoch, color: selectedColor,
+                            notification5Min: -1, notification1Hour: -1, notification1Day: -1);
+                      }
+                      createEvent(newEvent).then((val){
+                        Navigator.pushReplacementNamed(context, '/home');
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Evento actualizado correctamente"),
+                          backgroundColor: Colors.green,
+                          behavior: SnackBarBehavior.floating,
+                          duration: Duration(seconds: 2),
+                        ));
+                      });
 
                     } on Exception catch (e) {
                       debugPrint('[ERR] Could not edit event: $e');
@@ -333,7 +368,7 @@ class _EditEventState extends State<EditEvent> {
     final DateTime? selected = await showDatePicker(
         context: context,
         locale: appLocale,
-        initialDate: DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.date*1000),
+        initialDate: DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime(2099, 12, 31),
         helpText: "SELECCIONA LA FECHA DEL EVENTO",
@@ -345,7 +380,25 @@ class _EditEventState extends State<EditEvent> {
         errorInvalidText: "La fecha debe ser posterior a hoy");
     if (selected != null && selected != DateTime.now()) {
       setState(() {
-        dateController.text = datetimeToString(selected);
+        date = selected;
+        dateController.text = dateToString(selected);
+      });
+    }
+  }
+
+  _timeSelector(BuildContext context) async {
+    final TimeOfDay? selected = await showTimePicker(
+      context: context,
+      helpText: "SELECCIONA LA HORA DEL EVENTO",
+      cancelText: "CANCELAR",
+      confirmText: "CONFIRMAR",
+      initialTime: TimeOfDay(hour: 0, minute: 0),
+      initialEntryMode: TimePickerEntryMode.dial,
+    );
+    if (selected != null) {
+      setState(() {
+        time = selected;
+        timeController.text = selected.hour.toString().padLeft(2, '0') + ':' + selected.minute.toString().padLeft(2, '0');
       });
     }
   }

@@ -1,6 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/sqlite_service.dart';
 import 'package:focused_menu/focused_menu.dart';
@@ -111,10 +110,17 @@ FocusedMenuHolder eventBox(BuildContext context, Event event) {
     color = event.color;
   }
 
-  DateTime eventDate = DateTime.fromMicrosecondsSinceEpoch(event.date * 1000);
+  DateTime eventDate = DateTime.fromMicrosecondsSinceEpoch(event.dateTime * 1000);
 
   Color backgroundColor = colorThirdBackground;
   if (darkMode) backgroundColor = colorSecondBackground;
+  String eventTime = DateFormat('HH:mm').format(DateTime.fromMicrosecondsSinceEpoch(event.dateTime*1000));
+  Color timeColor = colorSecondText;
+  Color iconColor = colorSpecialItem;
+  if(event.color != -1) {
+    timeColor = colorMainText;
+    iconColor = colorMainText;
+  }
 
   return FocusedMenuHolder(
     onPressed: (){
@@ -202,9 +208,9 @@ FocusedMenuHolder eventBox(BuildContext context, Event event) {
         ),
         onPressed: (){
           selectedEvent = event;
-          if (selectedEvent!.notificationDay != -1) cancelNotification(selectedEvent!.notificationDay);
-          if (selectedEvent!.notificationWeek != -1) cancelNotification(selectedEvent!.notificationWeek);
-          if (selectedEvent!.notificationMonth != -1) cancelNotification(selectedEvent!.notificationMonth);
+          if (selectedEvent!.notification5Min != -1) cancelNotification(selectedEvent!.notification5Min);
+          if (selectedEvent!.notification1Hour != -1) cancelNotification(selectedEvent!.notification1Hour);
+          if (selectedEvent!.notification1Day != -1) cancelNotification(selectedEvent!.notification1Day);
           deleteEventById(selectedEvent!.id);
           Navigator.pushReplacementNamed(context, '/home');
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -244,28 +250,21 @@ FocusedMenuHolder eventBox(BuildContext context, Event event) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                        width: deviceWidth*0.6475,
+                        width: deviceWidth*0.6,
                         alignment: Alignment.centerLeft,
                         child: Text(event.name,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.06, fontWeight: FontWeight.bold))),
-                    if (event.description.isNotEmpty && color == -1) Container(
-                        width: deviceWidth*0.6475,
+                    SizedBox(height: deviceHeight*0.00375,),
+                    Container(
+                        width: deviceWidth*0.6,
                         alignment: Alignment.centerLeft,
-                        child: Text(event.description,
-                            maxLines: 5,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: colorSecondText, fontSize: deviceWidth * 0.03, fontWeight: FontWeight.normal))),
-                    if (event.description.isNotEmpty && color != -1) Container(
-                        width: deviceWidth*0.6475,
-                        alignment: Alignment.centerLeft,
-                        child: Text(event.description,
-                            maxLines: 5,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.03, fontWeight: FontWeight.normal))),
+                        child: Text('A las $eventTime',
+                            style: TextStyle(color: timeColor, fontSize: deviceWidth * 0.03, fontWeight: FontWeight.normal))),
                   ],
                 ),
+                Icon(Icons.open_in_new_rounded, color: iconColor, size: deviceWidth * 0.06),
               ],
             ),
           ),

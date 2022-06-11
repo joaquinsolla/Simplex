@@ -12,53 +12,57 @@ String monthConversor(DateTime date){
   return (months[date.month-1]);
 }
 
-String datetimeToString(DateTime dateTime){
+String dateToString(DateTime dateTime){
   return DateFormat('dd/MM/yyyy').format(dateTime);
 }
 
-String stringDateToYMD(String date){
-  String reversedDate = date.substring(6) + '-' +
-  date.substring(3, 5) + '-' +
-  date.substring(0, 2);
-
-  return reversedDate;
+String timeToString(DateTime dateTime){
+  return DateFormat('HH:mm').format(dateTime);
 }
 
 String millisecondsToStringDate(int millis){
 
   DateTime date = DateTime.fromMicrosecondsSinceEpoch(millis*1000);
 
-  return datetimeToString(date);
+  return dateToString(date);
 }
 
-bool showNotification(BuildContext context, int id, String title, int daysBefore, DateTime now, DateTime eventDay){
+String millisecondsToStringTime(int millis){
 
-  int today = DateTime(now.year, now.month, now.day).millisecondsSinceEpoch;
-  late int notificationDay;
-  if (daysBefore!=30) {
-    notificationDay = DateTime(eventDay.year, eventDay.month, eventDay.day-daysBefore).millisecondsSinceEpoch;
+  DateTime date = DateTime.fromMicrosecondsSinceEpoch(millis*1000);
+
+  return timeToString(date);
+}
+
+bool showNotification(BuildContext context, int id, String title, int notificationType, DateTime nowDateTime, DateTime eventDateTime){
+
+  late Duration duration;
+  late String body;
+  if (notificationType == 1) {
+    duration = Duration(minutes: 5);
+    body = 'Es en 5 minutos';
+  } else if (notificationType == 2) {
+    duration = Duration(hours: 1);
+    body = 'Es en 1 hora';
   } else {
-    notificationDay = DateTime(eventDay.year, eventDay.month-1, eventDay.day).millisecondsSinceEpoch;
+    duration = Duration(days: 1);
+    body = 'Es mañana';
   }
 
-  if (notificationDay > today){
-    int milliNow = now.millisecondsSinceEpoch;
-    late String body;
+  int milliNow = nowDateTime.millisecondsSinceEpoch;
+  int milliNotification = eventDateTime.subtract(duration).millisecondsSinceEpoch;
+  int millisToNotification = milliNotification-milliNow;
 
+  if (millisToNotification>0){
     WidgetsFlutterBinding.ensureInitialized();
     NotificationService().initNotification();
     tz.initializeTimeZones();
-    if (daysBefore == 1) {
-      body = 'Es mañana.';
-    } else if (daysBefore == 7) {
-      body = 'Es en una semana.';
-    } else {
-      body = 'Es en un mes.';
-    }
-    NotificationService().showNotification(id, title, body, notificationDay-milliNow + 1000);
-    debugPrint('[OK] Notification with id: $id ready for $daysBefore days before the event');
+
+    NotificationService().showNotification(id, title, body, millisToNotification + 1000);
+    debugPrint('[OK] Notification with id: $id ready');
     return true;
   } else {
+    debugPrint('[OK] Cannot show notification: Time expired');
     return false;
   }
 }
