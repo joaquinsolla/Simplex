@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:simplex/common/all_common.dart';
-import 'package:simplex/services/sqlite_service.dart';
-import 'package:focused_menu/focused_menu.dart';
-import 'package:focused_menu/modals.dart';
 
 
 Container homeArea(List<Widget> children) {
@@ -22,7 +18,6 @@ Container homeArea(List<Widget> children) {
 
 Container headerText(String content) {
   return Container(
-    width: deviceWidth*0.7,
     child: Text(content,
         style: TextStyle(
             color: colorMainText,
@@ -31,19 +26,33 @@ Container headerText(String content) {
   );
 }
 
-Column homeHeader(String text, Function() buttonFunction) {
+Column homeHeaderSimple(String text, Widget addButton) {
   return Column(
     children: [
       Row(
         children: [
           headerText(text),
           const Expanded(child: Text('')),
-          IconButton(
-            icon: Icon(Icons.add_rounded,
-                color: colorSpecialItem, size: deviceWidth * 0.085),
-            splashRadius: 0.001,
-            onPressed: buttonFunction,
-          ),
+          addButton,
+        ],
+      ),
+      SizedBox(
+        height: deviceHeight * 0.03,
+      ),
+    ],
+  );
+}
+
+Column homeHeaderAdvanced(String text, Widget specialButton, Widget addButton) {
+  return Column(
+    children: [
+      Row(
+        children: [
+          headerText(text),
+          const Expanded(child: Text('')),
+          specialButton,
+          SizedBox(width: deviceWidth*0.01,),
+          addButton,
         ],
       ),
       SizedBox(
@@ -96,182 +105,6 @@ Container checkBoxContainer(CheckboxListTile checkbox){
     borderRadius: BorderRadius.circular(10),
     color: colorThirdBackground,),
     child: checkbox,
-  );
-}
-
-FocusedMenuHolder eventBox(BuildContext context, Event event) {
-
-  late int color;
-  if (event.color == -1 && darkMode == false) {
-    color = 0xFFFFFFFF;
-  } else if (event.color == -1 && darkMode == true) {
-    color = 0xff1c1c1f;
-  } else {
-    color = event.color;
-  }
-
-  DateTime eventDate = DateTime.fromMicrosecondsSinceEpoch(event.dateTime * 1000);
-
-  Color backgroundColor = colorThirdBackground;
-  if (darkMode) backgroundColor = colorSecondBackground;
-  String eventTime = DateFormat('HH:mm').format(DateTime.fromMicrosecondsSinceEpoch(event.dateTime*1000));
-  Color timeColor = colorSecondText;
-  Color iconColor = colorSpecialItem;
-  if(event.color != -1) {
-    timeColor = colorMainText;
-    iconColor = colorMainText;
-  }
-
-  return FocusedMenuHolder(
-    onPressed: (){
-      selectedEvent = event;
-      Navigator.pushReplacementNamed(context, '/events/event_details');
-    },
-    menuItems: <FocusedMenuItem>[
-      FocusedMenuItem(
-        backgroundColor: backgroundColor,
-        title: Container(
-          alignment: Alignment.centerLeft,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.open_in_new_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
-              SizedBox(width: deviceWidth*0.025,),
-              Text('Ver detalles', style: TextStyle(
-                  color: colorSpecialItem,
-                  fontSize: deviceWidth * 0.04,
-                  fontWeight: FontWeight.normal),),
-            ],
-          ),
-        ),
-        onPressed: (){
-          selectedEvent = event;
-          Navigator.pushReplacementNamed(context, '/events/event_details');
-        },
-      ),
-      FocusedMenuItem(
-        backgroundColor: backgroundColor,
-        title: Container(
-          alignment: Alignment.centerLeft,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.edit, color: colorSpecialItem, size: deviceWidth * 0.06),
-              SizedBox(width: deviceWidth*0.025,),
-              Text('Editar', style: TextStyle(
-                  color: colorSpecialItem,
-                  fontSize: deviceWidth * 0.04,
-                  fontWeight: FontWeight.normal),),
-            ],
-          ),
-        ),
-        onPressed: (){
-          selectedEvent = event;
-          Navigator.pushReplacementNamed(context, '/events/edit_event');
-        },
-      ),
-      FocusedMenuItem(
-        backgroundColor: backgroundColor,
-        title: Container(
-          alignment: Alignment.centerLeft,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.share_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
-              SizedBox(width: deviceWidth*0.025,),
-              Text('Compartir', style: TextStyle(
-                  color: colorSpecialItem,
-                  fontSize: deviceWidth * 0.04,
-                  fontWeight: FontWeight.normal),),
-            ],
-          ),
-        ),
-        onPressed: (){
-          // TODO: Share events
-        },
-      ),
-      FocusedMenuItem(
-        backgroundColor: backgroundColor,
-        title: Container(
-          alignment: Alignment.centerLeft,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth * 0.06),
-              SizedBox(width: deviceWidth*0.025,),
-              Text('Eliminar', style: TextStyle(
-                  color: Colors.red,
-                  fontSize: deviceWidth * 0.04,
-                  fontWeight: FontWeight.normal),),
-            ],
-          ),
-        ),
-        onPressed: (){
-          selectedEvent = event;
-          if (selectedEvent!.notification5Min != -1) cancelNotification(selectedEvent!.notification5Min);
-          if (selectedEvent!.notification1Hour != -1) cancelNotification(selectedEvent!.notification1Hour);
-          if (selectedEvent!.notification1Day != -1) cancelNotification(selectedEvent!.notification1Day);
-          deleteEventById(selectedEvent!.id);
-          Navigator.pushReplacementNamed(context, '/home');
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Evento eliminado"),
-            backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
-            duration: Duration(seconds: 2),
-          ));
-        },
-      ),
-    ],
-    child: Column(
-      children: [
-        Container(
-          padding: EdgeInsets.all(deviceWidth * 0.018),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Color(color),
-          ),
-          child: IntrinsicHeight(
-            child: Row(
-              children: [
-                SizedBox(width: deviceWidth*0.0125,),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(eventDate.day.toString(), style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.0625, fontWeight: FontWeight.bold)),
-                    Text(monthConversor(eventDate), style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.04, fontWeight: FontWeight.normal)),
-                    if (DateTime.now().year != eventDate.year) Text(eventDate.year.toString(), style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.034, fontWeight: FontWeight.normal)),
-                  ],
-                ),
-                SizedBox(width: deviceWidth*0.0125,),
-                VerticalDivider(color: colorSecondText,),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                        width: deviceWidth*0.6,
-                        alignment: Alignment.centerLeft,
-                        child: Text(event.name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.06, fontWeight: FontWeight.bold))),
-                    SizedBox(height: deviceHeight*0.00375,),
-                    Container(
-                        width: deviceWidth*0.6,
-                        alignment: Alignment.centerLeft,
-                        child: Text('A las $eventTime',
-                            style: TextStyle(color: timeColor, fontSize: deviceWidth * 0.03, fontWeight: FontWeight.normal))),
-                  ],
-                ),
-                Icon(Icons.open_in_new_rounded, color: iconColor, size: deviceWidth * 0.06),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(height: deviceHeight*0.0125,),
-      ],
-    ),
   );
 }
 

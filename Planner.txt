@@ -1,8 +1,6 @@
 TO-DO:
 crear widgets en el escritorio
 link para compartir evento
-filtro por colores
-añadir foto a evento?
 seleccionar formato de hora
 
 DOING:
@@ -18,4 +16,5 @@ Mantener pulsado en evento
 nombre notificaciones cuando se ha cambiado el nombre del evento
 poner hora a los eventos
 notificaciones: 5mins, 1h, 1 dia
+filtro por colores
 

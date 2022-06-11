@@ -12,3 +12,5 @@ bool deviceChecked = false;
 int homeIndex = 0;
 bool expiredEventsDeleted = false;
 Event? selectedEvent;
+bool useEventFilters = false;
+int currentEventFilter = 0;

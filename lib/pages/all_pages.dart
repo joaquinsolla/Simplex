@@ -1,5 +1,4 @@
 export 'home.dart';
-export 'home_views/events_view.dart';
 export 'home_views/todo_view.dart';
 export 'home_views/settings_view.dart';
 export 'home_views/habits_view.dart';
