@@ -1,0 +1,8 @@
+Generar apk optimizado:
+flutter build apk --release
+
+Probar el apk:
+flutter install
+
+Compilar appbundle a partir del apk:
+flutter build appbundle

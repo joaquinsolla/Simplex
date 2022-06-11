@@ -1,6 +1,7 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'dart:ui';
 
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/sqlite_service.dart';
@@ -24,6 +25,17 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     darkMode = SchedulerBinding.instance!.window.platformBrightness == Brightness.dark;
+    if (darkMode) {
+      colorMainBackground = Colors.black;
+      colorSecondBackground = const Color(0xff1c1c1f);
+      colorThirdBackground = const Color(0xff706e74);
+      colorButtonText = const Color(0xff1c1c1f);
+      colorNavigationBarBackground = const Color(0xff1c1c1f);
+      colorNavigationBarText = const Color(0xff3a393e);
+      colorMainText = Colors.white;
+      colorSecondText = const Color(0xff706e74);
+      colorThirdText = const Color(0xff3a393e);
+    }
     initializeDB().whenComplete(() async {
       _refreshEvents();
       setState(() {
@@ -53,29 +65,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
-    if (deviceChecked == false) {
-      var padding = MediaQuery.of(context).padding;
-
-      setState(() {
-        deviceWidth = MediaQuery.of(context).size.width;
-        deviceHeight = MediaQuery.of(context).size.height - padding.top - padding.bottom;
-        deviceChecked = true;
-
-        if (darkMode) {
-            colorMainBackground = Colors.black;
-            colorSecondBackground = const Color(0xff1c1c1f);
-            colorThirdBackground = const Color(0xff706e74);
-            colorButtonText = const Color(0xff1c1c1f);
-            colorNavigationBarBackground = const Color(0xff1c1c1f);
-            colorNavigationBarText = const Color(0xff3a393e);
-            colorMainText = Colors.white;
-            colorSecondText = const Color(0xff706e74);
-            colorThirdText = const Color(0xff3a393e);
-        }
-      });
-
-      debugPrint('[OK] Device checked.');
-    }
+    if (deviceChecked == false) check_device();
 
     List<Widget> homeViews = [
       eventsView(context, _todayEvents, _tomorrowEvents, _thisMonthEvents, _restOfEvents),
@@ -127,4 +117,18 @@ class _HomeState extends State<Home> {
         inactiveColor: colorNavigationBarText,
         textAlign: TextAlign.center);
   }
+
+  void check_device(){
+    setState(() {
+      var padding = MediaQuery.of(context).padding;
+      deviceHeight = MediaQuery.of(context).size.height - padding.top - padding.bottom;
+      deviceWidth = MediaQuery.of(context).size.width;
+
+      if (deviceHeight!=0 || deviceWidth!=0){
+        debugPrint('[OK] Device checked.');
+        deviceChecked = true;
+      } else check_device();
+    });
+  }
+
 }

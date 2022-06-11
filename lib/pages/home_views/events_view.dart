@@ -59,7 +59,7 @@ Container eventsView(BuildContext context, List<Event> todayEvents, List<Event> 
     for (var event in restOfEvents) eventBox(context, event),
 
 
-    if (todayEvents.isEmpty && thisMonthEvents.isEmpty && restOfEvents.isEmpty) Container(
+    if (todayEvents.isEmpty && tomorrowEvents.isEmpty && thisMonthEvents.isEmpty && restOfEvents.isEmpty) Container(
       height: deviceHeight*0.65,
       alignment: Alignment.center,
       child: Text('No tienes eventos guardados todavía. Para crear uno pulsa el botón + en la parte superior de la pantalla.',
