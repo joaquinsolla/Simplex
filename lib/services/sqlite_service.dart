@@ -114,11 +114,12 @@ Future<void> deleteEventById(int id) async {
 
 Future<void> deleteExpiredEvents() async {
 
-  int today = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).millisecondsSinceEpoch;
+  int now = DateTime.now().millisecondsSinceEpoch;
 
   final Database db = await initializeDB();
   try {
-    await db.delete("events", where: "dateTime < ?", whereArgs: [today]);
+    await db.delete("events", where: "dateTime < ?", whereArgs: [now]);
+    debugPrint("[OK] Expired event deleted");
   } catch (err) {
     debugPrint("[ERR] Could not delete expired event: $err");
   }
