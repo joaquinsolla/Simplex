@@ -14,7 +14,8 @@ String monthConversor(DateTime date){
 }
 
 String dateToString(DateTime dateTime){
-  return DateFormat('dd/MM/yyyy').format(dateTime);
+  if (formatDates == true) return DateFormat('dd/MM/yyyy').format(dateTime);
+  else return DateFormat('MM/dd/yyyy').format(dateTime);
 }
 
 String timeToString(DateTime dateTime){

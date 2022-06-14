@@ -220,7 +220,7 @@ class _HomeState extends State<Home> {
                 format24Hours = val;
                 int format24HoursInt = 0;
                 if (val==true) format24HoursInt = 1;
-                updateSettings(Setting(id: 1, format24Hours: format24HoursInt, appLocale: _settings.appLocale, darkMode: _settings.darkMode));
+                updateSettings(Setting(id: 1, format24Hours: format24HoursInt, formatDates: _settings.formatDates, appLocale: _settings.appLocale, darkMode: _settings.darkMode));
               });
               debugPrint('[OK] Time format changed');
             },
@@ -232,10 +232,32 @@ class _HomeState extends State<Home> {
         SizedBox(height: deviceHeight * 0.005,),
 
         settingsRow(
+          'Formato de fechas', 'Activado: dd/mm/aaaa (Europa).\n'
+            'Desactivado: mm/dd/aaaa (US).',
+          Switch(
+            value: formatDates,
+            onChanged: (val) {
+              setState(() {
+                formatDates = val;
+                int formatDatesInt = 0;
+                if (val==true) formatDatesInt = 1;
+                updateSettings(Setting(id: 1, format24Hours: _settings.format24Hours, formatDates: formatDatesInt, appLocale: _settings.appLocale, darkMode: _settings.darkMode));
+              });
+              debugPrint('[OK] Time format changed');
+            },
+            activeColor: colorSpecialItem,
+          ),),
+
+        SizedBox(height: deviceHeight * 0.005,),
+        Divider(color: colorThirdText),
+
+        SizedBox(height: deviceHeight * 0.005,),
+
+        settingsRow(
           'Calendario Europeo',
           'Decide en qué día comienza la semana.'
-            '\nActivado: Europeo.\n'
-            'Desactivado: Americano.',
+            '\nActivado: Lunes (Europa).\n'
+            'Desactivado: Domingo (US).',
           Switch(
             value: (appLocale == Locale('es', '')),
             onChanged: (val) {
@@ -244,7 +266,7 @@ class _HomeState extends State<Home> {
                 else appLocale = Locale('en', '');
                 int appLocaleInt = 0;
                 if (val==true) appLocaleInt = 1;
-                updateSettings(Setting(id: 1, format24Hours: _settings.format24Hours, appLocale: appLocaleInt, darkMode: _settings.darkMode));
+                updateSettings(Setting(id: 1, format24Hours: _settings.format24Hours, formatDates: _settings.formatDates, appLocale: appLocaleInt, darkMode: _settings.darkMode));
               });
               debugPrint('[OK] Calendar format changed');
             },
@@ -272,7 +294,7 @@ class _HomeState extends State<Home> {
                 darkMode = val;
                 int darkModeInt = 0;
                 if (val==true) darkModeInt = 1;
-                updateSettings(Setting(id: 1, format24Hours: _settings.format24Hours, appLocale: _settings.appLocale, darkMode: darkModeInt));
+                updateSettings(Setting(id: 1, format24Hours: _settings.format24Hours, formatDates: _settings.formatDates, appLocale: _settings.appLocale, darkMode: darkModeInt));
                 if (val == true) {
                   colorMainBackground = Colors.black;
                   colorSecondBackground = const Color(0xff1c1c1f);
@@ -328,10 +350,11 @@ class _HomeState extends State<Home> {
     });
     if (settingsRead == false){
       setState(() {
-        darkMode = (_settings.darkMode==1);
         format24Hours = (_settings.format24Hours==1);
+        formatDates = (_settings.formatDates==1);
         if (_settings.appLocale==1) appLocale = Locale('es', '');
         else appLocale = Locale('en', '');
+        darkMode = (_settings.darkMode==1);
         if (darkMode == true) {
           colorMainBackground = Colors.black;
           colorSecondBackground = const Color(0xff1c1c1f);

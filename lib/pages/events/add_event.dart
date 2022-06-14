@@ -49,6 +49,8 @@ class _AddEventState extends State<AddEvent> {
 
     String timeHintText = '00:00 (Por defecto)';
     if (format24Hours == false) timeHintText = '12:00 AM (Por defecto)';
+    String dateHintText = 'dd/mm/aaaa (Obligatorio)';
+    if (formatDates == false) dateHintText = 'mm/dd/aaaa (Obligatorio)';
 
     return Scaffold(
       backgroundColor: colorMainBackground,
@@ -83,7 +85,7 @@ class _AddEventState extends State<AddEvent> {
                   focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide(color: colorSpecialItem, width: 2),
                   ),
-                  hintText: 'dd/mm/aaaa (Obligatorio)',
+                  hintText: dateHintText,
                   hintStyle: TextStyle(color: colorThirdText),
                 ),
                 onTap: () => _dateSelector(context),
@@ -451,6 +453,9 @@ class _AddEventState extends State<AddEvent> {
   }
 
   _dateSelector(BuildContext context) async {
+    var dateFormat = DateFormat('dd/MM/yyyy');
+    if (formatDates == false) dateFormat = DateFormat('MM/dd/yyyy');
+
     final DateTime? selected = await showDatePicker(
         context: context,
         locale: appLocale,
@@ -467,7 +472,7 @@ class _AddEventState extends State<AddEvent> {
     if (selected != null && selected != DateTime.now()) {
       setState(() {
         date=selected;
-        dateController.text = dateToString(selected);
+        dateController.text = dateFormat.format(selected);
       });
     }
   }

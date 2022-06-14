@@ -13,13 +13,14 @@ Future<Database> initializeDB() async {
         """CREATE TABLE settings (
           id INTEGER PRIMARY KEY,
           format24Hours INTEGER NOT NULL,
+          formatDates INTEGER NOT NULL,
           appLocale INTEGER NOT NULL,
           darkMode INTEGER NOT NULL
           )""",
       );
       await database.execute(
-        """INSERT OR IGNORE INTO settings (id, format24Hours, appLocale, darkMode) 
-        VALUES(1, 1, 1, 0)""",
+        """INSERT OR IGNORE INTO settings (id, format24Hours, formatDates,appLocale, darkMode) 
+        VALUES(1, 1, 1, 1, 0)""",
       );
       await database.execute(
           """CREATE TABLE events (
@@ -163,16 +164,17 @@ Future<void> deleteExpiredEvents() async {
 class Setting{
   final int id;
   final int format24Hours;
+  final int formatDates;
   final int appLocale;
   final int darkMode;
 
-  Setting({required this.id, required this.format24Hours, required this.appLocale, required this.darkMode});
+  Setting({required this.id, required this.format24Hours, required this.formatDates ,required this.appLocale, required this.darkMode});
 
   Setting.settingFromMap(Map<String, dynamic> item):
-        id=item["id"], format24Hours=item["format24Hours"], appLocale=item["appLocale"], darkMode=item["darkMode"];
+        id=item["id"], format24Hours=item["format24Hours"], formatDates=item["formatDates"],appLocale=item["appLocale"], darkMode=item["darkMode"];
 
   Map<String, Object> settingToMap(){
-    return {'id':id, 'format24Hours':format24Hours, 'appLocale':appLocale, 'darkMode':darkMode};
+    return {'id':id, 'format24Hours':format24Hours, 'formatDates':formatDates, 'appLocale':appLocale, 'darkMode':darkMode};
   }
 
 }

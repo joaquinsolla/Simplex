@@ -14,5 +14,6 @@ int currentEventFilter = 0;
 
 /// SETTINGS HERE
 bool format24Hours = true;
-bool darkMode = false;
+bool formatDates = true;
 Locale appLocale = Locale('es', '');
+bool darkMode = false;

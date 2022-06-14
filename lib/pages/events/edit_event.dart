@@ -366,6 +366,9 @@ class _EditEventState extends State<EditEvent> {
   }
 
   _dateSelector(BuildContext context) async {
+    var dateFormat = DateFormat('dd/MM/yyyy');
+    if (formatDates == false) dateFormat = DateFormat('MM/dd/yyyy');
+
     final DateTime? selected = await showDatePicker(
         context: context,
         locale: appLocale,
@@ -382,7 +385,7 @@ class _EditEventState extends State<EditEvent> {
     if (selected != null && selected != DateTime.now()) {
       setState(() {
         date = selected;
-        dateController.text = dateToString(selected);
+        dateController.text = dateFormat.format(selected);
       });
     }
   }
