@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/sqlite_service.dart';
 
@@ -387,6 +388,9 @@ class _EditEventState extends State<EditEvent> {
   }
 
   _timeSelector(BuildContext context) async {
+    var timeFormat = DateFormat("HH:mm");
+    if (format24Hours == false) timeFormat = DateFormat("h:mm aa");
+
     final TimeOfDay? selected = await showTimePicker(
       context: context,
       helpText: "SELECCIONA LA HORA DEL EVENTO",
@@ -397,8 +401,9 @@ class _EditEventState extends State<EditEvent> {
     );
     if (selected != null) {
       setState(() {
-        time = selected;
-        timeController.text = selected.hour.toString().padLeft(2, '0') + ':' + selected.minute.toString().padLeft(2, '0');
+        time=selected;
+        DateTime auxDateTime = DateTime(2000, 1, 1, selected.hour, selected.minute);
+        timeController.text = timeFormat.format(auxDateTime);
       });
     }
   }

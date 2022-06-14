@@ -10,6 +10,18 @@ Future<Database> initializeDB() async {
     join(path, 'simplex.db'),
     onCreate: (database, version) async {
       await database.execute(
+        """CREATE TABLE settings (
+          id INTEGER PRIMARY KEY,
+          format24Hours INTEGER NOT NULL,
+          appLocale INTEGER NOT NULL,
+          darkMode INTEGER NOT NULL
+          )""",
+      );
+      await database.execute(
+        """INSERT OR IGNORE INTO settings (id, format24Hours, appLocale, darkMode) 
+        VALUES(1, 1, 1, 0)""",
+      );
+      await database.execute(
           """CREATE TABLE events (
           id INTEGER PRIMARY KEY, 
           name TEXT NOT NULL,
@@ -33,6 +45,23 @@ Future<Database> initializeDB() async {
     },
     version: 1,
   );
+}
+
+/// SETTINGS MANAGEMENT HERE
+Future<List<Setting>> getSettings() async {
+  final Database db = await initializeDB();
+  final List<Map<String, Object?>> queryResult =
+  await db.query('settings');
+  debugPrint('[OK] Read settings');
+  return queryResult.map((e) => Setting.settingFromMap(e)).toList();
+}
+
+Future<void> updateSettings(Setting setting) async {
+  final Database db = await initializeDB();
+  await db.insert(
+      'settings', setting.settingToMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace);
+  debugPrint("[OK] Settings DB updated");
 }
 
 /// EVENTS MANAGEMENT HERE
@@ -131,10 +160,27 @@ Future<void> deleteExpiredEvents() async {
 
 /// CLASSES HERE
 
+class Setting{
+  final int id;
+  final int format24Hours;
+  final int appLocale;
+  final int darkMode;
+
+  Setting({required this.id, required this.format24Hours, required this.appLocale, required this.darkMode});
+
+  Setting.settingFromMap(Map<String, dynamic> item):
+        id=item["id"], format24Hours=item["format24Hours"], appLocale=item["appLocale"], darkMode=item["darkMode"];
+
+  Map<String, Object> settingToMap(){
+    return {'id':id, 'format24Hours':format24Hours, 'appLocale':appLocale, 'darkMode':darkMode};
+  }
+
+}
+
 class Event{
   final int id;
   final String name;
-  String description;
+  final String description;
   final int dateTime;
   final int color;
   final int notification5Min;

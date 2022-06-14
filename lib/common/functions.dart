@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/notification_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -17,7 +18,8 @@ String dateToString(DateTime dateTime){
 }
 
 String timeToString(DateTime dateTime){
-  return DateFormat('HH:mm').format(dateTime);
+  if (format24Hours==true) return DateFormat('HH:mm').format(dateTime);
+  else return DateFormat('h:mm aa').format(dateTime);
 }
 
 String millisecondsToStringDate(int millis){

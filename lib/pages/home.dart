@@ -1,6 +1,5 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:intl/intl.dart';
@@ -22,27 +21,16 @@ class _HomeState extends State<Home> {
   List<Event> _tomorrowEvents = [];
   List<Event> _thisMonthEvents = [];
   List<Event> _restOfEvents = [];
+  late Setting _settings;
 
   @override
   void initState() {
     super.initState();
-    darkMode = SchedulerBinding.instance!.window.platformBrightness == Brightness.dark;
-    if (darkMode) {
-      colorMainBackground = Colors.black;
-      colorSecondBackground = const Color(0xff1c1c1f);
-      colorThirdBackground = const Color(0xff706e74);
-      colorButtonText = const Color(0xff1c1c1f);
-      colorNavigationBarBackground = const Color(0xff1c1c1f);
-      colorNavigationBarText = const Color(0xff3a393e);
-      colorMainText = Colors.white;
-      colorSecondText = const Color(0xff706e74);
-      colorThirdText = const Color(0xff3a393e);
-    }
+    selectedEvent = null;
     initializeDB().whenComplete(() async {
+      _readSettings();
+      deleteExpiredEvents();
       _refreshEvents();
-      setState(() {
-        selectedEvent = null;
-      });
     });
   }
 
@@ -59,6 +47,7 @@ class _HomeState extends State<Home> {
     List<Widget> homeViews = [
       eventsView(),
       habitsView(),
+      todosView(),
       notesView(),
       settingsView()
     ];
@@ -88,11 +77,6 @@ class _HomeState extends State<Home> {
     late IconData filterIcon;
     if (useEventFilters==false) filterIcon = Icons.filter_list_rounded;
     else filterIcon = Icons.filter_list_off_rounded;
-
-    if (expiredEventsDeleted==false){
-      deleteExpiredEvents();
-      expiredEventsDeleted=true;
-    }
 
     return homeArea([
       homeHeaderAdvanced('Eventos',
@@ -186,7 +170,7 @@ class _HomeState extends State<Home> {
     ]);
   }
 
-  Container notesView() {
+  Container todosView() {
     return homeArea([
       homeHeaderSimple(
         'To-Do',
@@ -200,10 +184,124 @@ class _HomeState extends State<Home> {
     ]);
   }
 
-  Container settingsView(){
+  Container notesView() {
+    return homeArea([
+      homeHeaderSimple(
+        'Notas',
+        IconButton(
+          icon: Icon(Icons.add_rounded,
+              color: colorSpecialItem, size: deviceWidth * 0.085),
+          splashRadius: 0.001,
+          onPressed: () {},
+        ),
+      ),
+    ]);
+  }
+
+  Container settingsView() {
     return homeArea([
       headerText('Ajustes'),
-      SizedBox(height: deviceHeight*0.03,),
+      SizedBox(height: deviceHeight * 0.03,),
+      Text('Formatos y medidas',
+          style: TextStyle(
+              color: colorMainText,
+              fontSize: deviceWidth * 0.05,
+              fontWeight: FontWeight.bold)
+      ),
+      SizedBox(height: deviceHeight * 0.005,),
+      alternativeFormContainer([
+        settingsRow(
+          'Formato 24 horas', 'Activado: 24 horas.\n'
+            'Desactivado: 12 horas + AM/PM.',
+          Switch(
+            value: format24Hours,
+            onChanged: (val) {
+              setState(() {
+                format24Hours = val;
+                int format24HoursInt = 0;
+                if (val==true) format24HoursInt = 1;
+                updateSettings(Setting(id: 1, format24Hours: format24HoursInt, appLocale: _settings.appLocale, darkMode: _settings.darkMode));
+              });
+              debugPrint('[OK] Time format changed');
+            },
+            activeColor: colorSpecialItem,
+          ),),
+
+        SizedBox(height: deviceHeight * 0.005,),
+        Divider(color: colorThirdText),
+        SizedBox(height: deviceHeight * 0.005,),
+
+        settingsRow(
+          'Calendario Europeo',
+          'Decide en qué día comienza la semana.'
+            '\nActivado: Europeo.\n'
+            'Desactivado: Americano.',
+          Switch(
+            value: (appLocale == Locale('es', '')),
+            onChanged: (val) {
+              setState(() {
+                if (val==true) appLocale = Locale('es', '');
+                else appLocale = Locale('en', '');
+                int appLocaleInt = 0;
+                if (val==true) appLocaleInt = 1;
+                updateSettings(Setting(id: 1, format24Hours: _settings.format24Hours, appLocale: appLocaleInt, darkMode: _settings.darkMode));
+              });
+              debugPrint('[OK] Calendar format changed');
+            },
+            activeColor: colorSpecialItem,
+          ),),
+
+        SizedBox(height: deviceHeight * 0.005,),
+      ]),
+      SizedBox(height: deviceHeight * 0.03,),
+      Text('Apariencia',
+          style: TextStyle(
+              color: colorMainText,
+              fontSize: deviceWidth * 0.05,
+              fontWeight: FontWeight.bold)
+      ),
+      SizedBox(height: deviceHeight * 0.005,),
+      alternativeFormContainer([
+        settingsRow(
+          'Tema oscuro', 'Activado: Tema oscuro.\n'
+            'Desactivado: Tema claro.',
+          Switch(
+            value: darkMode,
+            onChanged: (val) {
+              setState(() {
+                darkMode = val;
+                int darkModeInt = 0;
+                if (val==true) darkModeInt = 1;
+                updateSettings(Setting(id: 1, format24Hours: _settings.format24Hours, appLocale: _settings.appLocale, darkMode: darkModeInt));
+                if (val == true) {
+                  colorMainBackground = Colors.black;
+                  colorSecondBackground = const Color(0xff1c1c1f);
+                  colorThirdBackground = const Color(0xff706e74);
+                  colorButtonText = const Color(0xff1c1c1f);
+                  colorNavigationBarBackground = const Color(0xff1c1c1f);
+                  colorNavigationBarText = const Color(0xff3a393e);
+                  colorMainText = Colors.white;
+                  colorSecondText = const Color(0xff706e74);
+                  colorThirdText = const Color(0xff3a393e);
+                } else {
+                  colorMainBackground = const Color(0xfff2f2f7);
+                  colorSecondBackground = Colors.white;
+                  colorThirdBackground = const Color(0xffe3e3e9);
+                  colorButtonText = Colors.white;
+                  colorNavigationBarBackground = const Color(0xffe3e3e9);
+                  colorNavigationBarText = const Color(0xff747471);
+                  colorMainText = Colors.black;
+                  colorSecondText = Colors.grey;
+                  colorThirdText = const Color(0xff747471);
+                }
+              });
+              debugPrint('[OK] DarkMode changed');
+            },
+            activeColor: colorSpecialItem,
+          ),),
+
+        SizedBox(height: deviceHeight * 0.005,),
+      ]),
 
     ]);
   }
@@ -221,6 +319,34 @@ class _HomeState extends State<Home> {
         deviceChecked = true;
       } else check_device();
     });
+  }
+
+  void _readSettings() async {
+    final settings = await getSettings();
+    setState(() {
+      _settings = settings[0];
+    });
+    if (settingsRead == false){
+      setState(() {
+        darkMode = (_settings.darkMode==1);
+        format24Hours = (_settings.format24Hours==1);
+        if (_settings.appLocale==1) appLocale = Locale('es', '');
+        else appLocale = Locale('en', '');
+        if (darkMode == true) {
+          colorMainBackground = Colors.black;
+          colorSecondBackground = const Color(0xff1c1c1f);
+          colorThirdBackground = const Color(0xff706e74);
+          colorButtonText = const Color(0xff1c1c1f);
+          colorNavigationBarBackground = const Color(0xff1c1c1f);
+          colorNavigationBarText = const Color(0xff3a393e);
+          colorMainText = Colors.white;
+          colorSecondText = const Color(0xff706e74);
+          colorThirdText = const Color(0xff3a393e);
+        }
+        settingsRead = true;
+      });
+    }
+    debugPrint('[OK] Read settings');
   }
 
   void _refreshEvents() async {
@@ -253,6 +379,7 @@ class _HomeState extends State<Home> {
         myBottomNavyBarItem('Eventos', const Icon(Icons.today_rounded)),
         myBottomNavyBarItem('Hábitos', const Icon(Icons.lightbulb_outline_rounded)),
         myBottomNavyBarItem('To-Do', const Icon(Icons.check_circle_outline_rounded)),
+        myBottomNavyBarItem('Notas', const Icon(Icons.sticky_note_2_outlined)),
         myBottomNavyBarItem('Ajustes', const Icon(Icons.settings_outlined)),
       ],
     );
@@ -283,6 +410,7 @@ class _HomeState extends State<Home> {
     Color backgroundColor = colorThirdBackground;
     if (darkMode) backgroundColor = colorSecondBackground;
     String eventTime = DateFormat('HH:mm').format(DateTime.fromMicrosecondsSinceEpoch(event.dateTime*1000));
+    if (format24Hours==false) eventTime = DateFormat('h:mm aa').format(DateTime.fromMicrosecondsSinceEpoch(event.dateTime*1000));
     Color timeColor = colorSecondText;
     Color iconColor = colorSpecialItem;
     if(event.color != -1) {

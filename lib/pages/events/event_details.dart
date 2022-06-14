@@ -27,6 +27,7 @@ class _EventDetailsState extends State<EventDetails> {
 
     String eventDate = DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.dateTime*1000));
     String eventTime = DateFormat('HH:mm').format(DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.dateTime*1000));
+    if (format24Hours==false) eventTime = DateFormat('h:mm aa').format(DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.dateTime*1000));
     String colorName = 'Por defecto';
     int colorCode = selectedEvent!.color;
 

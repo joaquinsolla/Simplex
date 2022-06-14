@@ -178,5 +178,29 @@ Container eventActionsButton(IconData icon, Color color, String text, Function()
   );
 }
 
-
-
+Row settingsRow (String mainText, String secondText, Widget widget) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Container(
+        width: deviceWidth * 0.6,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(mainText, style: TextStyle(
+                color: colorMainText,
+                fontSize: deviceWidth * 0.0475,
+                fontWeight: FontWeight.bold),),
+            SizedBox(height: deviceHeight*0.0025,),
+            Text(secondText, style: TextStyle(
+                color: colorSecondText,
+                fontSize: deviceWidth * 0.0325,
+                fontWeight: FontWeight.normal),),
+          ],
+        ),
+      ),
+      Expanded(child: Text(''),),
+      widget
+    ],);
+}

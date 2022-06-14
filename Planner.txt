@@ -2,6 +2,7 @@ TO-DO:
 crear widgets en el escritorio
 link para compartir evento
 seleccionar formato de hora
+solo vertical o arreglar medidas?
 
 DOING:
 

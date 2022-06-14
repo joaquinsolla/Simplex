@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/sqlite_service.dart';
 
@@ -45,6 +46,9 @@ class _AddEventState extends State<AddEvent> {
 
   @override
   Widget build(BuildContext context) {
+
+    String timeHintText = '00:00 (Por defecto)';
+    if (format24Hours == false) timeHintText = '12:00 AM (Por defecto)';
 
     return Scaffold(
       backgroundColor: colorMainBackground,
@@ -113,7 +117,7 @@ class _AddEventState extends State<AddEvent> {
                   focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide(color: colorSpecialItem, width: 2),
                   ),
-                  hintText: '00:00 (Por defecto)',
+                  hintText: timeHintText,
                   hintStyle: TextStyle(color: colorThirdText),
                 ),
                 onTap: () => _timeSelector(context),
@@ -469,6 +473,9 @@ class _AddEventState extends State<AddEvent> {
   }
 
   _timeSelector(BuildContext context) async {
+    var timeFormat = DateFormat("HH:mm");
+    if (format24Hours == false) timeFormat = DateFormat("h:mm aa");
+
     final TimeOfDay? selected = await showTimePicker(
       context: context,
       helpText: "SELECCIONA LA HORA DEL EVENTO",
@@ -480,7 +487,8 @@ class _AddEventState extends State<AddEvent> {
     if (selected != null) {
       setState(() {
         time=selected;
-        timeController.text = selected.hour.toString().padLeft(2, '0') + ':' + selected.minute.toString().padLeft(2, '0');
+        DateTime auxDateTime = DateTime(2000, 1, 1, selected.hour, selected.minute);
+        timeController.text = timeFormat.format(auxDateTime);
       });
     }
   }
