@@ -199,6 +199,12 @@ class _HomeState extends State<Home> {
   }
 
   Container settingsView() {
+
+    late int format24HoursInt;
+    late int formatDatesInt;
+    late int appLocaleInt;
+    late int darkModeInt;
+
     return homeArea([
       headerText('Ajustes'),
       SizedBox(height: deviceHeight * 0.03,),
@@ -218,9 +224,16 @@ class _HomeState extends State<Home> {
             onChanged: (val) {
               setState(() {
                 format24Hours = val;
-                int format24HoursInt = 0;
-                if (val==true) format24HoursInt = 1;
-                updateSettings(Setting(id: 1, format24Hours: format24HoursInt, formatDates: _settings.formatDates, appLocale: _settings.appLocale, darkMode: _settings.darkMode));
+                if (val==false) format24HoursInt = 0;
+                else format24HoursInt = 1;
+                // To avoid data lost
+                if (formatDates==false) formatDatesInt=0;
+                else formatDatesInt=1;
+                if (appLocale==Locale('es', '')) appLocaleInt=1;
+                else appLocaleInt=0;
+                if (darkMode==false) darkModeInt=0;
+                else darkModeInt=1;
+                updateSettings(Setting(id: 1, format24Hours: format24HoursInt, formatDates: formatDatesInt, appLocale: appLocaleInt, darkMode: darkModeInt));
               });
               debugPrint('[OK] Time format changed');
             },
@@ -239,9 +252,16 @@ class _HomeState extends State<Home> {
             onChanged: (val) {
               setState(() {
                 formatDates = val;
-                int formatDatesInt = 0;
-                if (val==true) formatDatesInt = 1;
-                updateSettings(Setting(id: 1, format24Hours: _settings.format24Hours, formatDates: formatDatesInt, appLocale: _settings.appLocale, darkMode: _settings.darkMode));
+                if (val==false) formatDatesInt = 0;
+                else formatDatesInt = 1;
+                // To avoid data lost
+                if (format24Hours==false) format24HoursInt=0;
+                else format24HoursInt=1;
+                if (appLocale==Locale('es', '')) appLocaleInt=1;
+                else appLocaleInt=0;
+                if (darkMode==false) darkModeInt=0;
+                else darkModeInt=1;
+                updateSettings(Setting(id: 1, format24Hours: format24HoursInt, formatDates: formatDatesInt, appLocale: appLocaleInt, darkMode: darkModeInt));
               });
               debugPrint('[OK] Time format changed');
             },
@@ -264,9 +284,16 @@ class _HomeState extends State<Home> {
               setState(() {
                 if (val==true) appLocale = Locale('es', '');
                 else appLocale = Locale('en', '');
-                int appLocaleInt = 0;
-                if (val==true) appLocaleInt = 1;
-                updateSettings(Setting(id: 1, format24Hours: _settings.format24Hours, formatDates: _settings.formatDates, appLocale: appLocaleInt, darkMode: _settings.darkMode));
+                if (val==false) appLocaleInt = 0;
+                else appLocaleInt = 1;
+                // To avoid data lost
+                if (format24Hours==false) format24HoursInt=0;
+                else format24HoursInt=1;
+                if (formatDates==false) formatDatesInt=0;
+                else formatDatesInt=1;
+                if (darkMode==false) darkModeInt=0;
+                else darkModeInt=1;
+                updateSettings(Setting(id: 1, format24Hours: format24HoursInt, formatDates: formatDatesInt, appLocale: appLocaleInt, darkMode: darkModeInt));
               });
               debugPrint('[OK] Calendar format changed');
             },
@@ -292,9 +319,16 @@ class _HomeState extends State<Home> {
             onChanged: (val) {
               setState(() {
                 darkMode = val;
-                int darkModeInt = 0;
-                if (val==true) darkModeInt = 1;
-                updateSettings(Setting(id: 1, format24Hours: _settings.format24Hours, formatDates: _settings.formatDates, appLocale: _settings.appLocale, darkMode: darkModeInt));
+                if (val==false) darkModeInt = 0;
+                else darkModeInt = 1;
+                // To avoid data lost
+                if (format24Hours==false) format24HoursInt=0;
+                else format24HoursInt=1;
+                if (formatDates==false) formatDatesInt=0;
+                else formatDatesInt=1;
+                if (appLocale==Locale('es', '')) appLocaleInt=1;
+                else appLocaleInt=0;
+                updateSettings(Setting(id: 1, format24Hours: format24HoursInt, formatDates: formatDatesInt, appLocale: appLocaleInt, darkMode: darkModeInt));
                 if (val == true) {
                   colorMainBackground = Colors.black;
                   colorSecondBackground = const Color(0xff1c1c1f);
