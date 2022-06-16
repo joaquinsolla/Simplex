@@ -16,6 +16,23 @@ Container homeArea(List<Widget> children) {
   );
 }
 
+Row authHeader(){
+  return Row(
+    children: [
+      Image.asset('assets/app_icon_preview.png', scale: deviceWidth*0.0175,),
+      SizedBox(width: deviceWidth*0.01,),
+      Container(
+        width: deviceWidth*0.65,
+        child: Text('Bienvenido a Simplex',
+            style: TextStyle(
+                color: colorMainText,
+                fontSize: deviceWidth * 0.1,
+                fontWeight: FontWeight.bold)),
+      ),
+    ],
+  );
+}
+
 Container headerText(String content) {
   return Container(
     child: Text(content,

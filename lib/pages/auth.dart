@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/pages/home.dart';
 import 'package:simplex/services/login_service.dart';
+import 'package:simplex/services/signup_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 
@@ -30,7 +30,6 @@ class _AuthState extends State<Auth> {
   @override
   Widget build(BuildContext context) {
 
-
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: StreamBuilder<User?>(
@@ -39,11 +38,13 @@ class _AuthState extends State<Auth> {
           if (snapshot.connectionState == ConnectionState.waiting){
             return Center(child: CircularProgressIndicator(color: colorSpecialItem,),);
           } else if (snapshot.hasError){
-            return LoginService();
+            if (atLogin) return LogInService();
+            else return SignUpService();
           } else if(snapshot.hasData){
             return Home();
           }else{
-            return LoginService();
+            if (atLogin) return LogInService();
+            else return SignUpService();
           }
         }
       ),
