@@ -1,6 +1,9 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:simplex/services/sqlite_service.dart';
+
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 /// COMMON VARIABLES HERE
 double deviceHeight = 0;

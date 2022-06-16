@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "571454302105",
+    "project_id": "simplex-56bdd",
+    "storage_bucket": "simplex-56bdd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571454302105:android:8c74af07b39bc9bfe1d508",
+        "android_client_info": {
+          "package_name": "com.joa.simplex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "571454302105-74j42o3g9pukedspgcc3urrdcmi6o7mb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATxsEje-1-syrvqo7KfLwtcOMR90L_yJI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "571454302105-74j42o3g9pukedspgcc3urrdcmi6o7mb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

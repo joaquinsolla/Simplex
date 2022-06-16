@@ -1,4 +1,5 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
@@ -42,6 +43,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
+    final user = FirebaseAuth.instance.currentUser!;
+
     if (deviceChecked == false) check_device();
 
     List<Widget> homeViews = [
@@ -49,7 +52,7 @@ class _HomeState extends State<Home> {
       habitsView(),
       todosView(),
       notesView(),
-      settingsView()
+      settingsView(user)
     ];
 
     return Scaffold(
@@ -198,7 +201,7 @@ class _HomeState extends State<Home> {
     ]);
   }
 
-  Container settingsView() {
+  Container settingsView(User user) {
 
     late int format24HoursInt;
     late int formatDatesInt;
@@ -270,7 +273,6 @@ class _HomeState extends State<Home> {
 
         SizedBox(height: deviceHeight * 0.005,),
         Divider(color: colorThirdText),
-
         SizedBox(height: deviceHeight * 0.005,),
 
         settingsRow(
@@ -359,6 +361,60 @@ class _HomeState extends State<Home> {
         SizedBox(height: deviceHeight * 0.005,),
       ]),
 
+      SizedBox(height: deviceHeight * 0.03,),
+      Text('Cuenta',
+          style: TextStyle(
+              color: colorMainText,
+              fontSize: deviceWidth * 0.05,
+              fontWeight: FontWeight.bold)
+      ),
+      SizedBox(height: deviceHeight * 0.005,),
+      alternativeFormContainer([
+        Text('Email:', style: TextStyle(
+            color: colorMainText,
+            fontSize: deviceWidth * 0.0475,
+            fontWeight: FontWeight.bold),),
+        SizedBox(height: deviceHeight*0.0025,),
+        Text(user.email!, style: TextStyle(
+            color: colorSecondText,
+            fontSize: deviceWidth * 0.04,
+            fontWeight: FontWeight.normal),),
+        SizedBox(height: deviceHeight * 0.005,),
+      ]),
+      SizedBox(height: deviceHeight * 0.025),
+      Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: colorSecondBackground,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [ SizedBox(
+            width: deviceWidth*0.8,
+            height: deviceHeight*0.07,
+            child: TextButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.logout_rounded, color: Colors.red, size: deviceWidth * 0.06),
+                  Text(
+                    ' Cerrar sesión ',
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontSize: deviceWidth * 0.05,
+                        fontWeight: FontWeight.normal),
+                  ),
+                  Icon(Icons.logout_rounded, color: Colors.transparent, size: deviceWidth * 0.06),
+                ],
+              ),
+              onPressed: () => FirebaseAuth.instance.signOut(),
+            ),
+          ),],
+        ),
+      ),
+      SizedBox(height: deviceHeight * 0.025),
     ]);
   }
 
