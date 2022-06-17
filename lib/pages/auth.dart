@@ -4,8 +4,8 @@ import 'package:simplex/common/all_common.dart';
 import 'package:simplex/pages/home.dart';
 import 'package:simplex/services/login_service.dart';
 import 'package:simplex/services/signup_service.dart';
+import 'package:simplex/services/recover_password_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 
 class Auth extends StatefulWidget {
   const Auth({Key? key}) : super(key: key);
@@ -38,13 +38,15 @@ class _AuthState extends State<Auth> {
           if (snapshot.connectionState == ConnectionState.waiting){
             return Center(child: CircularProgressIndicator(color: colorSpecialItem,),);
           } else if (snapshot.hasError){
-            if (atLogin) return LogInService();
-            else return SignUpService();
+            if (loginIndex == 0) return LogInService();
+            else if (loginIndex == 1) return SignUpService();
+            else return RecoverPasswordService();
           } else if(snapshot.hasData){
             return Home();
           }else{
-            if (atLogin) return LogInService();
-            else return SignUpService();
+            if (loginIndex == 0)return LogInService();
+            else if (loginIndex == 1)  return SignUpService();
+            else return RecoverPasswordService();
           }
         }
       ),

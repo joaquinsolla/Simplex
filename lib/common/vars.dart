@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:simplex/services/sqlite_service.dart';
 
+/// AUTH VARIABLES HERE
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-bool atLogin = true;
 
 /// COMMON VARIABLES HERE
+int loginIndex = 0;
 double deviceHeight = 0;
 double deviceWidth = 0;
 bool deviceChecked = false;

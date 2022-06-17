@@ -153,17 +153,29 @@ class _LogInServiceState extends State<LogInService> {
           SizedBox(height: deviceHeight * 0.025),
           TextButton(
             child: Container(
+              child: Text('¿Has olvidado tu contraseña?', style: TextStyle(color: colorSpecialItem, fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal, decoration: TextDecoration.underline),),
+            ),
+            onPressed: (){
+              loginIndex = 2;
+              Navigator.pushReplacementNamed(context, '/auth');
+            },
+          ),
+          SizedBox(height: deviceHeight * 0.01),
+          customDivider('O'),
+          SizedBox(height: deviceHeight * 0.01),
+          TextButton(
+            child: Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('¿Todavía no tienes una cuenta?  ', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal),),
+                  Text('¿No tienes una cuenta?  ', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal),),
                   Text('Regístrate', style: TextStyle(color: colorSpecialItem, fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal, decoration: TextDecoration.underline),),
                 ],
               ),
             ),
             onPressed: (){
-              atLogin = false;
+              loginIndex = 1;
               Navigator.pushReplacementNamed(context, '/auth');
             },
           ),
@@ -194,7 +206,7 @@ class _LogInServiceState extends State<LogInService> {
         duration: Duration(seconds: 2),
       ));
       else if (e.message!.contains('There is no user record corresponding to this identifier. The user may have been deleted.')) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("No existe una cuenta con este email"),
+        content: Text("No existe ninguna cuenta con este email"),
         backgroundColor: Colors.red,
         behavior: SnackBarBehavior.floating,
         duration: Duration(seconds: 2),
@@ -205,7 +217,7 @@ class _LogInServiceState extends State<LogInService> {
         behavior: SnackBarBehavior.floating,
         duration: Duration(seconds: 2),
       ));
-      print(e);
+      debugPrint('[ERR] ' + e.message.toString());
     }
     navigatorKey.currentState!.pop();
   }

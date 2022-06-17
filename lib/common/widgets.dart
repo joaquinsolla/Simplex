@@ -16,13 +16,38 @@ Container homeArea(List<Widget> children) {
   );
 }
 
+Row customDivider (String label){
+  return Row(children: <Widget>[
+    Expanded(
+      child: new Container(
+          margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+          child: Divider(
+            color: colorThirdText,
+          )),
+    ),
+
+    Text(label, style: TextStyle(
+        color: colorSecondText,
+        fontSize: deviceWidth * 0.0375,
+        fontWeight: FontWeight.normal),),
+
+    Expanded(
+      child: new Container(
+          margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+          child: Divider(
+            color: colorThirdText,
+          )),
+    ),
+  ]);
+}
+
 Row authHeader(){
   return Row(
     children: [
       Image.asset('assets/app_icon_preview.png', scale: deviceWidth*0.0175,),
-      SizedBox(width: deviceWidth*0.01,),
+      SizedBox(width: deviceWidth*0.02,),
       Container(
-        width: deviceWidth*0.65,
+        width: deviceWidth*0.625,
         child: Text('Bienvenido a Simplex',
             style: TextStyle(
                 color: colorMainText,

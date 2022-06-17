@@ -409,7 +409,10 @@ class _HomeState extends State<Home> {
                   Icon(Icons.logout_rounded, color: Colors.transparent, size: deviceWidth * 0.06),
                 ],
               ),
-              onPressed: () => FirebaseAuth.instance.signOut(),
+              onPressed: (){
+                loginIndex = 0;
+                FirebaseAuth.instance.signOut();
+              },
             ),
           ),],
         ),

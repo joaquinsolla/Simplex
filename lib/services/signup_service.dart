@@ -159,7 +159,7 @@ class _SignUpServiceState extends State<SignUpService> {
                           Icons.person_add_alt_rounded, color: colorSpecialItem,
                           size: deviceWidth * 0.06),
                       Text(
-                        ' Regístrame ',
+                        ' Registrarme ',
                         style: TextStyle(
                             color: colorSpecialItem,
                             fontSize: deviceWidth * 0.05,
@@ -231,7 +231,7 @@ class _SignUpServiceState extends State<SignUpService> {
               ),
             ),
             onPressed: (){
-              atLogin = true;
+              loginIndex = 0;
               Navigator.pushReplacementNamed(context, '/auth');
             },
           ),
@@ -263,7 +263,7 @@ class _SignUpServiceState extends State<SignUpService> {
         behavior: SnackBarBehavior.floating,
         duration: Duration(seconds: 2),
       ));
-      print(e);
+      debugPrint('[ERR] ' + e.message.toString());
     }
     navigatorKey.currentState!.pop();
   }

@@ -5,8 +5,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:simplex/services/login_service.dart';
-import 'package:simplex/services/signup_service.dart';
 
 import 'common/vars.dart';
 import 'pages/all_pages.dart';
@@ -31,8 +29,6 @@ Future main() async {
     initialRoute: '/auth',
     routes: {
       '/auth': (context) => const Auth(),
-      '/login_service': (context) => const LogInService(),
-      '/signup_service': (context) => const SignUpService(),
       '/home': (context) => const Home(),
       '/events/add_event': (context) => const AddEvent(),
       '/events/event_details': (context) => const EventDetails(),
