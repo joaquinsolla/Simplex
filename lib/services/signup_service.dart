@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
-
+import 'package:simplex/services/firestore_service.dart';
 
 class SignUpService extends StatefulWidget{
   const SignUpService({Key? key}) : super(key: key);
@@ -265,6 +265,7 @@ class _SignUpServiceState extends State<SignUpService> {
       ));
       debugPrint('[ERR] ' + e.message.toString());
     }
+    createUserDoc();
     navigatorKey.currentState!.pop();
   }
 

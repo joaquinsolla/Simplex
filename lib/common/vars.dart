@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simplex/services/sqlite_service.dart';
+import 'package:simplex/classes/event.dart';
 
 /// AUTH VARIABLES HERE
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

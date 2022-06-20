@@ -6,7 +6,8 @@ import 'package:focused_menu/modals.dart';
 import 'package:intl/intl.dart';
 
 import 'package:simplex/common/all_common.dart';
-import 'package:simplex/services/sqlite_service.dart';
+import 'package:simplex/classes/event.dart';
+import 'package:simplex/services/firestore_service.dart';
 import 'all_pages.dart';
 
 class Home extends StatefulWidget {
@@ -18,21 +19,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final _pageController = PageController();
-  List<Event> _todayEvents = [];
-  List<Event> _tomorrowEvents = [];
-  List<Event> _thisMonthEvents = [];
-  List<Event> _restOfEvents = [];
-  late Setting _settings;
 
   @override
   void initState() {
     super.initState();
     selectedEvent = null;
-    initializeDB().whenComplete(() async {
-      _readSettings();
-      deleteExpiredEvents();
-      _refreshEvents();
-    });
   }
 
   @override
@@ -73,10 +64,8 @@ class _HomeState extends State<Home> {
   /// VIEWS
   Container eventsView() {
 
-    String todayAmount = _todayEvents.length.toString();
-    String tomorrowAmount = _tomorrowEvents.length.toString();
-    String thisMonthAmount = _thisMonthEvents.length.toString();
-    String restAmount = _restOfEvents.length.toString();
+    bool hasEvents = false;
+
     late IconData filterIcon;
     if (useEventFilters==false) filterIcon = Icons.filter_list_rounded;
     else filterIcon = Icons.filter_list_off_rounded;
@@ -98,7 +87,7 @@ class _HomeState extends State<Home> {
               color: colorSpecialItem, size: deviceWidth * 0.085),
           splashRadius: 0.001,
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/events/add_event');
+            Navigator.pushNamed(context, '/events/add_event');
           },
         ),
       ),
@@ -106,56 +95,160 @@ class _HomeState extends State<Home> {
       if(useEventFilters) filterSelector(),
       if(useEventFilters) SizedBox(height: deviceHeight*0.02,),
 
-      if (_todayEvents.isNotEmpty && useEventFilters==false) Text('Hoy ($todayAmount)',
-          style: TextStyle(
-              color: colorMainText,
-              fontSize: deviceWidth * 0.05,
-              fontWeight: FontWeight.bold)
-      ),
-      if (_todayEvents.isNotEmpty && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
-      if (useEventFilters==false) for (var event in _todayEvents)eventBox(context, event),
-      if (useEventFilters) for (var event in _todayEvents) if (event.color == currentEventFilter || currentEventFilter==0) eventBox(context, event),
+      StreamBuilder<List<Event>>(
+          stream: readTodayEvents(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              debugPrint('[ERR] ' + snapshot.error.toString());
+              return Container(
+                height: deviceHeight * 0.65,
+                alignment: Alignment.center,
+                child: Text(
+                  'Ha ocurrido un error. Revisa tu conexión a Internet o reinicia la app.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: deviceWidth * 0.0475, color: colorSecondText),),
+              );
+            } else if (snapshot.hasData) {
+              final events = snapshot.data!;
+              if (events.length>0) hasEvents = true;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (events.length>0 && useEventFilters==false) Text('Hoy (' + events.length.toString() + ')',
+                      style: TextStyle(
+                          color: colorMainText,
+                          fontSize: deviceWidth * 0.05,
+                          fontWeight: FontWeight.bold)
+                  ),
+                  if (useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
+                  Column(
+                    children: events.map(buildEventBox).toList(),),
+                  if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
+                ],);
+            } else {
+              return Container();
+            }
+          }),
 
-      if (_tomorrowEvents.isNotEmpty && useEventFilters==false) SizedBox(height: deviceHeight * 0.02),
-      if (_tomorrowEvents.isNotEmpty && useEventFilters==false) Text('Mañana ($tomorrowAmount)',
-          style: TextStyle(
-              color: colorMainText,
-              fontSize: deviceWidth * 0.05,
-              fontWeight: FontWeight.bold)
-      ),
-      if (_tomorrowEvents.isNotEmpty && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
-      if (useEventFilters==false) for (var event in _tomorrowEvents)eventBox(context, event),
-      if (useEventFilters) for (var event in _tomorrowEvents) if (event.color == currentEventFilter || currentEventFilter==0) eventBox(context, event),
+      StreamBuilder<List<Event>>(
+          stream: readTomorrowEvents(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              debugPrint('[ERR] ' + snapshot.error.toString());
+              return Container(
+                height: deviceHeight * 0.65,
+                alignment: Alignment.center,
+                child: Text(
+                  'Ha ocurrido un error. Revisa tu conexión a Internet o reinicia la app.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: deviceWidth * 0.0475, color: colorSecondText),),
+              );
+            } else if (snapshot.hasData) {
+              final events = snapshot.data!;
+              if (events.length>0) hasEvents = true;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (events.length>0 && useEventFilters==false) Text('Mañana (' + events.length.toString() + ')',
+                      style: TextStyle(
+                          color: colorMainText,
+                          fontSize: deviceWidth * 0.05,
+                          fontWeight: FontWeight.bold)
+                  ),
+                  if (useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
+                  Column(
+                    children: events.map(buildEventBox).toList(),),
+                  if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
+                ],);
+            } else {
+              return Container();
+            }
+          }),
 
-      if (_thisMonthEvents.isNotEmpty && useEventFilters==false) SizedBox(height: deviceHeight * 0.02),
-      if (_thisMonthEvents.isNotEmpty && useEventFilters==false) Text('Este mes ($thisMonthAmount)',
-          style: TextStyle(
-              color: colorMainText,
-              fontSize: deviceWidth * 0.05,
-              fontWeight: FontWeight.bold)
-      ),
-      if (_thisMonthEvents.isNotEmpty && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
-      if (useEventFilters==false) for (var event in _thisMonthEvents)eventBox(context, event),
-      if (useEventFilters) for (var event in _thisMonthEvents) if (event.color == currentEventFilter || currentEventFilter==0) eventBox(context, event),
+      StreamBuilder<List<Event>>(
+          stream: readThisMonthEvents(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              debugPrint('[ERR] ' + snapshot.error.toString());
+              return Container(
+                height: deviceHeight * 0.65,
+                alignment: Alignment.center,
+                child: Text(
+                  'Ha ocurrido un error. Revisa tu conexión a Internet o reinicia la app.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: deviceWidth * 0.0475, color: colorSecondText),),
+              );
+            } else if (snapshot.hasData) {
+              final events = snapshot.data!;
+              if (events.length>0) hasEvents = true;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (events.length>0 && useEventFilters==false) Text('Este mes (' + events.length.toString() + ')',
+                      style: TextStyle(
+                          color: colorMainText,
+                          fontSize: deviceWidth * 0.05,
+                          fontWeight: FontWeight.bold)
+                  ),
+                  if (useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
+                  Column(
+                    children: events.map(buildEventBox).toList(),),
+                  if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
+                ],);
+            } else {
+              return Container();
+            }
+          }),
 
-      if (_thisMonthEvents.isNotEmpty && useEventFilters==false) SizedBox(height: deviceHeight * 0.02),
-      if (_restOfEvents.isNotEmpty && useEventFilters==false) Text('Próximamente ($restAmount)',
-          style: TextStyle(
-              color: colorMainText,
-              fontSize: deviceWidth * 0.05,
-              fontWeight: FontWeight.bold)
-      ),
-      if (_restOfEvents.isNotEmpty && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
-      if (useEventFilters==false) for (var event in _restOfEvents)eventBox(context, event),
-      if (useEventFilters) for (var event in _restOfEvents) if (event.color == currentEventFilter || currentEventFilter==0) eventBox(context, event),
+      StreamBuilder<List<Event>>(
+          stream: readRestOfEvents(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              debugPrint('[ERR] ' + snapshot.error.toString());
+              return Container(
+                height: deviceHeight * 0.65,
+                alignment: Alignment.center,
+                child: Text(
+                  'Ha ocurrido un error. Revisa tu conexión a Internet o reinicia la app.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: deviceWidth * 0.0475, color: colorSecondText),),
+              );
+            } else if (snapshot.hasData) {
+              final events = snapshot.data!;
+              if (events.length>0) hasEvents = true;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (events.length>0 && useEventFilters==false) Text('Próximamente (' + events.length.toString() + ')',
+                      style: TextStyle(
+                          color: colorMainText,
+                          fontSize: deviceWidth * 0.05,
+                          fontWeight: FontWeight.bold)
+                  ),
+                  if (useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
+                  Column(
+                    children: events.map(buildEventBox).toList(),),
+                  if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
+                ],);
+            } else {
+              return Container();
+            }
+          }),
 
-      if (_todayEvents.isEmpty && _tomorrowEvents.isEmpty && _thisMonthEvents.isEmpty && _restOfEvents.isEmpty) Container(
-        height: deviceHeight*0.65,
+      /*
+      // TODO: fix
+      if (hasEvents==false) Container(
+        height: deviceHeight*0.6,
         alignment: Alignment.center,
         child: Text('No tienes eventos guardados todavía. Para crear uno pulsa el botón + en la parte superior de la pantalla.',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: deviceWidth*0.0475, color: colorSecondText),),
       ),
+      */
     ]);
   }
 
@@ -176,7 +269,7 @@ class _HomeState extends State<Home> {
   Container todosView() {
     return homeArea([
       homeHeaderSimple(
-        'To-Do',
+        'Tareas',
         IconButton(
           icon: Icon(Icons.add_rounded,
               color: colorSpecialItem, size: deviceWidth * 0.085),
@@ -236,7 +329,6 @@ class _HomeState extends State<Home> {
                 else appLocaleInt=0;
                 if (darkMode==false) darkModeInt=0;
                 else darkModeInt=1;
-                updateSettings(Setting(id: 1, format24Hours: format24HoursInt, formatDates: formatDatesInt, appLocale: appLocaleInt, darkMode: darkModeInt));
               });
               debugPrint('[OK] Time format changed');
             },
@@ -264,7 +356,6 @@ class _HomeState extends State<Home> {
                 else appLocaleInt=0;
                 if (darkMode==false) darkModeInt=0;
                 else darkModeInt=1;
-                updateSettings(Setting(id: 1, format24Hours: format24HoursInt, formatDates: formatDatesInt, appLocale: appLocaleInt, darkMode: darkModeInt));
               });
               debugPrint('[OK] Time format changed');
             },
@@ -295,7 +386,6 @@ class _HomeState extends State<Home> {
                 else formatDatesInt=1;
                 if (darkMode==false) darkModeInt=0;
                 else darkModeInt=1;
-                updateSettings(Setting(id: 1, format24Hours: format24HoursInt, formatDates: formatDatesInt, appLocale: appLocaleInt, darkMode: darkModeInt));
               });
               debugPrint('[OK] Calendar format changed');
             },
@@ -330,7 +420,6 @@ class _HomeState extends State<Home> {
                 else formatDatesInt=1;
                 if (appLocale==Locale('es', '')) appLocaleInt=1;
                 else appLocaleInt=0;
-                updateSettings(Setting(id: 1, format24Hours: format24HoursInt, formatDates: formatDatesInt, appLocale: appLocaleInt, darkMode: darkModeInt));
                 if (val == true) {
                   colorMainBackground = Colors.black;
                   colorSecondBackground = const Color(0xff1c1c1f);
@@ -437,46 +526,8 @@ class _HomeState extends State<Home> {
   }
 
   void _readSettings() async {
-    final settings = await getSettings();
-    setState(() {
-      _settings = settings[0];
-    });
-    if (settingsRead == false){
-      setState(() {
-        format24Hours = (_settings.format24Hours==1);
-        formatDates = (_settings.formatDates==1);
-        if (_settings.appLocale==1) appLocale = Locale('es', '');
-        else appLocale = Locale('en', '');
-        darkMode = (_settings.darkMode==1);
-        if (darkMode == true) {
-          colorMainBackground = Colors.black;
-          colorSecondBackground = const Color(0xff1c1c1f);
-          colorThirdBackground = const Color(0xff706e74);
-          colorButtonText = const Color(0xff1c1c1f);
-          colorNavigationBarBackground = const Color(0xff1c1c1f);
-          colorNavigationBarText = const Color(0xff3a393e);
-          colorMainText = Colors.white;
-          colorSecondText = const Color(0xff706e74);
-          colorThirdText = const Color(0xff3a393e);
-        }
-        settingsRead = true;
-      });
-    }
+    // TODO: implement
     debugPrint('[OK] Read settings');
-  }
-
-  void _refreshEvents() async {
-    final todayEvents = await getTodayEvents();
-    final tomorrowEvents = await getTomorrowEvents();
-    final thisMonthEvents = await getThisMonthEvents();
-    final restOfEvents = await getRestOfEvents();
-    setState(() {
-      _todayEvents = todayEvents;
-      _tomorrowEvents = tomorrowEvents;
-      _thisMonthEvents = thisMonthEvents;
-      _restOfEvents = restOfEvents;
-    });
-    debugPrint('[OK] Read events');
   }
 
   /// AUX WIDGETS
@@ -494,7 +545,7 @@ class _HomeState extends State<Home> {
       items: <BottomNavyBarItem>[
         myBottomNavyBarItem('Eventos', const Icon(Icons.today_rounded)),
         myBottomNavyBarItem('Hábitos', const Icon(Icons.lightbulb_outline_rounded)),
-        myBottomNavyBarItem('To-Do', const Icon(Icons.check_circle_outline_rounded)),
+        myBottomNavyBarItem('Tareas', const Icon(Icons.check_circle_outline_rounded)),
         myBottomNavyBarItem('Notas', const Icon(Icons.sticky_note_2_outlined)),
         myBottomNavyBarItem('Ajustes', const Icon(Icons.settings_outlined)),
       ],
@@ -508,183 +559,6 @@ class _HomeState extends State<Home> {
         activeColor: colorSpecialItem,
         inactiveColor: colorNavigationBarText,
         textAlign: TextAlign.center);
-  }
-
-  FocusedMenuHolder eventBox(BuildContext context, Event event) {
-
-    late int color;
-    if (event.color == -1 && darkMode == false) {
-      color = 0xFFFFFFFF;
-    } else if (event.color == -1 && darkMode == true) {
-      color = 0xff1c1c1f;
-    } else {
-      color = event.color;
-    }
-
-    DateTime eventDate = DateTime.fromMicrosecondsSinceEpoch(event.dateTime * 1000);
-
-    Color backgroundColor = colorThirdBackground;
-    if (darkMode) backgroundColor = colorSecondBackground;
-    String eventTime = DateFormat('HH:mm').format(DateTime.fromMicrosecondsSinceEpoch(event.dateTime*1000));
-    if (format24Hours==false) eventTime = DateFormat('h:mm aa').format(DateTime.fromMicrosecondsSinceEpoch(event.dateTime*1000));
-    Color timeColor = colorSecondText;
-    Color iconColor = colorSpecialItem;
-    if(event.color != -1) {
-      timeColor = colorMainText;
-      iconColor = colorMainText;
-    }
-
-    return FocusedMenuHolder(
-      onPressed: (){
-        selectedEvent = event;
-        Navigator.pushReplacementNamed(context, '/events/event_details');
-      },
-      menuItems: <FocusedMenuItem>[
-        FocusedMenuItem(
-          backgroundColor: backgroundColor,
-          title: Container(
-            alignment: Alignment.centerLeft,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.open_in_new_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
-                SizedBox(width: deviceWidth*0.025,),
-                Text('Ver detalles', style: TextStyle(
-                    color: colorSpecialItem,
-                    fontSize: deviceWidth * 0.04,
-                    fontWeight: FontWeight.normal),),
-              ],
-            ),
-          ),
-          onPressed: (){
-            selectedEvent = event;
-            Navigator.pushReplacementNamed(context, '/events/event_details');
-          },
-        ),
-        FocusedMenuItem(
-          backgroundColor: backgroundColor,
-          title: Container(
-            alignment: Alignment.centerLeft,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.edit, color: colorSpecialItem, size: deviceWidth * 0.06),
-                SizedBox(width: deviceWidth*0.025,),
-                Text('Editar', style: TextStyle(
-                    color: colorSpecialItem,
-                    fontSize: deviceWidth * 0.04,
-                    fontWeight: FontWeight.normal),),
-              ],
-            ),
-          ),
-          onPressed: (){
-            selectedEvent = event;
-            Navigator.pushReplacementNamed(context, '/events/edit_event');
-          },
-        ),
-        FocusedMenuItem(
-          backgroundColor: backgroundColor,
-          title: Container(
-            alignment: Alignment.centerLeft,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.share_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
-                SizedBox(width: deviceWidth*0.025,),
-                Text('Compartir', style: TextStyle(
-                    color: colorSpecialItem,
-                    fontSize: deviceWidth * 0.04,
-                    fontWeight: FontWeight.normal),),
-              ],
-            ),
-          ),
-          onPressed: (){
-            // TODO: Share events
-          },
-        ),
-        FocusedMenuItem(
-          backgroundColor: backgroundColor,
-          title: Container(
-            alignment: Alignment.centerLeft,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth * 0.06),
-                SizedBox(width: deviceWidth*0.025,),
-                Text('Eliminar', style: TextStyle(
-                    color: Colors.red,
-                    fontSize: deviceWidth * 0.04,
-                    fontWeight: FontWeight.normal),),
-              ],
-            ),
-          ),
-          onPressed: (){
-            selectedEvent = event;
-            if (selectedEvent!.notification5Min != -1) cancelNotification(selectedEvent!.notification5Min);
-            if (selectedEvent!.notification1Hour != -1) cancelNotification(selectedEvent!.notification1Hour);
-            if (selectedEvent!.notification1Day != -1) cancelNotification(selectedEvent!.notification1Day);
-            deleteEventById(selectedEvent!.id);
-            _refreshEvents();
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text("Evento eliminado"),
-              backgroundColor: Colors.green,
-              behavior: SnackBarBehavior.floating,
-              duration: Duration(seconds: 2),
-            ));
-          },
-        ),
-      ],
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.all(deviceWidth * 0.018),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Color(color),
-            ),
-            child: IntrinsicHeight(
-              child: Row(
-                children: [
-                  SizedBox(width: deviceWidth*0.0125,),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(eventDate.day.toString(), style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.0625, fontWeight: FontWeight.bold)),
-                      Text(monthConversor(eventDate), style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.04, fontWeight: FontWeight.normal)),
-                      if (DateTime.now().year != eventDate.year) Text(eventDate.year.toString(), style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.034, fontWeight: FontWeight.normal)),
-                    ],
-                  ),
-                  SizedBox(width: deviceWidth*0.0125,),
-                  VerticalDivider(color: colorSecondText,),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                          width: deviceWidth*0.6,
-                          alignment: Alignment.centerLeft,
-                          child: Text(event.name,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.06, fontWeight: FontWeight.bold))),
-                      SizedBox(height: deviceHeight*0.00375,),
-                      Container(
-                          width: deviceWidth*0.6,
-                          alignment: Alignment.centerLeft,
-                          child: Text('A las $eventTime',
-                              style: TextStyle(color: timeColor, fontSize: deviceWidth * 0.03, fontWeight: FontWeight.normal))),
-                    ],
-                  ),
-                  Icon(Icons.open_in_new_rounded, color: iconColor, size: deviceWidth * 0.06),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: deviceHeight*0.0125,),
-        ],
-      ),
-    );
   }
 
   Container filterSelector(){
@@ -810,6 +684,180 @@ class _HomeState extends State<Home> {
         ],
       ),
     );
+  }
+
+  Widget buildEventBox(Event event){
+
+    late int color;
+    if (event.color == -1 && darkMode == false) {
+      color = 0xFFFFFFFF;
+    } else if (event.color == -1 && darkMode == true) {
+      color = 0xff1c1c1f;
+    } else {
+      color = event.color;
+    }
+
+    DateTime eventDate = event.dateTime;
+
+    Color backgroundColor = colorThirdBackground;
+    if (darkMode) backgroundColor = colorSecondBackground;
+    String eventTime = DateFormat('HH:mm').format(event.dateTime);
+    if (format24Hours==false) eventTime = DateFormat('h:mm aa').format(event.dateTime);
+    Color timeColor = colorSecondText;
+    Color iconColor = colorSpecialItem;
+    if(event.color != -1) {
+      timeColor = colorMainText;
+      iconColor = colorMainText;
+    }
+
+    if ((useEventFilters && (event.color == currentEventFilter || currentEventFilter == 0)) || useEventFilters==false) return FocusedMenuHolder(
+      onPressed: (){
+        selectedEvent = event;
+        Navigator.pushNamed(context, '/events/event_details');
+      },
+      menuItems: <FocusedMenuItem>[
+        FocusedMenuItem(
+          backgroundColor: backgroundColor,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.open_in_new_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
+                SizedBox(width: deviceWidth*0.025,),
+                Text('Ver detalles', style: TextStyle(
+                    color: colorSpecialItem,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),),
+              ],
+            ),
+          ),
+          onPressed: (){
+            selectedEvent = event;
+            Navigator.pushNamed(context, '/events/event_details');
+          },
+        ),
+        FocusedMenuItem(
+          backgroundColor: backgroundColor,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.edit, color: colorSpecialItem, size: deviceWidth * 0.06),
+                SizedBox(width: deviceWidth*0.025,),
+                Text('Editar', style: TextStyle(
+                    color: colorSpecialItem,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),),
+              ],
+            ),
+          ),
+          onPressed: (){
+            selectedEvent = event;
+            Navigator.pushNamed(context, '/events/edit_event');
+          },
+        ),
+        FocusedMenuItem(
+          backgroundColor: backgroundColor,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.share_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
+                SizedBox(width: deviceWidth*0.025,),
+                Text('Compartir', style: TextStyle(
+                    color: colorSpecialItem,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),),
+              ],
+            ),
+          ),
+          onPressed: (){
+            // TODO: Share events
+          },
+        ),
+        FocusedMenuItem(
+          backgroundColor: backgroundColor,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth * 0.06),
+                SizedBox(width: deviceWidth*0.025,),
+                Text('Eliminar', style: TextStyle(
+                    color: Colors.red,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),),
+              ],
+            ),
+          ),
+          onPressed: (){
+            cancelAllNotifications(event.id);
+            deleteEventById(event.id);
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text("Evento eliminado"),
+              backgroundColor: Colors.green,
+              behavior: SnackBarBehavior.floating,
+              duration: Duration(seconds: 2),
+            ));
+          },
+        ),
+      ],
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.all(deviceWidth * 0.018),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color(color),
+            ),
+            child: IntrinsicHeight(
+              child: Row(
+                children: [
+                  SizedBox(width: deviceWidth*0.0125,),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(eventDate.day.toString(), style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.0625, fontWeight: FontWeight.bold)),
+                      Text(monthConversor(eventDate), style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.04, fontWeight: FontWeight.normal)),
+                      if (DateTime.now().year != eventDate.year) Text(eventDate.year.toString(), style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.034, fontWeight: FontWeight.normal)),
+                    ],
+                  ),
+                  SizedBox(width: deviceWidth*0.0125,),
+                  VerticalDivider(color: colorSecondText,),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                          width: deviceWidth*0.6,
+                          alignment: Alignment.centerLeft,
+                          child: Text(event.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.06, fontWeight: FontWeight.bold))),
+                      SizedBox(height: deviceHeight*0.00375,),
+                      Container(
+                          width: deviceWidth*0.6,
+                          alignment: Alignment.centerLeft,
+                          child: Text('A las $eventTime',
+                              style: TextStyle(color: timeColor, fontSize: deviceWidth * 0.03, fontWeight: FontWeight.normal))),
+                    ],
+                  ),
+                  Icon(Icons.open_in_new_rounded, color: iconColor, size: deviceWidth * 0.06),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: deviceHeight*0.0125,),
+        ],
+      ),
+    );
+    else return Container();
   }
 
 }

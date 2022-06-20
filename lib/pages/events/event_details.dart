@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:simplex/classes/event.dart';
 import 'package:simplex/common/all_common.dart';
-import 'package:simplex/services/sqlite_service.dart';
+import 'package:simplex/services/firestore_service.dart';
 
 
 class EventDetails extends StatefulWidget {
@@ -12,6 +13,10 @@ class EventDetails extends StatefulWidget {
 }
 
 class _EventDetailsState extends State<EventDetails> {
+  late final int oldNot5Min;
+  late final int oldNot1Hour;
+  late final int oldNot1Day;
+
   @override
   void dispose() {
     super.dispose();
@@ -20,15 +25,18 @@ class _EventDetailsState extends State<EventDetails> {
   @override
   void initState() {
     super.initState();
+    oldNot5Min = selectedEvent!.not5Min;
+    oldNot1Hour = selectedEvent!.not1Hour;
+    oldNot1Day = selectedEvent!.not1Day;
   }
 
   @override
   Widget build(BuildContext context) {
 
-    String eventDate = DateFormat('dd/MM/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.dateTime*1000));
-    if (formatDates == false) eventDate = DateFormat('MM/dd/yyyy').format(DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.dateTime*1000));
-    String eventTime = DateFormat('HH:mm').format(DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.dateTime*1000));
-    if (format24Hours==false) eventTime = DateFormat('h:mm aa').format(DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.dateTime*1000));
+    String eventDate = DateFormat('dd/MM/yyyy').format(selectedEvent!.dateTime);
+    if (formatDates == false) eventDate = DateFormat('MM/dd/yyyy').format(selectedEvent!.dateTime);
+    String eventTime = DateFormat('HH:mm').format(selectedEvent!.dateTime);
+    if (format24Hours==false) eventTime = DateFormat('h:mm aa').format(selectedEvent!.dateTime);
     String colorName = 'Por defecto';
     int colorCode = selectedEvent!.color;
 
@@ -58,7 +66,31 @@ class _EventDetailsState extends State<EventDetails> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: homeArea([
-        pageHeader(context, 'Evento', '/home'),
+        Column(
+          children: [
+            Row(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.arrow_back_rounded,
+                      color: colorSpecialItem, size: deviceWidth * 0.08),
+                  splashRadius: 0.001,
+                  onPressed: () {
+                    if (oldNot5Min != selectedEvent!.not5Min || oldNot1Hour != selectedEvent!.not1Hour || oldNot1Day != selectedEvent!.not1Day)
+                      updateEventNotifications(selectedEvent!.id, selectedEvent!.not5Min, selectedEvent!.not1Hour, selectedEvent!.not1Day);
+                    Navigator.pop(context);
+                  },
+                ),
+                SizedBox(
+                  width: deviceWidth * 0.0075,
+                ),
+                headerText('Evento'),
+              ],
+            ),
+            SizedBox(
+              height: deviceHeight * 0.03,
+            )
+          ],
+        ),
         alternativeFormContainer([
           Text(
             selectedEvent!.name,
@@ -155,6 +187,7 @@ class _EventDetailsState extends State<EventDetails> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
+
         alternativeFormContainer([
           Text(
             'Gestionar notificaciones: ',
@@ -164,7 +197,7 @@ class _EventDetailsState extends State<EventDetails> {
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
-          if (selectedEvent!.notification5Min == -1) Row(
+          if (selectedEvent!.not5Min == -1) Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               IconButton(
@@ -172,19 +205,18 @@ class _EventDetailsState extends State<EventDetails> {
                     color: colorSpecialItem, size: deviceWidth * 0.06),
                 splashRadius: 0.001,
                 onPressed: (){
+
                   DateTime now = DateTime.now();
                   int eventId = selectedEvent!.id;
-                  int notification5MinId = int.parse("1"+"$eventId");
-                  bool validNotification = showNotification(context, notification5MinId, selectedEvent!.name, 1, now, DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.dateTime*1000));
+                  int not5Min = int.parse("1"+"$eventId");
+                  bool canNotify = showNotification(context, not5Min, selectedEvent!.name, 1, now, selectedEvent!.dateTime);
 
-                  if (validNotification){
-                    Event newEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
-                        dateTime: selectedEvent!.dateTime, color: selectedEvent!.color,
-                        notification5Min: notification5MinId, notification1Hour: selectedEvent!.notification1Hour,
-                        notification1Day: selectedEvent!.notification1Day);
-                    createEvent(newEvent);
+                  if (canNotify){
                     setState(() {
-                      selectedEvent = newEvent;
+                      selectedEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
+                          dateTime: selectedEvent!.dateTime, color: selectedEvent!.color,
+                          not5Min: not5Min, not1Hour: selectedEvent!.not1Hour,
+                          not1Day: selectedEvent!.not1Day);
                     });
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Notificación añadida: 5 minutos antes"),
@@ -212,7 +244,7 @@ class _EventDetailsState extends State<EventDetails> {
               ),
             ],
           ),
-          if (selectedEvent!.notification5Min != -1) Row(
+          if (selectedEvent!.not5Min != -1) Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               IconButton(
@@ -220,12 +252,11 @@ class _EventDetailsState extends State<EventDetails> {
                     color: Colors.red, size: deviceWidth * 0.06),
                 splashRadius: 0.001,
                 onPressed: (){
-                  cancelNotification(selectedEvent!.notification5Min);
+                  cancelNotification(selectedEvent!.not5Min);
                   setState(() {
                     selectedEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
-                        dateTime: selectedEvent!.dateTime, color: selectedEvent!.color, notification5Min: -1,
-                        notification1Hour: selectedEvent!.notification1Hour, notification1Day: selectedEvent!.notification1Day);
-                    createEvent(selectedEvent!);
+                        dateTime: selectedEvent!.dateTime, color: selectedEvent!.color, not5Min: -1,
+                        not1Hour: selectedEvent!.not1Hour, not1Day: selectedEvent!.not1Day);
                   });
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text("Notificación eliminada: 5 minutos antes"),
@@ -245,7 +276,7 @@ class _EventDetailsState extends State<EventDetails> {
             ],
           ),
           Divider(color: colorThirdText),
-          if (selectedEvent!.notification1Hour == -1) Row(
+          if (selectedEvent!.not1Hour == -1) Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               IconButton(
@@ -255,16 +286,15 @@ class _EventDetailsState extends State<EventDetails> {
                 onPressed: (){
                   DateTime now = DateTime.now();
                   int eventId = selectedEvent!.id;
-                  int notification1HourId = int.parse("2"+"$eventId");
-                  bool validNotification = showNotification(context, notification1HourId, selectedEvent!.name, 2, now, DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.dateTime*1000));
-                  if (validNotification) {
-                    Event newEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
-                        dateTime: selectedEvent!.dateTime, color: selectedEvent!.color,
-                        notification5Min: selectedEvent!.notification5Min, notification1Hour: notification1HourId,
-                        notification1Day: selectedEvent!.notification1Day);
-                    createEvent(newEvent);
+                  int not1Hour = int.parse("2"+"$eventId");
+                  bool canNotify = showNotification(context, not1Hour, selectedEvent!.name, 2, now, selectedEvent!.dateTime);
+
+                  if (canNotify){
                     setState(() {
-                      selectedEvent = newEvent;
+                      selectedEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
+                          dateTime: selectedEvent!.dateTime, color: selectedEvent!.color,
+                          not5Min: selectedEvent!.not5Min, not1Hour: not1Hour,
+                          not1Day: selectedEvent!.not1Day);
                     });
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Notificación añadida: 1 hora antes"),
@@ -291,7 +321,7 @@ class _EventDetailsState extends State<EventDetails> {
               ),
             ],
           ),
-          if (selectedEvent!.notification1Hour != -1) Row(
+          if (selectedEvent!.not1Hour != -1) Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               IconButton(
@@ -299,12 +329,11 @@ class _EventDetailsState extends State<EventDetails> {
                     color: Colors.red, size: deviceWidth * 0.06),
                 splashRadius: 0.001,
                 onPressed: (){
-                  cancelNotification(selectedEvent!.notification1Hour);
+                  cancelNotification(selectedEvent!.not1Hour);
                   setState(() {
                     selectedEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
-                        dateTime: selectedEvent!.dateTime, color: selectedEvent!.color, notification5Min: selectedEvent!.notification5Min,
-                        notification1Hour: -1, notification1Day: selectedEvent!.notification1Day);
-                    createEvent(selectedEvent!);
+                        dateTime: selectedEvent!.dateTime, color: selectedEvent!.color, not5Min: selectedEvent!.not5Min,
+                        not1Hour: -1, not1Day: selectedEvent!.not1Day);
                   });
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text("Notificación eliminada: 1 hora antes"),
@@ -324,7 +353,7 @@ class _EventDetailsState extends State<EventDetails> {
             ],
           ),
           Divider(color: colorThirdText),
-          if (selectedEvent!.notification1Day == -1) Row(
+          if (selectedEvent!.not1Day == -1) Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               IconButton(
@@ -334,16 +363,15 @@ class _EventDetailsState extends State<EventDetails> {
                 onPressed: (){
                   DateTime now = DateTime.now();
                   int eventId = selectedEvent!.id;
-                  int notification1DayId = int.parse("3"+"$eventId");
-                  bool validNotification = showNotification(context, notification1DayId, selectedEvent!.name, 3, now, DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.dateTime*1000));
-                  if (validNotification) {
-                    Event newEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
-                        dateTime: selectedEvent!.dateTime, color: selectedEvent!.color,
-                        notification5Min: selectedEvent!.notification5Min, notification1Hour: selectedEvent!.notification1Hour,
-                        notification1Day: notification1DayId);
-                    createEvent(newEvent);
+                  int not1Day = int.parse("3"+"$eventId");
+                  bool canNotify = showNotification(context, not1Day, selectedEvent!.name, 3, now, selectedEvent!.dateTime);
+
+                  if (canNotify){
                     setState(() {
-                      selectedEvent = newEvent;
+                      selectedEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
+                          dateTime: selectedEvent!.dateTime, color: selectedEvent!.color,
+                          not5Min: selectedEvent!.not5Min, not1Hour: selectedEvent!.not1Hour,
+                          not1Day: not1Day);
                     });
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Notificación añadida: 1 día antes"),
@@ -370,7 +398,7 @@ class _EventDetailsState extends State<EventDetails> {
               ),
             ],
           ),
-          if (selectedEvent!.notification1Day != -1) Row(
+          if (selectedEvent!.not1Day != -1) Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               IconButton(
@@ -378,12 +406,11 @@ class _EventDetailsState extends State<EventDetails> {
                     color: Colors.red, size: deviceWidth * 0.06),
                 splashRadius: 0.001,
                 onPressed: (){
-                  cancelNotification(selectedEvent!.notification1Day);
+                  cancelNotification(selectedEvent!.not1Day);
                   setState(() {
                     selectedEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: selectedEvent!.description,
-                        dateTime: selectedEvent!.dateTime, color: selectedEvent!.color, notification5Min: selectedEvent!.notification5Min,
-                        notification1Hour: selectedEvent!.notification1Hour, notification1Day: -1);
-                    createEvent(selectedEvent!);
+                        dateTime: selectedEvent!.dateTime, color: selectedEvent!.color, not5Min: selectedEvent!.not5Min,
+                        not1Hour: selectedEvent!.not1Hour, not1Day: -1);
                   });
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text("Notificación eliminada: 1 día antes"),
@@ -404,9 +431,12 @@ class _EventDetailsState extends State<EventDetails> {
           ),
 
         ]),
+        
         SizedBox(height: deviceHeight * 0.025),
         eventActionsButton(Icons.edit, colorSpecialItem, ' Editar evento ', (){
-          Navigator.pushReplacementNamed(context, '/events/edit_event');
+          if (oldNot5Min != selectedEvent!.not5Min || oldNot1Hour != selectedEvent!.not1Hour || oldNot1Day != selectedEvent!.not1Day)
+            updateEventNotifications(selectedEvent!.id, selectedEvent!.not5Min, selectedEvent!.not1Hour, selectedEvent!.not1Day);
+          Navigator.pushNamed(context, '/events/edit_event');
         }),
         SizedBox(height: deviceHeight * 0.025),
         eventActionsButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){
@@ -450,12 +480,9 @@ class _EventDetailsState extends State<EventDetails> {
                       TextButton(
                         child: Text('Eliminar', style: TextStyle(color: Colors.red, fontSize: deviceWidth*0.04)),
                         onPressed: (){
-                          if (selectedEvent!.notification5Min != -1) cancelNotification(selectedEvent!.notification5Min);
-                          if (selectedEvent!.notification1Hour != -1) cancelNotification(selectedEvent!.notification1Hour);
-                          if (selectedEvent!.notification1Day != -1) cancelNotification(selectedEvent!.notification1Day);
+                          cancelAllNotifications(selectedEvent!.id);
                           deleteEventById(selectedEvent!.id);
-                          Navigator.pop(context);
-                          Navigator.pushReplacementNamed(context, '/home');
+                          Navigator.of(context).popUntil((route) => route.isFirst);
                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                             content: Text("Evento eliminado"),
                             backgroundColor: Colors.green,

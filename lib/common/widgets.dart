@@ -104,7 +104,7 @@ Column homeHeaderAdvanced(String text, Widget specialButton, Widget addButton) {
   );
 }
 
-Column pageHeader(BuildContext context, String text, String route) {
+Column pageHeader(BuildContext context, String text) {
   return Column(
     children: [
       Row(
@@ -114,7 +114,7 @@ Column pageHeader(BuildContext context, String text, String route) {
                 color: colorSpecialItem, size: deviceWidth * 0.08),
             splashRadius: 0.001,
             onPressed: (){
-              Navigator.pushReplacementNamed(context, route);
+              Navigator.pop(context);
             },
           ),
           SizedBox(width: deviceWidth*0.0075,),

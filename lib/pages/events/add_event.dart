@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/common/all_common.dart';
-import 'package:simplex/services/sqlite_service.dart';
+import 'package:simplex/services/firestore_service.dart';
 
 class AddEvent extends StatefulWidget {
   const AddEvent({Key? key}) : super(key: key);
@@ -22,9 +22,9 @@ class _AddEventState extends State<AddEvent> {
   FocusNode dateFocusNode = FocusNode();
   FocusNode timeFocusNode = FocusNode();
 
-  bool notification5Min = false;
-  bool notification1Hour = false;
-  bool notification1Day = false;
+  bool not5MinBool = false;
+  bool not1HourBool = false;
+  bool not1DayBool = false;
 
   int selectedColor = -1;
   late DateTime date;
@@ -55,7 +55,7 @@ class _AddEventState extends State<AddEvent> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: homeArea([
-        pageHeader(context, 'Nuevo evento', '/home'),
+        pageHeader(context, 'Nuevo evento'),
         alternativeFormContainer([
           formTextField(nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
           formTextField(descriptionController, 'Descripción', '(Opcional)', descriptionFocusNode),
@@ -249,7 +249,7 @@ class _AddEventState extends State<AddEvent> {
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.015),
-          if (notification5Min==false) checkBoxContainer(
+          if (not5MinBool==false) checkBoxContainer(
             CheckboxListTile(
               title: Text(
                 '5 minutos antes',
@@ -258,16 +258,16 @@ class _AddEventState extends State<AddEvent> {
                     fontSize: deviceWidth * 0.045,
                     fontWeight: FontWeight.normal),
               ),
-              value: notification5Min,
+              value: not5MinBool,
               onChanged: (newValue) {
                 setState(() {
-                  notification5Min = newValue!;
+                  not5MinBool = newValue!;
                 });
               },
               controlAffinity: ListTileControlAffinity.leading,
             ),
           ),
-          if (notification5Min==true) checkBoxContainer(
+          if (not5MinBool==true) checkBoxContainer(
             CheckboxListTile(
               title: Text(
                 '5 minutos antes',
@@ -276,17 +276,17 @@ class _AddEventState extends State<AddEvent> {
                     fontSize: deviceWidth * 0.045,
                     fontWeight: FontWeight.normal),
               ),
-              value: notification5Min,
+              value: not5MinBool,
               onChanged: (newValue) {
                 setState(() {
-                  notification5Min = newValue!;
+                  not5MinBool = newValue!;
                 });
               },
               controlAffinity: ListTileControlAffinity.leading,
             ),
           ),
           SizedBox(height: deviceHeight * 0.01),
-          if(notification1Hour==false) checkBoxContainer(
+          if(not1HourBool==false) checkBoxContainer(
             CheckboxListTile(
               title: Text(
                 '1 hora antes',
@@ -295,16 +295,16 @@ class _AddEventState extends State<AddEvent> {
                     fontSize: deviceWidth * 0.045,
                     fontWeight: FontWeight.normal),
               ),
-              value: notification1Hour,
+              value: not1HourBool,
               onChanged: (newValue) {
                 setState(() {
-                  notification1Hour = newValue!;
+                  not1HourBool = newValue!;
                 });
               },
               controlAffinity: ListTileControlAffinity.leading,
             ),
           ),
-          if(notification1Hour==true) checkBoxContainer(
+          if(not1HourBool==true) checkBoxContainer(
             CheckboxListTile(
               title: Text(
                 '1 hora antes',
@@ -313,17 +313,17 @@ class _AddEventState extends State<AddEvent> {
                     fontSize: deviceWidth * 0.045,
                     fontWeight: FontWeight.normal),
               ),
-              value: notification1Hour,
+              value: not1HourBool,
               onChanged: (newValue) {
                 setState(() {
-                  notification1Hour = newValue!;
+                  not1HourBool = newValue!;
                 });
               },
               controlAffinity: ListTileControlAffinity.leading,
             ),
           ),
           SizedBox(height: deviceHeight * 0.01),
-          if (notification1Day==false) checkBoxContainer(
+          if (not1DayBool==false) checkBoxContainer(
             CheckboxListTile(
               title: Text(
                 '1 día antes',
@@ -332,16 +332,16 @@ class _AddEventState extends State<AddEvent> {
                     fontSize: deviceWidth * 0.045,
                     fontWeight: FontWeight.normal),
               ),
-              value: notification1Day,
+              value: not1DayBool,
               onChanged: (newValue) {
                 setState(() {
-                  notification1Day = newValue!;
+                  not1DayBool = newValue!;
                 });
               },
               controlAffinity: ListTileControlAffinity.leading,
             ),
           ),
-          if (notification1Day==true) checkBoxContainer(
+          if (not1DayBool==true) checkBoxContainer(
             CheckboxListTile(
               title: Text(
                 '1 día antes',
@@ -350,10 +350,10 @@ class _AddEventState extends State<AddEvent> {
                     fontSize: deviceWidth * 0.045,
                     fontWeight: FontWeight.normal),
               ),
-              value: notification1Day,
+              value: not1DayBool,
               onChanged: (newValue) {
                 setState(() {
-                  notification1Day = newValue!;
+                  not1DayBool = newValue!;
                 });
               },
               controlAffinity: ListTileControlAffinity.leading,
@@ -409,28 +409,33 @@ class _AddEventState extends State<AddEvent> {
                     try {
 
                       DateTime nowDateTime = DateTime.now();
-                      int id = int.parse((nowDateTime.millisecondsSinceEpoch).toString().substring(6));
-
-                      int notification5MinId = int.parse("1"+"$id");
-                      int notification1HourId = int.parse("2"+"$id");
-                      int notification1DayId = int.parse("3"+"$id");
-
                       DateTime fullEventDateTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
 
-                      if (notification5Min) notification5Min=showNotification(context, notification5MinId, nameController.text, 1, nowDateTime, fullEventDateTime);
-                      if (notification1Hour) notification1Hour=showNotification(context, notification1HourId, nameController.text, 2, nowDateTime, fullEventDateTime);
-                      if (notification1Day) notification1Day=showNotification(context, notification1DayId, nameController.text, 3, nowDateTime, fullEventDateTime);
+                      if (nowDateTime.isAfter(fullEventDateTime)){
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("La hora del evento ya ha pasado"),
+                          backgroundColor: Colors.red,
+                          behavior: SnackBarBehavior.floating,
+                          duration: Duration(seconds: 2),
+                        ));
+                        timeFocusNode.requestFocus();
+                      } else {
+                        int id = int.parse((nowDateTime.millisecondsSinceEpoch).toString().substring(6));
+                        int not5Min = int.parse("1"+"$id");
+                        int not1Hour = int.parse("2"+"$id");
+                        int not1Day = int.parse("3"+"$id");
 
-                      if (notification5Min==false) notification5MinId=-1;
-                      if (notification1Hour==false) notification1HourId=-1;
-                      if (notification1Day==false) notification1DayId=-1;
+                        if (not5MinBool) not5MinBool=showNotification(context, not5Min, nameController.text, 1, nowDateTime, fullEventDateTime);
+                        if (not1HourBool) not1HourBool=showNotification(context, not1Hour, nameController.text, 2, nowDateTime, fullEventDateTime);
+                        if (not1DayBool) not1DayBool=showNotification(context, not1Day, nameController.text, 3, nowDateTime, fullEventDateTime);
 
-                      Event newEvent = Event(id: id, name: nameController.text, description: descriptionController.text,
-                          dateTime: fullEventDateTime.millisecondsSinceEpoch, color: selectedColor,
-                          notification5Min: notification5MinId, notification1Hour: notification1HourId, notification1Day: notification1DayId);
-                      createEvent(newEvent);
+                        if (not5MinBool==false) not5Min=-1;
+                        if (not1HourBool==false) not1Hour=-1;
+                        if (not1DayBool==false) not1Day=-1;
 
-                      Navigator.pushReplacementNamed(context, '/home');
+                        createEvent(id, nameController.text, descriptionController.text, fullEventDateTime, selectedColor, not5Min, not1Hour, not1Day);
+                        Navigator.pop(context);
+                      }
 
                     } on Exception catch (e) {
                       debugPrint('[ERR] Could not create event: $e');

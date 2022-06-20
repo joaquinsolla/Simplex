@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/common/all_common.dart';
-import 'package:simplex/services/sqlite_service.dart';
+import 'package:simplex/services/firestore_service.dart';
 
 class EditEvent extends StatefulWidget {
   const EditEvent({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class _EditEventState extends State<EditEvent> {
   FocusNode timeFocusNode = FocusNode();
 
   int selectedColor = selectedEvent!.color;
-  DateTime fullDateTime = DateTime.fromMicrosecondsSinceEpoch(selectedEvent!.dateTime*1000);
+  DateTime fullDateTime = selectedEvent!.dateTime;
   late DateTime date;
   late TimeOfDay time;
 
@@ -42,8 +42,8 @@ class _EditEventState extends State<EditEvent> {
     time = TimeOfDay(hour: fullDateTime.hour, minute: fullDateTime.minute);
     nameController.text = selectedEvent!.name;
     descriptionController.text = selectedEvent!.description;
-    dateController.text = millisecondsToStringDate(selectedEvent!.dateTime);
-    timeController.text = millisecondsToStringTime(selectedEvent!.dateTime);
+    dateController.text = dateToString(selectedEvent!.dateTime);
+    timeController.text = timeToString(selectedEvent!.dateTime);
   }
 
   @override
@@ -52,7 +52,7 @@ class _EditEventState extends State<EditEvent> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: homeArea([
-        pageHeader(context, 'Editar evento', '/events/event_details'),
+        pageHeader(context, 'Editar evento'),
         alternativeFormContainer([
           formTextField(nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
           formTextField(descriptionController, 'Descripción', '(Opcional)', descriptionFocusNode),
@@ -124,8 +124,9 @@ class _EditEventState extends State<EditEvent> {
             ],
           ),
           SizedBox(height: deviceHeight * 0.01),
+          //TODO: optimize
           Text(
-            'Editar el nombre, la fecha o la hora del evento hará que se desactiven las notificaciones que había asociadas a él. '
+            '(Beta) Editar el nombre, la fecha o la hora del evento hará que se desactiven las notificaciones que había asociadas a él. '
                 'Puedes programarlas de nuevo en el apartado de detalles de evento.',
             textAlign: TextAlign.justify,
             style: TextStyle(
@@ -274,7 +275,7 @@ class _EditEventState extends State<EditEvent> {
                     Icon(Icons.check_rounded, color: Colors.transparent, size: deviceWidth * 0.06),
                   ],
                 ),
-                onPressed: () {
+                onPressed: () async {
                   if (nameController.text.isEmpty){
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Debes indicar un nombre"),
@@ -284,40 +285,37 @@ class _EditEventState extends State<EditEvent> {
                     ));
                     nameFocusNode.requestFocus();
                   } else {
-                    try {
+                    DateTime newFullDateTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
 
-                      DateTime newFullDateTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
-
-                      Event newEvent = Event(id: selectedEvent!.id, name: selectedEvent!.name, description: descriptionController.text,
-                          dateTime: newFullDateTime.millisecondsSinceEpoch, color: selectedColor,
-                          notification5Min: selectedEvent!.notification5Min, notification1Hour: selectedEvent!.notification1Hour,
-                          notification1Day: selectedEvent!.notification1Day);
-                      if(newFullDateTime.millisecondsSinceEpoch != selectedEvent!.dateTime || nameController.text != selectedEvent!.name) {
-                        if (selectedEvent!.notification5Min != -1) cancelNotification(selectedEvent!.notification5Min);
-                        if (selectedEvent!.notification1Hour != -1) cancelNotification(selectedEvent!.notification1Hour);
-                        if (selectedEvent!.notification1Day != -1) cancelNotification(selectedEvent!.notification1Day);
-                        newEvent = Event(id: selectedEvent!.id, name: nameController.text, description: descriptionController.text,
-                            dateTime: newFullDateTime.millisecondsSinceEpoch, color: selectedColor,
-                            notification5Min: -1, notification1Hour: -1, notification1Day: -1);
-                      }
-                      createEvent(newEvent).then((val){
-                        Navigator.pushReplacementNamed(context, '/home');
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Evento actualizado correctamente"),
-                          backgroundColor: Colors.green,
-                          behavior: SnackBarBehavior.floating,
-                          duration: Duration(seconds: 2),
-                        ));
-                      });
-
-                    } on Exception catch (e) {
-                      debugPrint('[ERR] Could not edit event: $e');
+                    if (DateTime.now().isAfter(newFullDateTime)){
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Ha ocurrido un error"),
+                        content: Text("La hora del evento ya ha pasado"),
                         backgroundColor: Colors.red,
                         behavior: SnackBarBehavior.floating,
                         duration: Duration(seconds: 2),
                       ));
+                      timeFocusNode.requestFocus();
+                    } else {
+                      try {
+                        await updateEvent(selectedEvent!.id, nameController.text, descriptionController.text, newFullDateTime, selectedColor);
+
+                        Navigator.of(context).popUntil((route) => route.isFirst);
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Evento actualizado"),
+                          backgroundColor: Colors.green,
+                          behavior: SnackBarBehavior.floating,
+                          duration: Duration(seconds: 2),
+                        ));
+
+                      } on Exception catch (e) {
+                        debugPrint('[ERR] Could not edit event: $e');
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Ha ocurrido un error"),
+                          backgroundColor: Colors.red,
+                          behavior: SnackBarBehavior.floating,
+                          duration: Duration(seconds: 2),
+                        ));
+                      }
                     }
                   }
                 },
@@ -354,7 +352,7 @@ class _EditEventState extends State<EditEvent> {
                   ],
                 ),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/events/event_details');
+                  Navigator.pop(context);
                 },
               ),
             ),],
@@ -372,7 +370,7 @@ class _EditEventState extends State<EditEvent> {
     final DateTime? selected = await showDatePicker(
         context: context,
         locale: appLocale,
-        initialDate: DateTime.now(),
+        initialDate: selectedEvent!.dateTime,
         firstDate: DateTime.now(),
         lastDate: DateTime(2099, 12, 31),
         helpText: "SELECCIONA LA FECHA DEL EVENTO",
@@ -399,7 +397,7 @@ class _EditEventState extends State<EditEvent> {
       helpText: "SELECCIONA LA HORA DEL EVENTO",
       cancelText: "CANCELAR",
       confirmText: "CONFIRMAR",
-      initialTime: TimeOfDay(hour: 0, minute: 0),
+      initialTime: TimeOfDay(hour: selectedEvent!.dateTime.hour, minute: selectedEvent!.dateTime.minute),
       initialEntryMode: TimePickerEntryMode.dial,
     );
     if (selected != null) {

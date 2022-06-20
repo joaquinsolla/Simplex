@@ -1,5 +1,8 @@
 TO-DO:
 --Actualmente/Prioridad:
+navegacion
+encriptar
+ver (y eliminar) eventes caducados
 
 --General/Final:
 crear widgets en el escritorio?

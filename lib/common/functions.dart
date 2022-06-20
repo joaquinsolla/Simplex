@@ -23,13 +23,6 @@ String timeToString(DateTime dateTime){
   else return DateFormat('h:mm aa').format(dateTime);
 }
 
-String millisecondsToStringDate(int millis){
-
-  DateTime date = DateTime.fromMicrosecondsSinceEpoch(millis*1000);
-
-  return dateToString(date);
-}
-
 String millisecondsToStringTime(int millis){
 
   DateTime date = DateTime.fromMicrosecondsSinceEpoch(millis*1000);
@@ -70,8 +63,21 @@ bool showNotification(BuildContext context, int id, String title, int notificati
   }
 }
 
-Future<void> cancelNotification(int notificationId) async {
+cancelNotification(int notificationId) async {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   await flutterLocalNotificationsPlugin.cancel(notificationId);
   debugPrint('[OK] Notification $notificationId canceled');
+}
+
+cancelAllNotifications(int eventId) async {
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  int not5Min = int.parse("1"+"$eventId");
+  int not1Hour = int.parse("2"+"$eventId");
+  int not1Day = int.parse("3"+"$eventId");
+
+  await flutterLocalNotificationsPlugin.cancel(not5Min);
+  await flutterLocalNotificationsPlugin.cancel(not1Hour);
+  await flutterLocalNotificationsPlugin.cancel(not1Day);
+
+  debugPrint('[OK] All notifications canceled for event $eventId');
 }
