@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
   /// VIEWS
   Container eventsView() {
 
-    bool hasEvents = false;
+    //bool hasEvents = false;
 
     late IconData filterIcon;
     if (useEventFilters==false) filterIcon = Icons.filter_list_rounded;
@@ -111,7 +111,7 @@ class _HomeState extends State<Home> {
               );
             } else if (snapshot.hasData) {
               final events = snapshot.data!;
-              if (events.length>0) hasEvents = true;
+              //if (events.length>0) hasEvents = true;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -121,9 +121,8 @@ class _HomeState extends State<Home> {
                           fontSize: deviceWidth * 0.05,
                           fontWeight: FontWeight.bold)
                   ),
-                  if (useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
-                  Column(
-                    children: events.map(buildEventBox).toList(),),
+                  if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
+                  Column(children: events.map(buildEventBox).toList(),),
                   if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
                 ],);
             } else {
@@ -136,18 +135,10 @@ class _HomeState extends State<Home> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               debugPrint('[ERR] ' + snapshot.error.toString());
-              return Container(
-                height: deviceHeight * 0.65,
-                alignment: Alignment.center,
-                child: Text(
-                  'Ha ocurrido un error. Revisa tu conexión a Internet o reinicia la app.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: deviceWidth * 0.0475, color: colorSecondText),),
-              );
+              return Container();
             } else if (snapshot.hasData) {
               final events = snapshot.data!;
-              if (events.length>0) hasEvents = true;
+              //if (events.length>0) hasEvents = true;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -157,9 +148,8 @@ class _HomeState extends State<Home> {
                           fontSize: deviceWidth * 0.05,
                           fontWeight: FontWeight.bold)
                   ),
-                  if (useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
-                  Column(
-                    children: events.map(buildEventBox).toList(),),
+                  if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
+                  Column(children: events.map(buildEventBox).toList(),),
                   if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
                 ],);
             } else {
@@ -172,18 +162,10 @@ class _HomeState extends State<Home> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               debugPrint('[ERR] ' + snapshot.error.toString());
-              return Container(
-                height: deviceHeight * 0.65,
-                alignment: Alignment.center,
-                child: Text(
-                  'Ha ocurrido un error. Revisa tu conexión a Internet o reinicia la app.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: deviceWidth * 0.0475, color: colorSecondText),),
-              );
+              return Container();
             } else if (snapshot.hasData) {
               final events = snapshot.data!;
-              if (events.length>0) hasEvents = true;
+              //if (events.length>0) hasEvents = true;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -193,9 +175,8 @@ class _HomeState extends State<Home> {
                           fontSize: deviceWidth * 0.05,
                           fontWeight: FontWeight.bold)
                   ),
-                  if (useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
-                  Column(
-                    children: events.map(buildEventBox).toList(),),
+                  if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
+                  Column(children: events.map(buildEventBox).toList(),),
                   if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
                 ],);
             } else {
@@ -208,18 +189,10 @@ class _HomeState extends State<Home> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               debugPrint('[ERR] ' + snapshot.error.toString());
-              return Container(
-                height: deviceHeight * 0.65,
-                alignment: Alignment.center,
-                child: Text(
-                  'Ha ocurrido un error. Revisa tu conexión a Internet o reinicia la app.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: deviceWidth * 0.0475, color: colorSecondText),),
-              );
+              return Container();
             } else if (snapshot.hasData) {
               final events = snapshot.data!;
-              if (events.length>0) hasEvents = true;
+              //if (events.length>0) hasEvents = true;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -229,9 +202,8 @@ class _HomeState extends State<Home> {
                           fontSize: deviceWidth * 0.05,
                           fontWeight: FontWeight.bold)
                   ),
-                  if (useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
-                  Column(
-                    children: events.map(buildEventBox).toList(),),
+                  if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
+                  Column(children: events.map(buildEventBox).toList(),),
                   if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
                 ],);
             } else {
