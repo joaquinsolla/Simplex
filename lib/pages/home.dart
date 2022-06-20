@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/classes/event.dart';
 import 'package:simplex/services/firestore_service.dart';
+import 'package:simplex/services/shared_preferences_service.dart';
 import 'all_pages.dart';
 
 class Home extends StatefulWidget {
@@ -40,7 +41,7 @@ class _HomeState extends State<Home> {
 
     List<Widget> homeViews = [
       eventsView(),
-      habitsView(),
+      routinesView(),
       todosView(),
       notesView(),
       settingsView(user)
@@ -232,10 +233,10 @@ class _HomeState extends State<Home> {
     ]);
   }
 
-  Container habitsView() {
+  Container routinesView() {
     return homeArea([
       homeHeaderSimple(
-        'Nuevos hábitos',
+        'Rutina',
         IconButton(
           icon: Icon(Icons.add_rounded,
               color: colorSpecialItem, size: deviceWidth * 0.085),
@@ -275,12 +276,6 @@ class _HomeState extends State<Home> {
   }
 
   Container settingsView(User user) {
-
-    late int format24HoursInt;
-    late int formatDatesInt;
-    late int appLocaleInt;
-    late int darkModeInt;
-
     return homeArea([
       headerText('Ajustes'),
       SizedBox(height: deviceHeight * 0.03,),
@@ -300,17 +295,8 @@ class _HomeState extends State<Home> {
             onChanged: (val) {
               setState(() {
                 format24Hours = val;
-                if (val==false) format24HoursInt = 0;
-                else format24HoursInt = 1;
-                // To avoid data lost
-                if (formatDates==false) formatDatesInt=0;
-                else formatDatesInt=1;
-                if (appLocale==Locale('es', '')) appLocaleInt=1;
-                else appLocaleInt=0;
-                if (darkMode==false) darkModeInt=0;
-                else darkModeInt=1;
               });
-              debugPrint('[OK] Time format changed');
+              saveSetting('format24Hours', val);
             },
             activeColor: colorSpecialItem,
           ),),
@@ -327,17 +313,8 @@ class _HomeState extends State<Home> {
             onChanged: (val) {
               setState(() {
                 formatDates = val;
-                if (val==false) formatDatesInt = 0;
-                else formatDatesInt = 1;
-                // To avoid data lost
-                if (format24Hours==false) format24HoursInt=0;
-                else format24HoursInt=1;
-                if (appLocale==Locale('es', '')) appLocaleInt=1;
-                else appLocaleInt=0;
-                if (darkMode==false) darkModeInt=0;
-                else darkModeInt=1;
               });
-              debugPrint('[OK] Time format changed');
+              saveSetting('formatDates', val);
             },
             activeColor: colorSpecialItem,
           ),),
@@ -349,25 +326,18 @@ class _HomeState extends State<Home> {
         settingsRow(
           'Calendario Europeo',
           'Decide en qué día comienza la semana.'
-            '\nActivado: Lunes (Europa).\n'
-            'Desactivado: Domingo (US).',
+              '\nActivado: Lunes (Europa).\n'
+              'Desactivado: Domingo (US).',
           Switch(
             value: (appLocale == Locale('es', '')),
             onChanged: (val) {
               setState(() {
-                if (val==true) appLocale = Locale('es', '');
-                else appLocale = Locale('en', '');
-                if (val==false) appLocaleInt = 0;
-                else appLocaleInt = 1;
-                // To avoid data lost
-                if (format24Hours==false) format24HoursInt=0;
-                else format24HoursInt=1;
-                if (formatDates==false) formatDatesInt=0;
-                else formatDatesInt=1;
-                if (darkMode==false) darkModeInt=0;
-                else darkModeInt=1;
+                if (val == true)
+                  appLocale = Locale('es', '');
+                else
+                  appLocale = Locale('en', '');
               });
-              debugPrint('[OK] Calendar format changed');
+              saveSetting('appLocale', val);
             },
             activeColor: colorSpecialItem,
           ),),
@@ -391,15 +361,6 @@ class _HomeState extends State<Home> {
             onChanged: (val) {
               setState(() {
                 darkMode = val;
-                if (val==false) darkModeInt = 0;
-                else darkModeInt = 1;
-                // To avoid data lost
-                if (format24Hours==false) format24HoursInt=0;
-                else format24HoursInt=1;
-                if (formatDates==false) formatDatesInt=0;
-                else formatDatesInt=1;
-                if (appLocale==Locale('es', '')) appLocaleInt=1;
-                else appLocaleInt=0;
                 if (val == true) {
                   colorMainBackground = Colors.black;
                   colorSecondBackground = const Color(0xff1c1c1f);
@@ -422,7 +383,7 @@ class _HomeState extends State<Home> {
                   colorThirdText = const Color(0xff747471);
                 }
               });
-              debugPrint('[OK] DarkMode changed');
+              saveSetting('darkMode', val);
             },
             activeColor: colorSpecialItem,
           ),),
@@ -443,7 +404,7 @@ class _HomeState extends State<Home> {
             color: colorMainText,
             fontSize: deviceWidth * 0.0475,
             fontWeight: FontWeight.bold),),
-        SizedBox(height: deviceHeight*0.0025,),
+        SizedBox(height: deviceHeight * 0.0025,),
         Text(user.email!, style: TextStyle(
             color: colorSecondText,
             fontSize: deviceWidth * 0.04,
@@ -459,31 +420,35 @@ class _HomeState extends State<Home> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [ SizedBox(
-            width: deviceWidth*0.8,
-            height: deviceHeight*0.07,
-            child: TextButton(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(Icons.logout_rounded, color: Colors.red, size: deviceWidth * 0.06),
-                  Text(
-                    ' Cerrar sesión ',
-                    style: TextStyle(
-                        color: Colors.red,
-                        fontSize: deviceWidth * 0.05,
-                        fontWeight: FontWeight.normal),
-                  ),
-                  Icon(Icons.logout_rounded, color: Colors.transparent, size: deviceWidth * 0.06),
-                ],
+          children: [
+            SizedBox(
+              width: deviceWidth * 0.8,
+              height: deviceHeight * 0.07,
+              child: TextButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.logout_rounded, color: Colors.red,
+                        size: deviceWidth * 0.06),
+                    Text(
+                      ' Cerrar sesión ',
+                      style: TextStyle(
+                          color: Colors.red,
+                          fontSize: deviceWidth * 0.05,
+                          fontWeight: FontWeight.normal),
+                    ),
+                    Icon(Icons.logout_rounded, color: Colors.transparent,
+                        size: deviceWidth * 0.06),
+                  ],
+                ),
+                onPressed: () {
+                  loginIndex = 0;
+                  FirebaseAuth.instance.signOut();
+                },
               ),
-              onPressed: (){
-                loginIndex = 0;
-                FirebaseAuth.instance.signOut();
-              },
             ),
-          ),],
+          ],
         ),
       ),
       SizedBox(height: deviceHeight * 0.025),
@@ -505,11 +470,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void _readSettings() async {
-    // TODO: implement
-    debugPrint('[OK] Read settings');
-  }
-
   /// AUX WIDGETS
   BottomNavyBar homeBottomNavigationBar() {
     return BottomNavyBar(
@@ -524,7 +484,7 @@ class _HomeState extends State<Home> {
       curve: Curves.easeInOutQuart,
       items: <BottomNavyBarItem>[
         myBottomNavyBarItem('Eventos', const Icon(Icons.today_rounded)),
-        myBottomNavyBarItem('Hábitos', const Icon(Icons.lightbulb_outline_rounded)),
+        myBottomNavyBarItem('Rutina', const Icon(Icons.timeline_rounded)),
         myBottomNavyBarItem('Tareas', const Icon(Icons.check_circle_outline_rounded)),
         myBottomNavyBarItem('Notas', const Icon(Icons.sticky_note_2_outlined)),
         myBottomNavyBarItem('Ajustes', const Icon(Icons.settings_outlined)),

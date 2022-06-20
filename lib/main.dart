@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:simplex/services/shared_preferences_service.dart';
 
 import 'common/vars.dart';
 import 'pages/all_pages.dart';
@@ -12,6 +13,7 @@ import 'pages/all_pages.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await readSettings();
 
   runApp(MaterialApp(
     navigatorKey: navigatorKey,
