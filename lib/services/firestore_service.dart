@@ -48,6 +48,13 @@ Stream<List<Event>> readRestOfEvents() => FirebaseFirestore.instance.
     .orderBy('color', descending: true).orderBy('id', descending: false).snapshots().map((snapshot) =>
     snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
 
+Stream<List<Event>> readExpiredEvents() => FirebaseFirestore.instance.
+collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('events')
+    .where('dateTime', isLessThan: DateTime.now())
+    .orderBy('dateTime', descending: false)
+    .orderBy('color', descending: true).orderBy('id', descending: false).snapshots().map((snapshot) =>
+    snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
+
 Future createEvent(int id, String name, String description, DateTime dateTime, int color, int not5Min, int not1Hour, int not1Day) async{
   final user = FirebaseAuth.instance.currentUser!;
   final doc = FirebaseFirestore.instance.collection('users').doc(user.uid).collection('events').doc(id.toString());

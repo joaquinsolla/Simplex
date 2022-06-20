@@ -58,13 +58,18 @@ Row authHeader(){
   );
 }
 
-Container headerText(String content) {
-  return Container(
-    child: Text(content,
+Text headerText(String content) {
+  return Text(content,
         style: TextStyle(
             color: colorMainText,
             fontSize: deviceWidth * 0.1,
-            fontWeight: FontWeight.bold)),
+            fontWeight: FontWeight.bold));
+}
+
+Container headerTextBox(String content) {
+  return Container(
+    width: deviceWidth*0.72,
+    child: headerText(content),
   );
 }
 
@@ -85,7 +90,7 @@ Column homeHeaderSimple(String text, Widget addButton) {
   );
 }
 
-Column homeHeaderAdvanced(String text, Widget specialButton, Widget addButton) {
+Column homeHeaderDouble(String text, Widget specialButton, Widget addButton) {
   return Column(
     children: [
       Row(
@@ -104,10 +109,32 @@ Column homeHeaderAdvanced(String text, Widget specialButton, Widget addButton) {
   );
 }
 
+Column homeHeaderTriple(String text, Widget specialButton1, Widget specialButton2, Widget addButton) {
+  return Column(
+    children: [
+      Row(
+        children: [
+          headerText(text),
+          const Expanded(child: Text('')),
+          specialButton1,
+          SizedBox(width: deviceWidth*0.01,),
+          specialButton2,
+          SizedBox(width: deviceWidth*0.01,),
+          addButton,
+        ],
+      ),
+      SizedBox(
+        height: deviceHeight * 0.03,
+      ),
+    ],
+  );
+}
+
 Column pageHeader(BuildContext context, String text) {
   return Column(
     children: [
       Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           IconButton(
             icon: Icon(Icons.arrow_back_rounded,
@@ -118,7 +145,7 @@ Column pageHeader(BuildContext context, String text) {
             },
           ),
           SizedBox(width: deviceWidth*0.0075,),
-          headerText(text),
+          headerTextBox(text),
         ],
       ),
       SizedBox(height: deviceHeight*0.03,)

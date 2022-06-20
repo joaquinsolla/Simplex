@@ -33,6 +33,7 @@ Future main() async {
       '/events/add_event': (context) => const AddEvent(),
       '/events/event_details': (context) => const EventDetails(),
       '/events/edit_event': (context) => const EditEvent(),
+      '/events/expired_events': (context) => const ExpiredEvents(),
     },
   ));
 

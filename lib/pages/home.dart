@@ -71,7 +71,15 @@ class _HomeState extends State<Home> {
     else filterIcon = Icons.filter_list_off_rounded;
 
     return homeArea([
-      homeHeaderAdvanced('Eventos',
+      homeHeaderTriple('Eventos',
+        IconButton(
+          icon: Icon(Icons.history_rounded,
+              color: colorSpecialItem, size: deviceWidth * 0.085),
+          splashRadius: 0.001,
+          onPressed: () {
+            Navigator.pushNamed(context, '/events/expired_events');
+          },
+        ),
         IconButton(
           icon: Icon(filterIcon,
               color: colorSpecialItem, size: deviceWidth * 0.085),
@@ -126,7 +134,7 @@ class _HomeState extends State<Home> {
                   if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
                 ],);
             } else {
-              return Container();
+              return SizedBox.shrink();
             }
           }),
 
@@ -135,7 +143,7 @@ class _HomeState extends State<Home> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               debugPrint('[ERR] ' + snapshot.error.toString());
-              return Container();
+              return SizedBox.shrink();
             } else if (snapshot.hasData) {
               final events = snapshot.data!;
               //if (events.length>0) hasEvents = true;
@@ -153,7 +161,7 @@ class _HomeState extends State<Home> {
                   if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
                 ],);
             } else {
-              return Container();
+              return SizedBox.shrink();
             }
           }),
 
@@ -162,7 +170,7 @@ class _HomeState extends State<Home> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               debugPrint('[ERR] ' + snapshot.error.toString());
-              return Container();
+              return SizedBox.shrink();
             } else if (snapshot.hasData) {
               final events = snapshot.data!;
               //if (events.length>0) hasEvents = true;
@@ -180,7 +188,7 @@ class _HomeState extends State<Home> {
                   if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
                 ],);
             } else {
-              return Container();
+              return SizedBox.shrink();
             }
           }),
 
@@ -189,7 +197,7 @@ class _HomeState extends State<Home> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               debugPrint('[ERR] ' + snapshot.error.toString());
-              return Container();
+              return SizedBox.shrink();
             } else if (snapshot.hasData) {
               final events = snapshot.data!;
               //if (events.length>0) hasEvents = true;
@@ -207,14 +215,14 @@ class _HomeState extends State<Home> {
                   if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
                 ],);
             } else {
-              return Container();
+              return SizedBox.shrink();
             }
           }),
 
       /*
       // TODO: fix
       if (hasEvents==false) Container(
-        height: deviceHeight*0.6,
+        height: deviceHeight*0.65,
         alignment: Alignment.center,
         child: Text('No tienes eventos guardados todavía. Para crear uno pulsa el botón + en la parte superior de la pantalla.',
           textAlign: TextAlign.center,
@@ -829,7 +837,7 @@ class _HomeState extends State<Home> {
         ],
       ),
     );
-    else return Container();
+    else return SizedBox.shrink();
   }
 
 }
