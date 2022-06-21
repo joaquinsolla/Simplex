@@ -444,6 +444,7 @@ class _HomeState extends State<Home> {
                 ),
                 onPressed: () {
                   loginIndex = 0;
+                  homeIndex = 0;
                   FirebaseAuth.instance.signOut();
                 },
               ),
