@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:simplex/services/shared_preferences_service.dart';
+import 'package:simplex/services/change_password_service.dart';
 
 import 'common/vars.dart';
 import 'pages/all_pages.dart';
@@ -36,6 +37,7 @@ Future main() async {
       '/events/event_details': (context) => const EventDetails(),
       '/events/edit_event': (context) => const EditEvent(),
       '/events/expired_events': (context) => const ExpiredEvents(),
+      '/services/change_password_service': (context) => const ChangePasswordService(),
     },
   ));
 

@@ -405,11 +405,31 @@ class _HomeState extends State<Home> {
             fontSize: deviceWidth * 0.0475,
             fontWeight: FontWeight.bold),),
         SizedBox(height: deviceHeight * 0.0025,),
-        Text(user.email!, style: TextStyle(
-            color: colorSecondText,
-            fontSize: deviceWidth * 0.04,
-            fontWeight: FontWeight.normal),),
+        Wrap(
+          children: [
+            Text(user.email!, style: TextStyle(
+                color: colorSecondText,
+                fontSize: deviceWidth * 0.04,
+                fontWeight: FontWeight.normal),),
+            SizedBox(width: deviceWidth * 0.005,),
+            Icon(Icons.verified_rounded, color: colorSecondText, size: deviceWidth*0.04,),
+          ],
+        ),
         SizedBox(height: deviceHeight * 0.005,),
+        Divider(color: colorThirdText),
+        Container(
+          width: deviceWidth*0.8,
+          height: deviceHeight*0.05,
+          child: TextButton(
+            child: Text('Cambia tu contraseña', style: TextStyle(
+                color: colorSpecialItem,
+                fontSize: deviceWidth * 0.04,
+                fontWeight: FontWeight.normal),),
+            onPressed: (){
+              Navigator.pushNamed(context, '/services/change_password_service');
+            },
+          ),
+        ),
       ]),
       SizedBox(height: deviceHeight * 0.025),
       Container(
