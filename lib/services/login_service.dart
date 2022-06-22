@@ -198,6 +198,7 @@ class _LogInServiceState extends State<LogInService> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+      debugPrint('[OK] Logged in');
     } on FirebaseAuthException catch (e){
       if (e.message!.contains('The password is invalid or the user does not have a password.')) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Contraseña incorrecta"),

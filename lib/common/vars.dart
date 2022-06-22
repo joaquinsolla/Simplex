@@ -14,6 +14,7 @@ int homeIndex = 0;
 Event? selectedEvent;
 bool useEventFilters = false;
 int currentEventFilter = 0;
+bool isTester = false;
 
 /// SETTINGS HERE
 bool format24Hours = true;

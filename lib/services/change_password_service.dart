@@ -250,13 +250,13 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
 
     if (hasErrors==false) try {
       await FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
-      debugPrint('[OK] Password updated');
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Se ha actualizado tu contraseña"),
         backgroundColor: Colors.green,
         behavior: SnackBarBehavior.floating,
         duration: Duration(seconds: 2),
       ));
+      debugPrint('[OK] Password updated');
     } on Exception catch (e){
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Ha ocurrido un error, inténtalo de nuevo"),

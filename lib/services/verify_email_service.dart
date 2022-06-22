@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
@@ -153,7 +154,19 @@ class _VerifyEmailServiceState extends State<VerifyEmailService> {
       verifiedEmail = FirebaseAuth.instance.currentUser!.emailVerified;
     });
 
-    if (verifiedEmail) timer?.cancel();
+    if (verifiedEmail) {
+      timer?.cancel();
+
+      final user = FirebaseAuth.instance.currentUser!;
+      final doc = FirebaseFirestore.instance.collection('users').doc(user.uid);
+
+      final json = {
+        'emailVerified': user.emailVerified,
+      };
+
+      await doc.update(json);
+      debugPrint('[OK] Email verified');
+    }
   }
 
   Future sendVerificationEmail() async {

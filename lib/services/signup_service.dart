@@ -250,6 +250,7 @@ class _SignUpServiceState extends State<SignUpService> {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
+      debugPrint('[OK] Signed up, waiting for email verification');
     } on FirebaseAuthException catch (e){
       if (e.message!.contains('The email address is already in use by another account.')) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Ya existe una cuenta con este email"),

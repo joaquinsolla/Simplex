@@ -10,6 +10,8 @@ Future createUserDoc() async{
 
   final json = {
     'userId': user.uid,
+    'emailVerified': false,
+    'tester': false,
   };
 
   await doc.set(json);

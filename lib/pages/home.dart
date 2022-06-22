@@ -1,4 +1,5 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:focused_menu/focused_menu.dart';
@@ -25,6 +26,9 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     selectedEvent = null;
+    final user = FirebaseAuth.instance.currentUser!;
+    final doc = FirebaseFirestore.instance.collection('users').doc(user.uid);
+    doc.get().then((val) => isTester = val.data()!['tester']);
   }
 
   @override
@@ -415,6 +419,18 @@ class _HomeState extends State<Home> {
             Icon(Icons.verified_rounded, color: colorSecondText, size: deviceWidth*0.04,),
           ],
         ),
+        if (isTester) SizedBox(height: deviceHeight * 0.005,),
+        if (isTester) Divider(color: colorThirdText),
+        if (isTester) SizedBox(height: deviceHeight * 0.005,),
+        if (isTester) Text('Tester:', style: TextStyle(
+            color: colorMainText,
+            fontSize: deviceWidth * 0.0475,
+            fontWeight: FontWeight.bold),),
+        if (isTester) SizedBox(height: deviceHeight * 0.0025,),
+        if (isTester) Text('Formas parte del programa de testers', style: TextStyle(
+            color: colorSecondText,
+            fontSize: deviceWidth * 0.04,
+            fontWeight: FontWeight.normal),),
         SizedBox(height: deviceHeight * 0.005,),
         Divider(color: colorThirdText),
         Container(
@@ -466,6 +482,7 @@ class _HomeState extends State<Home> {
                   loginIndex = 0;
                   homeIndex = 0;
                   FirebaseAuth.instance.signOut();
+                  debugPrint('[OK] Signed out');
                 },
               ),
             ),

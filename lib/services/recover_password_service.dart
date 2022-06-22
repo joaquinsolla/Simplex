@@ -155,6 +155,7 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
         behavior: SnackBarBehavior.floating,
         duration: Duration(seconds: 2),
       ));
+      debugPrint('[OK] Password recovery email sent');
     } on FirebaseAuthException catch (e){
       if (e.message!.contains('There is no user record corresponding to this identifier. The user may have been deleted.')) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("No existe ninguna cuenta con este email"),
