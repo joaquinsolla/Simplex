@@ -217,7 +217,7 @@ class _HomeState extends State<Home> {
             }
           }),
 
-      SizedBox(height: deviceHeight*0.02,),
+      SizedBox(height: deviceHeight*0.015,),
       if (darkMode==false && useEventFilters==false) Container(
         width: deviceWidth*0.85,
         alignment: Alignment.center,
