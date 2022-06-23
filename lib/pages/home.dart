@@ -217,18 +217,31 @@ class _HomeState extends State<Home> {
             }
           }),
 
-      SizedBox(height: deviceHeight*0.015,),
-      if (darkMode==false && useEventFilters==false) Container(
-        width: deviceWidth*0.85,
-        alignment: Alignment.center,
-        child: Image.asset('assets/event_preview_light.png', scale: deviceWidth*0.008,),
-      ),
-      if (darkMode==true && useEventFilters==false) Container(
-        width: deviceWidth*0.85,
-        alignment: Alignment.center,
-        child: Image.asset('assets/event_preview_dark.png', scale: deviceWidth*0.008,),
-      ),
-      SizedBox(height: deviceHeight*0.03,),
+      StreamBuilder<List<Event>>(
+          stream: readValidEvents(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              debugPrint('[ERR] ' + snapshot.error.toString());
+              return SizedBox.shrink();
+            } else if (snapshot.hasData) {
+              final eventsLength = snapshot.data!.length;
+              if (darkMode==false && eventsLength<=0 &&useEventFilters==false) return Container(
+                width: deviceWidth*0.85,
+                height: deviceHeight*0.65,
+                alignment: Alignment.center,
+                child: Image.asset('assets/event_preview_light.png', scale: deviceWidth*0.008,),
+              );
+              else if (darkMode==true && eventsLength<=0 &&useEventFilters==false) return Container(
+                width: deviceWidth*0.85,
+                height: deviceHeight*0.65,
+                alignment: Alignment.center,
+                child: Image.asset('assets/event_preview_dark.png', scale: deviceWidth*0.008,),
+              );
+              else return SizedBox.shrink();
+            } else {
+              return SizedBox.shrink();
+            }
+          }),
     ]);
   }
 

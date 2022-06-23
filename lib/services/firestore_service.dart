@@ -19,6 +19,11 @@ Future createUserDoc() async{
 }
 
 /// EVENTS MANAGEMENT
+Stream<List<Event>> readValidEvents() => FirebaseFirestore.instance.
+collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('events')
+    .where('dateTime', isGreaterThanOrEqualTo: DateTime.now()).snapshots().map((snapshot) =>
+    snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
+
 Stream<List<Event>> readTodayEvents() => FirebaseFirestore.instance.
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('events')
     .where('dateTime', isGreaterThanOrEqualTo: DateTime.now())
