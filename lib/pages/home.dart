@@ -68,9 +68,6 @@ class _HomeState extends State<Home> {
 
   /// VIEWS
   Container eventsView() {
-
-    //bool hasEvents = false;
-
     late IconData filterIcon;
     if (useEventFilters==false) filterIcon = Icons.filter_list_rounded;
     else filterIcon = Icons.filter_list_off_rounded;
@@ -124,7 +121,6 @@ class _HomeState extends State<Home> {
               );
             } else if (snapshot.hasData) {
               final events = snapshot.data!;
-              //if (events.length>0) hasEvents = true;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -151,7 +147,6 @@ class _HomeState extends State<Home> {
               return SizedBox.shrink();
             } else if (snapshot.hasData) {
               final events = snapshot.data!;
-              //if (events.length>0) hasEvents = true;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -178,7 +173,6 @@ class _HomeState extends State<Home> {
               return SizedBox.shrink();
             } else if (snapshot.hasData) {
               final events = snapshot.data!;
-              //if (events.length>0) hasEvents = true;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -205,7 +199,6 @@ class _HomeState extends State<Home> {
               return SizedBox.shrink();
             } else if (snapshot.hasData) {
               final events = snapshot.data!;
-              //if (events.length>0) hasEvents = true;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -224,16 +217,18 @@ class _HomeState extends State<Home> {
             }
           }),
 
-      /*
-      // TODO: fix
-      if (hasEvents==false) Container(
-        height: deviceHeight*0.65,
+      SizedBox(height: deviceHeight*0.02,),
+      if (darkMode==false && useEventFilters==false) Container(
+        width: deviceWidth*0.85,
         alignment: Alignment.center,
-        child: Text('No tienes eventos guardados todavía. Para crear uno pulsa el botón + en la parte superior de la pantalla.',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: deviceWidth*0.0475, color: colorSecondText),),
+        child: Image.asset('assets/event_preview_light.png', scale: deviceWidth*0.008,),
       ),
-      */
+      if (darkMode==true && useEventFilters==false) Container(
+        width: deviceWidth*0.85,
+        alignment: Alignment.center,
+        child: Image.asset('assets/event_preview_dark.png', scale: deviceWidth*0.008,),
+      ),
+      SizedBox(height: deviceHeight*0.03,),
     ]);
   }
 
@@ -427,7 +422,7 @@ class _HomeState extends State<Home> {
             fontSize: deviceWidth * 0.0475,
             fontWeight: FontWeight.bold),),
         if (isTester) SizedBox(height: deviceHeight * 0.0025,),
-        if (isTester) Text('Formas parte del programa de testers', style: TextStyle(
+        if (isTester) Text('Formas parte del programa de testers.', style: TextStyle(
             color: colorSecondText,
             fontSize: deviceWidth * 0.04,
             fontWeight: FontWeight.normal),),

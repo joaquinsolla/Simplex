@@ -1,16 +1,14 @@
 TO-DO:
 --Actualmente/Prioridad:
-navegacion
-encriptar
-ver (y eliminar) eventes caducados
 
 --General/Final:
 crear widgets en el escritorio?
-link para compartir evento?
 solo vertical o arreglar medidas?
 INTERNACIONALIZACION
 
 DOING:
+link para compartir evento
+
 
 DONE:
 comprobar notificaciones al gestionarlas
