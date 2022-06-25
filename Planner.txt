@@ -1,13 +1,12 @@
 TO-DO:
---Actualmente/Prioridad:
-
---General/Final:
+migrar views
+notificaciones personalizadas
 crear widgets en el escritorio?
 solo vertical o arreglar medidas?
+link para compartir evento
 INTERNACIONALIZACION
 
 DOING:
-link para compartir evento
 
 
 DONE:

@@ -286,36 +286,25 @@ class _EditEventState extends State<EditEvent> {
                     nameFocusNode.requestFocus();
                   } else {
                     DateTime newFullDateTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
+                    try {
+                      await updateEvent(selectedEvent!.id, nameController.text, descriptionController.text, newFullDateTime, selectedColor);
 
-                    if (DateTime.now().isAfter(newFullDateTime)){
+                      Navigator.of(context).popUntil((route) => route.isFirst);
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("La hora del evento ya ha pasado"),
+                        content: Text("Evento actualizado"),
+                        backgroundColor: Colors.green,
+                        behavior: SnackBarBehavior.floating,
+                        duration: Duration(seconds: 2),
+                      ));
+
+                    } on Exception catch (e) {
+                      debugPrint('[ERR] Could not edit event: $e');
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Ha ocurrido un error"),
                         backgroundColor: Colors.red,
                         behavior: SnackBarBehavior.floating,
                         duration: Duration(seconds: 2),
                       ));
-                      timeFocusNode.requestFocus();
-                    } else {
-                      try {
-                        await updateEvent(selectedEvent!.id, nameController.text, descriptionController.text, newFullDateTime, selectedColor);
-
-                        Navigator.of(context).popUntil((route) => route.isFirst);
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Evento actualizado"),
-                          backgroundColor: Colors.green,
-                          behavior: SnackBarBehavior.floating,
-                          duration: Duration(seconds: 2),
-                        ));
-
-                      } on Exception catch (e) {
-                        debugPrint('[ERR] Could not edit event: $e');
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Ha ocurrido un error"),
-                          backgroundColor: Colors.red,
-                          behavior: SnackBarBehavior.floating,
-                          duration: Duration(seconds: 2),
-                        ));
-                      }
                     }
                   }
                 },
@@ -371,7 +360,7 @@ class _EditEventState extends State<EditEvent> {
         context: context,
         locale: appLocale,
         initialDate: selectedEvent!.dateTime,
-        firstDate: DateTime.now(),
+        firstDate: DateTime(2000, 1, 1),
         lastDate: DateTime(2099, 12, 31),
         helpText: "SELECCIONA LA FECHA DEL EVENTO",
         cancelText: "CANCELAR",

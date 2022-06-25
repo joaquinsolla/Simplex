@@ -7,7 +7,7 @@ import 'package:focused_menu/modals.dart';
 import 'package:intl/intl.dart';
 
 import 'package:simplex/common/all_common.dart';
-import 'package:simplex/classes/event.dart';
+import 'package:simplex/classes/all_classes.dart';
 import 'package:simplex/services/firestore_service.dart';
 import 'package:simplex/services/shared_preferences_service.dart';
 import 'all_pages.dart';
@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
     if (deviceChecked == false) check_device();
 
     List<Widget> homeViews = [
-      eventsView(),
+      EventsMainPage(),
       routinesView(),
       todosView(),
       notesView(),
@@ -67,184 +67,6 @@ class _HomeState extends State<Home> {
   }
 
   /// VIEWS
-  Container eventsView() {
-    late IconData filterIcon;
-    if (useEventFilters==false) filterIcon = Icons.filter_list_rounded;
-    else filterIcon = Icons.filter_list_off_rounded;
-
-    return homeArea([
-      homeHeaderTriple('Eventos',
-        IconButton(
-          icon: Icon(Icons.history_rounded,
-              color: colorSpecialItem, size: deviceWidth * 0.085),
-          splashRadius: 0.001,
-          onPressed: () {
-            Navigator.pushNamed(context, '/events/expired_events');
-          },
-        ),
-        IconButton(
-          icon: Icon(filterIcon,
-              color: colorSpecialItem, size: deviceWidth * 0.085),
-          splashRadius: 0.001,
-          onPressed: () {
-            setState(() {
-              useEventFilters = !useEventFilters;
-            });
-          },
-        ),
-        IconButton(
-          icon: Icon(Icons.add_rounded,
-              color: colorSpecialItem, size: deviceWidth * 0.085),
-          splashRadius: 0.001,
-          onPressed: () {
-            Navigator.pushNamed(context, '/events/add_event');
-          },
-        ),
-      ),
-
-      if(useEventFilters) filterSelector(),
-      if(useEventFilters) SizedBox(height: deviceHeight*0.02,),
-
-      StreamBuilder<List<Event>>(
-          stream: readTodayEvents(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              debugPrint('[ERR] ' + snapshot.error.toString());
-              return Container(
-                height: deviceHeight * 0.65,
-                alignment: Alignment.center,
-                child: Text(
-                  'Ha ocurrido un error. Revisa tu conexión a Internet o reinicia la app.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: deviceWidth * 0.0475, color: colorSecondText),),
-              );
-            } else if (snapshot.hasData) {
-              final events = snapshot.data!;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (events.length>0 && useEventFilters==false) Text('Hoy (' + events.length.toString() + ')',
-                      style: TextStyle(
-                          color: colorMainText,
-                          fontSize: deviceWidth * 0.05,
-                          fontWeight: FontWeight.bold)
-                  ),
-                  if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
-                  Column(children: events.map(buildEventBox).toList(),),
-                  if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
-                ],);
-            } else {
-              return SizedBox.shrink();
-            }
-          }),
-
-      StreamBuilder<List<Event>>(
-          stream: readTomorrowEvents(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              debugPrint('[ERR] ' + snapshot.error.toString());
-              return SizedBox.shrink();
-            } else if (snapshot.hasData) {
-              final events = snapshot.data!;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (events.length>0 && useEventFilters==false) Text('Mañana (' + events.length.toString() + ')',
-                      style: TextStyle(
-                          color: colorMainText,
-                          fontSize: deviceWidth * 0.05,
-                          fontWeight: FontWeight.bold)
-                  ),
-                  if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
-                  Column(children: events.map(buildEventBox).toList(),),
-                  if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
-                ],);
-            } else {
-              return SizedBox.shrink();
-            }
-          }),
-
-      StreamBuilder<List<Event>>(
-          stream: readThisMonthEvents(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              debugPrint('[ERR] ' + snapshot.error.toString());
-              return SizedBox.shrink();
-            } else if (snapshot.hasData) {
-              final events = snapshot.data!;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (events.length>0 && useEventFilters==false) Text('Este mes (' + events.length.toString() + ')',
-                      style: TextStyle(
-                          color: colorMainText,
-                          fontSize: deviceWidth * 0.05,
-                          fontWeight: FontWeight.bold)
-                  ),
-                  if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
-                  Column(children: events.map(buildEventBox).toList(),),
-                  if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
-                ],);
-            } else {
-              return SizedBox.shrink();
-            }
-          }),
-
-      StreamBuilder<List<Event>>(
-          stream: readRestOfEvents(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              debugPrint('[ERR] ' + snapshot.error.toString());
-              return SizedBox.shrink();
-            } else if (snapshot.hasData) {
-              final events = snapshot.data!;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (events.length>0 && useEventFilters==false) Text('Próximamente (' + events.length.toString() + ')',
-                      style: TextStyle(
-                          color: colorMainText,
-                          fontSize: deviceWidth * 0.05,
-                          fontWeight: FontWeight.bold)
-                  ),
-                  if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
-                  Column(children: events.map(buildEventBox).toList(),),
-                  if (events.length>0 && useEventFilters==false) SizedBox(height: deviceHeight * 0.01),
-                ],);
-            } else {
-              return SizedBox.shrink();
-            }
-          }),
-
-      StreamBuilder<List<Event>>(
-          stream: readValidEvents(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              debugPrint('[ERR] ' + snapshot.error.toString());
-              return SizedBox.shrink();
-            } else if (snapshot.hasData) {
-              final eventsLength = snapshot.data!.length;
-              if (darkMode==false && eventsLength<=0 &&useEventFilters==false) return Container(
-                width: deviceWidth*0.85,
-                height: deviceHeight*0.65,
-                alignment: Alignment.center,
-                child: Image.asset('assets/event_preview_light.png', scale: deviceWidth*0.008,),
-              );
-              else if (darkMode==true && eventsLength<=0 &&useEventFilters==false) return Container(
-                width: deviceWidth*0.85,
-                height: deviceHeight*0.65,
-                alignment: Alignment.center,
-                child: Image.asset('assets/event_preview_dark.png', scale: deviceWidth*0.008,),
-              );
-              else return SizedBox.shrink();
-            } else {
-              return SizedBox.shrink();
-            }
-          }),
-    ]);
-  }
-
   Container routinesView() {
     return homeArea([
       homeHeaderSimple(
@@ -260,16 +82,90 @@ class _HomeState extends State<Home> {
   }
 
   Container todosView() {
+    late IconData filterIcon;
+    if (useTodosFilters==false) filterIcon = Icons.filter_list_rounded;
+    else filterIcon = Icons.filter_list_off_rounded;
+
     return homeArea([
-      homeHeaderSimple(
+      homeHeaderDouble(
         'Tareas',
+        IconButton(
+          icon: Icon(filterIcon,
+              color: colorSpecialItem, size: deviceWidth * 0.085),
+          splashRadius: 0.001,
+          onPressed: () {
+            setState(() {
+              useTodosFilters = !useTodosFilters;
+            });
+          },
+        ),
         IconButton(
           icon: Icon(Icons.add_rounded,
               color: colorSpecialItem, size: deviceWidth * 0.085),
           splashRadius: 0.001,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, '/todos/add_todo');
+          },
         ),
       ),
+
+      if(useTodosFilters) filterSelector(),
+      if(useTodosFilters) SizedBox(height: deviceHeight*0.02,),
+
+      StreamBuilder<List<Todo>>(
+          stream: readPendingTodos(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              debugPrint('[ERR] ' + snapshot.error.toString());
+              return SizedBox.shrink();
+            } else if (snapshot.hasData) {
+              final todos = snapshot.data!;
+              return SizedBox();
+            } else {
+              return SizedBox.shrink();
+            }
+          }),
+
+      StreamBuilder<List<Todo>>(
+          stream: readDoneTodos(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              debugPrint('[ERR] ' + snapshot.error.toString());
+              return SizedBox.shrink();
+            } else if (snapshot.hasData) {
+              final todos = snapshot.data!;
+              return SizedBox();
+            } else {
+              return SizedBox.shrink();
+            }
+          }),
+
+      StreamBuilder<List<Todo>>(
+          stream: readAllTodos(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              debugPrint('[ERR] ' + snapshot.error.toString());
+              return SizedBox.shrink();
+            } else if (snapshot.hasData) {
+              final todosLength = snapshot.data!.length;
+              if (darkMode==false && todosLength<=0 &&useTodosFilters==false) return Container(
+                width: deviceWidth*0.85,
+                height: deviceHeight*0.65,
+                alignment: Alignment.center,
+                child: Image.asset('assets/event_preview_light.png', scale: deviceWidth*0.008,),
+              );
+              else if (darkMode==true && todosLength<=0 &&useTodosFilters==false) return Container(
+                width: deviceWidth*0.85,
+                height: deviceHeight*0.65,
+                alignment: Alignment.center,
+                child: Image.asset('assets/event_preview_dark.png', scale: deviceWidth*0.008,),
+              );
+              else return SizedBox.shrink();
+            } else {
+              return SizedBox.shrink();
+            }
+          }),
+
     ]);
   }
 
@@ -529,7 +425,7 @@ class _HomeState extends State<Home> {
       iconSize: deviceHeight*0.0325,
       curve: Curves.easeInOutQuart,
       items: <BottomNavyBarItem>[
-        myBottomNavyBarItem('Eventos', const Icon(Icons.today_rounded)),
+        myBottomNavyBarItem('Calendario', const Icon(Icons.today_rounded)),
         myBottomNavyBarItem('Rutina', const Icon(Icons.timeline_rounded)),
         myBottomNavyBarItem('Tareas', const Icon(Icons.check_circle_outline_rounded)),
         myBottomNavyBarItem('Notas', const Icon(Icons.sticky_note_2_outlined)),
@@ -576,11 +472,11 @@ class _HomeState extends State<Home> {
                   ),
                   child: Radio(
                     value: 0,
-                    groupValue: currentEventFilter,
+                    groupValue: currentFilter,
                     activeColor: colorThirdBackground,
                     onChanged: (val) {
                       setState(() {
-                        currentEventFilter = val as int;
+                        currentFilter = val as int;
                       });
                     },
                   )
@@ -592,11 +488,11 @@ class _HomeState extends State<Home> {
                 ),
                 child: Radio(
                   value: 0xffF44336,
-                  groupValue: currentEventFilter,
+                  groupValue: currentFilter,
                   activeColor: const Color(0xffF44336),
                   onChanged: (val) {
                     setState(() {
-                      currentEventFilter = val as int;
+                      currentFilter = val as int;
                     });
                   },
                 ),
@@ -608,11 +504,11 @@ class _HomeState extends State<Home> {
                 ),
                 child: Radio(
                   value: 0xffFF9800,
-                  groupValue: currentEventFilter,
+                  groupValue: currentFilter,
                   activeColor: const Color(0xffFF9800),
                   onChanged: (val) {
                     setState(() {
-                      currentEventFilter = val as int;
+                      currentFilter = val as int;
                     });
                   },
                 ),
@@ -624,11 +520,11 @@ class _HomeState extends State<Home> {
                 ),
                 child: Radio(
                   value: 0xff4CAF50,
-                  groupValue: currentEventFilter,
+                  groupValue: currentFilter,
                   activeColor: const Color(0xff4CAF50),
                   onChanged: (val) {
                     setState(() {
-                      currentEventFilter = val as int;
+                      currentFilter = val as int;
                     });
                   },
                 ),
@@ -640,11 +536,11 @@ class _HomeState extends State<Home> {
                 ),
                 child: Radio(
                   value: 0xff448AFF,
-                  groupValue: currentEventFilter,
+                  groupValue: currentFilter,
                   activeColor: const Color(0xff448AFF),
                   onChanged: (val) {
                     setState(() {
-                      currentEventFilter = val as int;
+                      currentFilter = val as int;
                     });
                   },
                 ),
@@ -656,11 +552,11 @@ class _HomeState extends State<Home> {
                 ),
                 child: Radio(
                   value: 0xff7C4DFF,
-                  groupValue: currentEventFilter,
+                  groupValue: currentFilter,
                   activeColor: const Color(0xff7C4DFF),
                   onChanged: (val) {
                     setState(() {
-                      currentEventFilter = val as int;
+                      currentFilter = val as int;
                     });
                   },
                 ),
@@ -696,7 +592,7 @@ class _HomeState extends State<Home> {
       iconColor = colorMainText;
     }
 
-    if ((useEventFilters && (event.color == currentEventFilter || currentEventFilter == 0)) || useEventFilters==false) return FocusedMenuHolder(
+    if ((useEventFilters && (event.color == currentFilter || currentFilter == 0)) || useEventFilters==false) return FocusedMenuHolder(
       onPressed: (){
         selectedEvent = event;
         Navigator.pushNamed(context, '/events/event_details');

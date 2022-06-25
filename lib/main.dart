@@ -18,7 +18,7 @@ Future main() async {
 
   runApp(MaterialApp(
     navigatorKey: navigatorKey,
-    debugShowCheckedModeBanner: false,
+    debugShowCheckedModeBanner: true,
     title: "Simplex",
     localizationsDelegates: [
       GlobalMaterialLocalizations.delegate,
@@ -36,7 +36,6 @@ Future main() async {
       '/events/add_event': (context) => const AddEvent(),
       '/events/event_details': (context) => const EventDetails(),
       '/events/edit_event': (context) => const EditEvent(),
-      '/events/expired_events': (context) => const ExpiredEvents(),
       '/services/change_password_service': (context) => const ChangePasswordService(),
     },
   ));

@@ -407,35 +407,24 @@ class _AddEventState extends State<AddEvent> {
                     dateFocusNode.requestFocus();
                   } else {
                     try {
-
                       DateTime nowDateTime = DateTime.now();
                       DateTime fullEventDateTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
 
-                      if (nowDateTime.isAfter(fullEventDateTime)){
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("La hora del evento ya ha pasado"),
-                          backgroundColor: Colors.red,
-                          behavior: SnackBarBehavior.floating,
-                          duration: Duration(seconds: 2),
-                        ));
-                        timeFocusNode.requestFocus();
-                      } else {
-                        int id = int.parse((nowDateTime.millisecondsSinceEpoch).toString().substring(6));
-                        int not5Min = int.parse("1"+"$id");
-                        int not1Hour = int.parse("2"+"$id");
-                        int not1Day = int.parse("3"+"$id");
+                      int id = int.parse((nowDateTime.millisecondsSinceEpoch).toString().substring(6));
+                      int not5Min = int.parse("1"+"$id");
+                      int not1Hour = int.parse("2"+"$id");
+                      int not1Day = int.parse("3"+"$id");
 
-                        if (not5MinBool) not5MinBool=showNotification(context, not5Min, nameController.text, 1, nowDateTime, fullEventDateTime);
-                        if (not1HourBool) not1HourBool=showNotification(context, not1Hour, nameController.text, 2, nowDateTime, fullEventDateTime);
-                        if (not1DayBool) not1DayBool=showNotification(context, not1Day, nameController.text, 3, nowDateTime, fullEventDateTime);
+                      if (not5MinBool) not5MinBool=showNotification(context, not5Min, nameController.text, 1, nowDateTime, fullEventDateTime);
+                      if (not1HourBool) not1HourBool=showNotification(context, not1Hour, nameController.text, 2, nowDateTime, fullEventDateTime);
+                      if (not1DayBool) not1DayBool=showNotification(context, not1Day, nameController.text, 3, nowDateTime, fullEventDateTime);
 
-                        if (not5MinBool==false) not5Min=-1;
-                        if (not1HourBool==false) not1Hour=-1;
-                        if (not1DayBool==false) not1Day=-1;
+                      if (not5MinBool==false) not5Min=-1;
+                      if (not1HourBool==false) not1Hour=-1;
+                      if (not1DayBool==false) not1Day=-1;
 
-                        createEvent(id, nameController.text, descriptionController.text, fullEventDateTime, selectedColor, not5Min, not1Hour, not1Day);
-                        Navigator.pop(context);
-                      }
+                      createEvent(id, nameController.text, descriptionController.text, fullEventDateTime, selectedColor, not5Min, not1Hour, not1Day);
+                      Navigator.pop(context);
 
                     } on Exception catch (e) {
                       debugPrint('[ERR] Could not create event: $e');
@@ -465,7 +454,7 @@ class _AddEventState extends State<AddEvent> {
         context: context,
         locale: appLocale,
         initialDate: DateTime.now(),
-        firstDate: DateTime.now(),
+        firstDate: DateTime(2000, 1, 1),
         lastDate: DateTime(2099, 12, 31),
         helpText: "SELECCIONA LA FECHA DEL EVENTO",
         cancelText: "CANCELAR",

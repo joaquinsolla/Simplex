@@ -13,7 +13,8 @@ bool settingsRead = false;
 int homeIndex = 0;
 Event? selectedEvent;
 bool useEventFilters = false;
-int currentEventFilter = 0;
+bool useTodosFilters = false;
+int currentFilter = 0;
 bool isTester = false;
 
 /// SETTINGS HERE

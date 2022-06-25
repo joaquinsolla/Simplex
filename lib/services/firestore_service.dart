@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:simplex/classes/event.dart';
+import 'package:simplex/classes/all_classes.dart';
 
 
 Future createUserDoc() async{
@@ -19,48 +19,18 @@ Future createUserDoc() async{
 }
 
 /// EVENTS MANAGEMENT
-Stream<List<Event>> readValidEvents() => FirebaseFirestore.instance.
-collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('events')
-    .where('dateTime', isGreaterThanOrEqualTo: DateTime.now()).snapshots().map((snapshot) =>
-    snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
+Stream<List<Event>> readEventsOfDate(DateTime date) {
+  DateTime selectedDay = DateTime(date.year, date.month, date.day);
+  DateTime nextDay = DateTime(date.year, date.month, date.day+1);
 
-Stream<List<Event>> readTodayEvents() => FirebaseFirestore.instance.
+  return FirebaseFirestore.instance.
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('events')
-    .where('dateTime', isGreaterThanOrEqualTo: DateTime.now())
-    .where('dateTime', isLessThan: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day+1))
-    .orderBy('dateTime', descending: false)
-    .orderBy('color', descending: true).orderBy('id', descending: false).snapshots().map((snapshot) =>
-    snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
-
-Stream<List<Event>> readTomorrowEvents() => FirebaseFirestore.instance.
-  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('events')
-    .where('dateTime', isGreaterThanOrEqualTo: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day+1))
-    .where('dateTime', isLessThan: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day+2))
-    .orderBy('dateTime', descending: false)
-    .orderBy('color', descending: true).orderBy('id', descending: false).snapshots().map((snapshot) =>
-    snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
-
-Stream<List<Event>> readThisMonthEvents() => FirebaseFirestore.instance.
-  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('events')
-    .where('dateTime', isGreaterThanOrEqualTo: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day+2))
-    .where('dateTime', isLessThan: DateTime(DateTime.now().year, DateTime.now().month + 1, 1))
-    .orderBy('dateTime', descending: false)
-    .orderBy('color', descending: true).orderBy('id', descending: false).snapshots().map((snapshot) =>
-    snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
-
-Stream<List<Event>> readRestOfEvents() => FirebaseFirestore.instance.
-  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('events')
-    .where('dateTime', isGreaterThanOrEqualTo: DateTime(DateTime.now().year, DateTime.now().month + 1, 1))
-    .orderBy('dateTime', descending: false)
-    .orderBy('color', descending: true).orderBy('id', descending: false).snapshots().map((snapshot) =>
-    snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
-
-Stream<List<Event>> readExpiredEvents() => FirebaseFirestore.instance.
-collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('events')
-    .where('dateTime', isLessThan: DateTime.now())
-    .orderBy('dateTime', descending: false)
-    .orderBy('color', descending: true).orderBy('id', descending: false).snapshots().map((snapshot) =>
-    snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
+      .where('dateTime', isGreaterThanOrEqualTo: selectedDay)
+      .where('dateTime', isLessThan: nextDay)
+      .orderBy('dateTime', descending: false)
+      .orderBy('color', descending: true).orderBy('id', descending: false).snapshots().map((snapshot) =>
+      snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
+}
 
 Future createEvent(int id, String name, String description, DateTime dateTime, int color, int not5Min, int not1Hour, int not1Day) async{
   final user = FirebaseAuth.instance.currentUser!;
@@ -117,5 +87,62 @@ deleteEventById(int eventId) async {
 /// HABITS MANAGEMENT
 
 /// TODOS MANAGEMENT
+Stream<List<Todo>> readAllTodos() => FirebaseFirestore.instance.
+collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
+    .snapshots().map((snapshot) =>
+    snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
+
+Stream<List<Todo>> readPendingTodos() => FirebaseFirestore.instance.
+collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
+    .where('done', isEqualTo: false)
+    .orderBy('name', descending: false)
+    .orderBy('color', descending: true)
+    .snapshots().map((snapshot) =>
+    snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
+
+Stream<List<Todo>> readDoneTodos() => FirebaseFirestore.instance.
+collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
+    .where('done', isEqualTo: true)
+    .orderBy('name', descending: false)
+    .orderBy('color', descending: true)
+    .snapshots().map((snapshot) =>
+    snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
+
+Future createTodo(int id, String name, String description, int color, bool done) async{
+  final user = FirebaseAuth.instance.currentUser!;
+  final doc = FirebaseFirestore.instance.collection('users').doc(user.uid).collection('tods').doc(id.toString());
+
+  final json = {
+    'id': id,
+    'name': name,
+    'description': description,
+    'color': color,
+    'done':done,
+  };
+
+  await doc.set(json);
+  debugPrint('[OK] Todo created');
+}
+
+updateTodo(int todoId, String newName, String newDescription, int newColor, bool newDone) async {
+  final doc = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('todos').doc(todoId.toString());
+
+  await doc.update({
+    'name': newName,
+    'description': newDescription,
+    'color': newColor,
+    'done': newDone,
+  });
+  debugPrint('[OK] Todo updated');
+}
+
+deleteTodoById(int todoId) async {
+  final doc = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('todos').doc(todoId.toString());
+
+  await doc.delete();
+  debugPrint('[OK] Todo deleted');
+}
 
 /// NOTES MANAGEMENT
