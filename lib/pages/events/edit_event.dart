@@ -79,7 +79,7 @@ class _EditEventState extends State<EditEvent> {
                     borderSide:
                     BorderSide(color: colorThirdBackground, width: 1),
                   ),
-                  focusedBorder: const OutlineInputBorder(
+                  focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: colorSpecialItem, width: 2),
                   ),
                   hintText: 'dd/mm/aaaa (Obligatorio)',
@@ -113,7 +113,7 @@ class _EditEventState extends State<EditEvent> {
                     borderSide:
                     BorderSide(color: colorThirdBackground, width: 1),
                   ),
-                  focusedBorder: const OutlineInputBorder(
+                  focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: colorSpecialItem, width: 2),
                   ),
                   hintText: '00:00 (Por defecto)',

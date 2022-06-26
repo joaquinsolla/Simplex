@@ -13,4 +13,4 @@ Color colorMainText = Colors.black;
 Color colorSecondText = Colors.grey;
 Color colorThirdText = const Color(0xff747471);
 
-const Color colorSpecialItem = Colors.blue;
+Color colorSpecialItem = Colors.blue;

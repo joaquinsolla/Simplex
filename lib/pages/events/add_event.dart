@@ -27,7 +27,7 @@ class _AddEventState extends State<AddEvent> {
   bool not1DayBool = false;
 
   int selectedColor = -1;
-  late DateTime date;
+  DateTime date = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   TimeOfDay time = TimeOfDay(hour: 00, minute: 00);
 
   @override
@@ -49,8 +49,7 @@ class _AddEventState extends State<AddEvent> {
 
     String timeHintText = '00:00 (Por defecto)';
     if (format24Hours == false) timeHintText = '12:00 AM (Por defecto)';
-    String dateHintText = 'dd/mm/aaaa (Obligatorio)';
-    if (formatDates == false) dateHintText = 'mm/dd/aaaa (Obligatorio)';
+    String dateHintText = 'Hoy (Por defecto)';
 
     return Scaffold(
       backgroundColor: colorMainBackground,
@@ -82,7 +81,7 @@ class _AddEventState extends State<AddEvent> {
                     borderSide:
                     BorderSide(color: colorThirdBackground, width: 1),
                   ),
-                  focusedBorder: const OutlineInputBorder(
+                  focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: colorSpecialItem, width: 2),
                   ),
                   hintText: dateHintText,
@@ -116,7 +115,7 @@ class _AddEventState extends State<AddEvent> {
                     borderSide:
                     BorderSide(color: colorThirdBackground, width: 1),
                   ),
-                  focusedBorder: const OutlineInputBorder(
+                  focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: colorSpecialItem, width: 2),
                   ),
                   hintText: timeHintText,
@@ -249,116 +248,10 @@ class _AddEventState extends State<AddEvent> {
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.015),
-          if (not5MinBool==false) checkBoxContainer(
-            CheckboxListTile(
-              title: Text(
-                '5 minutos antes',
-                style: TextStyle(
-                    color: colorThirdText,
-                    fontSize: deviceWidth * 0.045,
-                    fontWeight: FontWeight.normal),
-              ),
-              value: not5MinBool,
-              onChanged: (newValue) {
-                setState(() {
-                  not5MinBool = newValue!;
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
-            ),
-          ),
-          if (not5MinBool==true) checkBoxContainer(
-            CheckboxListTile(
-              title: Text(
-                '5 minutos antes',
-                style: TextStyle(
-                    color: colorMainText,
-                    fontSize: deviceWidth * 0.045,
-                    fontWeight: FontWeight.normal),
-              ),
-              value: not5MinBool,
-              onChanged: (newValue) {
-                setState(() {
-                  not5MinBool = newValue!;
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
-            ),
-          ),
-          SizedBox(height: deviceHeight * 0.01),
-          if(not1HourBool==false) checkBoxContainer(
-            CheckboxListTile(
-              title: Text(
-                '1 hora antes',
-                style: TextStyle(
-                    color: colorThirdText,
-                    fontSize: deviceWidth * 0.045,
-                    fontWeight: FontWeight.normal),
-              ),
-              value: not1HourBool,
-              onChanged: (newValue) {
-                setState(() {
-                  not1HourBool = newValue!;
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
-            ),
-          ),
-          if(not1HourBool==true) checkBoxContainer(
-            CheckboxListTile(
-              title: Text(
-                '1 hora antes',
-                style: TextStyle(
-                    color: colorMainText,
-                    fontSize: deviceWidth * 0.045,
-                    fontWeight: FontWeight.normal),
-              ),
-              value: not1HourBool,
-              onChanged: (newValue) {
-                setState(() {
-                  not1HourBool = newValue!;
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
-            ),
-          ),
-          SizedBox(height: deviceHeight * 0.01),
-          if (not1DayBool==false) checkBoxContainer(
-            CheckboxListTile(
-              title: Text(
-                '1 día antes',
-                style: TextStyle(
-                    color: colorThirdText,
-                    fontSize: deviceWidth * 0.045,
-                    fontWeight: FontWeight.normal),
-              ),
-              value: not1DayBool,
-              onChanged: (newValue) {
-                setState(() {
-                  not1DayBool = newValue!;
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
-            ),
-          ),
-          if (not1DayBool==true) checkBoxContainer(
-            CheckboxListTile(
-              title: Text(
-                '1 día antes',
-                style: TextStyle(
-                    color: colorMainText,
-                    fontSize: deviceWidth * 0.045,
-                    fontWeight: FontWeight.normal),
-              ),
-              value: not1DayBool,
-              onChanged: (newValue) {
-                setState(() {
-                  not1DayBool = newValue!;
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
-            ),
-          ),
+
+          Text('En desarrollo...', style: TextStyle(color: colorSpecialItem),),
+          // TODO: IMPLEMENT
+
         ]),
         SizedBox(height: deviceHeight * 0.025),
         Container(
@@ -397,14 +290,6 @@ class _AddEventState extends State<AddEvent> {
                       duration: Duration(seconds: 2),
                     ));
                     nameFocusNode.requestFocus();
-                  } else if (dateController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Debes indicar una fecha"),
-                      backgroundColor: Colors.red,
-                      behavior: SnackBarBehavior.floating,
-                      duration: Duration(seconds: 2),
-                    ));
-                    dateFocusNode.requestFocus();
                   } else {
                     try {
                       DateTime nowDateTime = DateTime.now();

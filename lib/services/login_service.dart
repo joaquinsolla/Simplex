@@ -53,7 +53,7 @@ class _LogInServiceState extends State<LogInService> {
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: colorThirdBackground, width: 1),
                     ),
-                    focusedBorder: const OutlineInputBorder(
+                    focusedBorder: OutlineInputBorder(
                       borderSide:
                       BorderSide(color: colorSpecialItem, width: 2),
                     ),
@@ -84,7 +84,7 @@ class _LogInServiceState extends State<LogInService> {
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: colorThirdBackground, width: 1),
                     ),
-                    focusedBorder: const OutlineInputBorder(
+                    focusedBorder: OutlineInputBorder(
                       borderSide:
                       BorderSide(color: colorSpecialItem, width: 2),
                     ),

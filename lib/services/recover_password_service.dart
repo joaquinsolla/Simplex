@@ -53,7 +53,7 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
                       borderSide: BorderSide(
                           color: colorThirdBackground, width: 1),
                     ),
-                    focusedBorder: const OutlineInputBorder(
+                    focusedBorder: OutlineInputBorder(
                       borderSide:
                       BorderSide(color: colorSpecialItem, width: 2),
                     ),
