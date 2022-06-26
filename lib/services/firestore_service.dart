@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:simplex/classes/all_classes.dart';
 
-
+/// USER DOC
 Future createUserDoc() async{
   final user = FirebaseAuth.instance.currentUser!;
   final doc = FirebaseFirestore.instance.collection('users').doc(user.uid);
@@ -22,8 +22,7 @@ Future createUserDoc() async{
 Stream<List<Event>> readAllEvents() {
   return FirebaseFirestore.instance.
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('events')
-      .orderBy('dateTime', descending: false)
-      .orderBy('color', descending: true).orderBy('id', descending: false).snapshots().map((snapshot) =>
+      .snapshots().map((snapshot) =>
       snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
 }
 
@@ -50,38 +49,25 @@ Future createEvent(Event event) async{
     'description': event.description,
     'dateTime': event.dateTime,
     'color': event.color,
-    'not5Min': event.not5Min,
-    'not1Hour': event.not1Hour,
-    'not1Day': event.not1Day,
+    'notificationsList': event.notificationsList,
   };
 
   await doc.set(json);
   debugPrint('[OK] Event created');
 }
 
-updateEvent(int eventId, String newName, String newDescription, DateTime newDateTime, int newColor) async {
+updateEvent(Event event) async {
   final doc = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection('events').doc(eventId.toString());
+      .collection('events').doc(event.id.toString());
 
   await doc.update({
-    'name': newName,
-    'description': newDescription,
-    'dateTime': newDateTime,
-    'color': newColor,
+    'name': event.name,
+    'description': event.description,
+    'dateTime': event.dateTime,
+    'color': event.color,
+    'notificationsList': event.notificationsList,
   });
   debugPrint('[OK] Event updated');
-}
-
-updateEventNotifications(int eventId, int not5Min, int not1Hour, int not1Day) async {
-  final doc = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection('events').doc(eventId.toString());
-
-  await doc.update({
-    'not5Min': not5Min,
-    'not1Hour': not1Hour,
-    'not1Day': not1Day,
-  });
-  debugPrint('[OK] Event notifications updated');
 }
 
 deleteEventById(int eventId) async {

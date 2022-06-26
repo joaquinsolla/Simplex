@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:simplex/classes/event.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/firestore_service.dart';
 
@@ -124,16 +125,8 @@ class _EditEventState extends State<EditEvent> {
             ],
           ),
           SizedBox(height: deviceHeight * 0.01),
-          //TODO: optimize
-          Text(
-            '(Beta) Editar el nombre, la fecha o la hora del evento hará que se desactiven las notificaciones que había asociadas a él. '
-                'Puedes programarlas de nuevo en el apartado de detalles de evento.',
-            textAlign: TextAlign.justify,
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * 0.035,
-                fontWeight: FontWeight.normal),
-          ),
+
+
         ]),
         SizedBox(height: deviceHeight * 0.025),
         alternativeFormContainer([
@@ -257,7 +250,7 @@ class _EditEventState extends State<EditEvent> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [ SizedBox(
-              width: deviceWidth*0.8,
+              width: deviceWidth*0.9,
               height: deviceHeight*0.07,
               child: TextButton(
                 child: Row(
@@ -287,7 +280,18 @@ class _EditEventState extends State<EditEvent> {
                   } else {
                     DateTime newFullDateTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
                     try {
-                      await updateEvent(selectedEvent!.id, nameController.text, descriptionController.text, newFullDateTime, selectedColor);
+                      Event newEvent = Event(id: selectedEvent!.id,
+                          name: nameController.text,
+                          description: descriptionController.text,
+                          dateTime: newFullDateTime,
+                          color: selectedColor,
+                          notificationsList: [
+                            {'11111': DateTime.now()},
+                            {'22222': DateTime.now()},
+                          ],
+                      );
+
+                      await updateEvent(newEvent);
 
                       Navigator.of(context).popUntil((route) => route.isFirst);
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -322,7 +326,7 @@ class _EditEventState extends State<EditEvent> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [ SizedBox(
-              width: deviceWidth*0.8,
+              width: deviceWidth*0.9,
               height: deviceHeight*0.07,
               child: TextButton(
                 child: Row(

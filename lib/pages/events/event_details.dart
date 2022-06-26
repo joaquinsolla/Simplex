@@ -13,9 +13,6 @@ class EventDetails extends StatefulWidget {
 }
 
 class _EventDetailsState extends State<EventDetails> {
-  late final int oldNot5Min;
-  late final int oldNot1Hour;
-  late final int oldNot1Day;
 
   @override
   void dispose() {
@@ -25,9 +22,6 @@ class _EventDetailsState extends State<EventDetails> {
   @override
   void initState() {
     super.initState();
-    oldNot5Min = selectedEvent!.not5Min;
-    oldNot1Hour = selectedEvent!.not1Hour;
-    oldNot1Day = selectedEvent!.not1Day;
   }
 
   @override
@@ -75,8 +69,6 @@ class _EventDetailsState extends State<EventDetails> {
                       color: colorSpecialItem, size: deviceWidth * 0.08),
                   splashRadius: 0.001,
                   onPressed: () {
-                    if (oldNot5Min != selectedEvent!.not5Min || oldNot1Hour != selectedEvent!.not1Hour || oldNot1Day != selectedEvent!.not1Day)
-                      updateEventNotifications(selectedEvent!.id, selectedEvent!.not5Min, selectedEvent!.not1Hour, selectedEvent!.not1Day);
                     Navigator.pop(context);
                   },
                 ),
@@ -190,7 +182,7 @@ class _EventDetailsState extends State<EventDetails> {
 
         alternativeFormContainer([
           Text(
-            'Gestionar notificaciones: ',
+            'Notificaciones: ',
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * 0.0475,
@@ -206,8 +198,6 @@ class _EventDetailsState extends State<EventDetails> {
         
         SizedBox(height: deviceHeight * 0.025),
         eventActionsButton(Icons.edit, colorSpecialItem, ' Editar evento ', (){
-          if (oldNot5Min != selectedEvent!.not5Min || oldNot1Hour != selectedEvent!.not1Hour || oldNot1Day != selectedEvent!.not1Day)
-            updateEventNotifications(selectedEvent!.id, selectedEvent!.not5Min, selectedEvent!.not1Hour, selectedEvent!.not1Day);
           Navigator.pushNamed(context, '/events/edit_event');
         }),
         SizedBox(height: deviceHeight * 0.025),

@@ -222,7 +222,7 @@ Container eventActionsButton(IconData icon, Color color, String text, Function()
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [ SizedBox(
-        width: deviceWidth*0.8,
+        width: deviceWidth*0.9,
         height: deviceHeight*0.07,
         child: TextButton(
           child: Row(

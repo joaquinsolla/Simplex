@@ -30,35 +30,25 @@ String millisecondsToStringTime(int millis){
   return timeToString(date);
 }
 
-bool showNotification(BuildContext context, int id, String title, int notificationType, DateTime nowDateTime, DateTime eventDateTime){
+bool showNotification(BuildContext context, int id, String title, DateTime notificationDateTime, DateTime eventDateTime){
 
-  late Duration duration;
-  late String body;
-  if (notificationType == 1) {
-    duration = Duration(minutes: 5);
-    body = 'Es en 5 minutos';
-  } else if (notificationType == 2) {
-    duration = Duration(hours: 1);
-    body = 'Es en 1 hora';
-  } else {
-    duration = Duration(days: 1);
-    body = 'Es mañana';
-  }
+  String body = 'Es el ';
+  if (formatDates==true) body = body + DateFormat('dd/MM/yyyy').format(eventDateTime);
+  else body = body + DateFormat('MM/dd/yyyy').format(eventDateTime);
+  body = body + ' a las ';
+  if (format24Hours==true) body = body + DateFormat('H:mm').format(eventDateTime);
+  else body = body + DateFormat('K:mm aa').format(eventDateTime);
 
-  int milliNow = nowDateTime.millisecondsSinceEpoch;
-  int milliNotification = eventDateTime.subtract(duration).millisecondsSinceEpoch;
-  int millisToNotification = milliNotification-milliNow;
-
-  if (millisToNotification>0){
+  if (notificationDateTime.isBefore(eventDateTime)){
     WidgetsFlutterBinding.ensureInitialized();
     NotificationService().initNotification();
     tz.initializeTimeZones();
 
-    NotificationService().showNotification(id, title, body, millisToNotification + 1000);
-    debugPrint('[OK] Notification with id: $id ready');
+    NotificationService().showNotification(id, title, body, notificationDateTime);
+    debugPrint('[OK] Notification ready: $id');
     return true;
   } else {
-    debugPrint('[OK] Cannot show notification: Time expired');
+    debugPrint('[WA] Cannot show notification: Time expired');
     return false;
   }
 }

@@ -51,7 +51,6 @@ class _EventsMainPageState extends State<EventsMainPage> {
   Widget build(BuildContext context) {
     late String locale;
     late StartingDayOfWeek startingDayOfWeek;
-    late String dateFormat;
     if (appLocale == Locale('es', '')) {
       locale = 'es_ES';
       startingDayOfWeek = StartingDayOfWeek.monday;
@@ -59,8 +58,17 @@ class _EventsMainPageState extends State<EventsMainPage> {
       locale = 'en_EN';
       startingDayOfWeek = StartingDayOfWeek.sunday;
     }
-    if (formatDates==true) dateFormat='dd-MM-yyyy';
-    else dateFormat='MM-dd-yyyy';
+
+    DateTime _selectedDayFormatted = DateTime(_selectedDay.year, _selectedDay.month, _selectedDay.day);
+    DateTime today = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    DateTime yesterday = today.subtract(Duration(days: 1));
+    DateTime tomorrow = today.add(Duration(days: 1));
+    late String dateText;
+    if (_selectedDayFormatted == today) dateText = 'Hoy';
+    else if (_selectedDayFormatted == yesterday) dateText = 'Ayer';
+    else if (_selectedDayFormatted == tomorrow) dateText = 'Mañana';
+    else if (formatDates==true) dateText = DateFormat('dd/MM/yyyy').format(_selectedDay);
+    else dateText = DateFormat('MM/dd/yyyy').format(_selectedDay);
 
     return homeArea([
       homeHeaderSimple('Calendario',
@@ -82,11 +90,18 @@ class _EventsMainPageState extends State<EventsMainPage> {
               return Container(
                 height: deviceHeight * 0.4,
                 alignment: Alignment.center,
-                child: Text(
-                  'No se puede cargar el calendario. Revisa tu conexión a Internet y reinicia la app.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: deviceWidth * 0.0475, color: colorSecondText),),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.wifi_tethering_error_rounded, color: colorSecondText, size: deviceWidth*0.125,),
+                    SizedBox(height: deviceHeight*0.025,),
+                    Text(
+                      'No se puede cargar el calendario. Revisa tu conexión a Internet y reinicia la app.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: deviceWidth * 0.0475, color: colorSecondText),),
+                  ],
+                ),
               );
             } else if (snapshot.hasData) {
               final events = snapshot.data!;
@@ -191,11 +206,19 @@ class _EventsMainPageState extends State<EventsMainPage> {
               return Container(
                 height: deviceHeight * 0.35,
                 alignment: Alignment.center,
-                child: Text(
-                  'No se pueden cargar los eventos del día seleccionado. Revisa tu conexión a Internet y reinicia la app.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: deviceWidth * 0.0475, color: colorSecondText),),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.wifi_tethering_error_rounded, color: colorSecondText, size: deviceWidth*0.125,),
+                    SizedBox(height: deviceHeight*0.025,),
+                    Text(
+                      'No se pueden cargar los eventos del día seleccionado. '
+                          'Revisa tu conexión a Internet y reinicia la app.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: deviceWidth * 0.0475, color: colorSecondText),),
+                  ],
+                ),
               );
             } else if (snapshot.hasData) {
               final events = snapshot.data!;
@@ -218,8 +241,9 @@ class _EventsMainPageState extends State<EventsMainPage> {
                       ),
                       SizedBox(width: deviceWidth*0.01),
                       Container(
+                        width: deviceWidth*0.275,
                         alignment: Alignment.center,
-                        child: Text(DateFormat(dateFormat).format(_selectedDay),
+                        child: Text(dateText,
                             style: TextStyle(
                                 color: colorMainText,
                                 fontSize: deviceWidth * 0.05,

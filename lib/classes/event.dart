@@ -6,9 +6,7 @@ class Event{
   final String description;
   final DateTime dateTime;
   final int color;
-  final int not5Min;
-  final int not1Hour;
-  final int not1Day;
+  final List<dynamic> notificationsList;
 
   Event({
     required this.id,
@@ -16,9 +14,7 @@ class Event{
     required this.description,
     required this.dateTime,
     required this.color,
-    required this.not5Min,
-    required this.not1Hour,
-    required this.not1Day,
+    required this.notificationsList,
   });
 
   Map<String, dynamic> toJson() => {
@@ -27,9 +23,7 @@ class Event{
     'description': description,
     'dateTime': dateTime,
     'color': color,
-    'not5Min': not5Min,
-    'not1Hour': not1Hour,
-    'not1Day': not1Day,
+    'notificationsList': notificationsList,
   };
 
   static Event fromJson(Map<String, dynamic> json) => Event(
@@ -38,9 +32,7 @@ class Event{
     description: json['description'],
     dateTime: (json['dateTime'] as Timestamp).toDate(),
     color: json['color'],
-    not5Min: json['not5Min'],
-    not1Hour: json['not1Hour'],
-    not1Day: json['not1Day'],
+    notificationsList: json['notificationsList'],
   );
 
 }
