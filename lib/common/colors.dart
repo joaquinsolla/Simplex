@@ -14,3 +14,4 @@ Color colorSecondText = Colors.grey;
 Color colorThirdText = const Color(0xff747471);
 
 Color colorSpecialItem = Colors.blue;
+Color colorCalendarEvent = Color(0xff1f2932);

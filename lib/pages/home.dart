@@ -279,6 +279,7 @@ class _HomeState extends State<Home> {
                   colorMainText = Colors.white;
                   colorSecondText = const Color(0xff706e74);
                   colorThirdText = const Color(0xff3a393e);
+                  colorCalendarEvent = Color(0xfff2f2f7);
                 } else {
                   colorMainBackground = const Color(0xfff2f2f7);
                   colorSecondBackground = Colors.white;
@@ -289,6 +290,7 @@ class _HomeState extends State<Home> {
                   colorMainText = Colors.black;
                   colorSecondText = Colors.grey;
                   colorThirdText = const Color(0xff747471);
+                  colorCalendarEvent = Color(0xff1f2932);
                 }
               });
               saveSetting('darkMode', val);

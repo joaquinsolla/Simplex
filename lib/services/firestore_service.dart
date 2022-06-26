@@ -19,6 +19,14 @@ Future createUserDoc() async{
 }
 
 /// EVENTS MANAGEMENT
+Stream<List<Event>> readAllEvents() {
+  return FirebaseFirestore.instance.
+  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('events')
+      .orderBy('dateTime', descending: false)
+      .orderBy('color', descending: true).orderBy('id', descending: false).snapshots().map((snapshot) =>
+      snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
+}
+
 Stream<List<Event>> readEventsOfDate(DateTime date) {
   DateTime selectedDay = DateTime(date.year, date.month, date.day);
   DateTime nextDay = DateTime(date.year, date.month, date.day+1);
@@ -32,19 +40,19 @@ Stream<List<Event>> readEventsOfDate(DateTime date) {
       snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
 }
 
-Future createEvent(int id, String name, String description, DateTime dateTime, int color, int not5Min, int not1Hour, int not1Day) async{
+Future createEvent(Event event) async{
   final user = FirebaseAuth.instance.currentUser!;
-  final doc = FirebaseFirestore.instance.collection('users').doc(user.uid).collection('events').doc(id.toString());
+  final doc = FirebaseFirestore.instance.collection('users').doc(user.uid).collection('events').doc(event.id.toString());
 
   final json = {
-    'id': id,
-    'name': name,
-    'description': description,
-    'dateTime': dateTime,
-    'color': color,
-    'not5Min': not5Min,
-    'not1Hour': not1Hour,
-    'not1Day': not1Day,
+    'id': event.id,
+    'name': event.name,
+    'description': event.description,
+    'dateTime': event.dateTime,
+    'color': event.color,
+    'not5Min': event.not5Min,
+    'not1Hour': event.not1Hour,
+    'not1Day': event.not1Day,
   };
 
   await doc.set(json);

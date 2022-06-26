@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:simplex/classes/event.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/firestore_service.dart';
 
@@ -308,7 +309,16 @@ class _AddEventState extends State<AddEvent> {
                       if (not1HourBool==false) not1Hour=-1;
                       if (not1DayBool==false) not1Day=-1;
 
-                      createEvent(id, nameController.text, descriptionController.text, fullEventDateTime, selectedColor, not5Min, not1Hour, not1Day);
+                      Event newEvent = Event(id: id,
+                          name:nameController.text,
+                          description: descriptionController.text,
+                          dateTime: fullEventDateTime,
+                          color: selectedColor,
+                          not5Min: not5Min,
+                          not1Hour: not1Hour,
+                          not1Day: not1Day);
+
+                      createEvent(newEvent);
                       Navigator.pop(context);
 
                     } on Exception catch (e) {

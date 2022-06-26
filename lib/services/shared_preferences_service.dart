@@ -30,6 +30,7 @@ readSettings() async {
     colorMainText = Colors.white;
     colorSecondText = const Color(0xff706e74);
     colorThirdText = const Color(0xff3a393e);
+    colorCalendarEvent = Color(0xfff2f2f7);
   }
 
   debugPrint('[OK] Read settings');
