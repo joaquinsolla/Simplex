@@ -48,17 +48,19 @@ bool showNotification(BuildContext context, int id, String title, DateTime notif
     debugPrint('[OK] Notification ready: $id');
     return true;
   } else {
-    debugPrint('[WA] Cannot show notification: Time expired');
+    debugPrint('[WRN] Cannot show notification: Time expired');
     return false;
   }
 }
 
+// TODO:update
 cancelNotification(int notificationId) async {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   await flutterLocalNotificationsPlugin.cancel(notificationId);
   debugPrint('[OK] Notification $notificationId canceled');
 }
 
+// TODO:update
 cancelAllNotifications(int eventId) async {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   int not5Min = int.parse("1"+"$eventId");
@@ -70,4 +72,17 @@ cancelAllNotifications(int eventId) async {
   await flutterLocalNotificationsPlugin.cancel(not1Day);
 
   debugPrint('[OK] All notifications canceled for event $eventId');
+}
+
+String formatNotificationDate(DateTime dateTime){
+  String formattedDate = 'El ';
+  if (formatDates==true) formattedDate = formattedDate + DateFormat('dd/MM/yyyy').format(dateTime);
+  else formattedDate = formattedDate + DateFormat('MM/dd/yyyy').format(dateTime);
+
+  formattedDate = formattedDate + ' a las ';
+
+  if (format24Hours==true) formattedDate = formattedDate + DateFormat('H:mm').format(dateTime);
+  else formattedDate = formattedDate + DateFormat('K:mm aa').format(dateTime);
+
+  return formattedDate;
 }

@@ -47,19 +47,6 @@ class _AddEventState extends State<AddEvent> {
     super.initState();
   }
 
-  String formatNotificationDate(DateTime dateTime){
-    String formattedDate = 'El ';
-    if (formatDates==true) formattedDate = formattedDate + DateFormat('dd/MM/yyyy').format(dateTime);
-    else formattedDate = formattedDate + DateFormat('MM/dd/yyyy').format(dateTime);
-
-    formattedDate = formattedDate + ' a las ';
-
-    if (format24Hours==true) formattedDate = formattedDate + DateFormat('H:mm').format(dateTime);
-    else formattedDate = formattedDate + DateFormat('K:mm aa').format(dateTime);
-
-    return formattedDate;
-  }
-
   @override
   Widget build(BuildContext context) {
 

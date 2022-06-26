@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:simplex/classes/event.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/firestore_service.dart';
 
@@ -100,7 +99,7 @@ class _EventDetailsState extends State<EventDetails> {
               color: colorThirdBackground,
             ),
             child: Text('Sin descripción',
-              style: TextStyle(color: colorThirdText, fontSize: deviceWidth * 0.04,),),
+              style: TextStyle(color: colorThirdText, fontSize: deviceWidth * 0.04, fontStyle: FontStyle.italic),),
           ),
           if (selectedEvent!.description != '') Container(
             width: deviceWidth*0.8,
@@ -110,7 +109,7 @@ class _EventDetailsState extends State<EventDetails> {
               color: colorThirdBackground,
             ),
             child: Text(selectedEvent!.description,
-              style: TextStyle(color: colorThirdText, fontSize: deviceWidth * 0.04,),),
+              style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.04,),),
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
@@ -123,13 +122,17 @@ class _EventDetailsState extends State<EventDetails> {
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
-          Text(
-            eventDate,
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * 0.04,
-                fontWeight: FontWeight.normal),
-          ),
+          Row(children: [
+            Icon(Icons.today_rounded, color: colorSpecialItem, size: deviceWidth*0.05,),
+            SizedBox(width: deviceWidth*0.025,),
+            Text(
+              eventDate,
+              style: TextStyle(
+                  color: colorMainText,
+                  fontSize: deviceWidth * 0.04,
+                  fontWeight: FontWeight.normal),
+            ),
+          ],),
           SizedBox(height: deviceHeight * 0.025),
           Text(
             'Hora: ',
@@ -139,13 +142,17 @@ class _EventDetailsState extends State<EventDetails> {
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
-          Text(
-            eventTime,
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * 0.04,
-                fontWeight: FontWeight.normal),
-          ),
+          Row(children: [
+            Icon(Icons.watch_later_outlined, color: colorSpecialItem, size: deviceWidth*0.05,),
+            SizedBox(width: deviceWidth*0.025,),
+            Text(
+              eventTime,
+              style: TextStyle(
+                  color: colorMainText,
+                  fontSize: deviceWidth * 0.04,
+                  fontWeight: FontWeight.normal),
+            ),
+          ],),
         ]),
         SizedBox(height: deviceHeight * 0.025),
         alternativeFormContainer([
@@ -160,14 +167,8 @@ class _EventDetailsState extends State<EventDetails> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
-                width: deviceWidth*0.04,
-                height: deviceHeight*0.04,
-                margin: const EdgeInsets.fromLTRB(5.0,0.0,5.0,0.0),
-                decoration: BoxDecoration(
-                    color: Color(colorCode),
-                    shape: BoxShape.circle
-                ),),
+              Icon(Icons.radio_button_checked_rounded, color: Color(colorCode), size: deviceWidth*0.05,),
+              SizedBox(width: deviceWidth*0.025,),
               Text(
                 colorName,
                 style: TextStyle(
@@ -189,11 +190,49 @@ class _EventDetailsState extends State<EventDetails> {
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
-
-
-          Text('En desarrollo...', style: TextStyle(color: colorSpecialItem),),
-          // TODO: IMPLEMENT
-
+          if (selectedEvent!.notificationsList.length == 0) Container(
+            height: deviceHeight*0.035,
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(Icons.notifications_off_outlined, color: Colors.red, size: deviceWidth*0.05,),
+                SizedBox(width: deviceWidth*0.025,),
+                Text('Sin notificaciones',
+                    style: TextStyle(
+                        color: colorMainText,
+                        fontSize: deviceWidth * 0.04,
+                        fontWeight: FontWeight.normal)),
+              ],
+            ),
+          ),
+          if (selectedEvent!.notificationsList.length > 0) Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(selectedEvent!.notificationsList.length,(index){
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    height: deviceHeight*0.035,
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.notifications_active_outlined, color: colorSpecialItem, size: deviceWidth*0.05,),
+                        SizedBox(width: deviceWidth*0.025,),
+                        Text(formatNotificationDate(selectedEvent!.notificationsList[index].values.first.toDate()),
+                            style: TextStyle(
+                                color: colorMainText,
+                                fontSize: deviceWidth * 0.04,
+                                fontWeight: FontWeight.normal)),
+                      ],
+                    ),
+                  ),
+                  if (index < selectedEvent!.notificationsList.length-1) Divider(color: colorSecondText,),
+                ],
+              );
+            }),
+          ),
         ]),
         
         SizedBox(height: deviceHeight * 0.025),
