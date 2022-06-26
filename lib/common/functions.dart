@@ -39,7 +39,7 @@ bool showNotification(BuildContext context, int id, String title, DateTime notif
   if (format24Hours==true) body = body + DateFormat('H:mm').format(eventDateTime);
   else body = body + DateFormat('K:mm aa').format(eventDateTime);
 
-  if (notificationDateTime.isBefore(eventDateTime)){
+  if (notificationDateTime.isBefore(eventDateTime) && notificationDateTime.isAfter(DateTime.now())){
     WidgetsFlutterBinding.ensureInitialized();
     NotificationService().initNotification();
     tz.initializeTimeZones();
@@ -48,28 +48,24 @@ bool showNotification(BuildContext context, int id, String title, DateTime notif
     debugPrint('[OK] Notification ready: $id');
     return true;
   } else {
-    debugPrint('[WRN] Cannot show notification: Time expired');
+    debugPrint('[WRN] Cannot show notification $id: Time out of range');
     return false;
   }
 }
 
-// TODO:update
-cancelNotification(int notificationId) async {
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  await flutterLocalNotificationsPlugin.cancel(notificationId);
-  debugPrint('[OK] Notification $notificationId canceled');
-}
-
-// TODO:update
 cancelAllNotifications(int eventId) async {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  int not5Min = int.parse("1"+"$eventId");
-  int not1Hour = int.parse("2"+"$eventId");
-  int not1Day = int.parse("3"+"$eventId");
+  int not1 = int.parse("1"+"$eventId");
+  int not2 = int.parse("2"+"$eventId");
+  int not3 = int.parse("3"+"$eventId");
+  int not4 = int.parse("4"+"$eventId");
+  int not5 = int.parse("5"+"$eventId");
 
-  await flutterLocalNotificationsPlugin.cancel(not5Min);
-  await flutterLocalNotificationsPlugin.cancel(not1Hour);
-  await flutterLocalNotificationsPlugin.cancel(not1Day);
+  await flutterLocalNotificationsPlugin.cancel(not1);
+  await flutterLocalNotificationsPlugin.cancel(not2);
+  await flutterLocalNotificationsPlugin.cancel(not3);
+  await flutterLocalNotificationsPlugin.cancel(not4);
+  await flutterLocalNotificationsPlugin.cancel(not5);
 
   debugPrint('[OK] All notifications canceled for event $eventId');
 }

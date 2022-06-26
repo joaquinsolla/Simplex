@@ -218,7 +218,10 @@ class _EventDetailsState extends State<EventDetails> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(Icons.notifications_active_outlined, color: colorSpecialItem, size: deviceWidth*0.05,),
+                        if (selectedEvent!.notificationsList[index].values.first.toDate().isBefore(DateTime.now())) Icon(Icons.check_rounded, color: colorSpecialItem, size: deviceWidth*0.05,),
+                        if (selectedEvent!.notificationsList[index].values.first.toDate().isAfter(DateTime.now())
+                            && selectedEvent!.notificationsList[index].values.first.toDate().isBefore(selectedEvent!.dateTime)) Icon(Icons.notifications_active_outlined, color: colorSpecialItem, size: deviceWidth*0.05,),
+                        if (selectedEvent!.notificationsList[index].values.first.toDate().isAfter(selectedEvent!.dateTime)) Icon(Icons.notification_important_outlined, color: Colors.red, size: deviceWidth*0.05,),
                         SizedBox(width: deviceWidth*0.025,),
                         Text(formatNotificationDate(selectedEvent!.notificationsList[index].values.first.toDate()),
                             style: TextStyle(
@@ -241,64 +244,19 @@ class _EventDetailsState extends State<EventDetails> {
         }),
         SizedBox(height: deviceHeight * 0.025),
         eventActionsButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){
-          deleteEventDialog(context);
+          cancelAllNotifications(selectedEvent!.id);
+          deleteEventById(selectedEvent!.id);
+          Navigator.of(context).popUntil((route) => route.isFirst);
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Evento eliminado"),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 2),
+          ));
         }),
         SizedBox(height: deviceHeight * 0.025),
       ]),
     );
-  }
-
-  void deleteEventDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return Dialog(
-            backgroundColor: colorMainBackground,
-            insetPadding: EdgeInsets.fromLTRB(deviceWidth*0.075,deviceHeight*0.385,deviceWidth*0.075,deviceHeight*0.385),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            child: Container(
-              padding: EdgeInsets.fromLTRB(deviceWidth * 0.075, 0.0, deviceWidth * 0.075, 0.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Eliminar evento', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.05, fontWeight: FontWeight.bold),),
-                  SizedBox(height: deviceHeight*0.01,),
-                  Text('Estás a punto de eliminar el evento "' + selectedEvent!.name + '". Una vez eliminado no podrás restablecerlo. También se eliminarán sus notificaciones asignadas.',
-                    style: TextStyle(color: colorMainText, fontSize: deviceWidth*0.035, fontWeight: FontWeight.normal),textAlign: TextAlign.center,),
-                  SizedBox(height: deviceHeight*0.01,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        child: Text('Cancelar', style: TextStyle(color: colorSecondText, fontSize: deviceWidth*0.04)),
-                        onPressed: (){
-                          Navigator.pop(context);
-                        },
-                      ),
-                      SizedBox(width: deviceWidth*0.075,),
-                      TextButton(
-                        child: Text('Eliminar', style: TextStyle(color: Colors.red, fontSize: deviceWidth*0.04)),
-                        onPressed: (){
-                          cancelAllNotifications(selectedEvent!.id);
-                          deleteEventById(selectedEvent!.id);
-                          Navigator.of(context).popUntil((route) => route.isFirst);
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                            content: Text("Evento eliminado"),
-                            backgroundColor: Colors.green,
-                            behavior: SnackBarBehavior.floating,
-                            duration: Duration(seconds: 2),
-                          ));
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
   }
 
 }

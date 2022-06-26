@@ -358,6 +358,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
             Navigator.pushNamed(context, '/events/edit_event');
           },
         ),
+
         FocusedMenuItem(
           backgroundColor: backgroundColor,
           title: Container(
@@ -375,9 +376,16 @@ class _EventsMainPageState extends State<EventsMainPage> {
             ),
           ),
           onPressed: (){
-            // TODO: Share events
+            // TODO: share events
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("(Beta) En desarrollo"),
+              backgroundColor: colorSpecialItem,
+              behavior: SnackBarBehavior.floating,
+              duration: Duration(seconds: 2),
+            ));
           },
         ),
+
         FocusedMenuItem(
           backgroundColor: backgroundColor,
           title: Container(
