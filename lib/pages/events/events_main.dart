@@ -265,15 +265,18 @@ class _EventsMainPageState extends State<EventsMainPage> {
                   ),
 
                   if (events.length == 0) SizedBox(height: deviceHeight*0.025,),
-                  if (events.length == 0) Container(
-                    width: deviceWidth * 0.85,
-                    alignment: Alignment.center,
-                    child: Image.asset('assets/event_preview_dark.png',
-                      scale: deviceWidth * 0.0001,),
+                  if (events.length == 0) Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Container(
+                      width: deviceWidth * 0.85,
+                      alignment: Alignment.center,
+                      child: Image.asset('assets/event_preview_dark.png',
+                        scale: deviceWidth * 0.0001,),
+                    ),],
                   ),
                   if (events.length > 0) SizedBox(height: deviceHeight * 0.01),
                   Column(children: events.map(buildEventBox).toList(),),
-                  if (events.length > 0) SizedBox(height: deviceHeight * 0.01),
+                  SizedBox(height: deviceHeight * 0.015),
                 ],);
             } else {
               return Container(
@@ -358,7 +361,6 @@ class _EventsMainPageState extends State<EventsMainPage> {
             Navigator.pushNamed(context, '/events/edit_event');
           },
         ),
-
         FocusedMenuItem(
           backgroundColor: backgroundColor,
           title: Container(
@@ -385,7 +387,6 @@ class _EventsMainPageState extends State<EventsMainPage> {
             ));
           },
         ),
-
         FocusedMenuItem(
           backgroundColor: backgroundColor,
           title: Container(
@@ -458,7 +459,9 @@ class _EventsMainPageState extends State<EventsMainPage> {
                               style: TextStyle(color: secondColor, fontSize: deviceWidth * 0.03, fontWeight: FontWeight.normal))),
                     ],
                   ),
-                  Expanded(child: Center(child: Icon(Icons.open_in_new_rounded, color: iconColor, size: deviceWidth * 0.06),),),
+                  Expanded(child: Text(''),),
+                  Icon(Icons.open_in_new_rounded, color: iconColor, size: deviceWidth * 0.06),
+                  SizedBox(width: deviceWidth*0.01,),
                 ],
               ),
             ),

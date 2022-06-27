@@ -88,7 +88,7 @@ class _AddEventState extends State<AddEvent> {
                     borderSide: BorderSide(color: colorSpecialItem, width: 2),
                   ),
                   hintText: dateHintText,
-                  hintStyle: TextStyle(color: colorThirdText),
+                  hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
                 ),
                 onTap: () => _dateSelector(context),
               ),
@@ -122,7 +122,7 @@ class _AddEventState extends State<AddEvent> {
                     borderSide: BorderSide(color: colorSpecialItem, width: 2),
                   ),
                   hintText: timeHintText,
-                  hintStyle: TextStyle(color: colorThirdText),
+                  hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
                 ),
                 onTap: () => _timeSelector(context),
               ),
@@ -381,7 +381,7 @@ class _AddEventState extends State<AddEvent> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-              width: deviceWidth*0.9,
+              width: deviceHeight,
               height: deviceHeight*0.07,
               child: TextButton(
                 child: Row(

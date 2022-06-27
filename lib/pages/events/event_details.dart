@@ -92,7 +92,7 @@ class _EventDetailsState extends State<EventDetails> {
           ),
           SizedBox(height: deviceHeight * 0.01),
           if (selectedEvent!.description == '') Container(
-            width: deviceWidth*0.8,
+            width: deviceHeight,
             padding: EdgeInsets.all(deviceWidth * 0.025),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -102,7 +102,7 @@ class _EventDetailsState extends State<EventDetails> {
               style: TextStyle(color: colorThirdText, fontSize: deviceWidth * 0.04, fontStyle: FontStyle.italic),),
           ),
           if (selectedEvent!.description != '') Container(
-            width: deviceWidth*0.8,
+            width: deviceHeight,
             padding: EdgeInsets.all(deviceWidth * 0.025),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -218,9 +218,7 @@ class _EventDetailsState extends State<EventDetails> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        if (selectedEvent!.notificationsList[index].values.first.toDate().isBefore(DateTime.now())) Icon(Icons.check_rounded, color: colorSpecialItem, size: deviceWidth*0.05,),
-                        if (selectedEvent!.notificationsList[index].values.first.toDate().isAfter(DateTime.now())
-                            && selectedEvent!.notificationsList[index].values.first.toDate().isBefore(selectedEvent!.dateTime)) Icon(Icons.notifications_active_outlined, color: colorSpecialItem, size: deviceWidth*0.05,),
+                        if (selectedEvent!.notificationsList[index].values.first.toDate().isBefore(selectedEvent!.dateTime)) Icon(Icons.notifications_active_outlined, color: colorSpecialItem, size: deviceWidth*0.05,),
                         if (selectedEvent!.notificationsList[index].values.first.toDate().isAfter(selectedEvent!.dateTime)) Icon(Icons.notification_important_outlined, color: Colors.red, size: deviceWidth*0.05,),
                         SizedBox(width: deviceWidth*0.025,),
                         Text(formatNotificationDate(selectedEvent!.notificationsList[index].values.first.toDate()),

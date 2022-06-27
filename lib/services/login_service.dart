@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
@@ -226,8 +228,8 @@ class _LogInServiceState extends State<LogInService> {
   void check_device(){
     setState(() {
       var padding = MediaQuery.of(context).padding;
-      deviceHeight = MediaQuery.of(context).size.height - padding.top - padding.bottom;
-      deviceWidth = MediaQuery.of(context).size.width;
+      deviceHeight = max(MediaQuery.of(context).size.height - padding.top - padding.bottom, MediaQuery.of(context).size.width - padding.top - padding.bottom);
+      deviceWidth = min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width);
 
       if (deviceHeight!=0 || deviceWidth!=0){
         debugPrint('[OK] Device checked.');

@@ -1,8 +1,5 @@
 TO-DO:
-migrar views
-notificaciones personalizadas
 crear widgets en el escritorio?
-solo vertical o arreglar medidas?
 link para compartir evento
 INTERNACIONALIZACION
 
@@ -23,3 +20,6 @@ notificaciones: 5mins, 1h, 1 dia
 filtro por colores
 seleccionar formato de hora
 concurrencia en settings
+notificaciones personalizadas
+migrar views
+alinear en modo horizontal

@@ -109,8 +109,6 @@ class _EditEventState extends State<EditEvent> {
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: colorSpecialItem, width: 2),
                   ),
-                  hintText: 'dd/mm/aaaa (Obligatorio)',
-                  hintStyle: TextStyle(color: colorThirdText),
                 ),
                 onTap: () => _dateSelector(context),
               ),
@@ -143,8 +141,6 @@ class _EditEventState extends State<EditEvent> {
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: colorSpecialItem, width: 2),
                   ),
-                  hintText: '00:00 (Por defecto)',
-                  hintStyle: TextStyle(color: colorThirdText),
                 ),
                 onTap: () => _timeSelector(context),
               ),
@@ -406,7 +402,7 @@ class _EditEventState extends State<EditEvent> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [ SizedBox(
-              width: deviceWidth*0.9,
+              width: deviceHeight,
               height: deviceHeight*0.07,
               child: TextButton(
                 child: Row(
@@ -485,7 +481,7 @@ class _EditEventState extends State<EditEvent> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [ SizedBox(
-              width: deviceWidth*0.9,
+              width: deviceHeight,
               height: deviceHeight*0.07,
               child: TextButton(
                 child: Row(

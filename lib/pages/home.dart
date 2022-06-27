@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:intl/intl.dart';
+import 'dart:math';
 
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/classes/all_classes.dart';
@@ -39,16 +40,14 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
-    final user = FirebaseAuth.instance.currentUser!;
-
     if (deviceChecked == false) check_device();
 
     List<Widget> homeViews = [
       EventsMainPage(),
-      routinesView(),
-      todosView(),
-      notesView(),
-      settingsView(user)
+      TodosMainPage(),
+      NotesMainPage(),
+      RoutinesMainPage(),
+      SettingsView(),
     ];
 
     return Scaffold(
@@ -66,138 +65,28 @@ class _HomeState extends State<Home> {
     );
   }
 
-  /// VIEWS
-  Container routinesView() {
-    return homeArea([
-      homeHeaderSimple(
-        'Rutina',
-        IconButton(
-          icon: Icon(Icons.add_rounded,
-              color: colorSpecialItem, size: deviceWidth * 0.085),
-          splashRadius: 0.001,
-          onPressed: () {},
-        ),
-      )
-    ]);
-  }
+  /// SETTINGS VIEW
+  Container SettingsView(){
+    final user = FirebaseAuth.instance.currentUser!;
 
-  Container todosView() {
-    late IconData filterIcon;
-    if (useTodosFilters==false) filterIcon = Icons.filter_list_rounded;
-    else filterIcon = Icons.filter_list_off_rounded;
-
-    return homeArea([
-      homeHeaderDouble(
-        'Tareas',
-        IconButton(
-          icon: Icon(filterIcon,
-              color: colorSpecialItem, size: deviceWidth * 0.085),
-          splashRadius: 0.001,
-          onPressed: () {
-            setState(() {
-              useTodosFilters = !useTodosFilters;
-            });
-          },
-        ),
-        IconButton(
-          icon: Icon(Icons.add_rounded,
-              color: colorSpecialItem, size: deviceWidth * 0.085),
-          splashRadius: 0.001,
-          onPressed: () {
-            Navigator.pushNamed(context, '/todos/add_todo');
-          },
-        ),
-      ),
-
-      if(useTodosFilters) filterSelector(),
-      if(useTodosFilters) SizedBox(height: deviceHeight*0.02,),
-
-      StreamBuilder<List<Todo>>(
-          stream: readPendingTodos(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              debugPrint('[ERR] ' + snapshot.error.toString());
-              return SizedBox.shrink();
-            } else if (snapshot.hasData) {
-              final todos = snapshot.data!;
-              return SizedBox();
-            } else {
-              return SizedBox.shrink();
-            }
-          }),
-
-      StreamBuilder<List<Todo>>(
-          stream: readDoneTodos(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              debugPrint('[ERR] ' + snapshot.error.toString());
-              return SizedBox.shrink();
-            } else if (snapshot.hasData) {
-              final todos = snapshot.data!;
-              return SizedBox();
-            } else {
-              return SizedBox.shrink();
-            }
-          }),
-
-      StreamBuilder<List<Todo>>(
-          stream: readAllTodos(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              debugPrint('[ERR] ' + snapshot.error.toString());
-              return SizedBox.shrink();
-            } else if (snapshot.hasData) {
-              final todosLength = snapshot.data!.length;
-              if (darkMode==false && todosLength<=0 &&useTodosFilters==false) return Container(
-                width: deviceWidth*0.85,
-                height: deviceHeight*0.65,
-                alignment: Alignment.center,
-                child: Image.asset('assets/event_preview_light.png', scale: deviceWidth*0.008,),
-              );
-              else if (darkMode==true && todosLength<=0 &&useTodosFilters==false) return Container(
-                width: deviceWidth*0.85,
-                height: deviceHeight*0.65,
-                alignment: Alignment.center,
-                child: Image.asset('assets/event_preview_dark.png', scale: deviceWidth*0.008,),
-              );
-              else return SizedBox.shrink();
-            } else {
-              return SizedBox.shrink();
-            }
-          }),
-
-    ]);
-  }
-
-  Container notesView() {
-    return homeArea([
-      homeHeaderSimple(
-        'Notas',
-        IconButton(
-          icon: Icon(Icons.add_rounded,
-              color: colorSpecialItem, size: deviceWidth * 0.085),
-          splashRadius: 0.001,
-          onPressed: () {},
-        ),
-      ),
-    ]);
-  }
-
-  Container settingsView(User user) {
     return homeArea([
       headerText('Ajustes'),
-      SizedBox(height: deviceHeight * 0.03,),
+      SizedBox(
+        height: deviceHeight * 0.03,
+      ),
       Text('Formatos y medidas',
           style: TextStyle(
               color: colorMainText,
               fontSize: deviceWidth * 0.05,
-              fontWeight: FontWeight.bold)
+              fontWeight: FontWeight.bold)),
+      SizedBox(
+        height: deviceHeight * 0.005,
       ),
-      SizedBox(height: deviceHeight * 0.005,),
       alternativeFormContainer([
         settingsRow(
-          'Formato 24 horas', 'Activado: 24 horas.\n'
-            'Desactivado: 12 horas + AM/PM.',
+          'Formato 24 horas',
+          'Activado: 24 horas.\n'
+              'Desactivado: 12 horas + AM/PM.',
           Switch(
             value: format24Hours,
             onChanged: (val) {
@@ -207,15 +96,19 @@ class _HomeState extends State<Home> {
               saveSetting('format24Hours', val);
             },
             activeColor: colorSpecialItem,
-          ),),
-
-        SizedBox(height: deviceHeight * 0.005,),
+          ),
+        ),
+        SizedBox(
+          height: deviceHeight * 0.005,
+        ),
         Divider(color: colorThirdText),
-        SizedBox(height: deviceHeight * 0.005,),
-
+        SizedBox(
+          height: deviceHeight * 0.005,
+        ),
         settingsRow(
-          'Formato de fechas', 'Activado: dd/mm/aaaa (Europa).\n'
-            'Desactivado: mm/dd/aaaa (US).',
+          'Formato de fechas',
+          'Activado: dd/mm/aaaa (Europa).\n'
+              'Desactivado: mm/dd/aaaa (US).',
           Switch(
             value: formatDates,
             onChanged: (val) {
@@ -225,12 +118,15 @@ class _HomeState extends State<Home> {
               saveSetting('formatDates', val);
             },
             activeColor: colorSpecialItem,
-          ),),
-
-        SizedBox(height: deviceHeight * 0.005,),
+          ),
+        ),
+        SizedBox(
+          height: deviceHeight * 0.005,
+        ),
         Divider(color: colorThirdText),
-        SizedBox(height: deviceHeight * 0.005,),
-
+        SizedBox(
+          height: deviceHeight * 0.005,
+        ),
         settingsRow(
           'Calendario Europeo',
           'Decide en qué día comienza la semana.'
@@ -248,22 +144,28 @@ class _HomeState extends State<Home> {
               saveSetting('appLocale', val);
             },
             activeColor: colorSpecialItem,
-          ),),
-
-        SizedBox(height: deviceHeight * 0.005,),
+          ),
+        ),
+        SizedBox(
+          height: deviceHeight * 0.005,
+        ),
       ]),
-      SizedBox(height: deviceHeight * 0.03,),
+      SizedBox(
+        height: deviceHeight * 0.03,
+      ),
       Text('Apariencia',
           style: TextStyle(
               color: colorMainText,
               fontSize: deviceWidth * 0.05,
-              fontWeight: FontWeight.bold)
+              fontWeight: FontWeight.bold)),
+      SizedBox(
+        height: deviceHeight * 0.005,
       ),
-      SizedBox(height: deviceHeight * 0.005,),
       alternativeFormContainer([
         settingsRow(
-          'Tema oscuro', 'Activado: Tema oscuro.\n'
-            'Desactivado: Tema claro.',
+          'Tema oscuro',
+          'Activado: Tema oscuro.\n'
+              'Desactivado: Tema claro.',
           Switch(
             value: darkMode,
             onChanged: (val) {
@@ -296,58 +198,98 @@ class _HomeState extends State<Home> {
               saveSetting('darkMode', val);
             },
             activeColor: colorSpecialItem,
-          ),),
-
-        SizedBox(height: deviceHeight * 0.005,),
+          ),
+        ),
+        SizedBox(
+          height: deviceHeight * 0.005,
+        ),
       ]),
-
-      SizedBox(height: deviceHeight * 0.03,),
+      SizedBox(
+        height: deviceHeight * 0.03,
+      ),
       Text('Cuenta',
           style: TextStyle(
               color: colorMainText,
               fontSize: deviceWidth * 0.05,
-              fontWeight: FontWeight.bold)
+              fontWeight: FontWeight.bold)),
+      SizedBox(
+        height: deviceHeight * 0.005,
       ),
-      SizedBox(height: deviceHeight * 0.005,),
       alternativeFormContainer([
-        Text('Email:', style: TextStyle(
-            color: colorMainText,
-            fontSize: deviceWidth * 0.0475,
-            fontWeight: FontWeight.bold),),
-        SizedBox(height: deviceHeight * 0.0025,),
+        Text(
+          'Email:',
+          style: TextStyle(
+              color: colorMainText,
+              fontSize: deviceWidth * 0.0475,
+              fontWeight: FontWeight.bold),
+        ),
+        SizedBox(
+          height: deviceHeight * 0.0025,
+        ),
         Wrap(
           children: [
-            Text(user.email!, style: TextStyle(
-                color: colorSecondText,
-                fontSize: deviceWidth * 0.04,
-                fontWeight: FontWeight.normal),),
-            SizedBox(width: deviceWidth * 0.005,),
-            Icon(Icons.verified_rounded, color: colorSecondText, size: deviceWidth*0.04,),
+            Text(
+              user.email!,
+              style: TextStyle(
+                  color: colorSecondText,
+                  fontSize: deviceWidth * 0.04,
+                  fontWeight: FontWeight.normal),
+            ),
+            SizedBox(
+              width: deviceWidth * 0.005,
+            ),
+            Icon(
+              Icons.verified_rounded,
+              color: colorSecondText,
+              size: deviceWidth * 0.04,
+            ),
           ],
         ),
-        if (isTester) SizedBox(height: deviceHeight * 0.005,),
+        if (isTester)
+          SizedBox(
+            height: deviceHeight * 0.005,
+          ),
         if (isTester) Divider(color: colorThirdText),
-        if (isTester) SizedBox(height: deviceHeight * 0.005,),
-        if (isTester) Text('Tester:', style: TextStyle(
-            color: colorMainText,
-            fontSize: deviceWidth * 0.0475,
-            fontWeight: FontWeight.bold),),
-        if (isTester) SizedBox(height: deviceHeight * 0.0025,),
-        if (isTester) Text('Formas parte del programa de testers.', style: TextStyle(
-            color: colorSecondText,
-            fontSize: deviceWidth * 0.04,
-            fontWeight: FontWeight.normal),),
-        SizedBox(height: deviceHeight * 0.005,),
+        if (isTester)
+          SizedBox(
+            height: deviceHeight * 0.005,
+          ),
+        if (isTester)
+          Text(
+            'Tester:',
+            style: TextStyle(
+                color: colorMainText,
+                fontSize: deviceWidth * 0.0475,
+                fontWeight: FontWeight.bold),
+          ),
+        if (isTester)
+          SizedBox(
+            height: deviceHeight * 0.0025,
+          ),
+        if (isTester)
+          Text(
+            'Formas parte del programa de testers.',
+            style: TextStyle(
+                color: colorSecondText,
+                fontSize: deviceWidth * 0.04,
+                fontWeight: FontWeight.normal),
+          ),
+        SizedBox(
+          height: deviceHeight * 0.005,
+        ),
         Divider(color: colorThirdText),
         Container(
-          width: deviceWidth*0.8,
-          height: deviceHeight*0.05,
+          width: deviceHeight,
+          height: deviceHeight * 0.05,
           child: TextButton(
-            child: Text('Cambia tu contraseña', style: TextStyle(
-                color: colorSpecialItem,
-                fontSize: deviceWidth * 0.04,
-                fontWeight: FontWeight.normal),),
-            onPressed: (){
+            child: Text(
+              'Cambia tu contraseña',
+              style: TextStyle(
+                  color: colorSpecialItem,
+                  fontSize: deviceWidth * 0.04,
+                  fontWeight: FontWeight.normal),
+            ),
+            onPressed: () {
               Navigator.pushNamed(context, '/services/change_password_service');
             },
           ),
@@ -364,15 +306,15 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              width: deviceWidth * 0.8,
+              width: deviceHeight,
               height: deviceHeight * 0.07,
               child: TextButton(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(Icons.logout_rounded, color: Colors.red,
-                        size: deviceWidth * 0.06),
+                    Icon(Icons.logout_rounded,
+                        color: Colors.red, size: deviceWidth * 0.06),
                     Text(
                       ' Cerrar sesión ',
                       style: TextStyle(
@@ -380,8 +322,8 @@ class _HomeState extends State<Home> {
                           fontSize: deviceWidth * 0.05,
                           fontWeight: FontWeight.normal),
                     ),
-                    Icon(Icons.logout_rounded, color: Colors.transparent,
-                        size: deviceWidth * 0.06),
+                    Icon(Icons.logout_rounded,
+                        color: Colors.transparent, size: deviceWidth * 0.06),
                   ],
                 ),
                 onPressed: () {
@@ -399,13 +341,12 @@ class _HomeState extends State<Home> {
     ]);
   }
 
-
   /// AUX FUNCTIONS
   void check_device(){
     setState(() {
       var padding = MediaQuery.of(context).padding;
-      deviceHeight = MediaQuery.of(context).size.height - padding.top - padding.bottom;
-      deviceWidth = MediaQuery.of(context).size.width;
+      deviceHeight = max(MediaQuery.of(context).size.height - padding.top - padding.bottom, MediaQuery.of(context).size.width - padding.top - padding.bottom);
+      deviceWidth = min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width);
 
       if (deviceHeight!=0 || deviceWidth!=0){
         debugPrint('[OK] Device checked.');
@@ -428,9 +369,9 @@ class _HomeState extends State<Home> {
       curve: Curves.easeInOutQuart,
       items: <BottomNavyBarItem>[
         myBottomNavyBarItem('Calendario', const Icon(Icons.today_rounded)),
-        myBottomNavyBarItem('Rutina', const Icon(Icons.timeline_rounded)),
         myBottomNavyBarItem('Tareas', const Icon(Icons.check_circle_outline_rounded)),
         myBottomNavyBarItem('Notas', const Icon(Icons.sticky_note_2_outlined)),
+        myBottomNavyBarItem('Rutina', const Icon(Icons.timeline_rounded)),
         myBottomNavyBarItem('Ajustes', const Icon(Icons.settings_outlined)),
       ],
     );

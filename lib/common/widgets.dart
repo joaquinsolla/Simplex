@@ -203,7 +203,7 @@ Column formTextField(TextEditingController controller, String fieldName, String 
           ),
 
           hintText: hintText,
-          hintStyle: TextStyle(color: colorThirdText),
+          hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
         ),
       ),
       SizedBox(height: deviceHeight*0.025),
@@ -222,7 +222,7 @@ Container eventActionsButton(IconData icon, Color color, String text, Function()
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [ SizedBox(
-        width: deviceWidth*0.9,
+        width: deviceHeight,
         height: deviceHeight*0.07,
         child: TextButton(
           child: Row(
