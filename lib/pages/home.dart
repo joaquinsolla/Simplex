@@ -82,7 +82,7 @@ class _HomeState extends State<Home> {
       SizedBox(
         height: deviceHeight * 0.005,
       ),
-      alternativeFormContainer([
+      formContainer([
         settingsRow(
           'Formato 24 horas',
           'Activado: 24 horas.\n'
@@ -161,7 +161,7 @@ class _HomeState extends State<Home> {
       SizedBox(
         height: deviceHeight * 0.005,
       ),
-      alternativeFormContainer([
+      formContainer([
         settingsRow(
           'Tema oscuro',
           'Activado: Tema oscuro.\n'
@@ -215,7 +215,7 @@ class _HomeState extends State<Home> {
       SizedBox(
         height: deviceHeight * 0.005,
       ),
-      alternativeFormContainer([
+      formContainer([
         Text(
           'Email:',
           style: TextStyle(
@@ -296,46 +296,16 @@ class _HomeState extends State<Home> {
         ),
       ]),
       SizedBox(height: deviceHeight * 0.025),
-      Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: colorSecondBackground,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: deviceHeight,
-              height: deviceHeight * 0.07,
-              child: TextButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(Icons.logout_rounded,
-                        color: Colors.red, size: deviceWidth * 0.06),
-                    Text(
-                      ' Cerrar sesión ',
-                      style: TextStyle(
-                          color: Colors.red,
-                          fontSize: deviceWidth * 0.05,
-                          fontWeight: FontWeight.normal),
-                    ),
-                    Icon(Icons.logout_rounded,
-                        color: Colors.transparent, size: deviceWidth * 0.06),
-                  ],
-                ),
-                onPressed: () {
-                  loginIndex = 0;
-                  homeIndex = 0;
-                  FirebaseAuth.instance.signOut();
-                  debugPrint('[OK] Signed out');
-                },
-              ),
-            ),
-          ],
-        ),
+      actionsButton(
+          Icons.logout_rounded,
+          Colors.red,
+          ' Cerrar sesión ',
+          () {
+            loginIndex = 0;
+            homeIndex = 0;
+            FirebaseAuth.instance.signOut();
+            debugPrint('[OK] Signed out');
+          }
       ),
       SizedBox(height: deviceHeight * 0.025),
     ]);

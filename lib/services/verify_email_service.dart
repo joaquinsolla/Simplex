@@ -49,7 +49,7 @@ class _VerifyEmailServiceState extends State<VerifyEmailService> {
             SizedBox(
               height: deviceHeight * 0.03,
             ),
-            alternativeFormContainer([
+            formContainer([
               Text(
                 'Verifica tu email',
                 style: TextStyle(
@@ -67,82 +67,22 @@ class _VerifyEmailServiceState extends State<VerifyEmailService> {
                     fontWeight: FontWeight.normal), textAlign: TextAlign.center,),
             ]),
             SizedBox(height: deviceHeight * 0.025),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: colorSecondBackground,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: deviceWidth * 0.8,
-                    height: deviceHeight * 0.07,
-                    child: TextButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.mark_email_read_rounded,
-                              color: colorSpecialItem,
-                              size: deviceWidth * 0.06),
-                          Text(
-                            ' Enviar email de nuevo ',
-                            style: TextStyle(
-                                color: colorSpecialItem,
-                                fontSize: deviceWidth * 0.05,
-                                fontWeight: FontWeight.normal),
-                          ),
-                          Icon(Icons.mark_email_read_rounded,
-                              color: Colors.transparent,
-                              size: deviceWidth * 0.06),
-                        ],
-                      ),
-                      onPressed: canResendEmail ? sendVerificationEmail : null,
-                    ),
-                  ),
-                ],
-              ),
+            actionsButton(
+                Icons.mark_email_read_rounded,
+                colorSpecialItem,
+                ' Enviar email de nuevo ',
+                () {
+                  if (canResendEmail) {
+                    sendVerificationEmail();
+                  }
+                },
             ),
             SizedBox(height: deviceHeight * 0.025),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: colorSecondBackground,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: deviceWidth * 0.8,
-                    height: deviceHeight * 0.07,
-                    child: TextButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.close_rounded,
-                              color: Colors.red,
-                              size: deviceWidth * 0.06),
-                          Text(
-                            ' Cancelar ',
-                            style: TextStyle(
-                                color: Colors.red,
-                                fontSize: deviceWidth * 0.05,
-                                fontWeight: FontWeight.normal),
-                          ),
-                          Icon(Icons.close_rounded,
-                              color: Colors.transparent,
-                              size: deviceWidth * 0.06),
-                        ],
-                      ),
-                      onPressed: () => FirebaseAuth.instance.signOut(),
-                    ),
-                  ),
-                ],
-              ),
+            actionsButton(
+                Icons.close_rounded,
+                Colors.red,
+                ' Cancelar ',
+                () => FirebaseAuth.instance.signOut()
             ),
             SizedBox(height: deviceHeight * 0.025),
           ]));

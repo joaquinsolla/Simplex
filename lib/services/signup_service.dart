@@ -33,7 +33,7 @@ class _SignUpServiceState extends State<SignUpService> {
         body: homeArea([
           authHeader(),
           SizedBox(height: deviceHeight * 0.03,),
-          alternativeFormContainer([
+          formContainer([
             Text('Registrarse', style: TextStyle(color: colorMainText,
                 fontSize: deviceWidth * 0.075,
                 fontWeight: FontWeight.bold),),
@@ -139,84 +139,69 @@ class _SignUpServiceState extends State<SignUpService> {
             ),
           ]),
           SizedBox(height: deviceHeight * 0.025),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: colorSecondBackground,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [ SizedBox(
-                width: deviceWidth * 0.8,
-                height: deviceHeight * 0.07,
-                child: TextButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                          Icons.person_add_alt_rounded, color: colorSpecialItem,
-                          size: deviceWidth * 0.06),
-                      Text(
-                        ' Registrarme ',
-                        style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.05,
-                            fontWeight: FontWeight.normal),
-                      ),
-                      Icon(Icons.person_add_alt_rounded,
-                          color: Colors.transparent, size: deviceWidth * 0.06),
-                    ],
-                  ),
-                  onPressed: () {
-                    if (emailController.text == '' || passwordController.text == '' || confirmPasswordController.text == ''){
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Debes cubrir todos los campos"),
-                        backgroundColor: Colors.red,
-                        behavior: SnackBarBehavior.floating,
-                        duration: Duration(seconds: 2),
-                      ));
-                      if (emailController.text == '') emailFocusNode.requestFocus();
-                      else if (passwordController.text == '') passwordFocusNode.requestFocus();
-                      else confirmPasswordFocusNode.requestFocus();
-                    } else {
-                      if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(emailController.text.trim())){
-                        if (passwordController.text.trim().length < 6){
-                          passwordFocusNode.requestFocus();
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                            content: Text("La contraseña debe contener al menos 6 caracteres"),
+          actionsButton(
+              Icons.person_add_alt_rounded,
+              colorSpecialItem,
+              ' Registrarme ',
+              () {
+                if (emailController.text == '' ||
+                    passwordController.text == '' ||
+                    confirmPasswordController.text == '') {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Debes cubrir todos los campos"),
+                    backgroundColor: Colors.red,
+                    behavior: SnackBarBehavior.floating,
+                    duration: Duration(seconds: 2),
+                  ));
+                  if (emailController.text == '')
+                    emailFocusNode.requestFocus();
+                  else if (passwordController.text == '')
+                    passwordFocusNode.requestFocus();
+                  else
+                    confirmPasswordFocusNode.requestFocus();
+                } else {
+                  if (RegExp(
+                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(emailController.text.trim())) {
+                    if (passwordController.text
+                        .trim()
+                        .length < 6) {
+                      passwordFocusNode.requestFocus();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                "La contraseña debe contener al menos 6 caracteres"),
                             backgroundColor: Colors.red,
                             behavior: SnackBarBehavior.floating,
                             duration: Duration(seconds: 2),
                           ));
-                        } else {
-                          if (passwordController.text.trim() != confirmPasswordController.text.trim()){
-                            passwordFocusNode.requestFocus();
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    } else {
+                      if (passwordController.text.trim() !=
+                          confirmPasswordController.text.trim()) {
+                        passwordFocusNode.requestFocus();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
                               content: Text("Las contraseñas no coinciden"),
                               backgroundColor: Colors.red,
                               behavior: SnackBarBehavior.floating,
                               duration: Duration(seconds: 2),
                             ));
-                          } else signUp();
-                        }
-                      }
-                      else {
-                        emailFocusNode.requestFocus();
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      } else
+                        signUp();
+                    }
+                  }
+                  else {
+                    emailFocusNode.requestFocus();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
                           content: Text("Formato de email inválido"),
                           backgroundColor: Colors.red,
                           behavior: SnackBarBehavior.floating,
                           duration: Duration(seconds: 2),
                         ));
-                      }
-                    }
-                  },
-                ),
-              ),
-              ],
-            ),
+                  }
+                }
+              }
           ),
           SizedBox(height: deviceHeight * 0.025),
           TextButton(

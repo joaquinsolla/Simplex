@@ -80,7 +80,7 @@ class _EditEventState extends State<EditEvent> {
       backgroundColor: colorMainBackground,
       body: homeArea([
         pageHeader(context, 'Editar evento'),
-        alternativeFormContainer([
+        formContainer([
           formTextField(nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
           formTextField(descriptionController, 'Descripción', '(Opcional)', descriptionFocusNode),
           Column(
@@ -151,7 +151,7 @@ class _EditEventState extends State<EditEvent> {
 
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        alternativeFormContainer([
+        formContainer([
           Text(
             'Color',
             style: TextStyle(
@@ -264,7 +264,7 @@ class _EditEventState extends State<EditEvent> {
         ]),
 
         SizedBox(height: deviceHeight * 0.025),
-        alternativeFormContainer([
+        formContainer([
           Text(
             'Notificaciones',
             style: TextStyle(
@@ -393,35 +393,12 @@ class _EditEventState extends State<EditEvent> {
         ]),
 
         SizedBox(height: deviceHeight * 0.025),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: colorSecondBackground,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [ SizedBox(
-              width: deviceHeight,
-              height: deviceHeight*0.07,
-              child: TextButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(Icons.check_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
-                    Text(
-                      ' Confirmar cambios ',
-                      style: TextStyle(
-                          color: colorSpecialItem,
-                          fontSize: deviceWidth * 0.05,
-                          fontWeight: FontWeight.normal),
-                    ),
-                    Icon(Icons.check_rounded, color: Colors.transparent, size: deviceWidth * 0.06),
-                  ],
-                ),
-                onPressed: () async {
-                  if (nameController.text.isEmpty){
+        actionsButton(
+            Icons.check_rounded,
+            colorSpecialItem,
+            ' Confirmar cambios ',
+                () async {
+                  if (nameController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Debes indicar un nombre"),
                       backgroundColor: Colors.red,
@@ -430,23 +407,40 @@ class _EditEventState extends State<EditEvent> {
                     ));
                     nameFocusNode.requestFocus();
                   } else {
-                    DateTime newFullDateTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
+                    DateTime newFullDateTime = DateTime(
+                        date.year, date.month, date.day, time.hour,
+                        time.minute);
                     try {
                       Event newEvent = Event(id: selectedEvent!.id,
-                          name: nameController.text,
-                          description: descriptionController.text,
-                          dateTime: newFullDateTime,
-                          color: selectedColor,
-                          notificationsList: notificationsList,
+                        name: nameController.text,
+                        description: descriptionController.text,
+                        dateTime: newFullDateTime,
+                        color: selectedColor,
+                        notificationsList: notificationsList,
                       );
 
                       await updateEvent(newEvent);
                       await cancelAllNotifications(selectedEvent!.id);
-                      if (not1.keys.first != null) showNotification(context, int.parse(not1.keys.first!), nameController.text, not1.values.first!, newFullDateTime);
-                      if (not2.keys.first != null) showNotification(context, int.parse(not2.keys.first!), nameController.text, not2.values.first!, newFullDateTime);
-                      if (not3.keys.first != null) showNotification(context, int.parse(not3.keys.first!), nameController.text, not3.values.first!, newFullDateTime);
-                      if (not4.keys.first != null) showNotification(context, int.parse(not4.keys.first!), nameController.text, not4.values.first!, newFullDateTime);
-                      if (not5.keys.first != null) showNotification(context, int.parse(not5.keys.first!), nameController.text, not5.values.first!, newFullDateTime);
+                      if (not1.keys.first != null) showNotification(
+                          context, int.parse(not1.keys.first!),
+                          nameController.text, not1.values.first!,
+                          newFullDateTime);
+                      if (not2.keys.first != null) showNotification(
+                          context, int.parse(not2.keys.first!),
+                          nameController.text, not2.values.first!,
+                          newFullDateTime);
+                      if (not3.keys.first != null) showNotification(
+                          context, int.parse(not3.keys.first!),
+                          nameController.text, not3.values.first!,
+                          newFullDateTime);
+                      if (not4.keys.first != null) showNotification(
+                          context, int.parse(not4.keys.first!),
+                          nameController.text, not4.values.first!,
+                          newFullDateTime);
+                      if (not5.keys.first != null) showNotification(
+                          context, int.parse(not5.keys.first!),
+                          nameController.text, not5.values.first!,
+                          newFullDateTime);
 
                       Navigator.of(context).popUntil((route) => route.isFirst);
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -455,7 +449,6 @@ class _EditEventState extends State<EditEvent> {
                         behavior: SnackBarBehavior.floating,
                         duration: Duration(seconds: 2),
                       ));
-
                     } on Exception catch (e) {
                       debugPrint('[ERR] Could not edit event: $e');
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -466,45 +459,14 @@ class _EditEventState extends State<EditEvent> {
                       ));
                     }
                   }
-                },
-              ),
-            ),],
-          ),
+                }
         ),
         SizedBox(height: deviceHeight * 0.025),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: colorSecondBackground,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [ SizedBox(
-              width: deviceHeight,
-              height: deviceHeight*0.07,
-              child: TextButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(Icons.close_rounded, color: Colors.red, size: deviceWidth * 0.06),
-                    Text(
-                      ' Cancelar ',
-                      style: TextStyle(
-                          color: Colors.red,
-                          fontSize: deviceWidth * 0.05,
-                          fontWeight: FontWeight.normal),
-                    ),
-                    Icon(Icons.close_rounded, color: Colors.transparent, size: deviceWidth * 0.06),
-                  ],
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),],
-          ),
+        actionsButton(
+            Icons.close_rounded,
+            Colors.red,
+            ' Cancelar ',
+            () => Navigator.pop(context),
         ),
         SizedBox(height: deviceHeight * 0.025),
       ]),

@@ -32,7 +32,7 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
       backgroundColor: colorMainBackground,
       body: homeArea([
         pageHeader(context, 'Cambia tu contraseña'),
-        alternativeFormContainer([
+        formContainer([
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -104,7 +104,8 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Confirmar contraseña:', style: TextStyle(color: colorMainText,
+              Text(
+                'Confirmar contraseña:', style: TextStyle(color: colorMainText,
                   fontSize: deviceWidth * 0.045,
                   fontWeight: FontWeight.bold),),
               SizedBox(height: deviceHeight * 0.005),
@@ -136,79 +137,57 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: colorSecondBackground,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [ SizedBox(
-              width: deviceWidth * 0.8,
-              height: deviceHeight * 0.07,
-              child: TextButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                        Icons.edit, color: colorSpecialItem,
-                        size: deviceWidth * 0.06),
-                    Text(
-                      ' Cambiar contraseña ',
-                      style: TextStyle(
-                          color: colorSpecialItem,
-                          fontSize: deviceWidth * 0.05,
-                          fontWeight: FontWeight.normal),
-                    ),
-                    Icon(Icons.edit,
-                        color: Colors.transparent, size: deviceWidth * 0.06),
-                  ],
-                ),
-                onPressed: () {
-                  if (newPassController1.text.trim() == ''){
-                    oldPassFocusNode.requestFocus();
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Debes introducir tu contraseña actual"),
-                      backgroundColor: Colors.red,
-                      behavior: SnackBarBehavior.floating,
-                      duration: Duration(seconds: 2),
-                    ));
-                  }
-                  else if (newPassController1.text.trim().length < 6){
-                    newPassFocusNode1.requestFocus();
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("La contraseña debe contener al menos 6 caracteres"),
-                      backgroundColor: Colors.red,
-                      behavior: SnackBarBehavior.floating,
-                      duration: Duration(seconds: 2),
-                    ));
-                  }
-                  else if (newPassController1.text.trim() != newPassController2.text.trim()) {
-                    newPassFocusNode2.requestFocus();
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Las contraseñas no coinciden"),
-                      backgroundColor: Colors.red,
-                      behavior: SnackBarBehavior.floating,
-                      duration: Duration(seconds: 2),
-                    ));
-                  }
-                  else if (newPassController1.text.trim() == oldPassController.text.trim()) {
-                    newPassFocusNode1.requestFocus();
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("La contraseña nueva es igual que la actual"),
-                      backgroundColor: Colors.red,
-                      behavior: SnackBarBehavior.floating,
-                      duration: Duration(seconds: 2),
-                    ));
-                  }
-                  else changePassword(oldPassController.text.trim(), newPassController1.text.trim());
-                },
-              ),
-            ),
-            ],
-          ),
+        actionsButton(
+            Icons.edit,
+            colorSpecialItem,
+            ' Cambiar contraseña ',
+                () {
+              if (newPassController1.text.trim() == '') {
+                oldPassFocusNode.requestFocus();
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Debes introducir tu contraseña actual"),
+                  backgroundColor: Colors.red,
+                  behavior: SnackBarBehavior.floating,
+                  duration: Duration(seconds: 2),
+                ));
+              }
+              else if (newPassController1.text
+                  .trim()
+                  .length < 6) {
+                newPassFocusNode1.requestFocus();
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text(
+                      "La contraseña debe contener al menos 6 caracteres"),
+                  backgroundColor: Colors.red,
+                  behavior: SnackBarBehavior.floating,
+                  duration: Duration(seconds: 2),
+                ));
+              }
+              else if (newPassController1.text.trim() !=
+                  newPassController2.text.trim()) {
+                newPassFocusNode2.requestFocus();
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Las contraseñas no coinciden"),
+                  backgroundColor: Colors.red,
+                  behavior: SnackBarBehavior.floating,
+                  duration: Duration(seconds: 2),
+                ));
+              }
+              else if (newPassController1.text.trim() ==
+                  oldPassController.text.trim()) {
+                newPassFocusNode1.requestFocus();
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text(
+                      "La contraseña nueva es igual que la actual"),
+                  backgroundColor: Colors.red,
+                  behavior: SnackBarBehavior.floating,
+                  duration: Duration(seconds: 2),
+                ));
+              }
+              else
+                changePassword(oldPassController.text.trim(),
+                    newPassController1.text.trim());
+            }
         ),
 
       ]),

@@ -34,7 +34,7 @@ class _LogInServiceState extends State<LogInService> {
         body: homeArea([
           authHeader(),
           SizedBox(height: deviceHeight * 0.03,),
-          alternativeFormContainer([
+          formContainer([
             Text('Iniciar sesión', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.075, fontWeight: FontWeight.bold),),
             SizedBox(height: deviceHeight*0.025),
             Column(
@@ -98,59 +98,39 @@ class _LogInServiceState extends State<LogInService> {
             ),
           ]),
           SizedBox(height: deviceHeight * 0.025),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: colorSecondBackground,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [ SizedBox(
-                width: deviceWidth*0.8,
-                height: deviceHeight*0.07,
-                child: TextButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(Icons.lock_open_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
-                      Text(
-                        ' Entrar ',
-                        style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.05,
-                            fontWeight: FontWeight.normal),
-                      ),
-                      Icon(Icons.lock_open_rounded, color: Colors.transparent, size: deviceWidth * 0.06),
-                    ],
-                  ),
-                  onPressed: (){
-                    if (emailController.text == '' || passwordController.text == ''){
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Debes cubrir todos los campos"),
-                        backgroundColor: Colors.red,
-                        behavior: SnackBarBehavior.floating,
-                        duration: Duration(seconds: 2),
-                      ));
-                      if (emailController.text == '') emailFocusNode.requestFocus();
-                      else passwordFocusNode.requestFocus();
-                    } else {
-                      if (RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(emailController.text.trim())) signIn();
-                      else {
-                        emailFocusNode.requestFocus();
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Formato de email inválido"),
-                          backgroundColor: Colors.red,
-                          behavior: SnackBarBehavior.floating,
-                          duration: Duration(seconds: 2),
-                        ));
-                      }
-                    }
-                  },
-                ),
-              ),],
-            ),
+          actionsButton(
+              Icons.lock_open_rounded,
+              colorSpecialItem,
+              ' Entrar ',
+              () {
+                if (emailController.text == '' ||
+                    passwordController.text == '') {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Debes cubrir todos los campos"),
+                    backgroundColor: Colors.red,
+                    behavior: SnackBarBehavior.floating,
+                    duration: Duration(seconds: 2),
+                  ));
+                  if (emailController.text == '')
+                    emailFocusNode.requestFocus();
+                  else
+                    passwordFocusNode.requestFocus();
+                } else {
+                  if (RegExp(
+                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(emailController.text.trim()))
+                    signIn();
+                  else {
+                    emailFocusNode.requestFocus();
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Formato de email inválido"),
+                      backgroundColor: Colors.red,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
+                  }
+                }
+              }
           ),
           SizedBox(height: deviceHeight * 0.025),
           TextButton(

@@ -153,7 +153,7 @@ Column pageHeader(BuildContext context, String text) {
   );
 }
 
-Container alternativeFormContainer (List<Widget> formWidgets){
+Container formContainer (List<Widget> formWidgets){
   return Container(
     padding: EdgeInsets.all(deviceWidth * 0.025),
     decoration: BoxDecoration(
@@ -165,15 +165,6 @@ Container alternativeFormContainer (List<Widget> formWidgets){
       crossAxisAlignment: CrossAxisAlignment.start,
       children: formWidgets,
     ),
-  );
-}
-
-Container checkBoxContainer(CheckboxListTile checkbox){
-  return Container(padding: EdgeInsets.all(0),
-    decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(10),
-    color: colorThirdBackground,),
-    child: checkbox,
   );
 }
 
@@ -211,7 +202,7 @@ Column formTextField(TextEditingController controller, String fieldName, String 
   );
 }
 
-Container eventActionsButton(IconData icon, Color color, String text, Function() actions){
+Container actionsButton(IconData icon, Color color, String text, Function() actions){
 
   return Container(
     decoration: BoxDecoration(

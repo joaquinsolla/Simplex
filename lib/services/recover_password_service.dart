@@ -27,7 +27,7 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
         body: homeArea([
           authHeader(),
           SizedBox(height: deviceHeight * 0.03,),
-          alternativeFormContainer([
+          formContainer([
             Text('Restablecer contraseña', style: TextStyle(color: colorMainText,
                 fontSize: deviceWidth * 0.075,
                 fontWeight: FontWeight.bold),),
@@ -65,49 +65,25 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
             ),
           ]),
           SizedBox(height: deviceHeight * 0.025),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: colorSecondBackground,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [ SizedBox(
-                width: deviceWidth*0.8,
-                height: deviceHeight*0.07,
-                child: TextButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(Icons.mark_email_read_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
-                      Text(
-                        ' Enviar email ',
-                        style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.05,
-                            fontWeight: FontWeight.normal),
-                      ),
-                      Icon(Icons.mark_email_read_rounded, color: Colors.transparent, size: deviceWidth * 0.06),
-                    ],
-                  ),
-                  onPressed: () {
-                    if (emailController.text == '' || RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(emailController.text.trim())==false) {
-                      emailFocusNode.requestFocus();
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Debes indicar un email válido"),
-                        backgroundColor: Colors.red,
-                        behavior: SnackBarBehavior.floating,
-                        duration: Duration(seconds: 2),
-                      ));
-                    } else {
-                      resetPassword();
-                    }
-                  },
-                ),
-              ),],
-            ),
+          actionsButton(
+              Icons.mark_email_read_rounded,
+              colorSpecialItem,
+              ' Enviar email ',
+              () {
+                if (emailController.text == '' || RegExp(
+                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    .hasMatch(emailController.text.trim()) == false) {
+                  emailFocusNode.requestFocus();
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Debes indicar un email válido"),
+                    backgroundColor: Colors.red,
+                    behavior: SnackBarBehavior.floating,
+                    duration: Duration(seconds: 2),
+                  ));
+                } else {
+                  resetPassword();
+                }
+              }
           ),
           SizedBox(height: deviceHeight * 0.025),
           Text('Se enviará un email de recuperación con las instrucciones para '

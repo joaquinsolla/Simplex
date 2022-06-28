@@ -82,7 +82,7 @@ class _EventDetailsState extends State<EventDetails> {
             )
           ],
         ),
-        alternativeFormContainer([
+        formContainer([
           Text(
             selectedEvent!.name,
             style: TextStyle(
@@ -113,7 +113,7 @@ class _EventDetailsState extends State<EventDetails> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        alternativeFormContainer([
+        formContainer([
           Text(
             'Fecha: ',
             style: TextStyle(
@@ -155,7 +155,7 @@ class _EventDetailsState extends State<EventDetails> {
           ],),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        alternativeFormContainer([
+        formContainer([
           Text(
             'Color: ',
             style: TextStyle(
@@ -181,7 +181,7 @@ class _EventDetailsState extends State<EventDetails> {
         ]),
         SizedBox(height: deviceHeight * 0.025),
 
-        alternativeFormContainer([
+        formContainer([
           Text(
             'Notificaciones: ',
             style: TextStyle(
@@ -237,11 +237,11 @@ class _EventDetailsState extends State<EventDetails> {
         ]),
         
         SizedBox(height: deviceHeight * 0.025),
-        eventActionsButton(Icons.edit, colorSpecialItem, ' Editar evento ', (){
+        actionsButton(Icons.edit, colorSpecialItem, ' Editar evento ', (){
           Navigator.pushNamed(context, '/events/edit_event');
         }),
         SizedBox(height: deviceHeight * 0.025),
-        eventActionsButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){
+        actionsButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){
           cancelAllNotifications(selectedEvent!.id);
           deleteEventById(selectedEvent!.id);
           Navigator.of(context).popUntil((route) => route.isFirst);

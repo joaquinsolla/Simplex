@@ -49,7 +49,6 @@ class _AddEventState extends State<AddEvent> {
 
   @override
   Widget build(BuildContext context) {
-
     String timeHintText = '00:00 (Por defecto)';
     if (format24Hours == false) timeHintText = '12:00 AM (Por defecto)';
     String dateHintText = 'Hoy (Por defecto)';
@@ -58,9 +57,11 @@ class _AddEventState extends State<AddEvent> {
       backgroundColor: colorMainBackground,
       body: homeArea([
         pageHeader(context, 'Nuevo evento'),
-        alternativeFormContainer([
-          formTextField(nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
-          formTextField(descriptionController, 'Descripción', '(Opcional)', descriptionFocusNode),
+        formContainer([
+          formTextField(
+              nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
+          formTextField(descriptionController, 'Descripción', '(Opcional)',
+              descriptionFocusNode),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -88,13 +89,14 @@ class _AddEventState extends State<AddEvent> {
                     borderSide: BorderSide(color: colorSpecialItem, width: 2),
                   ),
                   hintText: dateHintText,
-                  hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
+                  hintStyle: TextStyle(
+                      color: colorThirdText, fontStyle: FontStyle.italic),
                 ),
                 onTap: () => _dateSelector(context),
               ),
             ],
           ),
-          SizedBox(height: deviceHeight*0.025),
+          SizedBox(height: deviceHeight * 0.025),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -122,7 +124,8 @@ class _AddEventState extends State<AddEvent> {
                     borderSide: BorderSide(color: colorSpecialItem, width: 2),
                   ),
                   hintText: timeHintText,
-                  hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
+                  hintStyle: TextStyle(
+                      color: colorThirdText, fontStyle: FontStyle.italic),
                 ),
                 onTap: () => _timeSelector(context),
               ),
@@ -130,7 +133,7 @@ class _AddEventState extends State<AddEvent> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        alternativeFormContainer([
+        formContainer([
           Text(
             'Color',
             style: TextStyle(
@@ -242,7 +245,7 @@ class _AddEventState extends State<AddEvent> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        alternativeFormContainer([
+        formContainer([
           Text(
             'Notificaciones',
             style: TextStyle(
@@ -254,7 +257,7 @@ class _AddEventState extends State<AddEvent> {
 
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(notificationsList.length,(index){
+            children: List.generate(notificationsList.length, (index) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -262,27 +265,33 @@ class _AddEventState extends State<AddEvent> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(formatNotificationDate(notificationsList[index].values.first),
+                        Text(formatNotificationDate(
+                            notificationsList[index].values.first),
                           style: TextStyle(
-                            color: colorMainText,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
+                              color: colorMainText,
+                              fontSize: deviceWidth * 0.04,
+                              fontWeight: FontWeight.normal),),
                         Expanded(child: Text(''),),
-                        Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth*0.055,),
+                        Icon(Icons.delete_outline_rounded, color: Colors.red,
+                          size: deviceWidth * 0.055,),
                       ],
                     ),
-                    onPressed: (){
+                    onPressed: () {
                       setState(() {
-                        if (not1.keys.first == notificationsList[index].keys.first){
+                        if (not1.keys.first ==
+                            notificationsList[index].keys.first) {
                           notificationsList.remove(not1);
                           not1 = {null: null};
-                        } else if (not2.keys.first == notificationsList[index].keys.first){
+                        } else if (not2.keys.first ==
+                            notificationsList[index].keys.first) {
                           notificationsList.remove(not2);
                           not2 = {null: null};
-                        } else if (not3.keys.first == notificationsList[index].keys.first){
+                        } else if (not3.keys.first ==
+                            notificationsList[index].keys.first) {
                           notificationsList.remove(not3);
                           not3 = {null: null};
-                        } else if (not4.keys.first == notificationsList[index].keys.first){
+                        } else if (not4.keys.first ==
+                            notificationsList[index].keys.first) {
                           notificationsList.remove(not4);
                           not4 = {null: null};
                         } else {
@@ -297,16 +306,18 @@ class _AddEventState extends State<AddEvent> {
               );
             }),
           ),
-          if (notificationsList.length<5) TextButton(
+          if (notificationsList.length < 5) TextButton(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.add_rounded, color: colorSpecialItem, size: deviceWidth*0.055,),
+                Icon(Icons.add_rounded, color: colorSpecialItem,
+                  size: deviceWidth * 0.055,),
                 Text(' Añadir notificación ', style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * 0.04,
                     fontWeight: FontWeight.normal),),
-                Icon(Icons.add_rounded, color: Colors.transparent, size: deviceWidth*0.055,),
+                Icon(Icons.add_rounded, color: Colors.transparent,
+                  size: deviceWidth * 0.055,),
               ],
             ),
             onPressed: () async {
@@ -316,17 +327,17 @@ class _AddEventState extends State<AddEvent> {
               late DateTime notDateTime;
 
               final DateTime? dateSelected = await showDatePicker(
-                  context: context,
-                  locale: appLocale,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime(2099, 12, 31),
-                  helpText: "SELECCIONA LA FECHA DE NOTIFICACIÓN",
-                  cancelText: "CANCELAR",
-                  confirmText: "CONFIRMAR",
-                  fieldHintText: "dd/mm/aaaa",
-                  fieldLabelText: "Fecha de notificación",
-                  errorFormatText: "Introduce una fecha válida",
+                context: context,
+                locale: appLocale,
+                initialDate: DateTime.now(),
+                firstDate: DateTime.now(),
+                lastDate: DateTime(2099, 12, 31),
+                helpText: "SELECCIONA LA FECHA DE NOTIFICACIÓN",
+                cancelText: "CANCELAR",
+                confirmText: "CONFIRMAR",
+                fieldHintText: "dd/mm/aaaa",
+                fieldLabelText: "Fecha de notificación",
+                errorFormatText: "Introduce una fecha válida",
               );
               if (dateSelected != null) {
                 notDate = dateSelected;
@@ -340,26 +351,28 @@ class _AddEventState extends State<AddEvent> {
                 );
                 if (timeSelected != null) {
                   notTime = timeSelected;
-                  notDateTime = DateTime(notDate.year, notDate.month, notDate.day, notTime.hour, notTime.minute);
+                  notDateTime = DateTime(
+                      notDate.year, notDate.month, notDate.day, notTime.hour,
+                      notTime.minute);
                   setState(() {
-                    if (not1.keys.first == null){
-                      notId = '1'+'$id';
+                    if (not1.keys.first == null) {
+                      notId = '1' + '$id';
                       not1 = {notId: notDateTime};
                       notificationsList.add(not1);
-                    } else if (not2.keys.first == null){
-                      notId = ('2'+'$id');
+                    } else if (not2.keys.first == null) {
+                      notId = ('2' + '$id');
                       not2 = {notId: notDateTime};
                       notificationsList.add(not2);
-                    } else if (not3.keys.first == null){
-                      notId = ('3'+'$id');
+                    } else if (not3.keys.first == null) {
+                      notId = ('3' + '$id');
                       not3 = {notId: notDateTime};
                       notificationsList.add(not3);
-                    } else if (not4.keys.first == null){
-                      notId = ('4'+'$id');
+                    } else if (not4.keys.first == null) {
+                      notId = ('4' + '$id');
                       not4 = {notId: notDateTime};
                       notificationsList.add(not4);
                     } else {
-                      notId = ('5'+'$id');
+                      notId = ('5' + '$id');
                       not5 = {notId: notDateTime};
                       notificationsList.add(not5);
                     }
@@ -369,78 +382,68 @@ class _AddEventState extends State<AddEvent> {
             },
           ),
         ]),
-
         SizedBox(height: deviceHeight * 0.025),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: colorSecondBackground,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-              width: deviceHeight,
-              height: deviceHeight*0.07,
-              child: TextButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(Icons.check_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
-                    Text(
-                      ' Crear evento',
-                      style: TextStyle(
-                          color: colorSpecialItem,
-                          fontSize: deviceWidth * 0.05,
-                          fontWeight: FontWeight.normal),
-                    ),
-                    Icon(Icons.check_rounded, color: Colors.transparent, size: deviceWidth * 0.06),
-                  ],
-                ),
-                onPressed: () {
-                  if (nameController.text.isEmpty){
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Debes indicar un nombre"),
-                      backgroundColor: Colors.red,
-                      behavior: SnackBarBehavior.floating,
-                      duration: Duration(seconds: 2),
-                    ));
-                    nameFocusNode.requestFocus();
-                  } else {
-                    try {
-                      DateTime fullEventDateTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
-                      Event newEvent = Event(id: id,
-                          name: nameController.text,
-                          description: descriptionController.text,
-                          dateTime: fullEventDateTime,
-                          color: selectedColor,
-                          notificationsList: notificationsList,
-                      );
-                      createEvent(newEvent);
-                      if (not1.keys.first != null) showNotification(context, int.parse(not1.keys.first!), nameController.text, not1.values.first!, fullEventDateTime);
-                      if (not2.keys.first != null) showNotification(context, int.parse(not2.keys.first!), nameController.text, not2.values.first!, fullEventDateTime);
-                      if (not3.keys.first != null) showNotification(context, int.parse(not3.keys.first!), nameController.text, not3.values.first!, fullEventDateTime);
-                      if (not4.keys.first != null) showNotification(context, int.parse(not4.keys.first!), nameController.text, not4.values.first!, fullEventDateTime);
-                      if (not5.keys.first != null) showNotification(context, int.parse(not5.keys.first!), nameController.text, not5.values.first!, fullEventDateTime);
-                      Navigator.pop(context);
-
-                    } on Exception catch (e) {
-                      debugPrint('[ERR] Could not create event: $e');
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Ha ocurrido un error"),
-                        backgroundColor: Colors.red,
-                        behavior: SnackBarBehavior.floating,
-                        duration: Duration(seconds: 2),
-                      ));
-                    }
-                  }
-                },
-              ),
-            ),],
-          ),
+        actionsButton(
+            Icons.check_rounded,
+            colorSpecialItem,
+            ' Crear evento ',
+                () {
+              if (nameController.text.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Debes indicar un nombre"),
+                  backgroundColor: Colors.red,
+                  behavior: SnackBarBehavior.floating,
+                  duration: Duration(seconds: 2),
+                ));
+                nameFocusNode.requestFocus();
+              } else {
+                try {
+                  DateTime fullEventDateTime = DateTime(
+                      date.year, date.month, date.day, time.hour,
+                      time.minute);
+                  Event newEvent = Event(id: id,
+                    name: nameController.text,
+                    description: descriptionController.text,
+                    dateTime: fullEventDateTime,
+                    color: selectedColor,
+                    notificationsList: notificationsList,
+                  );
+                  createEvent(newEvent);
+                  if (not1.keys.first != null) showNotification(
+                      context, int.parse(not1.keys.first!),
+                      nameController.text, not1.values.first!,
+                      fullEventDateTime);
+                  if (not2.keys.first != null) showNotification(
+                      context, int.parse(not2.keys.first!),
+                      nameController.text, not2.values.first!,
+                      fullEventDateTime);
+                  if (not3.keys.first != null) showNotification(
+                      context, int.parse(not3.keys.first!),
+                      nameController.text, not3.values.first!,
+                      fullEventDateTime);
+                  if (not4.keys.first != null) showNotification(
+                      context, int.parse(not4.keys.first!),
+                      nameController.text, not4.values.first!,
+                      fullEventDateTime);
+                  if (not5.keys.first != null) showNotification(
+                      context, int.parse(not5.keys.first!),
+                      nameController.text, not5.values.first!,
+                      fullEventDateTime);
+                  Navigator.pop(context);
+                } on Exception catch (e) {
+                  debugPrint('[ERR] Could not create event: $e');
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Ha ocurrido un error"),
+                    backgroundColor: Colors.red,
+                    behavior: SnackBarBehavior.floating,
+                    duration: Duration(seconds: 2),
+                  ));
+                }
+              }
+            }
         ),
+
+
         SizedBox(height: deviceHeight * 0.025),
       ]),
     );
