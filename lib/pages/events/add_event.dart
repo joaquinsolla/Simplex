@@ -409,25 +409,26 @@ class _AddEventState extends State<AddEvent> {
                     notificationsList: notificationsList,
                   );
                   createEvent(newEvent);
-                  if (not1.keys.first != null) showNotification(
-                      context, int.parse(not1.keys.first!),
-                      nameController.text, not1.values.first!,
+                  String notificationTitle = 'Evento: ' + nameController.text;
+                  if (not1.keys.first != null) buildNotification(
+                      int.parse(not1.keys.first!),
+                      notificationTitle, not1.values.first!,
                       fullEventDateTime);
-                  if (not2.keys.first != null) showNotification(
-                      context, int.parse(not2.keys.first!),
-                      nameController.text, not2.values.first!,
+                  if (not2.keys.first != null) buildNotification(
+                      int.parse(not2.keys.first!),
+                      notificationTitle, not2.values.first!,
                       fullEventDateTime);
-                  if (not3.keys.first != null) showNotification(
-                      context, int.parse(not3.keys.first!),
-                      nameController.text, not3.values.first!,
+                  if (not3.keys.first != null) buildNotification(
+                      int.parse(not3.keys.first!),
+                      notificationTitle, not3.values.first!,
                       fullEventDateTime);
-                  if (not4.keys.first != null) showNotification(
-                      context, int.parse(not4.keys.first!),
-                      nameController.text, not4.values.first!,
+                  if (not4.keys.first != null) buildNotification(
+                      int.parse(not4.keys.first!),
+                      notificationTitle, not4.values.first!,
                       fullEventDateTime);
-                  if (not5.keys.first != null) showNotification(
-                      context, int.parse(not5.keys.first!),
-                      nameController.text, not5.values.first!,
+                  if (not5.keys.first != null) buildNotification(
+                      int.parse(not5.keys.first!),
+                      notificationTitle, not5.values.first!,
                       fullEventDateTime);
                   Navigator.pop(context);
                 } on Exception catch (e) {

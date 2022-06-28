@@ -30,7 +30,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
     super.initState();
   }
 
-  loadEvents(List<Event> events) {
+  loadEventsToCalendar(List<Event> events) {
     daysWithEvents = {};
     events.forEach((event) {
       DateTime date = DateTime(event.dateTime.year, event.dateTime.month, event.dateTime.day);
@@ -105,7 +105,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               );
             } else if (snapshot.hasData) {
               final events = snapshot.data!;
-              loadEvents(events);
+              loadEventsToCalendar(events);
               return Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),

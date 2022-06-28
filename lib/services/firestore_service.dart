@@ -78,31 +78,31 @@ deleteEventById(int eventId) async {
   debugPrint('[OK] Event deleted');
 }
 
-/// HABITS MANAGEMENT
-
 /// TODOS MANAGEMENT
-Stream<List<Todo>> readAllTodos() => FirebaseFirestore.instance.
-collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
-    .snapshots().map((snapshot) =>
-    snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
+Stream<List<Todo>> readPendingTodos() {
+  return FirebaseFirestore.instance.
+  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection(
+      'todos')
+      .where('done', isEqualTo: false)
+      .orderBy('limitDate', descending: false)
+      .orderBy('name', descending: false)
+      .orderBy('color', descending: true)
+      .snapshots().map((snapshot) =>
+      snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
+}
 
-Stream<List<Todo>> readPendingTodos() => FirebaseFirestore.instance.
-collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
-    .where('done', isEqualTo: false)
-    .orderBy('name', descending: false)
-    .orderBy('color', descending: true)
-    .snapshots().map((snapshot) =>
-    snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
+Stream<List<Todo>> readDoneTodos() {
+  return FirebaseFirestore.instance.
+  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
+      .where('done', isEqualTo: true)
+      .orderBy('limitDate', descending: false)
+      .orderBy('name', descending: false)
+      .orderBy('color', descending: true)
+      .snapshots().map((snapshot) =>
+      snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
+}
 
-Stream<List<Todo>> readDoneTodos() => FirebaseFirestore.instance.
-collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
-    .where('done', isEqualTo: true)
-    .orderBy('name', descending: false)
-    .orderBy('color', descending: true)
-    .snapshots().map((snapshot) =>
-    snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
-
-Future createTodo(int id, String name, String description, int color, bool done) async{
+Future createTodo(int id, String name, String description, int color, bool done, DateTime limitDate) async{
   final user = FirebaseAuth.instance.currentUser!;
   final doc = FirebaseFirestore.instance.collection('users').doc(user.uid).collection('tods').doc(id.toString());
 
@@ -111,14 +111,15 @@ Future createTodo(int id, String name, String description, int color, bool done)
     'name': name,
     'description': description,
     'color': color,
-    'done':done,
+    'done': done,
+    'limitDate': limitDate,
   };
 
   await doc.set(json);
   debugPrint('[OK] Todo created');
 }
 
-updateTodo(int todoId, String newName, String newDescription, int newColor, bool newDone) async {
+updateTodo(int todoId, String newName, String newDescription, int newColor, bool newDone, DateTime newLimitDate) async {
   final doc = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('todos').doc(todoId.toString());
 
@@ -127,6 +128,7 @@ updateTodo(int todoId, String newName, String newDescription, int newColor, bool
     'description': newDescription,
     'color': newColor,
     'done': newDone,
+    'limitDate': newLimitDate,
   });
   debugPrint('[OK] Todo updated');
 }
@@ -138,5 +140,3 @@ deleteTodoById(int todoId) async {
   await doc.delete();
   debugPrint('[OK] Todo deleted');
 }
-
-/// NOTES MANAGEMENT

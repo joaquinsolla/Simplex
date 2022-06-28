@@ -30,7 +30,7 @@ String millisecondsToStringTime(int millis){
   return timeToString(date);
 }
 
-bool showNotification(BuildContext context, int id, String title, DateTime notificationDateTime, DateTime eventDateTime){
+bool buildNotification(int id, String title, DateTime notificationDateTime, DateTime eventDateTime){
 
   String body = 'Es el ';
   if (formatDates==true) body = body + DateFormat('dd/MM/yyyy').format(eventDateTime);

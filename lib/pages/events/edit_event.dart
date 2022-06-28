@@ -421,25 +421,26 @@ class _EditEventState extends State<EditEvent> {
 
                       await updateEvent(newEvent);
                       await cancelAllNotifications(selectedEvent!.id);
-                      if (not1.keys.first != null) showNotification(
-                          context, int.parse(not1.keys.first!),
-                          nameController.text, not1.values.first!,
+                      String notificationTitle = 'Evento: ' + nameController.text;
+                      if (not1.keys.first != null) buildNotification(
+                          int.parse(not1.keys.first!),
+                          notificationTitle, not1.values.first!,
                           newFullDateTime);
-                      if (not2.keys.first != null) showNotification(
-                          context, int.parse(not2.keys.first!),
-                          nameController.text, not2.values.first!,
+                      if (not2.keys.first != null) buildNotification(
+                          int.parse(not2.keys.first!),
+                          notificationTitle, not2.values.first!,
                           newFullDateTime);
-                      if (not3.keys.first != null) showNotification(
-                          context, int.parse(not3.keys.first!),
-                          nameController.text, not3.values.first!,
+                      if (not3.keys.first != null) buildNotification(
+                          int.parse(not3.keys.first!),
+                          notificationTitle, not3.values.first!,
                           newFullDateTime);
-                      if (not4.keys.first != null) showNotification(
-                          context, int.parse(not4.keys.first!),
-                          nameController.text, not4.values.first!,
+                      if (not4.keys.first != null) buildNotification(
+                          int.parse(not4.keys.first!),
+                          notificationTitle, not4.values.first!,
                           newFullDateTime);
-                      if (not5.keys.first != null) showNotification(
-                          context, int.parse(not5.keys.first!),
-                          nameController.text, not5.values.first!,
+                      if (not5.keys.first != null) buildNotification(
+                          int.parse(not5.keys.first!),
+                          notificationTitle, not5.values.first!,
                           newFullDateTime);
 
                       Navigator.of(context).popUntil((route) => route.isFirst);

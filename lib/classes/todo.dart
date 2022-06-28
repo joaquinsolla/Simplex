@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Todo{
   final int id;
   final String name;
   final String description;
   final int color;
   final bool done;
+  final DateTime limitDate;
 
   Todo({
     required this.id,
@@ -11,6 +14,7 @@ class Todo{
     required this.description,
     required this.color,
     required this.done,
+    required this.limitDate,
   });
 
   Map<String, dynamic> toJson() => {
@@ -19,6 +23,7 @@ class Todo{
     'description': description,
     'color': color,
     'done': done,
+    'limitDate': limitDate,
   };
 
   static Todo fromJson(Map<String, dynamic> json) => Todo(
@@ -27,6 +32,7 @@ class Todo{
     description: json['description'],
     color: json['color'],
     done: json['done'],
+    limitDate: (json['limitDate'] as Timestamp).toDate(),
   );
 
 }
