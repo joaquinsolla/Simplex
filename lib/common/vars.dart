@@ -11,6 +11,8 @@ double deviceWidth = 0;
 bool deviceChecked = false;
 bool settingsRead = false;
 bool isTester = false;
+bool showPendingTodos = true;
+bool showDoneTodos = false;
 
 /// SETTINGS
 bool format24Hours = true;

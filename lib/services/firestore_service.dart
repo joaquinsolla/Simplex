@@ -102,24 +102,34 @@ Stream<List<Todo>> readDoneTodos() {
       snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
 }
 
-Future createTodo(int id, String name, String description, int color, bool done, DateTime limitDate) async{
+Future createTodo(Todo todo) async{
   final user = FirebaseAuth.instance.currentUser!;
-  final doc = FirebaseFirestore.instance.collection('users').doc(user.uid).collection('tods').doc(id.toString());
+  final doc = FirebaseFirestore.instance.collection('users').doc(user.uid).collection('todos').doc(todo.id.toString());
 
   final json = {
-    'id': id,
-    'name': name,
-    'description': description,
-    'color': color,
-    'done': done,
-    'limitDate': limitDate,
+    'id': todo.id,
+    'name': todo.name,
+    'description': todo.description,
+    'color': todo.color,
+    'done': todo.done,
+    'limitDate': todo.limitDate,
   };
 
   await doc.set(json);
   debugPrint('[OK] Todo created');
 }
 
-updateTodo(int todoId, String newName, String newDescription, int newColor, bool newDone, DateTime newLimitDate) async {
+toggleTodo(int id, bool newDone) async{
+  final doc = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('todos').doc(id.toString());
+
+  await doc.update({
+    'done': newDone,
+  });
+  debugPrint('[OK] Todo $id toggled: $newDone');
+}
+
+updateTodo(int todoId, String newName, String newDescription, int newColor, DateTime newLimitDate) async {
   final doc = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('todos').doc(todoId.toString());
 
@@ -127,7 +137,6 @@ updateTodo(int todoId, String newName, String newDescription, int newColor, bool
     'name': newName,
     'description': newDescription,
     'color': newColor,
-    'done': newDone,
     'limitDate': newLimitDate,
   });
   debugPrint('[OK] Todo updated');

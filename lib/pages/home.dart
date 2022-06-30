@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
               fontSize: deviceWidth * 0.05,
               fontWeight: FontWeight.bold)),
       SizedBox(
-        height: deviceHeight * 0.005,
+        height: deviceHeight * 0.0125,
       ),
       formContainer([
         settingsRow(
@@ -154,7 +154,7 @@ class _HomeState extends State<Home> {
               fontSize: deviceWidth * 0.05,
               fontWeight: FontWeight.bold)),
       SizedBox(
-        height: deviceHeight * 0.005,
+        height: deviceHeight * 0.0125,
       ),
       formContainer([
         settingsRow(
@@ -208,7 +208,7 @@ class _HomeState extends State<Home> {
               fontSize: deviceWidth * 0.05,
               fontWeight: FontWeight.bold)),
       SizedBox(
-        height: deviceHeight * 0.005,
+        height: deviceHeight * 0.0125,
       ),
       formContainer([
         Text(

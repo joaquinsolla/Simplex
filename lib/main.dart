@@ -5,11 +5,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:simplex/pages/all_pages.dart';
 import 'package:simplex/services/shared_preferences_service.dart';
 import 'package:simplex/services/change_password_service.dart';
 
 import 'common/vars.dart';
-import 'pages/all_pages.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,10 +33,13 @@ Future main() async {
     routes: {
       '/auth': (context) => const Auth(),
       '/home': (context) => const Home(),
+      '/services/change_password_service': (context) => const ChangePasswordService(),
+
       '/events/add_event': (context) => const AddEvent(),
       '/events/event_details': (context) => const EventDetails(),
       '/events/edit_event': (context) => const EditEvent(),
-      '/services/change_password_service': (context) => const ChangePasswordService(),
+
+      '/todos/add_todo': (context) => const AddTodo(),
     },
   ));
 
