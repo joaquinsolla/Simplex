@@ -30,7 +30,7 @@ String millisecondsToStringTime(int millis){
   return timeToString(date);
 }
 
-bool buildNotification(int id, String title, DateTime notificationDateTime, DateTime eventDateTime){
+void buildEventNotification(int id, String title, DateTime notificationDateTime, DateTime eventDateTime){
 
   String body = 'Es el ';
   if (formatDates==true) body = body + DateFormat('dd/MM/yyyy').format(eventDateTime);
@@ -46,11 +46,36 @@ bool buildNotification(int id, String title, DateTime notificationDateTime, Date
 
     NotificationService().showNotification(id, title, body, notificationDateTime);
     debugPrint('[OK] Notification ready: $id');
-    return true;
   } else {
     debugPrint('[WRN] Cannot show notification $id: Time out of range');
-    return false;
   }
+}
+
+void buildTodoNotifications(int id, String title, DateTime todoLimitDate){
+
+  int id1 = int.parse("1"+"$id");
+  int id2 = int.parse("2"+"$id");
+  String body1 = 'La fecha límite es hoy';
+  String body2 = 'Ha vencido la fecha límite';
+
+  if (todoLimitDate.isAfter(DateTime.now())){
+    WidgetsFlutterBinding.ensureInitialized();
+    NotificationService().initNotification();
+    tz.initializeTimeZones();
+
+    NotificationService().showNotification(id1, title, body1, todoLimitDate);
+    debugPrint('[OK] Notification ready: $id1');
+  } else {
+    debugPrint('[WRN] Cannot show notification $id1: Time out of range');
+  }
+
+  WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
+  tz.initializeTimeZones();
+
+  NotificationService().showNotification(id2, title, body2, todoLimitDate.add(Duration(days: 1)));
+  debugPrint('[OK] Notification ready: $id2');
+
 }
 
 cancelAllNotifications(int eventId) async {

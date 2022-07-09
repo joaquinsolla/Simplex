@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/classes/todo.dart';
@@ -21,9 +23,9 @@ class _AddTodoState extends State<AddTodo> {
   FocusNode limitDateFocusNode = FocusNode();
 
   int id = int.parse((DateTime.now().millisecondsSinceEpoch).toString().substring(6));
-  int selectedColor = -1;
   bool limitedTodo = false;
   DateTime limitDate = DateTime(3000);
+  double priority = 1;
 
   @override
   void dispose() {
@@ -40,7 +42,7 @@ class _AddTodoState extends State<AddTodo> {
 
   @override
   Widget build(BuildContext context) {
-    String dateHintText = 'Hoy (Por defecto)';
+    String dateHintText = 'Sin fecha límite (Por defecto)';
 
     return Scaffold(
       backgroundColor: colorMainBackground,
@@ -83,114 +85,89 @@ class _AddTodoState extends State<AddTodo> {
         SizedBox(height: deviceHeight * 0.025),
         formContainer([
           Text(
-            'Color',
+            'Prioridad',
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * 0.045,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.015),
-          Container(
-            alignment: Alignment.center,
-            child: Wrap(children: [
-              Theme(
-                  data: Theme.of(context).copyWith(
-                    unselectedWidgetColor: colorThirdBackground,
-                    disabledColor: colorThirdBackground,
-                  ),
-                  child: Radio(
-                    value: -1,
-                    groupValue: selectedColor,
-                    activeColor: colorThirdBackground,
-                    onChanged: (val) {
-                      setState(() {
-                        selectedColor = val as int;
-                      });
-                    },
-                  )
-              ),
-              Theme(
-                data: Theme.of(context).copyWith(
-                  unselectedWidgetColor: const Color(0xffF44336),
-                  disabledColor: const Color(0xffF44336),
-                ),
-                child: Radio(
-                  value: 0xffF44336,
-                  groupValue: selectedColor,
-                  activeColor: const Color(0xffF44336),
-                  onChanged: (val) {
-                    setState(() {
-                      selectedColor = val as int;
-                    });
-                  },
-                ),
-              ),
-              Theme(
-                data: Theme.of(context).copyWith(
-                  unselectedWidgetColor: const Color(0xffFF9800),
-                  disabledColor: const Color(0xffFF9800),
-                ),
-                child: Radio(
-                  value: 0xffFF9800,
-                  groupValue: selectedColor,
-                  activeColor: const Color(0xffFF9800),
-                  onChanged: (val) {
-                    setState(() {
-                      selectedColor = val as int;
-                    });
-                  },
-                ),
-              ),
-              Theme(
-                data: Theme.of(context).copyWith(
-                  unselectedWidgetColor: const Color(0xff4CAF50),
-                  disabledColor: const Color(0xff4CAF50),
-                ),
-                child: Radio(
-                  value: 0xff4CAF50,
-                  groupValue: selectedColor,
-                  activeColor: const Color(0xff4CAF50),
-                  onChanged: (val) {
-                    setState(() {
-                      selectedColor = val as int;
-                    });
-                  },
-                ),
-              ),
-              Theme(
-                data: Theme.of(context).copyWith(
-                  unselectedWidgetColor: const Color(0xff448AFF),
-                  disabledColor: const Color(0xff448AFF),
-                ),
-                child: Radio(
-                  value: 0xff448AFF,
-                  groupValue: selectedColor,
-                  activeColor: const Color(0xff448AFF),
-                  onChanged: (val) {
-                    setState(() {
-                      selectedColor = val as int;
-                    });
-                  },
-                ),
-              ),
-              Theme(
-                data: Theme.of(context).copyWith(
-                  unselectedWidgetColor: const Color(0xff7C4DFF),
-                  disabledColor: const Color(0xff7C4DFF),
-                ),
-                child: Radio(
-                  value: 0xff7C4DFF,
-                  groupValue: selectedColor,
-                  activeColor: const Color(0xff7C4DFF),
-                  onChanged: (val) {
-                    setState(() {
-                      selectedColor = val as int;
-                    });
-                  },
-                ),
-              ),
-            ],),
+
+          Row(mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '-',
+              style: TextStyle(
+                  color: colorMainText,
+                  fontSize: deviceWidth * 0.03,
+                  fontWeight: FontWeight.bold),
+            ),
+            if (priority == 1) Container(
+              width: deviceWidth*0.675,
+              child: Slider(
+              value: priority,
+              max: 3,
+              min: 1,
+              divisions: 2,
+              activeColor: colorSpecialItem,
+              label: 'Baja',
+              onChanged: (val) {
+                setState(() {
+                  priority = val;
+                });
+              },
+            ),
+            ),
+            if (priority == 2) Container(
+                width: deviceWidth*0.675,
+                child: Slider(
+              value: priority,
+              max: 3,
+              min: 1,
+              divisions: 2,
+              activeColor: Color(0xff2164f3),
+              label: 'Media',
+              onChanged: (val) {
+                setState(() {
+                  priority = val;
+                });
+              },
+            )),
+            if (priority == 3) Container(
+              width: deviceWidth*0.675,
+              child: Slider(
+              value: priority,
+              max: 3,
+              min: 1,
+              divisions: 2,
+              activeColor: Color(0xff1828d7),
+              label: 'Alta',
+              onChanged: (val) {
+                setState(() {
+                  priority = val;
+                });
+              },
+            )),
+            Text(
+              '+',
+              style: TextStyle(
+                  color: colorMainText,
+                  fontSize: deviceWidth * 0.03,
+                  fontWeight: FontWeight.bold),
+            ),
+          ],),
+
+          SizedBox(height: deviceHeight * 0.005),
+
+          Text(
+            'Las tareas de mayor prioridad aparecerán sobre las que tengan una prioridad inferior.',
+            style: TextStyle(
+                color: colorMainText,
+                fontSize: deviceWidth * 0.03,
+                fontWeight: FontWeight.normal,
+                fontStyle: FontStyle.italic),
           ),
+
         ]),
         SizedBox(height: deviceHeight * 0.025),
         formContainer([
@@ -215,6 +192,7 @@ class _AddTodoState extends State<AddTodo> {
             onChanged: (val) {
               setState(() {
                 limitedTodo = val!;
+                limitDateController.clear();
                 if (val==false) limitDate = DateTime(3000);
                 else limitDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
               });
@@ -260,18 +238,16 @@ class _AddTodoState extends State<AddTodo> {
                 nameFocusNode.requestFocus();
               } else {
                 try {
-
-                  //TODO: notification
-
-                  Todo newTodo = Todo(id: id,
+                  Todo newTodo = Todo(
+                    id: id,
                     name: nameController.text,
                     description: descriptionController.text,
-                    color: selectedColor,
                     done: false,
                     limitDate: limitDate,
+                    priority: priority.round(),
                   );
-
                   createTodo(newTodo);
+                  if (limitDate!=DateTime(3000)) buildTodoNotifications(id, 'Tarea: ' + nameController.text, limitDate);
                   Navigator.pop(context);
                 } on Exception catch (e) {
                   debugPrint('[ERR] Could not create todo: $e');
@@ -298,7 +274,7 @@ class _AddTodoState extends State<AddTodo> {
       context: context,
       locale: appLocale,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000, 1, 1),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2099, 12, 31),
       helpText: "SELECCIONA LA FECHA DEL EVENTO",
       cancelText: "CANCELAR",

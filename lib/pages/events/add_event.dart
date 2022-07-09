@@ -410,23 +410,23 @@ class _AddEventState extends State<AddEvent> {
                   );
                   createEvent(newEvent);
                   String notificationTitle = 'Evento: ' + nameController.text;
-                  if (not1.keys.first != null) buildNotification(
+                  if (not1.keys.first != null) buildEventNotification(
                       int.parse(not1.keys.first!),
                       notificationTitle, not1.values.first!,
                       fullEventDateTime);
-                  if (not2.keys.first != null) buildNotification(
+                  if (not2.keys.first != null) buildEventNotification(
                       int.parse(not2.keys.first!),
                       notificationTitle, not2.values.first!,
                       fullEventDateTime);
-                  if (not3.keys.first != null) buildNotification(
+                  if (not3.keys.first != null) buildEventNotification(
                       int.parse(not3.keys.first!),
                       notificationTitle, not3.values.first!,
                       fullEventDateTime);
-                  if (not4.keys.first != null) buildNotification(
+                  if (not4.keys.first != null) buildEventNotification(
                       int.parse(not4.keys.first!),
                       notificationTitle, not4.values.first!,
                       fullEventDateTime);
-                  if (not5.keys.first != null) buildNotification(
+                  if (not5.keys.first != null) buildEventNotification(
                       int.parse(not5.keys.first!),
                       notificationTitle, not5.values.first!,
                       fullEventDateTime);

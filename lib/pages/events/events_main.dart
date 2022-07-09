@@ -71,7 +71,15 @@ class _EventsMainPageState extends State<EventsMainPage> {
     else dateText = DateFormat('MM/dd/yyyy').format(_selectedDay);
 
     return homeArea([
-      homeHeaderSimple('Calendario',
+      homeHeaderDouble('Calendario',
+        IconButton(
+          icon: Icon(Icons.help_outline_rounded,
+              color: colorSpecialItem, size: deviceWidth * 0.085),
+          splashRadius: 0.001,
+          onPressed: () {
+            //TODO: help
+          },
+        ),
         IconButton(
           icon: Icon(Icons.add_rounded,
               color: colorSpecialItem, size: deviceWidth * 0.085),

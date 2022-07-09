@@ -81,12 +81,19 @@ deleteEventById(int eventId) async {
 /// TODOS MANAGEMENT
 Stream<List<Todo>> readPendingTodos() {
   return FirebaseFirestore.instance.
-  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection(
-      'todos')
+  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
       .where('done', isEqualTo: false)
+      .snapshots().map((snapshot) =>
+      snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
+}
+
+Stream<List<Todo>> readPendingTodosWithPriority(int priority) {
+  return FirebaseFirestore.instance.
+  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
+      .where('done', isEqualTo: false)
+      .where('priority', isEqualTo: priority)
       .orderBy('limitDate', descending: false)
       .orderBy('name', descending: false)
-      .orderBy('color', descending: true)
       .snapshots().map((snapshot) =>
       snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
 }
@@ -95,9 +102,9 @@ Stream<List<Todo>> readDoneTodos() {
   return FirebaseFirestore.instance.
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
       .where('done', isEqualTo: true)
+      .orderBy('priority', descending: true)
       .orderBy('limitDate', descending: false)
       .orderBy('name', descending: false)
-      .orderBy('color', descending: true)
       .snapshots().map((snapshot) =>
       snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
 }
@@ -110,9 +117,9 @@ Future createTodo(Todo todo) async{
     'id': todo.id,
     'name': todo.name,
     'description': todo.description,
-    'color': todo.color,
     'done': todo.done,
     'limitDate': todo.limitDate,
+    'priority': todo.priority,
   };
 
   await doc.set(json);
@@ -129,15 +136,15 @@ toggleTodo(int id, bool newDone) async{
   debugPrint('[OK] Todo $id toggled: $newDone');
 }
 
-updateTodo(int todoId, String newName, String newDescription, int newColor, DateTime newLimitDate) async {
+updateTodo(int todoId, String newName, String newDescription, DateTime newLimitDate, int newPriority) async {
   final doc = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('todos').doc(todoId.toString());
 
   await doc.update({
     'name': newName,
     'description': newDescription,
-    'color': newColor,
     'limitDate': newLimitDate,
+    'priority': newPriority,
   });
   debugPrint('[OK] Todo updated');
 }

@@ -23,13 +23,13 @@ readSettings() async {
   if (darkMode) {
     colorMainBackground = Colors.black;
     colorSecondBackground = const Color(0xff1c1c1f);
-    colorThirdBackground = const Color(0xff706e74);
+    colorThirdBackground = const Color(0xff3a393e);
     colorButtonText = const Color(0xff1c1c1f);
     colorNavigationBarBackground = const Color(0xff1c1c1f);
     colorNavigationBarText = const Color(0xff3a393e);
     colorMainText = Colors.white;
     colorSecondText = const Color(0xff706e74);
-    colorThirdText = const Color(0xff3a393e);
+    colorThirdText = const Color(0xff706e74);
     colorCalendarEvent = Color(0xfff2f2f7);
   }
 
