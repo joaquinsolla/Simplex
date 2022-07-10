@@ -412,7 +412,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
             ),
           ),
           onPressed: (){
-            cancelAllNotifications(event.id);
+            cancelAllEventNotifications(event.id);
             deleteEventById(event.id);
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text("Evento eliminado"),

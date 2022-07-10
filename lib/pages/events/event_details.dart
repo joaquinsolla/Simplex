@@ -242,7 +242,7 @@ class _EventDetailsState extends State<EventDetails> {
         }),
         SizedBox(height: deviceHeight * 0.025),
         actionsButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){
-          cancelAllNotifications(selectedEvent!.id);
+          cancelAllEventNotifications(selectedEvent!.id);
           deleteEventById(selectedEvent!.id);
           Navigator.of(context).popUntil((route) => route.isFirst);
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

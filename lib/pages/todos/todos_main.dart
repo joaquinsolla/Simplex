@@ -310,7 +310,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
 
   Widget buildPendingTodoBox(Todo todo) {
     DateTime todayDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-    DateTime todoDate = DateTime(todo.limitDate.year, todo.limitDate.month, todo.limitDate.day);
+    DateTime limitDate = DateTime(todo.limitDate.year, todo.limitDate.month, todo.limitDate.day);
 
     Color focusedMenuItemBackgroundColor = colorThirdBackground;
     if (darkMode) focusedMenuItemBackgroundColor = colorSecondBackground;
@@ -393,16 +393,14 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     ),
                   ),
                   onPressed: () {
-                    // TODO: revisar
-                    // cancelAllNotifications(todo.id);
-                    // deleteTodoById(todo.id);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Tarea eliminada"),
-                          backgroundColor: Colors.green,
-                          behavior: SnackBarBehavior.floating,
-                          duration: Duration(seconds: 2),
-                        ));
+                    cancelAllTodoNotifications(todo.id);
+                    deleteTodoById(todo.id);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Tarea eliminada"),
+                      backgroundColor: Colors.green,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
                   },
                 ),
               ],
@@ -453,25 +451,25 @@ class _TodosMainPageState extends State<TodosMainPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            if (todayDate.isAtSameMomentAs(todoDate)) Icon(
+                            if (todayDate.isAtSameMomentAs(limitDate)) Icon(
                                 Icons.error_outline_rounded,
                                 color: Colors.red,
                                 size: deviceWidth * 0.05),
-                            if (todayDate.isAfter(todoDate)) Icon(
+                            if (todayDate.isAfter(limitDate)) Icon(
                                 Icons.cancel_outlined, color: Colors.red,
                                 size: deviceWidth * 0.05),
-                            if (todayDate.isAtSameMomentAs(todoDate)
-                            || todayDate.isAfter(todoDate)) SizedBox(
+                            if (todayDate.isAtSameMomentAs(limitDate)
+                            || todayDate.isAfter(limitDate)) SizedBox(
                               width: deviceWidth * 0.0125,),
-                            if (todayDate.isAfter(todoDate)) Container(
+                            if (todayDate.isAfter(limitDate)) Container(
                                 alignment: Alignment.centerLeft,
-                                child: Text(dateToString(todoDate),
+                                child: Text(dateToString(limitDate),
                                     style: TextStyle(color: Colors.red,
                                         fontSize: deviceWidth * 0.03,
                                         fontWeight: FontWeight.normal))),
-                            if ((todayDate.isAfter(todoDate))==false) Container(
+                            if ((todayDate.isAfter(limitDate))==false) Container(
                                 alignment: Alignment.centerLeft,
-                                child: Text(dateToString(todoDate),
+                                child: Text(dateToString(limitDate),
                                     style: TextStyle(color: colorMainText,
                                         fontSize: deviceWidth * 0.03,
                                         fontWeight: FontWeight.normal))),
@@ -596,16 +594,14 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     ),
                   ),
                   onPressed: () {
-                    // TODO: revisar
-                    // cancelAllNotifications(todo.id);
-                    // deleteTodoById(todo.id);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Tarea eliminada"),
-                          backgroundColor: Colors.green,
-                          behavior: SnackBarBehavior.floating,
-                          duration: Duration(seconds: 2),
-                        ));
+                    cancelAllTodoNotifications(todo.id);
+                    deleteTodoById(todo.id);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Tarea eliminada"),
+                      backgroundColor: Colors.green,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
                   },
                 ),
               ],
@@ -770,16 +766,14 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     ),
                   ),
                   onPressed: () {
-                    // TODO: revisar
-                    // cancelAllNotifications(todo.id);
-                    // deleteTodoById(todo.id);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Tarea eliminada"),
-                          backgroundColor: Colors.green,
-                          behavior: SnackBarBehavior.floating,
-                          duration: Duration(seconds: 2),
-                        ));
+                    cancelAllTodoNotifications(todo.id);
+                    deleteTodoById(todo.id);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Tarea eliminada"),
+                      backgroundColor: Colors.green,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
                   },
                 ),
               ],
@@ -817,25 +811,25 @@ class _TodosMainPageState extends State<TodosMainPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            if (todayDate.isAtSameMomentAs(todoDate)) Icon(
+                            if (todayDate.isAtSameMomentAs(limitDate)) Icon(
                                 Icons.error_outline_rounded,
                                 color: Colors.red,
                                 size: deviceWidth * 0.05),
-                            if (todayDate.isAfter(todoDate)) Icon(
+                            if (todayDate.isAfter(limitDate)) Icon(
                                 Icons.cancel_outlined, color: Colors.red,
                                 size: deviceWidth * 0.05),
-                            if (todayDate.isAtSameMomentAs(todoDate)
-                                || todayDate.isAfter(todoDate)) SizedBox(
+                            if (todayDate.isAtSameMomentAs(limitDate)
+                                || todayDate.isAfter(limitDate)) SizedBox(
                               width: deviceWidth * 0.0125,),
-                            if (todayDate.isAfter(todoDate)) Container(
+                            if (todayDate.isAfter(limitDate)) Container(
                                 alignment: Alignment.centerLeft,
-                                child: Text(dateToString(todoDate),
+                                child: Text(dateToString(limitDate),
                                     style: TextStyle(color: Colors.red,
                                         fontSize: deviceWidth * 0.03,
                                         fontWeight: FontWeight.normal))),
-                            if ((todayDate.isAfter(todoDate))==false) Container(
+                            if ((todayDate.isAfter(limitDate))==false) Container(
                                 alignment: Alignment.centerLeft,
-                                child: Text(dateToString(todoDate),
+                                child: Text(dateToString(limitDate),
                                     style: TextStyle(color: colorMainText,
                                         fontSize: deviceWidth * 0.03,
                                         fontWeight: FontWeight.normal))),
@@ -960,16 +954,14 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     ),
                   ),
                   onPressed: () {
-                    // TODO: revisar
-                    // cancelAllNotifications(todo.id);
-                    // deleteTodoById(todo.id);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Tarea eliminada"),
-                          backgroundColor: Colors.green,
-                          behavior: SnackBarBehavior.floating,
-                          duration: Duration(seconds: 2),
-                        ));
+                    cancelAllTodoNotifications(todo.id);
+                    deleteTodoById(todo.id);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Tarea eliminada"),
+                      backgroundColor: Colors.green,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
                   },
                 ),
               ],
@@ -1136,16 +1128,14 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     ),
                   ),
                   onPressed: () {
-                    // TODO: revisar
-                    // cancelAllNotifications(todo.id);
-                    // deleteTodoById(todo.id);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Tarea eliminada"),
-                          backgroundColor: Colors.green,
-                          behavior: SnackBarBehavior.floating,
-                          duration: Duration(seconds: 2),
-                        ));
+                    cancelAllTodoNotifications(todo.id);
+                    deleteTodoById(todo.id);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Tarea eliminada"),
+                      backgroundColor: Colors.green,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
                   },
                 ),
               ],
@@ -1340,16 +1330,14 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     ),
                   ),
                   onPressed: () {
-                    // TODO: revisar
-                    // cancelAllNotifications(todo.id);
-                    // deleteTodoById(todo.id);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Tarea eliminada"),
-                          backgroundColor: Colors.green,
-                          behavior: SnackBarBehavior.floating,
-                          duration: Duration(seconds: 2),
-                        ));
+                    cancelAllTodoNotifications(todo.id);
+                    deleteTodoById(todo.id);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Tarea eliminada"),
+                      backgroundColor: Colors.green,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
                   },
                 ),
               ],
@@ -1515,16 +1503,14 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     ),
                   ),
                   onPressed: () {
-                    // TODO: revisar
-                    // cancelAllNotifications(todo.id);
-                    // deleteTodoById(todo.id);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Tarea eliminada"),
-                          backgroundColor: Colors.green,
-                          behavior: SnackBarBehavior.floating,
-                          duration: Duration(seconds: 2),
-                        ));
+                    cancelAllTodoNotifications(todo.id);
+                    deleteTodoById(todo.id);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Tarea eliminada"),
+                      backgroundColor: Colors.green,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
                   },
                 ),
               ],
@@ -1706,16 +1692,14 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     ),
                   ),
                   onPressed: () {
-                    // TODO: revisar
-                    // cancelAllNotifications(todo.id);
-                    // deleteTodoById(todo.id);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Tarea eliminada"),
-                          backgroundColor: Colors.green,
-                          behavior: SnackBarBehavior.floating,
-                          duration: Duration(seconds: 2),
-                        ));
+                    cancelAllTodoNotifications(todo.id);
+                    deleteTodoById(todo.id);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Tarea eliminada"),
+                      backgroundColor: Colors.green,
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ));
                   },
                 ),
               ],

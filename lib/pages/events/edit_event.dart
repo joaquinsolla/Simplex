@@ -420,7 +420,7 @@ class _EditEventState extends State<EditEvent> {
                       );
 
                       await updateEvent(newEvent);
-                      await cancelAllNotifications(selectedEvent!.id);
+                      await cancelAllEventNotifications(selectedEvent!.id);
                       String notificationTitle = 'Evento: ' + nameController.text;
                       if (not1.keys.first != null) buildEventNotification(
                           int.parse(not1.keys.first!),

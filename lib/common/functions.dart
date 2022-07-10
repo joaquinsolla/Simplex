@@ -6,13 +6,6 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 
-String monthConversor(DateTime date){
-
-  List months = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
-
-  return (months[date.month-1]);
-}
-
 String dateToString(DateTime dateTime){
   if (formatDates == true) return DateFormat('dd/MM/yyyy').format(dateTime);
   else return DateFormat('MM/dd/yyyy').format(dateTime);
@@ -78,7 +71,7 @@ void buildTodoNotifications(int id, String title, DateTime todoLimitDate){
 
 }
 
-cancelAllNotifications(int eventId) async {
+cancelAllEventNotifications(int eventId) async {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   int not1 = int.parse("1"+"$eventId");
   int not2 = int.parse("2"+"$eventId");
@@ -93,6 +86,17 @@ cancelAllNotifications(int eventId) async {
   await flutterLocalNotificationsPlugin.cancel(not5);
 
   debugPrint('[OK] All notifications canceled for event $eventId');
+}
+
+cancelAllTodoNotifications(int todoId) async {
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  int not1 = int.parse("1"+"$todoId");
+  int not2 = int.parse("2"+"$todoId");
+
+  await flutterLocalNotificationsPlugin.cancel(not1);
+  await flutterLocalNotificationsPlugin.cancel(not2);
+
+  debugPrint('[OK] All notifications canceled for todo $todoId');
 }
 
 String formatNotificationDate(DateTime dateTime){
