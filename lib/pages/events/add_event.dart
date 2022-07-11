@@ -389,12 +389,7 @@ class _AddEventState extends State<AddEvent> {
             ' Crear evento ',
                 () {
               if (nameController.text.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text("Debes indicar un nombre"),
-                  backgroundColor: Colors.red,
-                  behavior: SnackBarBehavior.floating,
-                  duration: Duration(seconds: 2),
-                ));
+                snackBar(context, 'Debes indicar un nombre', Colors.red);
                 nameFocusNode.requestFocus();
               } else {
                 try {
@@ -433,12 +428,7 @@ class _AddEventState extends State<AddEvent> {
                   Navigator.pop(context);
                 } on Exception catch (e) {
                   debugPrint('[ERR] Could not create event: $e');
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Ha ocurrido un error"),
-                    backgroundColor: Colors.red,
-                    behavior: SnackBarBehavior.floating,
-                    duration: Duration(seconds: 2),
-                  ));
+                  snackBar(context, 'Ha ocurrido un error', Colors.red);
                 }
               }
             }

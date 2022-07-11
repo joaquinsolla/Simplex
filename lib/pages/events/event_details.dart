@@ -245,12 +245,7 @@ class _EventDetailsState extends State<EventDetails> {
           cancelAllEventNotifications(selectedEvent!.id);
           deleteEventById(selectedEvent!.id);
           Navigator.of(context).popUntil((route) => route.isFirst);
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Evento eliminado"),
-            backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
-            duration: Duration(seconds: 2),
-          ));
+          snackBar(context, 'Evento eliminado', Colors.green);
         }),
         SizedBox(height: deviceHeight * 0.025),
       ]),

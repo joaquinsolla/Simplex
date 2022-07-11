@@ -92,6 +92,7 @@ Stream<List<Todo>> readPendingTodosWithPriority(int priority) {
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
       .where('done', isEqualTo: false)
       .where('priority', isEqualTo: priority)
+      .orderBy('limited', descending: true)
       .orderBy('limitDate', descending: false)
       .orderBy('name', descending: false)
       .snapshots().map((snapshot) =>
@@ -103,6 +104,7 @@ Stream<List<Todo>> readDoneTodos() {
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
       .where('done', isEqualTo: true)
       .orderBy('priority', descending: true)
+      .orderBy('limited', descending: true)
       .orderBy('limitDate', descending: false)
       .orderBy('name', descending: false)
       .snapshots().map((snapshot) =>
@@ -117,9 +119,10 @@ Future createTodo(Todo todo) async{
     'id': todo.id,
     'name': todo.name,
     'description': todo.description,
-    'done': todo.done,
-    'limitDate': todo.limitDate,
     'priority': todo.priority,
+    'limited': todo.limited,
+    'limitDate': todo.limitDate,
+    'done': todo.done,
   };
 
   await doc.set(json);
@@ -136,15 +139,16 @@ toggleTodo(int id, bool newDone) async{
   debugPrint('[OK] Todo $id toggled: $newDone');
 }
 
-updateTodo(int todoId, String newName, String newDescription, DateTime newLimitDate, int newPriority) async {
+updateTodo(Todo todo) async {
   final doc = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection('todos').doc(todoId.toString());
+      .collection('todos').doc(todo.id.toString());
 
   await doc.update({
-    'name': newName,
-    'description': newDescription,
-    'limitDate': newLimitDate,
-    'priority': newPriority,
+    'name': todo.name,
+    'description': todo.description,
+    'priority': todo.priority,
+    'limited': todo.limited,
+    'limitDate': todo.limitDate,
   });
   debugPrint('[OK] Todo updated');
 }

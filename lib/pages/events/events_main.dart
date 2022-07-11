@@ -78,6 +78,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
           splashRadius: 0.001,
           onPressed: () {
             //TODO: help
+            snackBar(context, '[Beta] En desarrollo', colorSpecialItem);
           },
         ),
         IconButton(
@@ -387,12 +388,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
           ),
           onPressed: (){
             // TODO: share events
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("(Beta) En desarrollo"),
-              backgroundColor: colorSpecialItem,
-              behavior: SnackBarBehavior.floating,
-              duration: Duration(seconds: 2),
-            ));
+            snackBar(context, '[Beta] En desarrollo', colorSpecialItem);
           },
         ),
         FocusedMenuItem(
@@ -414,12 +410,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
           onPressed: (){
             cancelAllEventNotifications(event.id);
             deleteEventById(event.id);
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text("Evento eliminado"),
-              backgroundColor: Colors.green,
-              behavior: SnackBarBehavior.floating,
-              duration: Duration(seconds: 2),
-            ));
+            snackBar(context, 'Evento eliminado', Colors.green);
           },
         ),
       ],

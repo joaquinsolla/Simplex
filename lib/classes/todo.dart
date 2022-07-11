@@ -4,35 +4,40 @@ class Todo{
   final int id;
   final String name;
   final String description;
-  final bool done;
+  final double priority;
+  final bool limited;
   final DateTime limitDate;
-  final int priority;
+  final bool done;
+
 
   Todo({
     required this.id,
     required this.name,
     required this.description,
-    required this.done,
-    required this.limitDate,
     required this.priority,
+    required this.limited,
+    required this.limitDate,
+    required this.done,
   });
 
   Map<String, dynamic> toJson() => {
     'id': id,
     'name': name,
     'description': description,
-    'done': done,
-    'limitDate': limitDate,
     'priority': priority,
+    'limited': limited,
+    'limitDate': limitDate,
+    'done': done,
   };
 
   static Todo fromJson(Map<String, dynamic> json) => Todo(
     id: json['id'],
     name: json['name'],
     description: json['description'],
-    done: json['done'],
+    priority: json['priority'].toDouble(),
+    limited: json['limited'],
     limitDate: (json['limitDate'] as Timestamp).toDate(),
-    priority: json['priority'],
+    done: json['done'],
   );
 
 }

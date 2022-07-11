@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/common/all_common.dart';
@@ -27,8 +29,15 @@ class _TodoDetailsState extends State<TodoDetails> {
   Widget build(BuildContext context) {
     DateTime todayDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     DateTime limitDate = DateTime(selectedTodo!.limitDate.year, selectedTodo!.limitDate.month, selectedTodo!.limitDate.day);
-    String limitFormattedDate = DateFormat('dd/MM/yyyy').format(selectedTodo!.limitDate);
-    if (formatDates == false) limitFormattedDate = DateFormat('MM/dd/yyyy').format(selectedTodo!.limitDate);
+
+    late String limitFormattedDate;
+    FontStyle limitFontStyle = FontStyle.normal;
+    if (selectedTodo!.limited==false) {
+      limitFormattedDate = 'Sin fecha límite';
+      limitFontStyle = FontStyle.italic;
+    }
+    else if (formatDates==true) limitFormattedDate = DateFormat('dd/MM/yyyy').format(selectedTodo!.limitDate);
+    else limitFormattedDate = DateFormat('MM/dd/yyyy').format(selectedTodo!.limitDate);
 
     late IconData stateIcon;
     late String stateText;
@@ -59,7 +68,11 @@ class _TodoDetailsState extends State<TodoDetails> {
 
     late Icon limitFullIcon;
     late Color limitTextColor;
-    if (todayDate.isAtSameMomentAs(limitDate)){
+    if (selectedTodo!.limited==false){
+      limitFullIcon = Icon(
+          Icons.watch_off_rounded, color: colorSecondText,
+          size: deviceWidth * 0.05);
+    } else if (todayDate.isAtSameMomentAs(limitDate)){
       limitFullIcon = Icon(
           Icons.error_outline_rounded,
           color: Colors.red,
@@ -70,11 +83,12 @@ class _TodoDetailsState extends State<TodoDetails> {
           size: deviceWidth * 0.05);
     } else {
       limitFullIcon = Icon(
-          Icons.watch_later_outlined, color: colorMainText,
+          Icons.watch_rounded, color: colorMainText,
           size: deviceWidth * 0.05);
     }
 
-    if (todayDate.isAfter(limitDate)) limitTextColor = Colors.red;
+    if (selectedTodo!.limited==false) limitTextColor = colorSecondText;
+    else if (todayDate.isAfter(limitDate)) limitTextColor = Colors.red;
     else limitTextColor = colorMainText;
 
     return Scaffold(
@@ -195,7 +209,8 @@ class _TodoDetailsState extends State<TodoDetails> {
                 style: TextStyle(
                     color: limitTextColor,
                     fontSize: deviceWidth * 0.04,
-                    fontWeight: FontWeight.normal),
+                    fontWeight: FontWeight.normal,
+                    fontStyle: limitFontStyle),
               ),
             ],
           ),
@@ -210,12 +225,8 @@ class _TodoDetailsState extends State<TodoDetails> {
           cancelAllTodoNotifications(selectedTodo!.id);
           deleteTodoById(selectedTodo!.id);
           Navigator.of(context).popUntil((route) => route.isFirst);
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Tarea eliminada"),
-            backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
-            duration: Duration(seconds: 2),
-          ));
+          snackBar(context, 'Tarea eliminada', Colors.green);
+
         }),
         SizedBox(height: deviceHeight * 0.025),
       ]),

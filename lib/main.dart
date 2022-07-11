@@ -41,6 +41,7 @@ Future main() async {
 
       '/todos/add_todo': (context) => const AddTodo(),
       '/todos/todo_details': (context) => const TodoDetails(),
+      '/todos/edit_todo': (context) => const EditTodo(),
     },
   ));
 

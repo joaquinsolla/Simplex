@@ -144,45 +144,23 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
                 () {
               if (newPassController1.text.trim() == '') {
                 oldPassFocusNode.requestFocus();
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text("Debes introducir tu contraseña actual"),
-                  backgroundColor: Colors.red,
-                  behavior: SnackBarBehavior.floating,
-                  duration: Duration(seconds: 2),
-                ));
+                snackBar(context, 'Debes introducir tu contraseña actual', Colors.red);
               }
               else if (newPassController1.text
                   .trim()
                   .length < 6) {
                 newPassFocusNode1.requestFocus();
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text(
-                      "La contraseña debe contener al menos 6 caracteres"),
-                  backgroundColor: Colors.red,
-                  behavior: SnackBarBehavior.floating,
-                  duration: Duration(seconds: 2),
-                ));
+                snackBar(context, 'La contraseña debe contener al menos 6 caracteres', Colors.red);
               }
               else if (newPassController1.text.trim() !=
                   newPassController2.text.trim()) {
                 newPassFocusNode2.requestFocus();
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text("Las contraseñas no coinciden"),
-                  backgroundColor: Colors.red,
-                  behavior: SnackBarBehavior.floating,
-                  duration: Duration(seconds: 2),
-                ));
+                snackBar(context, 'Las contraseñas no coinciden', Colors.red);
               }
               else if (newPassController1.text.trim() ==
                   oldPassController.text.trim()) {
                 newPassFocusNode1.requestFocus();
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text(
-                      "La contraseña nueva es igual que la actual"),
-                  backgroundColor: Colors.red,
-                  behavior: SnackBarBehavior.floating,
-                  duration: Duration(seconds: 2),
-                ));
+                snackBar(context, 'La contraseña nueva es igual que la actual', Colors.red);
               }
               else
                 changePassword(oldPassController.text.trim(),
@@ -210,39 +188,19 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
     } on FirebaseAuthException catch (e){
       if (e.message!.contains('The password is invalid or the user does not have a password.')) {
         oldPassFocusNode.requestFocus();
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Contraseña actual incorrecta"),
-          backgroundColor: Colors.red,
-          behavior: SnackBarBehavior.floating,
-          duration: Duration(seconds: 2),
-        ));
+        snackBar(context, 'Contraseña actual incorrecta', Colors.red);
       }
-      else ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Ha ocurrido un error, inténtalo de nuevo"),
-          backgroundColor: Colors.red,
-          behavior: SnackBarBehavior.floating,
-          duration: Duration(seconds: 2),
-        ));
+      else snackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
       debugPrint('[ERR] ' + e.message.toString());
       hasErrors = true;
     }
 
     if (hasErrors==false) try {
       await FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Se ha actualizado tu contraseña"),
-        backgroundColor: Colors.green,
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 2),
-      ));
+      snackBar(context, 'Contraseña actualizada', Colors.green);
       debugPrint('[OK] Password updated');
     } on Exception catch (e){
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Ha ocurrido un error, inténtalo de nuevo"),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 2),
-      ));
+      snackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
       debugPrint('[ERR] ' + e.toString());
     }
 

@@ -147,12 +147,7 @@ class _SignUpServiceState extends State<SignUpService> {
                 if (emailController.text == '' ||
                     passwordController.text == '' ||
                     confirmPasswordController.text == '') {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Debes cubrir todos los campos"),
-                    backgroundColor: Colors.red,
-                    behavior: SnackBarBehavior.floating,
-                    duration: Duration(seconds: 2),
-                  ));
+                  snackBar(context, 'Debes cubrir todos los campos', Colors.red);
                   if (emailController.text == '')
                     emailFocusNode.requestFocus();
                   else if (passwordController.text == '')
@@ -167,38 +162,19 @@ class _SignUpServiceState extends State<SignUpService> {
                         .trim()
                         .length < 6) {
                       passwordFocusNode.requestFocus();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                                "La contraseña debe contener al menos 6 caracteres"),
-                            backgroundColor: Colors.red,
-                            behavior: SnackBarBehavior.floating,
-                            duration: Duration(seconds: 2),
-                          ));
+                      snackBar(context, 'La contraseña debe contener al menos 6 caracteres', Colors.red);
                     } else {
                       if (passwordController.text.trim() !=
                           confirmPasswordController.text.trim()) {
                         passwordFocusNode.requestFocus();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Las contraseñas no coinciden"),
-                              backgroundColor: Colors.red,
-                              behavior: SnackBarBehavior.floating,
-                              duration: Duration(seconds: 2),
-                            ));
+                        snackBar(context, 'Las contraseñas no coinciden', Colors.red);
                       } else
                         signUp();
                     }
                   }
                   else {
                     emailFocusNode.requestFocus();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Formato de email inválido"),
-                          backgroundColor: Colors.red,
-                          behavior: SnackBarBehavior.floating,
-                          duration: Duration(seconds: 2),
-                        ));
+                    snackBar(context, 'Formato de email inválido', Colors.red);
                   }
                 }
               }
@@ -237,18 +213,9 @@ class _SignUpServiceState extends State<SignUpService> {
           password: passwordController.text.trim());
       debugPrint('[OK] Signed up, waiting for email verification');
     } on FirebaseAuthException catch (e){
-      if (e.message!.contains('The email address is already in use by another account.')) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Ya existe una cuenta con este email"),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 2),
-      ));
-      else ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Ha ocurrido un error, inténtalo de nuevo"),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 2),
-      ));
+      if (e.message!.contains('The email address is already in use by another account.'))
+        snackBar(context, 'Ya existe una cuenta con este email', Colors.red);
+      else snackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
       debugPrint('[ERR] ' + e.message.toString());
     }
     createUserDoc();

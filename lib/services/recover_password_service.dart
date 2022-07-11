@@ -74,12 +74,7 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
                     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                     .hasMatch(emailController.text.trim()) == false) {
                   emailFocusNode.requestFocus();
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Debes indicar un email válido"),
-                    backgroundColor: Colors.red,
-                    behavior: SnackBarBehavior.floating,
-                    duration: Duration(seconds: 2),
-                  ));
+                  snackBar(context, 'Debes indicar un email válido', Colors.red);
                 } else {
                   resetPassword();
                 }
@@ -125,26 +120,12 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(
           email: emailController.text.trim());
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Se ha enviado un email de recuperación, comprueba tu bandeja de entrada"),
-        backgroundColor: Colors.green,
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 2),
-      ));
+      snackBar(context, 'Se ha enviado un email de recuperación, comprueba tu bandeja de entrada', Colors.green);
       debugPrint('[OK] Password recovery email sent');
     } on FirebaseAuthException catch (e){
-      if (e.message!.contains('There is no user record corresponding to this identifier. The user may have been deleted.')) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("No existe ninguna cuenta con este email"),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 2),
-      ));
-      else ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Ha ocurrido un error, inténtalo de nuevo"),
-          backgroundColor: Colors.red,
-          behavior: SnackBarBehavior.floating,
-          duration: Duration(seconds: 2),
-        ));
+      if (e.message!.contains('There is no user record corresponding to this identifier. The user may have been deleted.'))
+        snackBar(context, 'No existe ninguna cuenta con este email', Colors.red);
+      else snackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
       debugPrint('[ERR] ' + e.message.toString());
     }
     navigatorKey.currentState!.pop();

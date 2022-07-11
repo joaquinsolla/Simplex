@@ -105,12 +105,7 @@ class _LogInServiceState extends State<LogInService> {
               () {
                 if (emailController.text == '' ||
                     passwordController.text == '') {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Debes cubrir todos los campos"),
-                    backgroundColor: Colors.red,
-                    behavior: SnackBarBehavior.floating,
-                    duration: Duration(seconds: 2),
-                  ));
+                  snackBar(context, 'Debes cubrir todos los campos', Colors.red);
                   if (emailController.text == '')
                     emailFocusNode.requestFocus();
                   else
@@ -122,12 +117,7 @@ class _LogInServiceState extends State<LogInService> {
                     signIn();
                   else {
                     emailFocusNode.requestFocus();
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Formato de email inválido"),
-                      backgroundColor: Colors.red,
-                      behavior: SnackBarBehavior.floating,
-                      duration: Duration(seconds: 2),
-                    ));
+                    snackBar(context, 'Formato de email inválido', Colors.red);
                   }
                 }
               }
@@ -182,24 +172,11 @@ class _LogInServiceState extends State<LogInService> {
       );
       debugPrint('[OK] Logged in');
     } on FirebaseAuthException catch (e){
-      if (e.message!.contains('The password is invalid or the user does not have a password.')) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Contraseña incorrecta"),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 2),
-      ));
-      else if (e.message!.contains('There is no user record corresponding to this identifier. The user may have been deleted.')) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("No existe ninguna cuenta con este email"),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 2),
-      ));
-      else ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Ha ocurrido un error, inténtalo de nuevo"),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 2),
-      ));
+      if (e.message!.contains('The password is invalid or the user does not have a password.'))
+        snackBar(context, 'Contraseña incorrecta', Colors.red);
+      else if (e.message!.contains('There is no user record corresponding to this identifier. The user may have been deleted.'))
+        snackBar(context, 'No existe ninguna cuenta con este email', Colors.red);
+      else snackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
       debugPrint('[ERR] ' + e.message.toString());
     }
     navigatorKey.currentState!.pop();

@@ -399,12 +399,7 @@ class _EditEventState extends State<EditEvent> {
             ' Confirmar cambios ',
                 () async {
                   if (nameController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Debes indicar un nombre"),
-                      backgroundColor: Colors.red,
-                      behavior: SnackBarBehavior.floating,
-                      duration: Duration(seconds: 2),
-                    ));
+                    snackBar(context, 'Debes indicar un nombre', Colors.red);
                     nameFocusNode.requestFocus();
                   } else {
                     DateTime newFullDateTime = DateTime(
@@ -444,20 +439,10 @@ class _EditEventState extends State<EditEvent> {
                           newFullDateTime);
 
                       Navigator.of(context).popUntil((route) => route.isFirst);
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Evento actualizado"),
-                        backgroundColor: Colors.green,
-                        behavior: SnackBarBehavior.floating,
-                        duration: Duration(seconds: 2),
-                      ));
+                      snackBar(context, 'Evento actualizado', Colors.green);
                     } on Exception catch (e) {
                       debugPrint('[ERR] Could not edit event: $e');
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Ha ocurrido un error"),
-                        backgroundColor: Colors.red,
-                        behavior: SnackBarBehavior.floating,
-                        duration: Duration(seconds: 2),
-                      ));
+                      snackBar(context, 'Ha ocurrido un error', Colors.red);
                     }
                   }
                 }

@@ -5,6 +5,14 @@ import 'package:simplex/services/notification_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+void snackBar(BuildContext context, String content, Color color){
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text(content),
+    backgroundColor: color,
+    behavior: SnackBarBehavior.floating,
+    duration: Duration(seconds: 2),
+  ));
+}
 
 String dateToString(DateTime dateTime){
   if (formatDates == true) return DateFormat('dd/MM/yyyy').format(dateTime);

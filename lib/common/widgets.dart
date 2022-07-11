@@ -119,7 +119,7 @@ Column homeHeaderTriple(String text, Widget specialButton1, Widget specialButton
           specialButton1,
           SizedBox(width: deviceWidth*0.01,),
           specialButton2,
-          SizedBox(width: deviceWidth*0.01,),
+          // SizedBox(width: deviceWidth*0.01,),
           addButton,
         ],
       ),

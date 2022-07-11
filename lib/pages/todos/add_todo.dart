@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/classes/todo.dart';
@@ -23,8 +21,8 @@ class _AddTodoState extends State<AddTodo> {
   FocusNode limitDateFocusNode = FocusNode();
 
   int id = int.parse((DateTime.now().millisecondsSinceEpoch).toString().substring(6));
-  bool limitedTodo = false;
-  DateTime limitDate = DateTime(3000);
+  bool limited = false;
+  DateTime limitDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   double priority = 1;
 
   @override
@@ -42,7 +40,7 @@ class _AddTodoState extends State<AddTodo> {
 
   @override
   Widget build(BuildContext context) {
-    String dateHintText = 'Sin fecha límite (Por defecto)';
+    String dateHintText = 'Hoy (Por defecto)';
 
     return Scaffold(
       backgroundColor: colorMainBackground,
@@ -188,19 +186,18 @@ class _AddTodoState extends State<AddTodo> {
                   fontSize: deviceWidth * 0.04,
                   fontWeight: FontWeight.normal),
             ),
-            value: limitedTodo,
+            value: limited,
             onChanged: (val) {
               setState(() {
-                limitedTodo = val!;
+                limited = val!;
                 limitDateController.clear();
-                if (val==false) limitDate = DateTime(3000);
-                else limitDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+                limitDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
               });
             },
             controlAffinity: ListTileControlAffinity.leading,
           ),
-          if (limitedTodo) SizedBox(height: deviceHeight * 0.005),
-          if (limitedTodo) TextField(
+          if (limited) SizedBox(height: deviceHeight * 0.005),
+          if (limited) TextField(
             focusNode: limitDateFocusNode,
             controller: limitDateController,
             style: TextStyle(color: colorMainText),
@@ -229,12 +226,7 @@ class _AddTodoState extends State<AddTodo> {
             ' Crear tarea ',
                 () {
               if (nameController.text.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text("Debes indicar un nombre"),
-                  backgroundColor: Colors.red,
-                  behavior: SnackBarBehavior.floating,
-                  duration: Duration(seconds: 2),
-                ));
+                snackBar(context, 'Debes indicar un nombre', Colors.red);
                 nameFocusNode.requestFocus();
               } else {
                 try {
@@ -242,21 +234,17 @@ class _AddTodoState extends State<AddTodo> {
                     id: id,
                     name: nameController.text,
                     description: descriptionController.text,
-                    done: false,
+                    priority: priority,
+                    limited: limited,
                     limitDate: limitDate,
-                    priority: priority.round(),
+                    done: false,
                   );
                   createTodo(newTodo);
-                  if (limitDate!=DateTime(3000)) buildTodoNotifications(id, 'Tarea: ' + nameController.text, limitDate);
+                  if (limited) buildTodoNotifications(id, 'Tarea: ' + nameController.text, limitDate);
                   Navigator.pop(context);
                 } on Exception catch (e) {
                   debugPrint('[ERR] Could not create todo: $e');
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Ha ocurrido un error"),
-                    backgroundColor: Colors.red,
-                    behavior: SnackBarBehavior.floating,
-                    duration: Duration(seconds: 2),
-                  ));
+                  snackBar(context, 'Ha ocurrido un error', Colors.red);
                 }
               }
             }

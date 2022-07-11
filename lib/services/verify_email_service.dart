@@ -114,24 +114,14 @@ class _VerifyEmailServiceState extends State<VerifyEmailService> {
 
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Se ha enviado un email de verificación a " + user.email.toString()),
-        backgroundColor: Colors.green,
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 2),
-      ));
+      snackBar(context, 'Se ha enviado un email de verificación a ' + user.email.toString(), Colors.green);
       debugPrint('[OK] Verification email sent');
 
       setState(() => canResendEmail = false);
       await Future.delayed(Duration(seconds: 5));
       setState(() => canResendEmail = true);
     } on Exception catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Ha ocurrido un error, inténtalo de nuevo"),
-        backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 2),
-      ));
+      snackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
       debugPrint('[ERR] ' + e.toString());
     }
   }
