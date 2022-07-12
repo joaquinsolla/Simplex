@@ -160,3 +160,18 @@ deleteTodoById(int todoId) async {
   await doc.delete();
   debugPrint('[OK] Todo deleted');
 }
+
+deleteDoneTodos() async {
+  await FirebaseFirestore.instance.collection('users').doc(
+      FirebaseAuth.instance.currentUser!.uid)
+      .collection('todos')
+      .where('done', isEqualTo: true)
+      .get()
+      .then((snapshot) {
+    for (DocumentSnapshot ds in snapshot.docs) {
+      ds.reference.delete();
+    }
+  });
+
+  debugPrint('[OK] All done todos deleted');
+}

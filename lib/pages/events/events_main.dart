@@ -77,8 +77,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               color: colorSpecialItem, size: deviceWidth * 0.085),
           splashRadius: 0.001,
           onPressed: () {
-            //TODO: help
-            snackBar(context, '[Beta] En desarrollo', colorSpecialItem);
+            Navigator.pushNamed(context, '/events/events_help');
           },
         ),
         IconButton(
@@ -274,12 +273,21 @@ class _EventsMainPageState extends State<EventsMainPage> {
                   ),
 
                   if (events.length == 0) SizedBox(height: deviceHeight*0.025,),
-                  if (events.length == 0) Row(
+                  if (events.length == 0 && darkMode==true) Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [Container(
                       width: deviceWidth * 0.85,
                       alignment: Alignment.center,
                       child: Image.asset('assets/event_preview_dark.png',
+                        scale: deviceWidth * 0.0001,),
+                    ),],
+                  ),
+                  if (events.length == 0 && darkMode==false) Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Container(
+                      width: deviceWidth * 0.85,
+                      alignment: Alignment.center,
+                      child: Image.asset('assets/event_preview_light.png',
                         scale: deviceWidth * 0.0001,),
                     ),],
                   ),

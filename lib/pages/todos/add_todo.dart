@@ -57,7 +57,7 @@ class _AddTodoState extends State<AddTodo> {
               TextField(
                 keyboardType: TextInputType.text,
                 textCapitalization: TextCapitalization.sentences,
-                textInputAction: TextInputAction.next,
+                textInputAction: TextInputAction.done,
                 maxLines: null,
                 focusNode: descriptionFocusNode,
                 style: TextStyle(color: colorMainText),
@@ -180,7 +180,7 @@ class _AddTodoState extends State<AddTodo> {
           CheckboxListTile(
             activeColor: colorSpecialItem,
             title: Text(
-              'Tiene fecha límite',
+              'Tarea con fecha límite',
               style: TextStyle(
                   color: colorMainText,
                   fontSize: deviceWidth * 0.04,

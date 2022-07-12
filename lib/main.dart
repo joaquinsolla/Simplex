@@ -38,10 +38,12 @@ Future main() async {
       '/events/add_event': (context) => const AddEvent(),
       '/events/event_details': (context) => const EventDetails(),
       '/events/edit_event': (context) => const EditEvent(),
+      '/events/events_help': (context) => const EventsHelp(),
 
       '/todos/add_todo': (context) => const AddTodo(),
       '/todos/todo_details': (context) => const TodoDetails(),
       '/todos/edit_todo': (context) => const EditTodo(),
+      '/todos/todos_help': (context) => const TodosHelp(),
     },
   ));
 

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
@@ -47,8 +48,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
               color: colorSpecialItem, size: deviceWidth * 0.085),
           splashRadius: 0.001,
           onPressed: () {
-            //TODO: help
-            snackBar(context, '[Beta] En desarrollo', colorSpecialItem);
+            Navigator.pushNamed(context, '/todos/todos_help');
           },
         ),
         IconButton(
@@ -72,10 +72,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
             ),
           ),
           splashRadius: 0.001,
-          onPressed: () {
-            //TODO: remove done
-            snackBar(context, '[Beta] En desarrollo', colorSpecialItem);
-          },
+          onPressed: () => _showClearDialog(),
         ),
         IconButton(
           icon: Icon(Icons.add_rounded,
@@ -98,44 +95,68 @@ class _TodosMainPageState extends State<TodosMainPage> {
               late IconData showPendingTodosIcon;
               if (showPendingTodos) showPendingTodosIcon = Icons.keyboard_arrow_down_rounded;
               else showPendingTodosIcon = Icons.keyboard_arrow_right_rounded;
-              return Row(children: [
-                Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.fromLTRB(deviceWidth*0.01, deviceWidth*0.0025, deviceWidth*0.01, deviceWidth*0.005),
-                  child: Text(todos.length.toString(),
-                      style: TextStyle(
-                          color: colorMainText,
-                          fontSize: deviceWidth * 0.04,
-                          fontWeight: FontWeight.bold)
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    border: Border.all(
-                      width: 1.5,
-                      color: colorSpecialItem,
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(children: [
+                    Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.fromLTRB(deviceWidth*0.01, deviceWidth*0.0025, deviceWidth*0.01, deviceWidth*0.005),
+                      child: Text(todos.length.toString(),
+                          style: TextStyle(
+                              color: colorMainText,
+                              fontSize: deviceWidth * 0.04,
+                              fontWeight: FontWeight.bold)
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        border: Border.all(
+                          width: 1.5,
+                          color: colorSpecialItem,
+                        ),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15.0),
+                        ),
+                      ),
                     ),
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(15.0),
+                    SizedBox(width: deviceWidth*0.015,),
+                    Text('Pendiente:',
+                        style: TextStyle(
+                            color: colorMainText,
+                            fontSize: deviceWidth * 0.05,
+                            fontWeight: FontWeight.bold)
                     ),
+                    IconButton(
+                      icon: Icon(showPendingTodosIcon, color: colorSpecialItem,),
+                      onPressed: (){
+                        setState(() {
+                          showPendingTodos = !showPendingTodos;
+                        });
+                      },
+                      splashRadius: 0.0001,
+                    ),
+                  ],),
+                  if (todos.length > 0 && showPendingTodos) SizedBox(height: deviceHeight * 0.005),
+                  if (todos.length == 0 && darkMode==true && showPendingTodos) Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Container(
+                      width: deviceWidth * 0.85,
+                      alignment: Alignment.center,
+                      child: Image.asset('assets/todo_preview_dark.png',
+                        scale: deviceWidth * 0.0001,),
+                    ),],
                   ),
-                ),
-                SizedBox(width: deviceWidth*0.015,),
-                Text('Pendiente:',
-                    style: TextStyle(
-                        color: colorMainText,
-                        fontSize: deviceWidth * 0.05,
-                        fontWeight: FontWeight.bold)
-                ),
-                IconButton(
-                  icon: Icon(showPendingTodosIcon, color: colorSpecialItem,),
-                  onPressed: (){
-                    setState(() {
-                      showPendingTodos = !showPendingTodos;
-                    });
-                  },
-                  splashRadius: 0.0001,
-                ),
-              ],);
+                  if (todos.length == 0 && darkMode==false && showPendingTodos) Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Container(
+                      width: deviceWidth * 0.85,
+                      alignment: Alignment.center,
+                      child: Image.asset('assets/todo_preview_light.png',
+                        scale: deviceWidth * 0.0001,),
+                    ),],
+                  ),
+                ],
+              );
             } else {
               late IconData showPendingTodosIcon;
               if (showPendingTodos) showPendingTodosIcon = Icons.keyboard_arrow_down_rounded;
@@ -418,7 +439,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   onPressed: () {
                     cancelAllTodoNotifications(todo.id);
                     deleteTodoById(todo.id);
-                    snackBar(context, 'Tarea eliminada', Colors.greenAccent);
+                    snackBar(context, 'Tarea eliminada', Colors.green);
                   },
                 ),
               ],
@@ -1769,6 +1790,32 @@ class _TodosMainPageState extends State<TodosMainPage> {
       }
     }
 
+  }
+
+  void _showClearDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text('Borrar tareas hechas'),
+            content: Text('Una vez eliminadas, no podrás restaurarlas.'),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () async {
+                    await deleteDoneTodos();
+                    Navigator.pop(context);
+                    snackBar(context, 'Tareas hechas eliminadas', Colors.green);
+                  },
+                  child: Text('Borrar', style: TextStyle(color: colorSpecialItem),)),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Cancelar', style: TextStyle(color: Colors.red),),
+              )
+            ],
+          );
+        });
   }
 
 }

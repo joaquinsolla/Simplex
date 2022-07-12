@@ -30,7 +30,9 @@ class _NotesMainPageState extends State<NotesMainPage> {
           icon: Icon(Icons.add_rounded,
               color: colorSpecialItem, size: deviceWidth * 0.085),
           splashRadius: 0.001,
-          onPressed: () {},
+          onPressed: () {
+            snackBar(context, '[Beta] En desarrollo', colorSpecialItem);
+          },
         ),
       ),
     ]);
