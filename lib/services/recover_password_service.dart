@@ -58,7 +58,7 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
                       BorderSide(color: colorSpecialItem, width: 2),
                     ),
                     hintText: 'ejemplo@email.es',
-                    hintStyle: TextStyle(color: colorThirdText),
+                    hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
                   ),
                 ),
               ],
