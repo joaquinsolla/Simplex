@@ -285,6 +285,30 @@ class _EditTodoState extends State<EditTodo> {
       fieldHintText: "dd/mm/aaaa",
       fieldLabelText: "Fecha del evento",
       errorFormatText: "Introduce una fecha válida",
+      builder: (context, child) {
+        if (darkMode) return Theme(
+          data: ThemeData.dark().copyWith(
+            primaryColor: colorSpecialItem,
+            colorScheme: ColorScheme.dark(
+              primary: colorSpecialItem,),
+            buttonTheme: ButtonThemeData(
+                textTheme: ButtonTextTheme.primary
+            ),
+          ),
+          child: child!,
+        );
+        else return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: colorSpecialItem,
+            colorScheme: ColorScheme.light(
+                primary: colorSpecialItem),
+            buttonTheme: ButtonThemeData(
+                textTheme: ButtonTextTheme.primary
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     if (selected != null && selected != DateTime.now()) {
       setState(() {

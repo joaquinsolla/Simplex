@@ -14,6 +14,8 @@ bool isTester = false;
 bool showPendingTodos = true;
 bool showDoneTodos = false;
 
+DateTime selectedDateTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
 /// SETTINGS
 bool format24Hours = true;
 bool formatDates = true;

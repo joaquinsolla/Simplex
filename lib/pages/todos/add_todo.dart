@@ -218,6 +218,17 @@ class _AddTodoState extends State<AddTodo> {
             ),
             onTap: () => _dateSelector(context),
           ),
+          SizedBox(height: deviceHeight * 0.01),
+
+          Text(
+            'Las tareas con fecha límite aparecerán en el calenario [Beta] y se notificará '
+                'cuando alcancen dicha fecha.',
+            style: TextStyle(
+                color: colorMainText,
+                fontSize: deviceWidth * 0.03,
+                fontWeight: FontWeight.normal,
+                fontStyle: FontStyle.italic),
+          ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
         actionsButton(
@@ -270,6 +281,30 @@ class _AddTodoState extends State<AddTodo> {
       fieldHintText: "dd/mm/aaaa",
       fieldLabelText: "Fecha del evento",
       errorFormatText: "Introduce una fecha válida",
+      builder: (context, child) {
+        if (darkMode) return Theme(
+          data: ThemeData.dark().copyWith(
+            primaryColor: colorSpecialItem,
+            colorScheme: ColorScheme.dark(
+              primary: colorSpecialItem,),
+            buttonTheme: ButtonThemeData(
+                textTheme: ButtonTextTheme.primary
+            ),
+          ),
+          child: child!,
+        );
+        else return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: colorSpecialItem,
+            colorScheme: ColorScheme.light(
+                primary: colorSpecialItem),
+            buttonTheme: ButtonThemeData(
+                textTheme: ButtonTextTheme.primary
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     if (selected != null && selected != DateTime.now()) {
       setState(() {

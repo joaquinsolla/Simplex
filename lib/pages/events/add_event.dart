@@ -24,7 +24,7 @@ class _AddEventState extends State<AddEvent> {
 
   int id = int.parse((DateTime.now().millisecondsSinceEpoch).toString().substring(6));
   int selectedColor = -1;
-  DateTime date = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  DateTime date = selectedDateTime;
   TimeOfDay time = TimeOfDay(hour: 00, minute: 00);
   List<dynamic> notificationsList = [];
   Map<String?, DateTime?> not1 = {null: null};
@@ -45,6 +45,7 @@ class _AddEventState extends State<AddEvent> {
   @override
   void initState() {
     super.initState();
+    dateController.text = dateToString(selectedDateTime);
   }
 
   @override
@@ -456,6 +457,30 @@ class _AddEventState extends State<AddEvent> {
         fieldHintText: "dd/mm/aaaa",
         fieldLabelText: "Fecha del evento",
         errorFormatText: "Introduce una fecha válida",
+        builder: (context, child) {
+          if (darkMode) return Theme(
+            data: ThemeData.dark().copyWith(
+              primaryColor: colorSpecialItem,
+              colorScheme: ColorScheme.dark(
+                  primary: colorSpecialItem),
+              buttonTheme: ButtonThemeData(
+                  textTheme: ButtonTextTheme.primary
+              ),
+            ),
+            child: child!,
+          );
+          else return Theme(
+            data: ThemeData.light().copyWith(
+              primaryColor: colorSpecialItem,
+              colorScheme: ColorScheme.light(
+                  primary: colorSpecialItem),
+              buttonTheme: ButtonThemeData(
+                  textTheme: ButtonTextTheme.primary
+              ),
+            ),
+            child: child!,
+          );
+        },
     );
     if (selected != null && selected != DateTime.now()) {
       setState(() {
@@ -476,6 +501,30 @@ class _AddEventState extends State<AddEvent> {
       confirmText: "CONFIRMAR",
       initialTime: TimeOfDay(hour: 0, minute: 0),
       initialEntryMode: TimePickerEntryMode.dial,
+      builder: (context, child) {
+        if (darkMode) return Theme(
+          data: ThemeData.dark().copyWith(
+            primaryColor: colorSpecialItem,
+            colorScheme: ColorScheme.dark(
+              primary: colorSpecialItem,),
+            buttonTheme: ButtonThemeData(
+                textTheme: ButtonTextTheme.primary
+            ),
+          ),
+          child: child!,
+        );
+        else return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: colorSpecialItem,
+            colorScheme: ColorScheme.light(
+                primary: colorSpecialItem),
+            buttonTheme: ButtonThemeData(
+                textTheme: ButtonTextTheme.primary
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     if (selected != null) {
       setState(() {

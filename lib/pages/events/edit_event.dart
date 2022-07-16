@@ -475,7 +475,31 @@ class _EditEventState extends State<EditEvent> {
         fieldHintText: "dd/mm/aaaa",
         fieldLabelText: "Fecha del evento",
         errorFormatText: "Introduce una fecha válida",
-        errorInvalidText: "La fecha debe ser posterior a hoy");
+        builder: (context, child) {
+          if (darkMode) return Theme(
+            data: ThemeData.dark().copyWith(
+              primaryColor: colorSpecialItem,
+              colorScheme: ColorScheme.dark(
+                primary: colorSpecialItem,),
+              buttonTheme: ButtonThemeData(
+                  textTheme: ButtonTextTheme.primary
+              ),
+            ),
+            child: child!,
+          );
+          else return Theme(
+            data: ThemeData.light().copyWith(
+              primaryColor: colorSpecialItem,
+              colorScheme: ColorScheme.light(
+                  primary: colorSpecialItem),
+              buttonTheme: ButtonThemeData(
+                  textTheme: ButtonTextTheme.primary
+              ),
+            ),
+            child: child!,
+          );
+        },
+    );
     if (selected != null && selected != DateTime.now()) {
       setState(() {
         date = selected;
@@ -495,6 +519,30 @@ class _EditEventState extends State<EditEvent> {
       confirmText: "CONFIRMAR",
       initialTime: TimeOfDay(hour: selectedEvent!.dateTime.hour, minute: selectedEvent!.dateTime.minute),
       initialEntryMode: TimePickerEntryMode.dial,
+      builder: (context, child) {
+        if (darkMode) return Theme(
+          data: ThemeData.dark().copyWith(
+            primaryColor: colorSpecialItem,
+            colorScheme: ColorScheme.dark(
+              primary: colorSpecialItem,),
+            buttonTheme: ButtonThemeData(
+                textTheme: ButtonTextTheme.primary
+            ),
+          ),
+          child: child!,
+        );
+        else return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: colorSpecialItem,
+            colorScheme: ColorScheme.light(
+                primary: colorSpecialItem),
+            buttonTheme: ButtonThemeData(
+                textTheme: ButtonTextTheme.primary
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
     if (selected != null) {
       setState(() {

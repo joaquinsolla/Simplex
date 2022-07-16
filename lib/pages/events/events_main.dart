@@ -120,6 +120,12 @@ class _EventsMainPageState extends State<EventsMainPage> {
                 ),
                 color: colorSecondBackground,
                 child: TableCalendar(
+                  onDayLongPressed: (selectedDay, focusedDay){
+                    setState(() {
+                      selectedDateTime = selectedDay;
+                    });
+                    Navigator.pushNamed(context, '/events/add_event');
+                  },
                   eventLoader: _getEventsFromDay,
                   locale: locale,
                   firstDay: DateTime.utc(2000),
@@ -142,6 +148,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                     setState(() {
                       _selectedDay = selectedDay;
                       _focusedDay = focusedDay;
+                      selectedDateTime = selectedDay;
                     });
                   },
 

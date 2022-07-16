@@ -1075,7 +1075,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
     if (darkMode) backgroundColor = colorSecondBackground;
 
     bool hasDescription = (todo.description != '');
-    bool hasLimitDate = (todo.limitDate != DateTime(3000));
+    bool hasLimitDate = (todo.limited);
 
     if(hasDescription) {
       if (hasLimitDate){

@@ -168,6 +168,45 @@ Container formContainer (List<Widget> formWidgets){
   );
 }
 
+Container buttonExplanationContainer(Widget buttonImg, String title, String body){
+  return formContainer([
+    IntrinsicHeight(child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          width: deviceWidth*0.0875,
+          child: buttonImg,
+        ),
+        VerticalDivider(color: colorSecondText),
+        textExplanation(title, body),
+      ],
+    ),),
+  ]);
+}
+
+Container othersExplanationContainer(String title, String body){
+  return formContainer([
+    Container(
+      alignment: Alignment.centerLeft,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: TextStyle(
+              color: colorMainText,
+              fontSize: deviceWidth * 0.0475,
+              fontWeight: FontWeight.bold),),
+          SizedBox(height: deviceHeight*0.0025,),
+          Text(body, style: TextStyle(
+              color: colorSecondText,
+              fontSize: deviceWidth * 0.0325,
+              fontWeight: FontWeight.normal),),
+        ],
+      ),
+    )
+  ]);
+}
+
 Column formTextField(TextEditingController controller, String fieldName, String hintText, FocusNode focusNode) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -263,4 +302,26 @@ Row settingsRow (String mainText, String secondText, Widget widget) {
       Expanded(child: Text(''),),
       widget
     ],);
+}
+
+Container textExplanation(String title, String body){
+  return Container(
+    width: deviceWidth*0.67,
+    alignment: Alignment.center,
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: TextStyle(
+            color: colorMainText,
+            fontSize: deviceWidth * 0.0475,
+            fontWeight: FontWeight.bold),),
+        SizedBox(height: deviceHeight*0.0025,),
+        Text(body, style: TextStyle(
+            color: colorSecondText,
+            fontSize: deviceWidth * 0.0325,
+            fontWeight: FontWeight.normal),),
+      ],
+    ),
+  );
 }
