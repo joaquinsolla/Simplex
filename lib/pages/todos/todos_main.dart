@@ -356,12 +356,13 @@ class _TodosMainPageState extends State<TodosMainPage> {
     DateTime todayDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     DateTime limitDate = DateTime(todo.limitDate.year, todo.limitDate.month, todo.limitDate.day);
 
-    Color focusedMenuItemBackgroundColor = colorThirdBackground;
-    if (darkMode) focusedMenuItemBackgroundColor = colorSecondBackground;
+    Color backgroundColor = colorThirdBackground;
+    if (darkMode) backgroundColor = colorSecondBackground;
 
     bool hasDescription = (todo.description != '');
     bool hasLimitDate = todo.limited;
 
+    //TODO: optimize
     if(hasDescription) {
       if (hasLimitDate){
         // YES DESC - YES LIMIT
@@ -374,7 +375,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
               },
               menuItems: <FocusedMenuItem>[
                 FocusedMenuItem(
-                  backgroundColor: focusedMenuItemBackgroundColor,
+                  backgroundColor: backgroundColor,
                   title: Container(
                     alignment: Alignment.centerLeft,
                     child: Row(
@@ -397,7 +398,29 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   },
                 ),
                 FocusedMenuItem(
-                  backgroundColor: focusedMenuItemBackgroundColor,
+                  backgroundColor: backgroundColor,
+                  title: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.done_all_rounded,
+                            color: colorSpecialItem,
+                            size: deviceWidth * 0.06),
+                        SizedBox(width: deviceWidth * 0.025,),
+                        Text('Marcar como hecho', style: TextStyle(
+                            color: colorSpecialItem,
+                            fontSize: deviceWidth * 0.04,
+                            fontWeight: FontWeight.normal),),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    toggleTodo(todo.id, !todo.done);
+                  },
+                ),
+                FocusedMenuItem(
+                  backgroundColor: backgroundColor,
                   title: Container(
                     alignment: Alignment.centerLeft,
                     child: Row(
@@ -419,7 +442,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   },
                 ),
                 FocusedMenuItem(
-                  backgroundColor: focusedMenuItemBackgroundColor,
+                  backgroundColor: backgroundColor,
                   title: Container(
                     alignment: Alignment.centerLeft,
                     child: Row(
@@ -570,7 +593,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
               },
               menuItems: <FocusedMenuItem>[
                 FocusedMenuItem(
-                  backgroundColor: focusedMenuItemBackgroundColor,
+                  backgroundColor: backgroundColor,
                   title: Container(
                     alignment: Alignment.centerLeft,
                     child: Row(
@@ -593,7 +616,29 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   },
                 ),
                 FocusedMenuItem(
-                  backgroundColor: focusedMenuItemBackgroundColor,
+                  backgroundColor: backgroundColor,
+                  title: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.done_all_rounded,
+                            color: colorSpecialItem,
+                            size: deviceWidth * 0.06),
+                        SizedBox(width: deviceWidth * 0.025,),
+                        Text('Marcar como hecho', style: TextStyle(
+                            color: colorSpecialItem,
+                            fontSize: deviceWidth * 0.04,
+                            fontWeight: FontWeight.normal),),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    toggleTodo(todo.id, !todo.done);
+                  },
+                ),
+                FocusedMenuItem(
+                  backgroundColor: backgroundColor,
                   title: Container(
                     alignment: Alignment.centerLeft,
                     child: Row(
@@ -615,7 +660,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   },
                 ),
                 FocusedMenuItem(
-                  backgroundColor: focusedMenuItemBackgroundColor,
+                  backgroundColor: backgroundColor,
                   title: Container(
                     alignment: Alignment.centerLeft,
                     child: Row(
@@ -737,7 +782,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
               },
               menuItems: <FocusedMenuItem>[
                 FocusedMenuItem(
-                  backgroundColor: focusedMenuItemBackgroundColor,
+                  backgroundColor: backgroundColor,
                   title: Container(
                     alignment: Alignment.centerLeft,
                     child: Row(
@@ -760,7 +805,29 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   },
                 ),
                 FocusedMenuItem(
-                  backgroundColor: focusedMenuItemBackgroundColor,
+                  backgroundColor: backgroundColor,
+                  title: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.done_all_rounded,
+                            color: colorSpecialItem,
+                            size: deviceWidth * 0.06),
+                        SizedBox(width: deviceWidth * 0.025,),
+                        Text('Marcar como hecho', style: TextStyle(
+                            color: colorSpecialItem,
+                            fontSize: deviceWidth * 0.04,
+                            fontWeight: FontWeight.normal),),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    toggleTodo(todo.id, !todo.done);
+                  },
+                ),
+                FocusedMenuItem(
+                  backgroundColor: backgroundColor,
                   title: Container(
                     alignment: Alignment.centerLeft,
                     child: Row(
@@ -782,7 +849,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   },
                 ),
                 FocusedMenuItem(
-                  backgroundColor: focusedMenuItemBackgroundColor,
+                  backgroundColor: backgroundColor,
                   title: Container(
                     alignment: Alignment.centerLeft,
                     child: Row(
@@ -920,7 +987,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
               },
               menuItems: <FocusedMenuItem>[
                 FocusedMenuItem(
-                  backgroundColor: focusedMenuItemBackgroundColor,
+                  backgroundColor: backgroundColor,
                   title: Container(
                     alignment: Alignment.centerLeft,
                     child: Row(
@@ -943,7 +1010,29 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   },
                 ),
                 FocusedMenuItem(
-                  backgroundColor: focusedMenuItemBackgroundColor,
+                  backgroundColor: backgroundColor,
+                  title: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.done_all_rounded,
+                            color: colorSpecialItem,
+                            size: deviceWidth * 0.06),
+                        SizedBox(width: deviceWidth * 0.025,),
+                        Text('Marcar como hecho', style: TextStyle(
+                            color: colorSpecialItem,
+                            fontSize: deviceWidth * 0.04,
+                            fontWeight: FontWeight.normal),),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    toggleTodo(todo.id, !todo.done);
+                  },
+                ),
+                FocusedMenuItem(
+                  backgroundColor: backgroundColor,
                   title: Container(
                     alignment: Alignment.centerLeft,
                     child: Row(
@@ -965,7 +1054,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   },
                 ),
                 FocusedMenuItem(
-                  backgroundColor: focusedMenuItemBackgroundColor,
+                  backgroundColor: backgroundColor,
                   title: Container(
                     alignment: Alignment.centerLeft,
                     child: Row(
@@ -1077,6 +1166,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
     bool hasDescription = (todo.description != '');
     bool hasLimitDate = (todo.limited);
 
+    //TODO: optimize
     if(hasDescription) {
       if (hasLimitDate){
         // YES DESC - YES LIMIT
@@ -1109,6 +1199,28 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   onPressed: () {
                     selectedTodo = todo;
                     Navigator.pushNamed(context, '/todos/todo_details');
+                  },
+                ),
+                FocusedMenuItem(
+                  backgroundColor: backgroundColor,
+                  title: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.remove_done_rounded,
+                            color: colorSpecialItem,
+                            size: deviceWidth * 0.06),
+                        SizedBox(width: deviceWidth * 0.025,),
+                        Text('Marcar como pendiente', style: TextStyle(
+                            color: colorSpecialItem,
+                            fontSize: deviceWidth * 0.04,
+                            fontWeight: FontWeight.normal),),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    toggleTodo(todo.id, !todo.done);
                   },
                 ),
                 FocusedMenuItem(
@@ -1222,13 +1334,15 @@ class _TodosMainPageState extends State<TodosMainPage> {
                                 child: Text(dateToString(todoDate),
                                     style: TextStyle(color: Colors.red,
                                         fontSize: deviceWidth * 0.03,
-                                        fontWeight: FontWeight.normal))),
+                                        fontWeight: FontWeight.normal,
+                                        decoration: TextDecoration.lineThrough))),
                             if ((todayDate.isAfter(todoDate))==false) Container(
                                 alignment: Alignment.centerLeft,
                                 child: Text(dateToString(todoDate),
                                     style: TextStyle(color: colorThirdText,
                                         fontSize: deviceWidth * 0.03,
-                                        fontWeight: FontWeight.normal))),
+                                        fontWeight: FontWeight.normal,
+                                        decoration: TextDecoration.lineThrough))),
                           ],),
                       ],
                     ),
@@ -1308,6 +1422,28 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   onPressed: () {
                     selectedTodo = todo;
                     Navigator.pushNamed(context, '/todos/todo_details');
+                  },
+                ),
+                FocusedMenuItem(
+                  backgroundColor: backgroundColor,
+                  title: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.remove_done_rounded,
+                            color: colorSpecialItem,
+                            size: deviceWidth * 0.06),
+                        SizedBox(width: deviceWidth * 0.025,),
+                        Text('Marcar como pendiente', style: TextStyle(
+                            color: colorSpecialItem,
+                            fontSize: deviceWidth * 0.04,
+                            fontWeight: FontWeight.normal),),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    toggleTodo(todo.id, !todo.done);
                   },
                 ),
                 FocusedMenuItem(
@@ -1487,6 +1623,28 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Icon(Icons.remove_done_rounded,
+                            color: colorSpecialItem,
+                            size: deviceWidth * 0.06),
+                        SizedBox(width: deviceWidth * 0.025,),
+                        Text('Marcar como pendiente', style: TextStyle(
+                            color: colorSpecialItem,
+                            fontSize: deviceWidth * 0.04,
+                            fontWeight: FontWeight.normal),),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    toggleTodo(todo.id, !todo.done);
+                  },
+                ),
+                FocusedMenuItem(
+                  backgroundColor: backgroundColor,
+                  title: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
                         Icon(Icons.edit, color: colorSpecialItem,
                             size: deviceWidth * 0.06),
                         SizedBox(width: deviceWidth * 0.025,),
@@ -1577,13 +1735,15 @@ class _TodosMainPageState extends State<TodosMainPage> {
                                 child: Text(dateToString(todoDate),
                                     style: TextStyle(color: Colors.red,
                                         fontSize: deviceWidth * 0.03,
-                                        fontWeight: FontWeight.normal))),
+                                        fontWeight: FontWeight.normal,
+                                        decoration: TextDecoration.lineThrough))),
                             if ((todayDate.isAfter(todoDate))==false) Container(
                                 alignment: Alignment.centerLeft,
                                 child: Text(dateToString(todoDate),
                                     style: TextStyle(color: colorThirdText,
                                         fontSize: deviceWidth * 0.03,
-                                        fontWeight: FontWeight.normal))),
+                                        fontWeight: FontWeight.normal,
+                                        decoration: TextDecoration.lineThrough))),
                           ],),
                       ],
                     ),
@@ -1663,6 +1823,28 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   onPressed: () {
                     selectedTodo = todo;
                     Navigator.pushNamed(context, '/todos/todo_details');
+                  },
+                ),
+                FocusedMenuItem(
+                  backgroundColor: backgroundColor,
+                  title: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.remove_done_rounded,
+                            color: colorSpecialItem,
+                            size: deviceWidth * 0.06),
+                        SizedBox(width: deviceWidth * 0.025,),
+                        Text('Marcar como pendiente', style: TextStyle(
+                            color: colorSpecialItem,
+                            fontSize: deviceWidth * 0.04,
+                            fontWeight: FontWeight.normal),),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    toggleTodo(todo.id, !todo.done);
                   },
                 ),
                 FocusedMenuItem(

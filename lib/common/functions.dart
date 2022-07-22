@@ -5,7 +5,7 @@ import 'package:simplex/services/notification_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-void snackBar(BuildContext context, String content, Color color){
+void snackBar(BuildContext context, String content, Color color) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text(content),
     backgroundColor: color,
@@ -14,52 +14,64 @@ void snackBar(BuildContext context, String content, Color color){
   ));
 }
 
-String dateToString(DateTime dateTime){
-  if (formatDates == true) return DateFormat('dd/MM/yyyy').format(dateTime);
-  else return DateFormat('MM/dd/yyyy').format(dateTime);
+DateTime dateTimeToDateOnly(DateTime dateTime) {
+  return DateTime(dateTime.year, dateTime.month, dateTime.day);
 }
 
-String timeToString(DateTime dateTime){
-  if (format24Hours==true) return DateFormat('HH:mm').format(dateTime);
-  else return DateFormat('h:mm aa').format(dateTime);
+String dateToString(DateTime dateTime) {
+  if (formatDates == true)
+    return DateFormat('dd/MM/yyyy').format(dateTime);
+  else
+    return DateFormat('MM/dd/yyyy').format(dateTime);
 }
 
-String millisecondsToStringTime(int millis){
+String timeToString(DateTime dateTime) {
+  if (format24Hours == true)
+    return DateFormat('HH:mm').format(dateTime);
+  else
+    return DateFormat('h:mm aa').format(dateTime);
+}
 
-  DateTime date = DateTime.fromMicrosecondsSinceEpoch(millis*1000);
+String millisecondsToStringTime(int millis) {
+  DateTime date = DateTime.fromMicrosecondsSinceEpoch(millis * 1000);
 
   return timeToString(date);
 }
 
-void buildEventNotification(int id, String title, DateTime notificationDateTime, DateTime eventDateTime){
-
+void buildEventNotification(int id, String title, DateTime notificationDateTime,
+    DateTime eventDateTime) {
   String body = 'Es el ';
-  if (formatDates==true) body = body + DateFormat('dd/MM/yyyy').format(eventDateTime);
-  else body = body + DateFormat('MM/dd/yyyy').format(eventDateTime);
+  if (formatDates == true)
+    body = body + DateFormat('dd/MM/yyyy').format(eventDateTime);
+  else
+    body = body + DateFormat('MM/dd/yyyy').format(eventDateTime);
   body = body + ' a las ';
-  if (format24Hours==true) body = body + DateFormat('H:mm').format(eventDateTime);
-  else body = body + DateFormat('K:mm aa').format(eventDateTime);
+  if (format24Hours == true)
+    body = body + DateFormat('H:mm').format(eventDateTime);
+  else
+    body = body + DateFormat('K:mm aa').format(eventDateTime);
 
-  if (notificationDateTime.isBefore(eventDateTime) && notificationDateTime.isAfter(DateTime.now())){
+  if (notificationDateTime.isBefore(eventDateTime) &&
+      notificationDateTime.isAfter(DateTime.now())) {
     WidgetsFlutterBinding.ensureInitialized();
     NotificationService().initNotification();
     tz.initializeTimeZones();
 
-    NotificationService().showNotification(id, title, body, notificationDateTime);
+    NotificationService()
+        .showNotification(id, title, body, notificationDateTime);
     debugPrint('[OK] Notification ready: $id');
   } else {
     debugPrint('[WRN] Cannot show notification $id: Time out of range');
   }
 }
 
-void buildTodoNotifications(int id, String title, DateTime todoLimitDate){
-
-  int id1 = int.parse("1"+"$id");
-  int id2 = int.parse("2"+"$id");
+void buildTodoNotifications(int id, String title, DateTime todoLimitDate) {
+  int id1 = int.parse("1" + "$id");
+  int id2 = int.parse("2" + "$id");
   String body1 = 'La fecha límite es hoy';
   String body2 = 'Ha vencido la fecha límite';
 
-  if (todoLimitDate.isAfter(DateTime.now())){
+  if (todoLimitDate.isAfter(DateTime.now())) {
     WidgetsFlutterBinding.ensureInitialized();
     NotificationService().initNotification();
     tz.initializeTimeZones();
@@ -74,18 +86,19 @@ void buildTodoNotifications(int id, String title, DateTime todoLimitDate){
   NotificationService().initNotification();
   tz.initializeTimeZones();
 
-  NotificationService().showNotification(id2, title, body2, todoLimitDate.add(Duration(days: 1)));
+  NotificationService().showNotification(
+      id2, title, body2, todoLimitDate.add(Duration(days: 1)));
   debugPrint('[OK] Notification ready: $id2');
-
 }
 
 cancelAllEventNotifications(int eventId) async {
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  int not1 = int.parse("1"+"$eventId");
-  int not2 = int.parse("2"+"$eventId");
-  int not3 = int.parse("3"+"$eventId");
-  int not4 = int.parse("4"+"$eventId");
-  int not5 = int.parse("5"+"$eventId");
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  int not1 = int.parse("1" + "$eventId");
+  int not2 = int.parse("2" + "$eventId");
+  int not3 = int.parse("3" + "$eventId");
+  int not4 = int.parse("4" + "$eventId");
+  int not5 = int.parse("5" + "$eventId");
 
   await flutterLocalNotificationsPlugin.cancel(not1);
   await flutterLocalNotificationsPlugin.cancel(not2);
@@ -97,9 +110,10 @@ cancelAllEventNotifications(int eventId) async {
 }
 
 cancelAllTodoNotifications(int todoId) async {
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  int not1 = int.parse("1"+"$todoId");
-  int not2 = int.parse("2"+"$todoId");
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  int not1 = int.parse("1" + "$todoId");
+  int not2 = int.parse("2" + "$todoId");
 
   await flutterLocalNotificationsPlugin.cancel(not1);
   await flutterLocalNotificationsPlugin.cancel(not2);
@@ -107,15 +121,19 @@ cancelAllTodoNotifications(int todoId) async {
   debugPrint('[OK] All notifications canceled for todo $todoId');
 }
 
-String formatNotificationDate(DateTime dateTime){
+String formatNotificationDate(DateTime dateTime) {
   String formattedDate = 'El ';
-  if (formatDates==true) formattedDate = formattedDate + DateFormat('dd/MM/yyyy').format(dateTime);
-  else formattedDate = formattedDate + DateFormat('MM/dd/yyyy').format(dateTime);
+  if (formatDates == true)
+    formattedDate = formattedDate + DateFormat('dd/MM/yyyy').format(dateTime);
+  else
+    formattedDate = formattedDate + DateFormat('MM/dd/yyyy').format(dateTime);
 
   formattedDate = formattedDate + ' a las ';
 
-  if (format24Hours==true) formattedDate = formattedDate + DateFormat('H:mm').format(dateTime);
-  else formattedDate = formattedDate + DateFormat('K:mm aa').format(dateTime);
+  if (format24Hours == true)
+    formattedDate = formattedDate + DateFormat('H:mm').format(dateTime);
+  else
+    formattedDate = formattedDate + DateFormat('K:mm aa').format(dateTime);
 
   return formattedDate;
 }

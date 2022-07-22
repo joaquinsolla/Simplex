@@ -83,6 +83,7 @@ Stream<List<Todo>> readPendingTodos() {
   return FirebaseFirestore.instance.
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
       .where('done', isEqualTo: false)
+      .orderBy('priority', descending: true)
       .snapshots().map((snapshot) =>
       snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
 }
@@ -94,6 +95,18 @@ Stream<List<Todo>> readPendingTodosWithPriority(int priority) {
       .where('priority', isEqualTo: priority)
       .orderBy('limited', descending: true)
       .orderBy('limitDate', descending: false)
+      .orderBy('name', descending: false)
+      .snapshots().map((snapshot) =>
+      snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
+}
+
+Stream<List<Todo>> readPendingTodosWithLimitDate(DateTime date) {
+  return FirebaseFirestore.instance.
+  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
+      .where('done', isEqualTo: false)
+      .where('limited', isEqualTo: true)
+      .where('limitDate', isEqualTo: date)
+      .orderBy('priority', descending: true)
       .orderBy('name', descending: false)
       .snapshots().map((snapshot) =>
       snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());

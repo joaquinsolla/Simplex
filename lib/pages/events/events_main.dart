@@ -3,9 +3,11 @@ import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/classes/event.dart';
+import 'package:simplex/classes/todo.dart';
 import 'package:simplex/services/firestore_service.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:rxdart/rxdart.dart';
 
 class EventsMainPage extends StatefulWidget {
   const EventsMainPage({Key? key}) : super(key: key);
@@ -15,7 +17,7 @@ class EventsMainPage extends StatefulWidget {
 }
 
 class _EventsMainPageState extends State<EventsMainPage> {
-  Map<DateTime, List<Event>> daysWithEvents = {};
+  Map<DateTime, List<dynamic>> daysWithEvents = {};
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   DateTime _selectedDay = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
@@ -30,7 +32,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
     super.initState();
   }
 
-  loadEventsToCalendar(List<Event> events) {
+  loadEventsToCalendar(List<Event> events, List<Todo> todos) {
     daysWithEvents = {};
     events.forEach((event) {
       DateTime date = DateTime(event.dateTime.year, event.dateTime.month, event.dateTime.day);
@@ -40,9 +42,17 @@ class _EventsMainPageState extends State<EventsMainPage> {
           daysWithEvents[date] = [event];
         }
     });
+    todos.forEach((todo) {
+      DateTime date = DateTime(todo.limitDate.year, todo.limitDate.month, todo.limitDate.day);
+      if (daysWithEvents[date] != null){
+        daysWithEvents[date]?.add(todo);
+      } else {
+        daysWithEvents[date] = [todo];
+      }
+    });
   }
 
-  List<Event> _getEventsFromDay(DateTime dateTime){
+  List<dynamic> _getEventsFromDay(DateTime dateTime){
     DateTime date = DateTime(dateTime.year, dateTime.month, dateTime.day);
     return daysWithEvents[date] ?? [];
   }
@@ -90,8 +100,11 @@ class _EventsMainPageState extends State<EventsMainPage> {
         ),
       ),
 
-      StreamBuilder<List<Event>>(
-          stream: readAllEvents(),
+      StreamBuilder<List<List<dynamic>>>(
+          stream: CombineLatestStream.list([
+            readAllEvents(),
+            readPendingTodos(),
+          ]),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               debugPrint('[ERR] Cannot load calendar: ' + snapshot.error.toString());
@@ -112,8 +125,11 @@ class _EventsMainPageState extends State<EventsMainPage> {
                 ),
               );
             } else if (snapshot.hasData) {
-              final events = snapshot.data!;
-              loadEventsToCalendar(events);
+
+              final events = snapshot.data![0];
+              final todos = snapshot.data![1];
+              loadEventsToCalendar(events as List<Event>, todos as List<Todo>);
+
               return Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -143,7 +159,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                       _calendarFormat = format;
                     });
                   },
-                  selectedDayPredicate: (day) =>isSameDay(day, _selectedDay),
+                  selectedDayPredicate: (day) => isSameDay(day, _selectedDay),
                   onDaySelected: (selectedDay, focusedDay) {
                     setState(() {
                       _selectedDay = selectedDay;
@@ -213,8 +229,11 @@ class _EventsMainPageState extends State<EventsMainPage> {
             }
           }),
 
-      StreamBuilder<List<Event>>(
-          stream: readEventsOfDate(_selectedDay),
+      StreamBuilder<List<List<dynamic>>>(
+          stream: CombineLatestStream.list([
+            readEventsOfDate(_selectedDay),
+            readPendingTodosWithLimitDate(dateTimeToDateOnly(_selectedDay))
+          ]),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               debugPrint('[ERR] Cannot load day events: ' + snapshot.error.toString());
@@ -236,7 +255,8 @@ class _EventsMainPageState extends State<EventsMainPage> {
                 ),
               );
             } else if (snapshot.hasData) {
-              final events = snapshot.data!;
+              final events = snapshot.data![0];
+              final todos = snapshot.data![1];
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -279,8 +299,8 @@ class _EventsMainPageState extends State<EventsMainPage> {
                     ],
                   ),
 
-                  if (events.length == 0) SizedBox(height: deviceHeight*0.025,),
-                  if (events.length == 0 && darkMode==true) Row(
+                  if (events.length == 0 && todos.length == 0) SizedBox(height: deviceHeight*0.025,),
+                  if (events.length == 0 && todos.length == 0 && darkMode==true) Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [Container(
                       width: deviceWidth * 0.85,
@@ -289,7 +309,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                         scale: deviceWidth * 0.0001,),
                     ),],
                   ),
-                  if (events.length == 0 && darkMode==false) Row(
+                  if (events.length == 0 && todos.length == 0 && darkMode==false) Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [Container(
                       width: deviceWidth * 0.85,
@@ -298,7 +318,10 @@ class _EventsMainPageState extends State<EventsMainPage> {
                         scale: deviceWidth * 0.0001,),
                     ),],
                   ),
-                  if (events.length > 0) SizedBox(height: deviceHeight * 0.01),
+                  if (events.length > 0 || todos.length > 0) SizedBox(height: deviceHeight * 0.01),
+
+                  Column(children: todos.map(buildTodoBox).toList(),),
+
                   Column(children: events.map(buildEventBox).toList(),),
                   SizedBox(height: deviceHeight * 0.015),
                 ],);
@@ -313,7 +336,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
     ]);
   }
 
-  Widget buildEventBox(Event event){
+  Widget buildEventBox(dynamic event){
 
     late int color;
     late String dateFormat;
@@ -468,6 +491,169 @@ class _EventsMainPageState extends State<EventsMainPage> {
                           width: deviceWidth*0.515,
                           alignment: Alignment.centerLeft,
                           child: Text(event.description,
+                              maxLines: 5,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(color: secondColor, fontSize: deviceWidth * 0.03, fontWeight: FontWeight.normal))),
+                    ],
+                  ),
+                  Expanded(child: Text(''),),
+                  Icon(Icons.open_in_new_rounded, color: iconColor, size: deviceWidth * 0.06),
+                  SizedBox(width: deviceWidth*0.01,),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: deviceHeight*0.0125,),
+        ],
+      ),
+    );
+  }
+
+  Widget buildTodoBox(dynamic todo){
+
+    late int color;
+    if (darkMode == false) {
+      color = 0xFFFFFFFF;
+    } else {
+      color = 0xff1c1c1f;
+    }
+
+    Color backgroundColor = colorThirdBackground;
+    if (darkMode) backgroundColor = colorSecondBackground;
+    Color secondColor = colorSecondText;
+    Color iconColor = colorSpecialItem;
+
+    return FocusedMenuHolder(
+      onPressed: (){
+        selectedTodo = todo;
+        Navigator.pushNamed(context, '/todos/todo_details');
+      },
+      menuItems: <FocusedMenuItem>[
+        FocusedMenuItem(
+          backgroundColor: backgroundColor,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.open_in_new_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
+                SizedBox(width: deviceWidth*0.025,),
+                Text('Ver detalles', style: TextStyle(
+                    color: colorSpecialItem,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),),
+              ],
+            ),
+          ),
+          onPressed: (){
+            selectedTodo = todo;
+            Navigator.pushNamed(context, '/todos/todo_details');
+          },
+        ),
+        FocusedMenuItem(
+          backgroundColor: backgroundColor,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.done_all_rounded,
+                    color: colorSpecialItem,
+                    size: deviceWidth * 0.06),
+                SizedBox(width: deviceWidth * 0.025,),
+                Text('Marcar como hecho', style: TextStyle(
+                    color: colorSpecialItem,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),),
+              ],
+            ),
+          ),
+          onPressed: () {
+            toggleTodo(todo.id, !todo.done);
+          },
+        ),
+        FocusedMenuItem(
+          backgroundColor: backgroundColor,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.edit, color: colorSpecialItem, size: deviceWidth * 0.06),
+                SizedBox(width: deviceWidth*0.025,),
+                Text('Editar', style: TextStyle(
+                    color: colorSpecialItem,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),),
+              ],
+            ),
+          ),
+          onPressed: (){
+            selectedTodo = todo;
+            Navigator.pushNamed(context, '/todos/edit_todo');
+          },
+        ),
+        FocusedMenuItem(
+          backgroundColor: backgroundColor,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth * 0.06),
+                SizedBox(width: deviceWidth*0.025,),
+                Text('Eliminar', style: TextStyle(
+                    color: Colors.red,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),),
+              ],
+            ),
+          ),
+          onPressed: (){
+            cancelAllTodoNotifications(todo.id);
+            deleteTodoById(todo.id);
+            snackBar(context, 'Tarea eliminada', Colors.green);
+          },
+        ),
+      ],
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.all(deviceWidth * 0.0185),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color(color),
+            ),
+            child: IntrinsicHeight(
+              child: Row(
+                children: [
+                  Container(
+                    width: deviceWidth*0.155,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Tarea', style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.055, fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                  VerticalDivider(color: secondColor,),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                          width: deviceWidth*0.515,
+                          alignment: Alignment.centerLeft,
+                          child: Text(todo.name,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.06, fontWeight: FontWeight.bold))),
+                      if (todo.description!='') SizedBox(height: deviceHeight*0.00375,),
+                      if (todo.description!='') Container(
+                          width: deviceWidth*0.515,
+                          alignment: Alignment.centerLeft,
+                          child: Text(todo.description,
                               maxLines: 5,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(color: secondColor, fontSize: deviceWidth * 0.03, fontWeight: FontWeight.normal))),
