@@ -103,28 +103,14 @@ class _EventsMainPageState extends State<EventsMainPage> {
       StreamBuilder<List<List<dynamic>>>(
           stream: CombineLatestStream.list([
             readAllEvents(),
-            readPendingTodos(),
+            readPendingLimitedTodos(),
           ]),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               debugPrint('[ERR] Cannot load calendar: ' + snapshot.error.toString());
-              return Container(
-                height: deviceHeight * 0.4,
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.wifi_tethering_error_rounded, color: colorSecondText, size: deviceWidth*0.125,),
-                    SizedBox(height: deviceHeight*0.025,),
-                    Text(
-                      'No se puede cargar el calendario. Revisa tu conexión a Internet y reinicia la app.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: deviceWidth * 0.0475, color: colorSecondText),),
-                  ],
-                ),
-              );
-            } else if (snapshot.hasData) {
+              return errorContainer('No se puede cargar el calendario.', 0.4);
+            }
+            else if (snapshot.hasData) {
 
               final events = snapshot.data![0];
               final todos = snapshot.data![1];
@@ -221,12 +207,8 @@ class _EventsMainPageState extends State<EventsMainPage> {
                   ),
                 ),
               );
-            } else {
-              return Container(
-                height: deviceHeight*0.4,
-                child: Center(child: CircularProgressIndicator(color: colorSpecialItem)),
-              );
             }
+            else return loadingContainer('Cargando calendario...', 0.4);
           }),
 
       StreamBuilder<List<List<dynamic>>>(
@@ -237,24 +219,9 @@ class _EventsMainPageState extends State<EventsMainPage> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               debugPrint('[ERR] Cannot load day events: ' + snapshot.error.toString());
-              return Container(
-                height: deviceHeight * 0.35,
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.wifi_tethering_error_rounded, color: colorSecondText, size: deviceWidth*0.125,),
-                    SizedBox(height: deviceHeight*0.025,),
-                    Text(
-                      'No se pueden cargar los eventos del día seleccionado. '
-                          'Revisa tu conexión a Internet y reinicia la app.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: deviceWidth * 0.0475, color: colorSecondText),),
-                  ],
-                ),
-              );
-            } else if (snapshot.hasData) {
+              return errorContainer('No se pueden cargar los eventos de este día.', 0.35);
+            }
+            else if (snapshot.hasData) {
               final events = snapshot.data![0];
               final todos = snapshot.data![1];
               return Column(
@@ -325,12 +292,8 @@ class _EventsMainPageState extends State<EventsMainPage> {
                   Column(children: events.map(buildEventBox).toList(),),
                   SizedBox(height: deviceHeight * 0.015),
                 ],);
-            } else {
-              return Container(
-                height: deviceHeight*0.35,
-                child: Center(child: CircularProgressIndicator(color: colorSpecialItem)),
-              );
             }
+            else return loadingContainer('Cargando eventos...', 0.35);
           }),
 
     ]);

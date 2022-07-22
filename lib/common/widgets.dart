@@ -325,3 +325,41 @@ Container textExplanation(String title, String body){
     ),
   );
 }
+
+Container errorContainer(String initialText, double heightProportion){
+  return Container(
+    height: deviceHeight * heightProportion,
+    alignment: Alignment.center,
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(Icons.wifi_tethering_error_rounded, color: colorSecondText, size: deviceWidth*0.15,),
+        SizedBox(height: deviceHeight*0.025,),
+        Text(
+          initialText + ' Revisa tu conexión a Internet y reinicia la app.',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: deviceWidth * 0.0475, color: colorSecondText),),
+      ],
+    ),
+  );
+}
+
+Container loadingContainer(String text, double heightProportion){
+  return Container(
+      height: deviceHeight*heightProportion,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(color: colorSpecialItem),
+          SizedBox(height: deviceHeight*0.02,),
+          Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: deviceWidth * 0.035, color: colorMainText),),
+        ],
+      )
+  );
+}

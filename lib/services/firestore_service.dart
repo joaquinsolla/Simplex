@@ -79,10 +79,11 @@ deleteEventById(int eventId) async {
 }
 
 /// TODOS MANAGEMENT
-Stream<List<Todo>> readPendingTodos() {
+Stream<List<Todo>> readPendingLimitedTodos() {
   return FirebaseFirestore.instance.
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
       .where('done', isEqualTo: false)
+      .where('limited', isEqualTo: true)
       .orderBy('priority', descending: true)
       .snapshots().map((snapshot) =>
       snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());

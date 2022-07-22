@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:intl/intl.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:simplex/classes/todo.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/firestore_service.dart';
@@ -84,17 +85,37 @@ class _TodosMainPageState extends State<TodosMainPage> {
         ),
       ),
 
-      StreamBuilder<List<Todo>>(
-          stream: readPendingTodos(),
+      StreamBuilder<List<List<Todo>>>(
+          stream: CombineLatestStream.list([
+            readDoneTodos(),
+            readPendingTodosWithPriority(1),
+            readPendingTodosWithPriority(2),
+            readPendingTodosWithPriority(3),
+          ]),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              debugPrint('[ERR] Cannot load pending todos: ' + snapshot.error.toString());
-              return SizedBox.shrink();
-            } else if (snapshot.hasData) {
-              final todos = snapshot.data!;
+              debugPrint('[ERR] Cannot load todos: ' + snapshot.error.toString());
+              return errorContainer('No se pueden cargar las tareas.', 0.75);
+            }
+            else if (snapshot.hasData) {
+
+              final doneTodos = snapshot.data![0];
+              final pendingTodosPriority1 = snapshot.data![1];
+              final pendingTodosPriority2 = snapshot.data![2];
+              final pendingTodosPriority3 = snapshot.data![3];
+
+              int pendingTodosLength = pendingTodosPriority1.length +
+                  pendingTodosPriority2.length +
+                  pendingTodosPriority3.length;
+
               late IconData showPendingTodosIcon;
+              late IconData showDoneTodosIcon;
+
               if (showPendingTodos) showPendingTodosIcon = Icons.keyboard_arrow_down_rounded;
               else showPendingTodosIcon = Icons.keyboard_arrow_right_rounded;
+              if (showDoneTodos) showDoneTodosIcon = Icons.keyboard_arrow_down_rounded;
+              else showDoneTodosIcon = Icons.keyboard_arrow_right_rounded;
+
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -102,7 +123,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     Container(
                       alignment: Alignment.center,
                       padding: EdgeInsets.fromLTRB(deviceWidth*0.01, deviceWidth*0.0025, deviceWidth*0.01, deviceWidth*0.005),
-                      child: Text(todos.length.toString(),
+                      child: Text(pendingTodosLength.toString(),
                           style: TextStyle(
                               color: colorMainText,
                               fontSize: deviceWidth * 0.04,
@@ -136,8 +157,8 @@ class _TodosMainPageState extends State<TodosMainPage> {
                       splashRadius: 0.0001,
                     ),
                   ],),
-                  if (todos.length > 0 && showPendingTodos) SizedBox(height: deviceHeight * 0.005),
-                  if (todos.length == 0 && darkMode==true && showPendingTodos) Row(
+                  if (pendingTodosLength > 0 && showPendingTodos) SizedBox(height: deviceHeight * 0.005),
+                  if (pendingTodosLength == 0 && darkMode==true && showPendingTodos) Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [Container(
                       width: deviceWidth * 0.85,
@@ -146,7 +167,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                         scale: deviceWidth * 0.0001,),
                     ),],
                   ),
-                  if (todos.length == 0 && darkMode==false && showPendingTodos) Row(
+                  if (pendingTodosLength == 0 && darkMode==false && showPendingTodos) Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [Container(
                       width: deviceWidth * 0.85,
@@ -155,156 +176,25 @@ class _TodosMainPageState extends State<TodosMainPage> {
                         scale: deviceWidth * 0.0001,),
                     ),],
                   ),
-                ],
-              );
-            } else {
-              late IconData showPendingTodosIcon;
-              if (showPendingTodos) showPendingTodosIcon = Icons.keyboard_arrow_down_rounded;
-              else showPendingTodosIcon = Icons.keyboard_arrow_right_rounded;
-              return Row(children: [
-                Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.fromLTRB(deviceWidth*0.01, deviceWidth*0.0025, deviceWidth*0.01, deviceWidth*0.005),
-                  child: Text('0',
-                      style: TextStyle(
-                          color: colorMainText,
-                          fontSize: deviceWidth * 0.04,
-                          fontWeight: FontWeight.bold)
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    border: Border.all(
-                      width: 1.5,
-                      color: colorSpecialItem,
-                    ),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(15.0),
-                    ),
-                  ),
-                ),
-                SizedBox(width: deviceWidth*0.015,),
-                Text('Pendiente:',
-                    style: TextStyle(
-                        color: colorMainText,
-                        fontSize: deviceWidth * 0.05,
-                        fontWeight: FontWeight.bold)
-                ),
-                IconButton(
-                  icon: Icon(showPendingTodosIcon, color: colorSpecialItem,),
-                  onPressed: (){
-                    setState(() {
-                      showPendingTodos = !showPendingTodos;
-                    });
-                  },
-                  splashRadius: 0.0001,
-                ),
-              ],);
-            }
-          }),
 
-      StreamBuilder<List<Todo>>(
-          stream: readPendingTodosWithPriority(3),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              debugPrint('[ERR] Cannot load pending todos: ' + snapshot.error.toString());
-              return Container(
-                height: deviceHeight * 0.675,
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.wifi_tethering_error_rounded, color: colorSecondText, size: deviceWidth*0.125,),
-                    SizedBox(height: deviceHeight*0.025,),
-                    Text(
-                      'No se pueden cargar las tareas. Revisa tu conexión a Internet y reinicia la app.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: deviceWidth * 0.0475, color: colorSecondText),),
-                  ],
-                ),
-              );
-            } else if (snapshot.hasData) {
-              final todos = snapshot.data!;
-              if (showPendingTodos) return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (todos.length > 0) customDivider('Prioridad Alta'),
-                  if (todos.length > 0) SizedBox(height: deviceHeight*0.01,),
-                  if (showPendingTodos) Column(children: todos.map(buildPendingTodoBox).toList(),),
-              ],
-              );
-              else return SizedBox.shrink();
-            } else {
-              return Container(
-                height: deviceHeight*0.35,
-                child: Center(child: CircularProgressIndicator(color: colorSpecialItem)),
-              );
-            }
-          }),
+                  if (pendingTodosPriority3.length > 0 && showPendingTodos) customDivider('Prioridad Alta'),
+                  if (pendingTodosPriority3.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
+                  if (showPendingTodos) Column(children: pendingTodosPriority3.map(buildPendingTodoBox).toList(),),
 
-      StreamBuilder<List<Todo>>(
-          stream: readPendingTodosWithPriority(2),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              debugPrint('[ERR] Cannot load pending todos: ' + snapshot.error.toString());
-              return SizedBox.shrink();
-            } else if (snapshot.hasData) {
-              final todos = snapshot.data!;
-              if (showPendingTodos) return Column(
-                children: [
-                  if (todos.length > 0) customDivider('Prioridad Media'),
-                  if (todos.length > 0) SizedBox(height: deviceHeight*0.01,),
-                  Column(children: todos.map(buildPendingTodoBox).toList()),
-                ],
-              );
-              else return SizedBox.shrink();
-            } else {
-              return SizedBox.shrink();
-            }
-          }),
+                  if (pendingTodosPriority2.length > 0 && showPendingTodos) customDivider('Prioridad Media'),
+                  if (pendingTodosPriority2.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
+                  if (showPendingTodos) Column(children: pendingTodosPriority2.map(buildPendingTodoBox).toList(),),
 
-      StreamBuilder<List<Todo>>(
-          stream: readPendingTodosWithPriority(1),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              debugPrint('[ERR] Cannot load pending todos: ' + snapshot.error.toString());
-              return SizedBox.shrink();
-            } else if (snapshot.hasData) {
-              final todos = snapshot.data!;
-              if (showPendingTodos) return Column(
-                children: [
-                  if (todos.length > 0) customDivider('Prioridad Baja'),
-                  if (todos.length > 0) SizedBox(height: deviceHeight*0.01,),
-                  Column(children: todos.map(buildPendingTodoBox).toList()),
-                ],
-              );
-              else return SizedBox.shrink();
-            } else {
-              return SizedBox.shrink();
-            }
-          }),
+                  if (pendingTodosPriority1.length > 0 && showPendingTodos) customDivider('Prioridad Baja'),
+                  if (pendingTodosPriority1.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
+                  if (showPendingTodos) Column(children: pendingTodosPriority1.map(buildPendingTodoBox).toList(),),
 
-      StreamBuilder<List<Todo>>(
-          stream: readDoneTodos(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              debugPrint('[ERR] Cannot load done todos: ' + snapshot.error.toString());
-              return SizedBox.shrink();
-            } else if (snapshot.hasData) {
-              final todos = snapshot.data!;
-              late IconData showDoneTodosIcon;
-              if (showDoneTodos) showDoneTodosIcon = Icons.keyboard_arrow_down_rounded;
-              else showDoneTodosIcon = Icons.keyboard_arrow_right_rounded;
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
                   SizedBox(height: deviceHeight*0.02,),
                   Row(children: [
                     Container(
                       alignment: Alignment.center,
                       padding: EdgeInsets.fromLTRB(deviceWidth*0.01, deviceWidth*0.0025, deviceWidth*0.01, deviceWidth*0.005),
-                      child: Text(todos.length.toString(),
+                      child: Text(doneTodos.length.toString(),
                           style: TextStyle(
                               color: colorMainText,
                               fontSize: deviceWidth * 0.04,
@@ -338,15 +228,13 @@ class _TodosMainPageState extends State<TodosMainPage> {
                       splashRadius: 0.0001,
                     ),
                   ],),
-                  if (showDoneTodos) Column(children: todos.map(buildDoneTodoBox).toList(),),
+                  if (showDoneTodos) Column(children: doneTodos.map(buildDoneTodoBox).toList(),),
+
                 ],
               );
-            } else {
-              return Container(
-                height: deviceHeight*0.35,
-                child: Center(child: CircularProgressIndicator(color: colorSpecialItem)),
-              );
             }
+            else return loadingContainer('Cargando tus tareas...', 0.75);
+
           }),
 
     ]);
