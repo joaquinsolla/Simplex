@@ -91,6 +91,12 @@ class _EventsHelpState extends State<EventsHelp> {
           othersExplanationContainer('Días con eventos',
               'En el calendario aparecerán marcados con puntos los días que tengan eventos asignados. '
                   'Para ver los eventos que contiene pulsa en ese día en el calendario o llega a él mediante las flechas de desplazamiento.'),
+          SizedBox(
+            height: deviceHeight * 0.0125,
+          ),
+          othersExplanationContainer('Tareas con fecha límite',
+              'Las tareas pendientes con fecha límite aparecerán también en el calendario de Simplex, puedes acceder a ellas tocándolas o ver'
+                  ' más opciones manteniendo pulsado sobre ellas. Una vez marcadas como hechas, ya no aparecerán en el calendario.'),
 
 
           SizedBox(

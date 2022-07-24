@@ -348,9 +348,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     ),
                   ),
                   onPressed: () {
-                    cancelAllTodoNotifications(todo.id);
-                    deleteTodoById(todo.id);
-                    snackBar(context, 'Tarea eliminada', Colors.green);
+                    _showDeleteTodoDialog(todo.id);
                   },
                 ),
               ],
@@ -566,9 +564,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     ),
                   ),
                   onPressed: () {
-                    cancelAllTodoNotifications(todo.id);
-                    deleteTodoById(todo.id);
-                    snackBar(context, 'Tarea eliminada', Colors.green);
+                     _showDeleteTodoDialog(todo.id);
                   },
                 ),
               ],
@@ -755,9 +751,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     ),
                   ),
                   onPressed: () {
-                    cancelAllTodoNotifications(todo.id);
-                    deleteTodoById(todo.id);
-                    snackBar(context, 'Tarea eliminada', Colors.green);
+                     _showDeleteTodoDialog(todo.id);
                   },
                 ),
               ],
@@ -960,9 +954,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     ),
                   ),
                   onPressed: () {
-                    cancelAllTodoNotifications(todo.id);
-                    deleteTodoById(todo.id);
-                    snackBar(context, 'Tarea eliminada', Colors.green);
+                     _showDeleteTodoDialog(todo.id);
                   },
                 ),
               ],
@@ -1152,9 +1144,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     ),
                   ),
                   onPressed: () {
-                    cancelAllTodoNotifications(todo.id);
-                    deleteTodoById(todo.id);
-                    snackBar(context, 'Tarea eliminada', Colors.green);
+                     _showDeleteTodoDialog(todo.id);
                   },
                 ),
               ],
@@ -1375,9 +1365,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     ),
                   ),
                   onPressed: () {
-                    cancelAllTodoNotifications(todo.id);
-                    deleteTodoById(todo.id);
-                    snackBar(context, 'Tarea eliminada', Colors.green);
+                     _showDeleteTodoDialog(todo.id);
                   },
                 ),
               ],
@@ -1567,9 +1555,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     ),
                   ),
                   onPressed: () {
-                    cancelAllTodoNotifications(todo.id);
-                    deleteTodoById(todo.id);
-                    snackBar(context, 'Tarea eliminada', Colors.green);
+                     _showDeleteTodoDialog(todo.id);
                   },
                 ),
               ],
@@ -1776,9 +1762,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     ),
                   ),
                   onPressed: () {
-                    cancelAllTodoNotifications(todo.id);
-                    deleteTodoById(todo.id);
-                    snackBar(context, 'Tarea eliminada', Colors.green);
+                     _showDeleteTodoDialog(todo.id);
                   },
                 ),
               ],
@@ -1861,13 +1845,40 @@ class _TodosMainPageState extends State<TodosMainPage> {
     }
 
   }
+  
+  void _showDeleteTodoDialog(int id){
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text('Eliminar tarea'),
+            content: Text('Una vez eliminada no podrás restaurarla.'),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () async {
+                    await cancelAllTodoNotifications(id);
+                    await deleteTodoById(id);
+                    Navigator.pop(context);
+                    snackBar(context, 'Tarea eliminada', Colors.green);
+                  },
+                  child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Cancelar', style: TextStyle(color: Colors.red),),
+              )
+            ],
+          );
+        });
+  }
 
   void _showClearDialog() {
     showDialog(
         context: context,
         builder: (context) {
           return CupertinoAlertDialog(
-            title: Text('Borrar tareas hechas'),
+            title: Text('Eliminar tareas hechas'),
             content: Text('Una vez eliminadas, no podrás restaurarlas.'),
             actions: <Widget>[
               TextButton(
@@ -1876,7 +1887,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     Navigator.pop(context);
                     snackBar(context, 'Tareas hechas eliminadas', Colors.green);
                   },
-                  child: Text('Borrar', style: TextStyle(color: colorSpecialItem),)),
+                  child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);

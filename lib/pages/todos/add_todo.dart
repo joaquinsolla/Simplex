@@ -221,8 +221,8 @@ class _AddTodoState extends State<AddTodo> {
           SizedBox(height: deviceHeight * 0.01),
 
           Text(
-            'Las tareas con fecha límite aparecerán en el calenario [Beta] y se notificará '
-                'cuando alcancen dicha fecha.',
+            'Las tareas con fecha límite aparecerán en el calenario y se notificará '
+                'cuando alcancen dicha fecha si todavía no se han hecho.',
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * 0.03,

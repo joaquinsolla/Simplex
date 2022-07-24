@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/common/all_common.dart';
@@ -242,10 +243,30 @@ class _EventDetailsState extends State<EventDetails> {
         }),
         SizedBox(height: deviceHeight * 0.025),
         actionsButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){
-          cancelAllEventNotifications(selectedEvent!.id);
-          deleteEventById(selectedEvent!.id);
-          Navigator.of(context).popUntil((route) => route.isFirst);
-          snackBar(context, 'Evento eliminado', Colors.green);
+          showDialog(
+              context: context,
+              builder: (context) {
+                return CupertinoAlertDialog(
+                  title: Text('Eliminar evento'),
+                  content: Text('Una vez eliminado no podrás restaurarlo.'),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () async {
+                          await cancelAllEventNotifications(selectedEvent!.id);
+                          await deleteEventById(selectedEvent!.id);
+                          Navigator.of(context).popUntil((route) => route.isFirst);
+                          snackBar(context, 'Evento eliminado', Colors.green);
+                        },
+                        child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('Cancelar', style: TextStyle(color: Colors.red),),
+                    )
+                  ],
+                );
+              });
         }),
         SizedBox(height: deviceHeight * 0.025),
       ]),

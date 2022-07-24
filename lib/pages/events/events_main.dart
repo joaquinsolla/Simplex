@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
@@ -409,9 +410,30 @@ class _EventsMainPageState extends State<EventsMainPage> {
             ),
           ),
           onPressed: (){
-            cancelAllEventNotifications(event.id);
-            deleteEventById(event.id);
-            snackBar(context, 'Evento eliminado', Colors.green);
+            showDialog(
+              context: context,
+              builder: (context) {
+                return CupertinoAlertDialog(
+                  title: Text('Eliminar evento'),
+                  content: Text('Una vez eliminado no podrás restaurarlo.'),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () async {
+                          await cancelAllEventNotifications(event.id);
+                          await deleteEventById(event.id);
+                          Navigator.pop(context);
+                          snackBar(context, 'Evento eliminado', Colors.green);
+                        },
+                        child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('Cancelar', style: TextStyle(color: Colors.red),),
+                    )
+                  ],
+                );
+              });
           },
         ),
       ],
@@ -573,9 +595,30 @@ class _EventsMainPageState extends State<EventsMainPage> {
             ),
           ),
           onPressed: (){
-            cancelAllTodoNotifications(todo.id);
-            deleteTodoById(todo.id);
-            snackBar(context, 'Tarea eliminada', Colors.green);
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return CupertinoAlertDialog(
+                    title: Text('Eliminar tarea'),
+                    content: Text('Una vez eliminada no podrás restaurarla.'),
+                    actions: <Widget>[
+                      TextButton(
+                          onPressed: () async {
+                            await cancelAllTodoNotifications(todo.id);
+                            await deleteTodoById(todo.id);
+                            Navigator.pop(context);
+                            snackBar(context, 'Tarea eliminada', Colors.green);
+                          },
+                          child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('Cancelar', style: TextStyle(color: Colors.red),),
+                      )
+                    ],
+                  );
+                });
           },
         ),
       ],

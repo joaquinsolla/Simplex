@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/common/all_common.dart';
@@ -222,11 +223,30 @@ class _TodoDetailsState extends State<TodoDetails> {
         }),
         SizedBox(height: deviceHeight * 0.025),
         actionsButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar tarea ', (){
-          cancelAllTodoNotifications(selectedTodo!.id);
-          deleteTodoById(selectedTodo!.id);
-          Navigator.of(context).popUntil((route) => route.isFirst);
-          snackBar(context, 'Tarea eliminada', Colors.green);
-
+          showDialog(
+              context: context,
+              builder: (context) {
+                return CupertinoAlertDialog(
+                  title: Text('Eliminar tarea'),
+                  content: Text('Una vez eliminada no podrás restaurarla.'),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () async {
+                          await cancelAllTodoNotifications(selectedTodo!.id);
+                          await deleteTodoById(selectedTodo!.id);
+                          Navigator.of(context).popUntil((route) => route.isFirst);
+                          snackBar(context, 'Tarea eliminada', Colors.green);
+                        },
+                        child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('Cancelar', style: TextStyle(color: Colors.red),),
+                    )
+                  ],
+                );
+              });
         }),
         SizedBox(height: deviceHeight * 0.025),
       ]),
