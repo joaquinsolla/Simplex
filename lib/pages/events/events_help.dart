@@ -40,7 +40,7 @@ class _EventsHelpState extends State<EventsHelp> {
           ),
           buttonExplanationContainer(Icon(Icons.add_rounded, color: colorSpecialItem, size: deviceWidth * 0.085),
               'Añadir un evento al calendario',
-              'Se te llevará a un breve formulario para crear el evento '
+              'Accederás a un breve formulario para crear el evento '
                   'con los datos que desees. Una vez confirmado, el evento'
                   ' aparecerá en el calendario de Simplex.'),
           SizedBox(
@@ -83,7 +83,7 @@ class _EventsHelpState extends State<EventsHelp> {
             height: deviceHeight * 0.0125,
           ),
           othersExplanationContainer('Manipulación de eventos',
-              'Los eventos siempre podrán editarse, eliminarse y ver sus detalles. '
+              'Los eventos siempre podrán editarse, eliminarse y verse sus detalles. '
                   'Puedes hacerlo manteniendo pulsado sobre uno de ellos, o simplemente tocándolo.'),
           SizedBox(
             height: deviceHeight * 0.0125,

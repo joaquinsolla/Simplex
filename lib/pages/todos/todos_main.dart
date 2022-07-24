@@ -73,7 +73,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
             ),
           ),
           splashRadius: 0.001,
-          onPressed: () => _showClearDialog(),
+          onPressed: () => _showDeleteAllDoneDialog(),
         ),
         IconButton(
           icon: Icon(Icons.add_rounded,
@@ -1873,7 +1873,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
         });
   }
 
-  void _showClearDialog() {
+  void _showDeleteAllDoneDialog() {
     showDialog(
         context: context,
         builder: (context) {
