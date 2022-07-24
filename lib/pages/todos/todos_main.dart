@@ -111,52 +111,43 @@ class _TodosMainPageState extends State<TodosMainPage> {
               late IconData showPendingTodosIcon;
               late IconData showDoneTodosIcon;
 
-              if (showPendingTodos) showPendingTodosIcon = Icons.keyboard_arrow_down_rounded;
-              else showPendingTodosIcon = Icons.keyboard_arrow_right_rounded;
-              if (showDoneTodos) showDoneTodosIcon = Icons.keyboard_arrow_down_rounded;
-              else showDoneTodosIcon = Icons.keyboard_arrow_right_rounded;
+              if (showPendingTodos) showPendingTodosIcon = Icons.visibility_outlined;
+              else showPendingTodosIcon = Icons.visibility_off_outlined;
+              if (showDoneTodos) showDoneTodosIcon = Icons.visibility_outlined;
+              else showDoneTodosIcon = Icons.visibility_off_outlined;
 
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(children: [
-                    Container(
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.fromLTRB(deviceWidth*0.01, deviceWidth*0.0025, deviceWidth*0.01, deviceWidth*0.005),
-                      child: Text(pendingTodosLength.toString(),
-                          style: TextStyle(
-                              color: colorMainText,
-                              fontSize: deviceWidth * 0.04,
-                              fontWeight: FontWeight.bold)
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        border: Border.all(
-                          width: 1.5,
-                          color: colorSpecialItem,
+                  TextButton(
+                    child: Row(children: [
+                      Container(
+                        padding: EdgeInsets.all(deviceWidth*0.0075),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: colorSpecialItem,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(10.0)
+                          ),
                         ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15.0),
+                        child: Text('Pendiente: ' + pendingTodosLength.toString(),
+                            style: TextStyle(
+                                color: colorMainText,
+                                fontSize: deviceWidth * 0.05,
+                                fontWeight: FontWeight.bold)
                         ),
                       ),
-                    ),
-                    SizedBox(width: deviceWidth*0.015,),
-                    Text('Pendiente:',
-                        style: TextStyle(
-                            color: colorMainText,
-                            fontSize: deviceWidth * 0.05,
-                            fontWeight: FontWeight.bold)
-                    ),
-                    IconButton(
-                      icon: Icon(showPendingTodosIcon, color: colorSpecialItem,),
-                      onPressed: (){
-                        setState(() {
-                          showPendingTodos = !showPendingTodos;
-                        });
-                      },
-                      splashRadius: 0.0001,
-                    ),
-                  ],),
+                      SizedBox(width: deviceWidth*0.02,),
+                      Icon(showPendingTodosIcon, color: colorSpecialItem,),
+                    ],),
+                    onPressed: (){
+                      setState(() {
+                        showPendingTodos = !showPendingTodos;
+                      });
+                    },
+                  ),
                   if (pendingTodosLength > 0 && showPendingTodos) SizedBox(height: deviceHeight * 0.005),
                   if (pendingTodosLength == 0 && darkMode==true && showPendingTodos) Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -190,44 +181,35 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   if (showPendingTodos) Column(children: pendingTodosPriority1.map(buildPendingTodoBox).toList(),),
 
                   SizedBox(height: deviceHeight*0.02,),
-                  Row(children: [
-                    Container(
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.fromLTRB(deviceWidth*0.01, deviceWidth*0.0025, deviceWidth*0.01, deviceWidth*0.005),
-                      child: Text(doneTodos.length.toString(),
-                          style: TextStyle(
-                              color: colorMainText,
-                              fontSize: deviceWidth * 0.04,
-                              fontWeight: FontWeight.bold)
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        border: Border.all(
-                          width: 1.5,
-                          color: colorSpecialItem,
+                  TextButton(
+                    child: Row(children: [
+                      Container(
+                        padding: EdgeInsets.all(deviceWidth*0.0075),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: colorSpecialItem,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(10.0)
+                          ),
                         ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15.0),
+                        child: Text('Hecho: ' + doneTodos.length.toString(),
+                            style: TextStyle(
+                                color: colorMainText,
+                                fontSize: deviceWidth * 0.05,
+                                fontWeight: FontWeight.bold)
                         ),
                       ),
-                    ),
-                    SizedBox(width: deviceWidth*0.015,),
-                    Text('Hecho:',
-                        style: TextStyle(
-                            color: colorMainText,
-                            fontSize: deviceWidth * 0.05,
-                            fontWeight: FontWeight.bold)
-                    ),
-                    IconButton(
-                      icon: Icon(showDoneTodosIcon, color: colorSpecialItem,),
-                      onPressed: (){
-                        setState(() {
-                          showDoneTodos = !showDoneTodos;
-                        });
-                      },
-                      splashRadius: 0.0001,
-                    ),
-                  ],),
+                      SizedBox(width: deviceWidth*0.02,),
+                      Icon(showDoneTodosIcon, color: colorSpecialItem,),
+                    ],),
+                    onPressed: (){
+                      setState(() {
+                        showDoneTodos = !showDoneTodos;
+                      });
+                    },
+                  ),
                   if (showDoneTodos) Column(children: doneTodos.map(buildDoneTodoBox).toList(),),
 
                 ],

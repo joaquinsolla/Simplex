@@ -102,8 +102,8 @@ class _TodosHelpState extends State<TodosHelp> {
         buttonExplanationContainer(Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.keyboard_arrow_right_rounded, color: colorSpecialItem, size: deviceWidth * 0.085),
-            Icon(Icons.keyboard_arrow_down_rounded, color: colorSpecialItem, size: deviceWidth * 0.085),
+            Icon(Icons.visibility_outlined, color: colorSpecialItem, size: deviceWidth * 0.085),
+            Icon(Icons.visibility_off_outlined, color: colorSpecialItem, size: deviceWidth * 0.085),
           ],),
             'Visibilidad de las tareas',
             'Podrás seleccionar si mostrar o no las tareas, tanto las pendientes como las hechas. Por defecto:\n'
