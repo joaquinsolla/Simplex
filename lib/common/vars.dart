@@ -25,6 +25,7 @@ bool darkMode = false;
 /// SELECTED CLASSES
 Event? selectedEvent;
 Todo? selectedTodo;
+Note? selectedNote;
 
 /// MATERIAL APP VARIABLES
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

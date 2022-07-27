@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:simplex/common/all_common.dart';
-import 'package:simplex/services/login_service.dart';
-import 'package:simplex/services/signup_service.dart';
-import 'package:simplex/services/recover_password_service.dart';
-import 'package:simplex/services/verify_email_service.dart';
+import 'package:simplex/services/auth/all_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Auth extends StatefulWidget {

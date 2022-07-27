@@ -239,6 +239,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                         onPressed: () {
                           setState(() {
                             _selectedDay=_selectedDay.subtract(Duration(days: 1));
+                            selectedDateTime = _selectedDay;
                           });
                         },
                       ),
@@ -261,6 +262,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                         onPressed: () {
                           setState(() {
                             _selectedDay=_selectedDay.add(Duration(days: 1));
+                            selectedDateTime = _selectedDay;
                           });
                         },
                       ),

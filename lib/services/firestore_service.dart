@@ -189,3 +189,12 @@ deleteDoneTodos() async {
 
   debugPrint('[OK] All done todos deleted');
 }
+
+/// NOTES MANAGEMENT
+Stream<List<Note>> readAllNotes() {
+  return FirebaseFirestore.instance.
+  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('notes')
+      .orderBy('modificationDate', descending: true)
+      .snapshots().map((snapshot) =>
+      snapshot.docs.map((doc) => Note.fromJson(doc.data())).toList());
+}
