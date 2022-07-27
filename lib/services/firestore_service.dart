@@ -191,9 +191,16 @@ deleteDoneTodos() async {
 }
 
 /// NOTES MANAGEMENT
-Stream<List<Note>> readAllNotes() {
-  return FirebaseFirestore.instance.
+Stream<List<Note>> readNotesThatContain(String content) {
+  if (content == "") return FirebaseFirestore.instance.
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('notes')
+      .orderBy('modificationDate', descending: true)
+      .snapshots().map((snapshot) =>
+      snapshot.docs.map((doc) => Note.fromJson(doc.data())).toList());
+
+  else return FirebaseFirestore.instance.
+  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('notes')
+      .where("name", whereIn: [content, content.toLowerCase(), content.toUpperCase()])
       .orderBy('modificationDate', descending: true)
       .snapshots().map((snapshot) =>
       snapshot.docs.map((doc) => Note.fromJson(doc.data())).toList());

@@ -16,10 +16,13 @@ class NotesMainPage extends StatefulWidget {
 }
 
 class _NotesMainPageState extends State<NotesMainPage> {
+  final keywordsController = TextEditingController();
+  String keywords = '';
 
   @override
   void dispose() {
     super.dispose();
+    keywordsController.dispose();
   }
 
   @override
@@ -53,8 +56,74 @@ class _NotesMainPageState extends State<NotesMainPage> {
         ),
       ),
 
+      Wrap(
+        alignment: WrapAlignment.center,
+        children: [
+        Container(
+          width: deviceWidth*0.65,
+          child: TextField(
+            controller: keywordsController,
+            keyboardType: TextInputType.text,
+            textCapitalization: TextCapitalization.none,
+            textInputAction: TextInputAction.search,
+            maxLines: null,
+            style: TextStyle(color: colorMainText),
+            decoration: InputDecoration(
+              fillColor: colorThirdBackground,
+              filled: true,
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: colorThirdBackground, width: 1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide:
+                BorderSide(color: colorSpecialItem, width: 2),
+              ),
+
+              hintText: 'Buscar notas...',
+              hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
+            ),
+            onChanged: (text){
+              setState(() {
+                keywords=text;
+              });
+            },
+          ),
+        ),
+        SizedBox(width: deviceWidth*0.015,),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: colorSecondBackground,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [ SizedBox(
+              //width: deviceWidth*0.1,
+              height: deviceHeight*0.07,
+              child: TextButton(
+                child: Text(
+                  'Borrar',
+                  style: TextStyle(
+                      color: colorSpecialItem,
+                      fontSize: deviceWidth * 0.035,
+                      fontWeight: FontWeight.normal),
+                ),
+                onPressed: (){
+                  setState(() {
+                    keywords='';
+                    keywordsController.clear();
+                  });
+                },
+              ),
+            ),],
+          ),
+        ),
+      ],),
+      SizedBox(height: deviceHeight*0.015,),
       StreamBuilder<List<Note>>(
-          stream: readAllNotes(),
+          stream: readNotesThatContain(keywords),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               debugPrint('[ERR] Cannot load notes: ' + snapshot.error.toString());
