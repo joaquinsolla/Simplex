@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -71,7 +69,7 @@ class _TodoDetailsState extends State<TodoDetails> {
     late Color limitTextColor;
     if (selectedTodo!.limited==false){
       limitFullIcon = Icon(
-          Icons.watch_off_rounded, color: colorSecondText,
+          Icons.calendar_month_rounded, color: colorSecondText,
           size: deviceWidth * 0.05);
     } else if (todayDate.isAtSameMomentAs(limitDate)){
       limitFullIcon = Icon(
@@ -84,7 +82,7 @@ class _TodoDetailsState extends State<TodoDetails> {
           size: deviceWidth * 0.05);
     } else {
       limitFullIcon = Icon(
-          Icons.watch_rounded, color: colorMainText,
+          Icons.calendar_month_rounded, color: colorSpecialItem,
           size: deviceWidth * 0.05);
     }
 

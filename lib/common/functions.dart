@@ -91,6 +91,22 @@ void buildTodoNotifications(int id, String title, DateTime todoLimitDate) {
   debugPrint('[OK] Notification ready: $id2');
 }
 
+void buildNoteNotification(int id, String noteName, DateTime calendarDate) {
+  String title = 'Tienes una nota';
+  String body = 'Echa un vistazo a: $noteName';
+
+  if (calendarDate.isAfter(DateTime.now())) {
+    WidgetsFlutterBinding.ensureInitialized();
+    NotificationService().initNotification();
+    tz.initializeTimeZones();
+
+    NotificationService().showNotification(id, title, body, calendarDate);
+    debugPrint('[OK] Notification ready: $id');
+  } else {
+    debugPrint('[WRN] Cannot show notification $id: Time out of range');
+  }
+}
+
 cancelAllEventNotifications(int eventId) async {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -119,6 +135,15 @@ cancelAllTodoNotifications(int todoId) async {
   await flutterLocalNotificationsPlugin.cancel(not2);
 
   debugPrint('[OK] All notifications canceled for todo $todoId');
+}
+
+cancelNoteNotification(int noteId) async {
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
+
+  await flutterLocalNotificationsPlugin.cancel(noteId);
+
+  debugPrint('[OK] All notifications canceled for note $noteId');
 }
 
 String formatNotificationDate(DateTime dateTime) {

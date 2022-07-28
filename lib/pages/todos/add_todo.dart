@@ -219,7 +219,6 @@ class _AddTodoState extends State<AddTodo> {
             onTap: () => _dateSelector(context),
           ),
           SizedBox(height: deviceHeight * 0.01),
-
           Text(
             'Las tareas con fecha límite aparecerán en el calenario y se notificará '
                 'cuando alcancen dicha fecha si todavía no se han hecho.',
@@ -243,8 +242,8 @@ class _AddTodoState extends State<AddTodo> {
                 try {
                   Todo newTodo = Todo(
                     id: id,
-                    name: nameController.text,
-                    description: descriptionController.text,
+                    name: nameController.text.trim(),
+                    description: descriptionController.text.trim(),
                     priority: priority,
                     limited: limited,
                     limitDate: limitDate,
@@ -275,11 +274,11 @@ class _AddTodoState extends State<AddTodo> {
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2099, 12, 31),
-      helpText: "SELECCIONA LA FECHA DEL EVENTO",
+      helpText: "SELECCIONA LA FECHA LÍMITE",
       cancelText: "CANCELAR",
       confirmText: "CONFIRMAR",
       fieldHintText: "dd/mm/aaaa",
-      fieldLabelText: "Fecha del evento",
+      fieldLabelText: "Fecha límite",
       errorFormatText: "Introduce una fecha válida",
       builder: (context, child) {
         if (darkMode) return Theme(

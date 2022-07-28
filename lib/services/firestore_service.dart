@@ -191,7 +191,7 @@ deleteDoneTodos() async {
 }
 
 /// NOTES MANAGEMENT
-Stream<List<Note>> readNotesThatContain(String content) {
+Stream<List<Note>> readNotesWithTitle(String content) {
   if (content == "") return FirebaseFirestore.instance.
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('notes')
       .orderBy('modificationDate', descending: true)
@@ -204,4 +204,43 @@ Stream<List<Note>> readNotesThatContain(String content) {
       .orderBy('modificationDate', descending: true)
       .snapshots().map((snapshot) =>
       snapshot.docs.map((doc) => Note.fromJson(doc.data())).toList());
+}
+
+Future createNote(Note note) async{
+  final user = FirebaseAuth.instance.currentUser!;
+  final doc = FirebaseFirestore.instance.collection('users').doc(user.uid).collection('notes').doc(note.id.toString());
+
+  final json = {
+    'id': note.id,
+    'name': note.name,
+    'content': note.content,
+    'onCalendar': note.onCalendar,
+    'calendarDate': note.calendarDate,
+    'modificationDate': note.modificationDate
+  };
+
+  await doc.set(json);
+  debugPrint('[OK] Note created');
+}
+
+updateNote(Note note) async {
+  final doc = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('notes').doc(note.id.toString());
+
+  await doc.update({
+    'name': note.name,
+    'content': note.content,
+    'onCalendar': note.onCalendar,
+    'calendarDate': note.calendarDate,
+    'modificationDate': note.modificationDate,
+  });
+  debugPrint('[OK] Note updated');
+}
+
+deleteNoteById(int noteId) async {
+  final doc = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('notes').doc(noteId.toString());
+
+  await doc.delete();
+  debugPrint('[OK] Note deleted');
 }

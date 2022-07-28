@@ -407,8 +407,8 @@ class _EditEventState extends State<EditEvent> {
                         time.minute);
                     try {
                       Event newEvent = Event(id: selectedEvent!.id,
-                        name: nameController.text,
-                        description: descriptionController.text,
+                        name: nameController.text.trim(),
+                        description: descriptionController.text.trim(),
                         dateTime: newFullDateTime,
                         color: selectedColor,
                         notificationsList: notificationsList,

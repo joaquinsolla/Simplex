@@ -1,6 +1,6 @@
-import 'dart:ui';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:simplex/classes/note.dart';
@@ -16,6 +16,8 @@ class NotesMainPage extends StatefulWidget {
 }
 
 class _NotesMainPageState extends State<NotesMainPage> {
+  final ScrollController _scrollController = ScrollController();
+  FocusNode keywordsFocusNode = FocusNode();
   final keywordsController = TextEditingController();
   String keywords = '';
 
@@ -33,147 +35,193 @@ class _NotesMainPageState extends State<NotesMainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return homeArea([
-      homeHeaderDouble(
-        'Notas',
-        IconButton(
-          icon: Icon(Icons.help_outline_rounded,
-              color: colorSpecialItem, size: deviceWidth * 0.085),
-          splashRadius: 0.001,
-          onPressed: () {
-            snackBar(context, '[Beta] En desarrollo', colorSpecialItem);
-            //TODO
-            //Navigator.pushNamed(context, '/notes/notes_help');
-          },
-        ),
-        IconButton(
-          icon: Icon(Icons.add_rounded,
-              color: colorSpecialItem, size: deviceWidth * 0.085),
-          splashRadius: 0.001,
-          onPressed: () {
-            snackBar(context, '[Beta] En desarrollo', colorSpecialItem);
-          },
-        ),
-      ),
-
-      Wrap(
-        alignment: WrapAlignment.center,
+    return Container(
+      color: colorMainBackground,
+      alignment: Alignment.topLeft,
+      margin: EdgeInsets.fromLTRB(
+          deviceWidth * 0.075, deviceHeight * 0.075, deviceWidth * 0.075, 0.0),
+      child: ListView(
+        addAutomaticKeepAlives: true,
+        physics: const NeverScrollableScrollPhysics(),
         children: [
-        Container(
-          width: deviceWidth*0.65,
-          child: TextField(
-            controller: keywordsController,
-            keyboardType: TextInputType.text,
-            textCapitalization: TextCapitalization.none,
-            textInputAction: TextInputAction.search,
-            maxLines: null,
-            style: TextStyle(color: colorMainText),
-            decoration: InputDecoration(
-              fillColor: colorThirdBackground,
-              filled: true,
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: colorThirdBackground, width: 1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide:
-                BorderSide(color: colorSpecialItem, width: 2),
-              ),
 
-              hintText: 'Buscar notas...',
-              hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
+          homeHeaderDouble(
+            'Notas',
+            IconButton(
+              icon: Icon(Icons.help_outline_rounded,
+                  color: colorSpecialItem, size: deviceWidth * 0.085),
+              splashRadius: 0.001,
+              onPressed: () {
+                snackBar(context, '[Beta] En desarrollo', colorSpecialItem);
+                //TODO
+                //Navigator.pushNamed(context, '/notes/notes_help');
+              },
             ),
-            onChanged: (text){
-              setState(() {
-                keywords=text;
-              });
-            },
+            IconButton(
+              icon: Icon(Icons.add_rounded,
+                  color: colorSpecialItem, size: deviceWidth * 0.085),
+              splashRadius: 0.001,
+              onPressed: () {
+                Navigator.pushNamed(context, '/notes/add_note');
+              },
+            ),
           ),
-        ),
-        SizedBox(width: deviceWidth*0.015,),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: colorSecondBackground,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [ SizedBox(
-              //width: deviceWidth*0.1,
-              height: deviceHeight*0.07,
-              child: TextButton(
-                child: Text(
-                  'Borrar',
-                  style: TextStyle(
-                      color: colorSpecialItem,
-                      fontSize: deviceWidth * 0.035,
-                      fontWeight: FontWeight.normal),
+
+          Wrap(
+            alignment: WrapAlignment.center,
+            children: [
+              Container(
+                width: deviceWidth*0.65,
+                child: TextField(
+                  focusNode: keywordsFocusNode,
+                  controller: keywordsController,
+                  keyboardType: TextInputType.text,
+                  textCapitalization: TextCapitalization.sentences,
+                  textInputAction: TextInputAction.search,
+                  maxLines: null,
+                  style: TextStyle(color: colorMainText),
+                  decoration: InputDecoration(
+                    fillColor: colorThirdBackground,
+                    filled: true,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: colorThirdBackground, width: 1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                      BorderSide(color: colorSpecialItem, width: 2),
+                    ),
+
+                    hintText: 'Buscar notas...',
+                    hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
+                  ),
+                  onChanged: (text){
+                    setState(() {
+                      keywords=text;
+                    });
+                  },
                 ),
-                onPressed: (){
-                  setState(() {
-                    keywords='';
-                    keywordsController.clear();
-                  });
-                },
               ),
-            ),],
-          ),
-        ),
-      ],),
-      SizedBox(height: deviceHeight*0.015,),
-      StreamBuilder<List<Note>>(
-          stream: readNotesThatContain(keywords),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              debugPrint('[ERR] Cannot load notes: ' + snapshot.error.toString());
-              return errorContainer('No se pueden cargar las notas.', 0.75);
-            }
-            else if (snapshot.hasData) {
-              final notes = snapshot.data!;
+              SizedBox(width: deviceWidth*0.015,),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: colorSecondBackground,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [ SizedBox(
+                    //width: deviceWidth*0.1,
+                    height: deviceHeight*0.07,
+                    child: TextButton(
+                      child: Text(
+                        'Borrar',
+                        style: TextStyle(
+                            color: colorSpecialItem,
+                            fontSize: deviceWidth * 0.035,
+                            fontWeight: FontWeight.normal),
+                      ),
+                      onPressed: (){
+                        setState(() {
+                          keywords='';
+                          keywordsController.clear();
+                          keywordsFocusNode.unfocus();
+                        });
+                      },
+                    ),
+                  ),],
+                ),
+              ),
+            ],),
+          SizedBox(height: deviceHeight*0.015,),
+          StreamBuilder<List<Note>>(
+              stream: readNotesWithTitle(keywords.trim()),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  debugPrint('[ERR] Cannot load notes: ' + snapshot.error.toString());
+                  return errorContainer('No se pueden cargar las notas.', 0.75);
+                }
+                else if (snapshot.hasData) {
+                  final notes = snapshot.data!;
 
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (notes.length == 0 && darkMode==true) Row(
+                  return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Container(
-                      width: deviceWidth * 0.85,
-                      alignment: Alignment.center,
-                      child: Image.asset('assets/todo_preview_dark.png',
-                        scale: deviceWidth * 0.0001,),
-                    ),],
-                  ),
-                  if (notes.length == 0 && darkMode==false) Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Container(
-                      width: deviceWidth * 0.85,
-                      alignment: Alignment.center,
-                      child: Image.asset('assets/todo_preview_light.png',
-                        scale: deviceWidth * 0.0001,),
-                    ),],
-                  ),
+                    children: [
+                      //TODO: change images
+                      if (notes.length == 0 && keywords=='' && darkMode==true) Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [Container(
+                          width: deviceWidth * 0.85,
+                          alignment: Alignment.center,
+                          child: Image.asset('assets/todo_preview_dark.png',
+                            scale: deviceWidth * 0.0001,),
+                        ),],
+                      ),
+                      if (notes.length == 0 && keywords=='' && darkMode==false) Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [Container(
+                          width: deviceWidth * 0.85,
+                          alignment: Alignment.center,
+                          child: Image.asset('assets/todo_preview_light.png',
+                            scale: deviceWidth * 0.0001,),
+                        ),],
+                      ),
+                      if (notes.length == 0 && keywords!='') Container(
+                        height: deviceHeight*0.3,
+                        alignment: Alignment.center,
+                        child: Text("Sin resultados...",
+                            style: TextStyle(
+                                color: colorSecondText,
+                                fontSize: deviceWidth * 0.0475,
+                                fontWeight: FontWeight.normal)
+                        ),
+                      ),
 
-                  MasonryGridView.count(
-                  shrinkWrap: true,
-                  itemCount: notes.length,
-                  crossAxisCount: 2,
+                      Container(
+                        height: deviceHeight*0.725,
+                        child: MasonryGridView.count(
+                            physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
+                            controller: _scrollController,
+                            shrinkWrap: true,
+                            itemCount: notes.length,
+                            crossAxisCount: 2,
 
-                  itemBuilder: (context, index) {
-                    // display each item with a card
-                    return notes.map(buildNoteCard).toList()[index];
+                            itemBuilder: (context, index) {
+                              if (index==notes.length-1) return Column(children: [
+                                notes.map(buildNoteCard).toList()[index],
+                                SizedBox(height: deviceHeight*0.01,),
+                                Container(
+                                  alignment: Alignment.center,
+                                  child: IconButton(
+                                  icon: Icon(Icons.arrow_circle_up_rounded,
+                                      color: colorSpecialItem, size: deviceWidth * 0.08),
+                                  splashRadius: 0.001,
+                                  onPressed: () async {
+                                    await Future.delayed(const Duration(milliseconds: 100));
+                                    SchedulerBinding.instance?.addPostFrameCallback((_) {
+                                      _scrollController.animateTo(
+                                          _scrollController.position.minScrollExtent,
+                                          duration: const Duration(milliseconds: 400),
+                                          curve: Curves.fastOutSlowIn);
+                                    });
+                                  },
+                                ),),
+                                SizedBox(height: deviceHeight*0.1,),
+                              ],);
+                              else return notes.map(buildNoteCard).toList()[index];
+                            }),
+                      ),
+                    ],
+                  );
+                }
+                else return loadingContainer('Cargando tus notas...', 0.75);
 
-                    //Wrap(children: notes.map(buildNoteCard).toList(),)
+              }),
 
-                  }),
-                ],
-              );
-            }
-            else return loadingContainer('Cargando tus notas...', 0.75);
-
-          }),
-
-    ]);
+        ],
+      ),
+    );
 
   }
 
@@ -186,20 +234,123 @@ class _NotesMainPageState extends State<NotesMainPage> {
       color = 0xff1c1c1f;
     }
 
-    Color backgroundColor = colorThirdBackground;
-    if (darkMode) backgroundColor = colorSecondBackground;
     Color secondColor = colorSecondText;
     Color iconColor = colorSpecialItem;
+    Color backgroundColor = colorThirdBackground;
+    if (darkMode) backgroundColor = colorSecondBackground;
 
     return FocusedMenuHolder(
       onPressed: (){
         selectedNote = note;
-        Navigator.pushNamed(context, '/todos/todo_details');
+        Navigator.pushNamed(context, '/notes/note_details');
       },
       menuItems: <FocusedMenuItem>[
-
-        //TODO
-
+        FocusedMenuItem(
+          backgroundColor: backgroundColor,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.open_in_new_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
+                SizedBox(width: deviceWidth*0.025,),
+                Text('Ver detalles', style: TextStyle(
+                    color: colorSpecialItem,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),),
+              ],
+            ),
+          ),
+          onPressed: (){
+            selectedNote = note;
+            Navigator.pushNamed(context, '/notes/note_details');
+          },
+        ),
+        FocusedMenuItem(
+          backgroundColor: backgroundColor,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.edit, color: colorSpecialItem, size: deviceWidth * 0.06),
+                SizedBox(width: deviceWidth*0.025,),
+                Text('Editar', style: TextStyle(
+                    color: colorSpecialItem,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),),
+              ],
+            ),
+          ),
+          onPressed: (){
+            selectedNote = note;
+            Navigator.pushNamed(context, '/notes/edit_note');
+          },
+        ),
+        FocusedMenuItem(
+          backgroundColor: backgroundColor,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.share_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
+                SizedBox(width: deviceWidth*0.025,),
+                Text('Compartir', style: TextStyle(
+                    color: colorSpecialItem,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),),
+              ],
+            ),
+          ),
+          onPressed: (){
+            // TODO: share notes
+            snackBar(context, '[Beta] En desarrollo', colorSpecialItem);
+          },
+        ),
+        FocusedMenuItem(
+          backgroundColor: backgroundColor,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth * 0.06),
+                SizedBox(width: deviceWidth*0.025,),
+                Text('Eliminar', style: TextStyle(
+                    color: Colors.red,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),),
+              ],
+            ),
+          ),
+          onPressed: (){
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return CupertinoAlertDialog(
+                    title: Text('Eliminar nota'),
+                    content: Text('Una vez eliminada no podrás restaurarla.'),
+                    actions: <Widget>[
+                      TextButton(
+                          onPressed: () async {
+                            await cancelNoteNotification(note.id);
+                            await deleteNoteById(note.id);
+                            Navigator.pop(context);
+                            snackBar(context, 'Nota eliminada', Colors.green);
+                          },
+                          child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('Cancelar', style: TextStyle(color: Colors.red),),
+                      )
+                    ],
+                  );
+                });
+          },
+        ),
       ],
       child: Card(
         shape: RoundedRectangleBorder(
@@ -236,7 +387,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
               SizedBox(height: deviceHeight*0.01,),
               if (note.content != '') Text(note.content,
                   maxLines: 8,
-                  overflow: TextOverflow.ellipsis,
+                  overflow: TextOverflow.fade,
                   style: TextStyle(
                       color: colorMainText,
                       fontSize: deviceWidth * 0.03,

@@ -398,8 +398,8 @@ class _AddEventState extends State<AddEvent> {
                       date.year, date.month, date.day, time.hour,
                       time.minute);
                   Event newEvent = Event(id: id,
-                    name: nameController.text,
-                    description: descriptionController.text,
+                    name: nameController.text.trim(),
+                    description: descriptionController.text.trim(),
                     dateTime: fullEventDateTime,
                     color: selectedColor,
                     notificationsList: notificationsList,

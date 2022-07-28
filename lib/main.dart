@@ -44,6 +44,10 @@ Future main() async {
       '/todos/todo_details': (context) => const TodoDetails(),
       '/todos/edit_todo': (context) => const EditTodo(),
       '/todos/todos_help': (context) => const TodosHelp(),
+
+      '/notes/add_note': (context) => const AddNote(),
+      '/notes/note_details': (context) => const NoteDetails(),
+      '/notes/edit_note': (context) => const EditNote(),
     },
   ));
 

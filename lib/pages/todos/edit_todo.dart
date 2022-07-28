@@ -40,7 +40,7 @@ class _EditTodoState extends State<EditTodo> {
     super.initState();
     nameController.text = selectedTodo!.name;
     descriptionController.text = selectedTodo!.description;
-    if (!limitDate.isAtSameMomentAs(DateTime(3000, 1, 1))) limitDateController.text = dateToString(selectedTodo!.limitDate);
+    limitDateController.text = dateToString(selectedTodo!.limitDate);
   }
 
   @override
@@ -237,8 +237,8 @@ class _EditTodoState extends State<EditTodo> {
                 try {
                   Todo newTodo = Todo(
                     id: id,
-                    name: nameController.text,
-                    description: descriptionController.text,
+                    name: nameController.text.trim(),
+                    description: descriptionController.text.trim(),
                     priority: priority,
                     limited: limited,
                     limitDate: limitDate,

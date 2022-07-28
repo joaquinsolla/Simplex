@@ -8,6 +8,9 @@ export 'events/edit_event.dart';
 export 'events/events_help.dart';
 
 export 'notes/notes_main.dart';
+export 'notes/add_note.dart';
+export 'notes/note_details.dart';
+export 'notes/edit_note.dart';
 
 export 'routines/routines_main.dart';
 
