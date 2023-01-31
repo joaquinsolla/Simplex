@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 
 /// HOME AREA
-Container homeArea(List<Widget> children) {
+Container HomeArea(List<Widget> children) {
   return Container(
     color: colorMainBackground,
     alignment: Alignment.topLeft,
@@ -17,7 +17,7 @@ Container homeArea(List<Widget> children) {
 }
 
 /// CONTAINERS
-Container formContainer (List<Widget> formWidgets){
+Container FormContainer (List<Widget> formWidgets){
   return Container(
     padding: EdgeInsets.all(deviceWidth * 0.025),
     decoration: BoxDecoration(
@@ -32,8 +32,8 @@ Container formContainer (List<Widget> formWidgets){
   );
 }
 
-Container buttonExplanationContainer(Widget buttonImg, String title, String body){
-  return formContainer([
+Container ButtonExplanationContainer(Widget buttonImg, String title, String body){
+  return FormContainer([
     IntrinsicHeight(child: Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -66,8 +66,8 @@ Container buttonExplanationContainer(Widget buttonImg, String title, String body
   ]);
 }
 
-Container othersExplanationContainer(String title, String body){
-  return formContainer([
+Container OthersExplanationContainer(String title, String body){
+  return FormContainer([
     Container(
       alignment: Alignment.centerLeft,
       child: Column(
@@ -89,7 +89,7 @@ Container othersExplanationContainer(String title, String body){
   ]);
 }
 
-Container errorContainer(String text, double heightProportion){
+Container ErrorContainer(String text, double heightProportion){
   return Container(
     height: deviceHeight * heightProportion,
     alignment: Alignment.center,
@@ -108,7 +108,7 @@ Container errorContainer(String text, double heightProportion){
   );
 }
 
-Container loadingContainer(String text, double heightProportion){
+Container LoadingContainer(String text, double heightProportion){
   return Container(
       height: deviceHeight*heightProportion,
       child: Column(

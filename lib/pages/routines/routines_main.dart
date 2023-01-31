@@ -24,8 +24,8 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return homeArea([
-      homeHeaderSimple(
+    return HomeArea([
+      HomeHeaderSimple(
         'Rutina',
         IconButton(
           icon: Icon(Icons.add_rounded,

@@ -26,8 +26,8 @@ class _TodosHelpState extends State<TodosHelp> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: homeArea([
-        pageHeaderWithBackArrow(context, 'Acerca de las tareas'),
+      body: HomeArea([
+        PageHeader(context, 'Acerca de las tareas'),
         Text('Botones',
             style: TextStyle(
                 color: colorMainText,
@@ -36,14 +36,14 @@ class _TodosHelpState extends State<TodosHelp> {
         SizedBox(
           height: deviceHeight * 0.0125,
         ),
-        buttonExplanationContainer(Icon(Icons.add_rounded, color: colorSpecialItem, size: deviceWidth * 0.085),
+        ButtonExplanationContainer(Icon(Icons.add_rounded, color: colorSpecialItem, size: deviceWidth * 0.085),
             'Añadir una tarea',
             'Accederás a un breve formulario para crear la tarea '
                 'con los datos que desees. Una vez confirmada, la tarea'
                 ' aparecerá en la lista de tareas pendientes. Si la tarea '
                 'tiene fecha límite, también aparecerá en el calendario.'),
         SizedBox(height: deviceHeight * 0.0125),
-        buttonExplanationContainer(
+        ButtonExplanationContainer(
             Container(
               alignment: Alignment.center,
               child: IntrinsicHeight(
@@ -69,7 +69,7 @@ class _TodosHelpState extends State<TodosHelp> {
             'Si confirmas la acción, se eliminarán todas las tareas marcadas como hechas.'
                 ' No podrás restaurarlas.'),
         SizedBox(height: deviceHeight * 0.0125),
-        buttonExplanationContainer(
+        ButtonExplanationContainer(
             Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -84,7 +84,7 @@ class _TodosHelpState extends State<TodosHelp> {
             'El botón vacío indica que la tarea sigue pendiente, si lo pulsas la marcarás '
                 'como hecha.'),
         SizedBox(height: deviceHeight * 0.0125),
-        buttonExplanationContainer(
+        ButtonExplanationContainer(
             Container(
               child: Icon(Icons.check_rounded, size: deviceWidth*0.07, color: colorSpecialItem,),
               decoration: BoxDecoration(
@@ -100,7 +100,7 @@ class _TodosHelpState extends State<TodosHelp> {
             'El botón con un check indica que la tarea está hecha, puedes volver a ponerla '
                 'como pendiente pulsando en él.'),
         SizedBox(height: deviceHeight * 0.0125),
-        buttonExplanationContainer(Column(
+        ButtonExplanationContainer(Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.visibility_outlined, color: colorSpecialItem, size: deviceWidth * 0.085),
@@ -111,7 +111,7 @@ class _TodosHelpState extends State<TodosHelp> {
                 'Pendientes: Visibles\n'
                 'Hechas: Ocultas'),
         SizedBox(height: deviceHeight * 0.0125),
-        buttonExplanationContainer(Icon(Icons.help_outline_rounded, color: colorSpecialItem, size: deviceWidth * 0.085),
+        ButtonExplanationContainer(Icon(Icons.help_outline_rounded, color: colorSpecialItem, size: deviceWidth * 0.085),
             'Apartado de ayuda',
             'Esta ventana, con la información necesaria para aprender el funcionamiento de la app.'),
 
@@ -127,7 +127,7 @@ class _TodosHelpState extends State<TodosHelp> {
         SizedBox(
           height: deviceHeight * 0.0125,
         ),
-        othersExplanationContainer('Manipulación de tareas',
+        OthersExplanationContainer('Manipulación de tareas',
             'Las tareas siempre podrán editarse, eliminarse y verse sus detalles. '
                 'Puedes hacerlo manteniendo pulsado sobre una de ellas, o simplemente tocándola, '
                 'también desde el calendario (tareas con fecha límite). '
@@ -135,13 +135,13 @@ class _TodosHelpState extends State<TodosHelp> {
         SizedBox(
           height: deviceHeight * 0.0125,
         ),
-        othersExplanationContainer('Prioridad de las tareas',
+        OthersExplanationContainer('Prioridad de las tareas',
             'Existen 3 niveles de prioridad para las tareas. Las tareas de mayor prioridad aparecerán '
                 'sobre las que tengan una prioridad inferior, también en el calendario (tareas con fecha límite).'),
         SizedBox(
           height: deviceHeight * 0.0125,
         ),
-        othersExplanationContainer('Tareas con fecha límite',
+        OthersExplanationContainer('Tareas con fecha límite',
             'Estas tareas aparecerán también en el calendario, localizadas en el día de su fecha límite. '
                 'También recibirás una notificación si una de esas tareas no ha sido hecha y, o '
                 'se ha alcanzado su fecha límite, o la fecha límite ha expirado.'),

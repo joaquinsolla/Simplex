@@ -46,10 +46,10 @@ class _EditNoteState extends State<EditNote> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: homeArea([
-        pageHeaderWithBackArrow(context, 'Editar Nota'),
-        formContainer([
-          formTextField(
+      body: HomeArea([
+        PageHeader(context, 'Editar Nota'),
+        FormContainer([
+          FormTextField(
               nameController, 'Título', '(Opcional)', nameFocusNode),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,7 +83,7 @@ class _EditNoteState extends State<EditNote> {
           )
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        formContainer([
+        FormContainer([
           Text(
             'En el calendario',
             style: TextStyle(
@@ -144,7 +144,7 @@ class _EditNoteState extends State<EditNote> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        actionsButton(
+        MainButton(
             Icons.check_rounded,
             colorSpecialItem,
             ' Confirmar cambios ',

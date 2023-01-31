@@ -31,9 +31,9 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: homeArea([
-        pageHeaderWithBackArrow(context, 'Cambia tu contraseña'),
-        formContainer([
+      body: HomeArea([
+        PageHeader(context, 'Cambia tu contraseña'),
+        FormContainer([
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -138,7 +138,7 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        actionsButton(
+        MainButton(
             Icons.edit,
             colorSpecialItem,
             ' Cambiar contraseña ',

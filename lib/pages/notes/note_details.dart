@@ -39,31 +39,9 @@ class _NoteDetailsState extends State<NoteDetails> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: homeArea([
-        Column(
-          children: [
-            Row(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_back_rounded,
-                      color: colorSpecialItem, size: deviceWidth * 0.08),
-                  splashRadius: 0.001,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                SizedBox(
-                  width: deviceWidth * 0.0075,
-                ),
-                headerText('Nota'),
-              ],
-            ),
-            SizedBox(
-              height: deviceHeight * 0.03,
-            )
-          ],
-        ),
-        formContainer([
+      body: HomeArea([
+      PageHeader(context, 'Nota'),
+        FormContainer([
           if (selectedNote!.content == '') Text(
             'Sin título',
               style: TextStyle(color: colorThirdText, fontSize: deviceWidth * 0.065, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
@@ -98,7 +76,7 @@ class _NoteDetailsState extends State<NoteDetails> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        formContainer([
+        FormContainer([
           Text(
             'En el calendario: ',
             style: TextStyle(
@@ -150,11 +128,11 @@ class _NoteDetailsState extends State<NoteDetails> {
         ]),
 
         SizedBox(height: deviceHeight * 0.025),
-        actionsButton(Icons.edit, colorSpecialItem, ' Editar nota ', (){
+        MainButton(Icons.edit, colorSpecialItem, ' Editar nota ', (){
           Navigator.pushNamed(context, '/notes/edit_note');
         }),
         SizedBox(height: deviceHeight * 0.025),
-        actionsButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar nota ', (){
+        MainButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar nota ', (){
           showDialog(
               context: context,
               builder: (context) {

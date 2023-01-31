@@ -60,31 +60,9 @@ class _EventDetailsState extends State<EventDetails> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: homeArea([
-        Column(
-          children: [
-            Row(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_back_rounded,
-                      color: colorSpecialItem, size: deviceWidth * 0.08),
-                  splashRadius: 0.001,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                SizedBox(
-                  width: deviceWidth * 0.0075,
-                ),
-                headerText('Evento'),
-              ],
-            ),
-            SizedBox(
-              height: deviceHeight * 0.03,
-            )
-          ],
-        ),
-        formContainer([
+      body: HomeArea([
+        PageHeader(context, 'Evento'),
+        FormContainer([
           Text(
             selectedEvent!.name,
             style: TextStyle(
@@ -115,7 +93,7 @@ class _EventDetailsState extends State<EventDetails> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        formContainer([
+        FormContainer([
           Text(
             'Fecha: ',
             style: TextStyle(
@@ -157,7 +135,7 @@ class _EventDetailsState extends State<EventDetails> {
           ],),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        formContainer([
+        FormContainer([
           Text(
             'Color: ',
             style: TextStyle(
@@ -183,7 +161,7 @@ class _EventDetailsState extends State<EventDetails> {
         ]),
         SizedBox(height: deviceHeight * 0.025),
 
-        formContainer([
+        FormContainer([
           Text(
             'Notificaciones: ',
             style: TextStyle(
@@ -239,11 +217,11 @@ class _EventDetailsState extends State<EventDetails> {
         ]),
         
         SizedBox(height: deviceHeight * 0.025),
-        actionsButton(Icons.edit, colorSpecialItem, ' Editar evento ', (){
+        MainButton(Icons.edit, colorSpecialItem, ' Editar evento ', (){
           Navigator.pushNamed(context, '/events/edit_event');
         }),
         SizedBox(height: deviceHeight * 0.025),
-        actionsButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){
+        MainButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){
           showDialog(
               context: context,
               builder: (context) {

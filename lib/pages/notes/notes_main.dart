@@ -50,7 +50,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
         physics: const NeverScrollableScrollPhysics(),
         children: [
 
-          homeHeaderDouble(
+          HomeHeaderDouble(
             'Notas',
             IconButton(
               icon: Icon(searcherIcon,
@@ -143,11 +143,11 @@ class _NotesMainPageState extends State<NotesMainPage> {
             ],),
           if (showSearcher) SizedBox(height: deviceHeight*0.015,),
           StreamBuilder<List<Note>>(
-              stream: readNotesWithTitle(keywords.trim()),
+              stream: readNotesByTitle(keywords.trim()),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   debugPrint('[ERR] Cannot load notes: ' + snapshot.error.toString());
-                  return errorContainer('No se pueden cargar las notas.', 0.75);
+                  return ErrorContainer('No se pueden cargar las notas.', 0.75);
                 }
                 else if (snapshot.hasData) {
                   final notes = snapshot.data!;
@@ -222,7 +222,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                     ],
                   );
                 }
-                else return loadingContainer('Cargando tus notas...', 0.75);
+                else return LoadingContainer('Cargando tus notas...', 0.75);
 
               }),
 

@@ -33,10 +33,10 @@ class _LogInServiceState extends State<LogInService> {
 
     return Scaffold(
         backgroundColor: colorMainBackground,
-        body: homeArea([
-          authHeader(),
+        body: HomeArea([
+          AuthHeader(),
           SizedBox(height: deviceHeight * 0.03,),
-          formContainer([
+          FormContainer([
             Text('Iniciar sesión', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.075, fontWeight: FontWeight.bold),),
             SizedBox(height: deviceHeight*0.025),
             Column(
@@ -100,7 +100,7 @@ class _LogInServiceState extends State<LogInService> {
             ),
           ]),
           SizedBox(height: deviceHeight * 0.025),
-          actionsButton(
+          MainButton(
               Icons.lock_open_rounded,
               colorSpecialItem,
               ' Entrar ',
@@ -135,7 +135,7 @@ class _LogInServiceState extends State<LogInService> {
             },
           ),
           SizedBox(height: deviceHeight * 0.01),
-          customDivider('O'),
+          CustomDivider('O'),
           SizedBox(height: deviceHeight * 0.01),
           TextButton(
             child: Container(

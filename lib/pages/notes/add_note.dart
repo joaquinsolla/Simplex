@@ -43,10 +43,10 @@ class _AddNoteState extends State<AddNote> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: homeArea([
-        pageHeaderWithBackArrow(context, 'Nueva Nota'),
-        formContainer([
-          formTextField(
+      body: HomeArea([
+        PageHeader(context, 'Nueva Nota'),
+        FormContainer([
+          FormTextField(
               nameController, 'Título', '(Opcional)', nameFocusNode),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,7 +80,7 @@ class _AddNoteState extends State<AddNote> {
           )
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        formContainer([
+        FormContainer([
           Text(
             'En el calendario',
             style: TextStyle(
@@ -141,10 +141,7 @@ class _AddNoteState extends State<AddNote> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        actionsButton(
-            Icons.check_rounded,
-            colorSpecialItem,
-            ' Crear nota ',
+        MainButton(Icons.check_rounded, colorSpecialItem, ' Crear nota ',
                 () {
                   try {
                     Note newNote = Note(

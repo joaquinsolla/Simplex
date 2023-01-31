@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 
-Row customDivider (String label){
+Row CustomDivider (String label){
   return Row(children: <Widget>[
     Expanded(
       child: new Container(
@@ -26,7 +26,7 @@ Row customDivider (String label){
   ]);
 }
 
-Row settingsRow (String mainText, String secondText, Widget widget) {
+Row SettingsRow (String mainText, String secondText, Widget widget) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -53,7 +53,7 @@ Row settingsRow (String mainText, String secondText, Widget widget) {
     ],);
 }
 
-Column formTextField(TextEditingController controller, String fieldName, String hintText, FocusNode focusNode) {
+Column FormTextField(TextEditingController controller, String fieldName, String hintText, FocusNode focusNode) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 
-Row authHeader(){
+Row AuthHeader(){
   return Row(
     children: [
       Image.asset('assets/app_icon_preview.png', scale: deviceWidth*0.0175,),
@@ -18,27 +18,12 @@ Row authHeader(){
   );
 }
 
-Text headerText(String content) {
-  return Text(content,
-      style: TextStyle(
-          color: colorMainText,
-          fontSize: deviceWidth * 0.1,
-          fontWeight: FontWeight.bold));
-}
-
-Container headerTextBox(String content) {
-  return Container(
-    width: deviceWidth*0.72,
-    child: headerText(content),
-  );
-}
-
-Column homeHeaderSimple(String text, Widget addButton) {
+Column HomeHeaderSimple(String text, Widget addButton) {
   return Column(
     children: [
       Row(
         children: [
-          headerText(text),
+          HeaderText(text),
           const Expanded(child: Text('')),
           addButton,
         ],
@@ -50,12 +35,12 @@ Column homeHeaderSimple(String text, Widget addButton) {
   );
 }
 
-Column homeHeaderDouble(String text, Widget specialButton, Widget addButton) {
+Column HomeHeaderDouble(String text, Widget specialButton, Widget addButton) {
   return Column(
     children: [
       Row(
         children: [
-          headerText(text),
+          HeaderText(text),
           const Expanded(child: Text('')),
           specialButton,
           SizedBox(width: deviceWidth*0.01,),
@@ -69,12 +54,12 @@ Column homeHeaderDouble(String text, Widget specialButton, Widget addButton) {
   );
 }
 
-Column homeHeaderTriple(String text, Widget specialButton1, Widget specialButton2, Widget addButton) {
+Column HomeHeaderTriple(String text, Widget specialButton1, Widget specialButton2, Widget addButton) {
   return Column(
     children: [
       Row(
         children: [
-          headerText(text),
+          HeaderText(text),
           const Expanded(child: Text('')),
           specialButton1,
           SizedBox(width: deviceWidth*0.01,),
@@ -90,7 +75,7 @@ Column homeHeaderTriple(String text, Widget specialButton1, Widget specialButton
   );
 }
 
-Column pageHeaderWithBackArrow(BuildContext context, String text) {
+Column PageHeader(BuildContext context, String text) {
   return Column(
     children: [
       Row(
@@ -105,10 +90,21 @@ Column pageHeaderWithBackArrow(BuildContext context, String text) {
             },
           ),
           SizedBox(width: deviceWidth*0.0075,),
-          headerTextBox(text),
+          Container(
+            width: deviceWidth*0.72,
+            child: HeaderText(text),
+          ),
         ],
       ),
       SizedBox(height: deviceHeight*0.03,)
     ],
   );
+}
+
+Text HeaderText(String content) {
+  return Text(content,
+      style: TextStyle(
+          color: colorMainText,
+          fontSize: deviceWidth * 0.1,
+          fontWeight: FontWeight.bold));
 }

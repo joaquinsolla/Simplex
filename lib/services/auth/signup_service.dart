@@ -32,10 +32,10 @@ class _SignUpServiceState extends State<SignUpService> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: colorMainBackground,
-        body: homeArea([
-          authHeader(),
+        body: HomeArea([
+          AuthHeader(),
           SizedBox(height: deviceHeight * 0.03,),
-          formContainer([
+          FormContainer([
             Text('Registrarse', style: TextStyle(color: colorMainText,
                 fontSize: deviceWidth * 0.075,
                 fontWeight: FontWeight.bold),),
@@ -141,7 +141,7 @@ class _SignUpServiceState extends State<SignUpService> {
             ),
           ]),
           SizedBox(height: deviceHeight * 0.025),
-          actionsButton(
+          MainButton(
               Icons.person_add_alt_rounded,
               colorSpecialItem,
               ' Registrarme ',

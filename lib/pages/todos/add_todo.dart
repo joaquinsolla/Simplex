@@ -45,10 +45,10 @@ class _AddTodoState extends State<AddTodo> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: homeArea([
-        pageHeaderWithBackArrow(context, 'Nueva Tarea'),
-        formContainer([
-          formTextField(
+      body: HomeArea([
+        PageHeader(context, 'Nueva Tarea'),
+        FormContainer([
+          FormTextField(
               nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +82,7 @@ class _AddTodoState extends State<AddTodo> {
           )
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        formContainer([
+        FormContainer([
           Text(
             'Prioridad',
             style: TextStyle(
@@ -169,7 +169,7 @@ class _AddTodoState extends State<AddTodo> {
 
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        formContainer([
+        FormContainer([
           Text(
             'Fecha límite',
             style: TextStyle(
@@ -231,7 +231,7 @@ class _AddTodoState extends State<AddTodo> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        actionsButton(
+        MainButton(
             Icons.check_rounded,
             colorSpecialItem,
             ' Crear tarea ',

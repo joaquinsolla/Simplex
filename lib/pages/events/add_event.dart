@@ -57,12 +57,12 @@ class _AddEventState extends State<AddEvent> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: homeArea([
-        pageHeaderWithBackArrow(context, 'Nuevo evento'),
-        formContainer([
-          formTextField(
+      body: HomeArea([
+        PageHeader(context, 'Nuevo evento'),
+        FormContainer([
+          FormTextField(
               nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
-          formTextField(descriptionController, 'Descripción', '(Opcional)',
+          FormTextField(descriptionController, 'Descripción', '(Opcional)',
               descriptionFocusNode),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +135,7 @@ class _AddEventState extends State<AddEvent> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        formContainer([
+        FormContainer([
           Text(
             'Color',
             style: TextStyle(
@@ -247,7 +247,7 @@ class _AddEventState extends State<AddEvent> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        formContainer([
+        FormContainer([
           Text(
             'Notificaciones',
             style: TextStyle(
@@ -385,7 +385,7 @@ class _AddEventState extends State<AddEvent> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        actionsButton(
+        MainButton(
             Icons.check_rounded,
             colorSpecialItem,
             ' Crear evento ',

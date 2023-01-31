@@ -46,12 +46,12 @@ class _VerifyEmailServiceState extends State<VerifyEmailService> {
       ? Home()
       : Scaffold(
           backgroundColor: colorMainBackground,
-          body: homeArea([
-            authHeader(),
+          body: HomeArea([
+            AuthHeader(),
             SizedBox(
               height: deviceHeight * 0.03,
             ),
-            formContainer([
+            FormContainer([
               Text(
                 'Verifica tu email',
                 style: TextStyle(
@@ -69,7 +69,7 @@ class _VerifyEmailServiceState extends State<VerifyEmailService> {
                     fontWeight: FontWeight.normal), textAlign: TextAlign.center,),
             ]),
             SizedBox(height: deviceHeight * 0.025),
-            actionsButton(
+            MainButton(
                 Icons.mark_email_read_rounded,
                 colorSpecialItem,
                 ' Enviar email de nuevo ',
@@ -80,7 +80,7 @@ class _VerifyEmailServiceState extends State<VerifyEmailService> {
                 },
             ),
             SizedBox(height: deviceHeight * 0.025),
-            actionsButton(
+            MainButton(
                 Icons.close_rounded,
                 Colors.red,
                 ' Cancelar ',

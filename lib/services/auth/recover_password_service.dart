@@ -25,10 +25,10 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: colorMainBackground,
-        body: homeArea([
-          authHeader(),
+        body: HomeArea([
+          AuthHeader(),
           SizedBox(height: deviceHeight * 0.03,),
-          formContainer([
+          FormContainer([
             Text('Restablecer contraseña', style: TextStyle(color: colorMainText,
                 fontSize: deviceWidth * 0.075,
                 fontWeight: FontWeight.bold),),
@@ -66,7 +66,7 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
             ),
           ]),
           SizedBox(height: deviceHeight * 0.025),
-          actionsButton(
+          MainButton(
               Icons.mark_email_read_rounded,
               colorSpecialItem,
               ' Enviar email ',
@@ -89,7 +89,7 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
                 fontSize: deviceWidth * 0.0375,
                 fontWeight: FontWeight.normal), textAlign: TextAlign.center,),
           SizedBox(height: deviceHeight * 0.025),
-          customDivider('O'),
+          CustomDivider('O'),
           SizedBox(height: deviceHeight * 0.01),
           TextButton(
             child: Container(

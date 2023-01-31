@@ -50,10 +50,10 @@ class _EditTodoState extends State<EditTodo> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: homeArea([
-        pageHeaderWithBackArrow(context, 'Editar Tarea'),
-        formContainer([
-          formTextField(
+      body: HomeArea([
+        PageHeader(context, 'Editar Tarea'),
+        FormContainer([
+          FormTextField(
               nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +87,7 @@ class _EditTodoState extends State<EditTodo> {
           )
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        formContainer([
+        FormContainer([
           Text(
             'Prioridad',
             style: TextStyle(
@@ -174,7 +174,7 @@ class _EditTodoState extends State<EditTodo> {
 
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        formContainer([
+        FormContainer([
           Text(
             'Fecha límite',
             style: TextStyle(
@@ -226,7 +226,7 @@ class _EditTodoState extends State<EditTodo> {
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        actionsButton(
+        MainButton(
             Icons.check_rounded,
             colorSpecialItem,
             ' Confirmar cambios ',
@@ -259,7 +259,7 @@ class _EditTodoState extends State<EditTodo> {
             }
         ),
         SizedBox(height: deviceHeight * 0.025),
-        actionsButton(
+        MainButton(
           Icons.close_rounded,
           Colors.red,
           ' Cancelar ',

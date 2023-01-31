@@ -79,11 +79,11 @@ class _EditEventState extends State<EditEvent> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: homeArea([
-        pageHeaderWithBackArrow(context, 'Editar evento'),
-        formContainer([
-          formTextField(nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
-          formTextField(descriptionController, 'Descripción', '(Opcional)', descriptionFocusNode),
+      body: HomeArea([
+        PageHeader(context, 'Editar evento'),
+        FormContainer([
+          FormTextField(nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
+          FormTextField(descriptionController, 'Descripción', '(Opcional)', descriptionFocusNode),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -152,7 +152,7 @@ class _EditEventState extends State<EditEvent> {
 
         ]),
         SizedBox(height: deviceHeight * 0.025),
-        formContainer([
+        FormContainer([
           Text(
             'Color',
             style: TextStyle(
@@ -265,7 +265,7 @@ class _EditEventState extends State<EditEvent> {
         ]),
 
         SizedBox(height: deviceHeight * 0.025),
-        formContainer([
+        FormContainer([
           Text(
             'Notificaciones',
             style: TextStyle(
@@ -394,7 +394,7 @@ class _EditEventState extends State<EditEvent> {
         ]),
 
         SizedBox(height: deviceHeight * 0.025),
-        actionsButton(
+        MainButton(
             Icons.check_rounded,
             colorSpecialItem,
             ' Confirmar cambios ',
@@ -449,7 +449,7 @@ class _EditEventState extends State<EditEvent> {
                 }
         ),
         SizedBox(height: deviceHeight * 0.025),
-        actionsButton(
+        MainButton(
             Icons.close_rounded,
             Colors.red,
             ' Cancelar ',

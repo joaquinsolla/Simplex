@@ -61,7 +61,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
           addAutomaticKeepAlives: true,
           physics: const NeverScrollableScrollPhysics(),
           children: [
-            homeHeaderTriple(
+            HomeHeaderTriple(
               'Tareas',
               IconButton(
                 icon: Container(
@@ -182,14 +182,14 @@ class _TodosMainPageState extends State<TodosMainPage> {
                 child: StreamBuilder<List<List<Todo>>>(
                     stream: CombineLatestStream.list([
                       readDoneTodos(),
-                      readPendingTodosWithPriority(1),
-                      readPendingTodosWithPriority(2),
-                      readPendingTodosWithPriority(3),
+                      readPendingTodosByPriority(1),
+                      readPendingTodosByPriority(2),
+                      readPendingTodosByPriority(3),
                     ]),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
                         debugPrint('[ERR] Cannot load todos: ' + snapshot.error.toString());
-                        return errorContainer('No se pueden cargar las tareas.', 0.75);
+                        return ErrorContainer('No se pueden cargar las tareas.', 0.75);
                       }
                       else if (snapshot.hasData) {
 
@@ -264,15 +264,15 @@ class _TodosMainPageState extends State<TodosMainPage> {
                               ),],
                             ),
 
-                            if (pendingTodosPriority3.length > 0 && showPendingTodos) customDivider('Prioridad Alta'),
+                            if (pendingTodosPriority3.length > 0 && showPendingTodos) CustomDivider('Prioridad Alta'),
                             if (pendingTodosPriority3.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
                             if (showPendingTodos) Column(children: pendingTodosPriority3.map(buildPendingTodoBox).toList(),),
 
-                            if (pendingTodosPriority2.length > 0 && showPendingTodos) customDivider('Prioridad Media'),
+                            if (pendingTodosPriority2.length > 0 && showPendingTodos) CustomDivider('Prioridad Media'),
                             if (pendingTodosPriority2.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
                             if (showPendingTodos) Column(children: pendingTodosPriority2.map(buildPendingTodoBox).toList(),),
 
-                            if (pendingTodosPriority1.length > 0 && showPendingTodos) customDivider('Prioridad Baja'),
+                            if (pendingTodosPriority1.length > 0 && showPendingTodos) CustomDivider('Prioridad Baja'),
                             if (pendingTodosPriority1.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
                             if (showPendingTodos) Column(children: pendingTodosPriority1.map(buildPendingTodoBox).toList(),),
 
@@ -328,7 +328,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                           ],
                         );
                       }
-                      else return loadingContainer('Cargando tus tareas...', 0.75);
+                      else return LoadingContainer('Cargando tus tareas...', 0.75);
 
                     }),),
           ]),
@@ -1129,7 +1129,6 @@ class _TodosMainPageState extends State<TodosMainPage> {
         );
       }
     }
-
   }
 
   Widget buildDoneTodoBox(Todo todo) {

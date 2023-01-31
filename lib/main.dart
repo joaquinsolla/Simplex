@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:simplex/pages/all_pages.dart';
+import 'package:simplex/common/vars.dart';
 import 'package:simplex/services/shared_preferences_service.dart';
 import 'package:simplex/services/auth/change_password_service.dart';
 
-import 'common/vars.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

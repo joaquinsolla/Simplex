@@ -23,6 +23,8 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     selectedEvent = null;
+    selectedTodo = null;
+    selectedNote = null;
     final user = FirebaseAuth.instance.currentUser!;
     final doc = FirebaseFirestore.instance.collection('users').doc(user.uid);
     doc.get().then((val) => isTester = val.data()!['tester']);
@@ -36,7 +38,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
 
-    if (deviceChecked == false) check_device();
+    if (deviceChecked == false) _check_device();
 
     List<Widget> homeViews = [
       EventsMainPage(),
@@ -57,7 +59,7 @@ class _HomeState extends State<Home> {
               homeIndex = index;
             });
           }),
-      bottomNavigationBar: homeBottomNavigationBar(),
+      bottomNavigationBar: _homeBottomNavigationBar(),
     );
   }
 
@@ -65,8 +67,12 @@ class _HomeState extends State<Home> {
   Container SettingsView(){
     final user = FirebaseAuth.instance.currentUser!;
 
-    return homeArea([
-      headerText('Ajustes'),
+    return HomeArea([
+      Text('Ajustes',
+          style: TextStyle(
+              color: colorMainText,
+              fontSize: deviceWidth * 0.1,
+              fontWeight: FontWeight.bold)),
       SizedBox(
         height: deviceHeight * 0.03,
       ),
@@ -78,8 +84,8 @@ class _HomeState extends State<Home> {
       SizedBox(
         height: deviceHeight * 0.0125,
       ),
-      formContainer([
-        settingsRow(
+      FormContainer([
+        SettingsRow(
           'Formato 24 horas',
           'Activado: 24 horas.\n'
               'Desactivado: 12 horas + AM/PM.',
@@ -101,7 +107,7 @@ class _HomeState extends State<Home> {
         SizedBox(
           height: deviceHeight * 0.005,
         ),
-        settingsRow(
+        SettingsRow(
           'Formato de fechas',
           'Activado: dd/mm/aaaa (Europa).\n'
               'Desactivado: mm/dd/aaaa (US).',
@@ -123,7 +129,7 @@ class _HomeState extends State<Home> {
         SizedBox(
           height: deviceHeight * 0.005,
         ),
-        settingsRow(
+        SettingsRow(
           'Calendario Europeo',
           'Decide en qué día comienza la semana.'
               '\nActivado: Lunes (Europa).\n'
@@ -157,8 +163,8 @@ class _HomeState extends State<Home> {
       SizedBox(
         height: deviceHeight * 0.0125,
       ),
-      formContainer([
-        settingsRow(
+      FormContainer([
+        SettingsRow(
           'Tema oscuro',
           'Activado: Tema oscuro.\n'
               'Desactivado: Tema claro.',
@@ -211,7 +217,7 @@ class _HomeState extends State<Home> {
       SizedBox(
         height: deviceHeight * 0.0125,
       ),
-      formContainer([
+      FormContainer([
         Text(
           'Email:',
           style: TextStyle(
@@ -292,7 +298,7 @@ class _HomeState extends State<Home> {
         ),
       ]),
       SizedBox(height: deviceHeight * 0.025),
-      actionsButton(
+      MainButton(
           Icons.logout_rounded,
           Colors.red,
           ' Cerrar sesión ',
@@ -308,7 +314,7 @@ class _HomeState extends State<Home> {
   }
 
   /// AUX FUNCTIONS
-  void check_device(){
+  void _check_device(){
     setState(() {
       var padding = MediaQuery.of(context).padding;
       deviceHeight = max(MediaQuery.of(context).size.height - padding.top - padding.bottom, MediaQuery.of(context).size.width - padding.top - padding.bottom);
@@ -317,12 +323,12 @@ class _HomeState extends State<Home> {
       if (deviceHeight!=0 || deviceWidth!=0){
         debugPrint('[OK] Device checked.');
         deviceChecked = true;
-      } else check_device();
+      } else _check_device();
     });
   }
 
   /// AUX WIDGETS
-  BottomNavyBar homeBottomNavigationBar() {
+  BottomNavyBar _homeBottomNavigationBar() {
     return BottomNavyBar(
       backgroundColor: colorNavigationBarBackground,
       selectedIndex: homeIndex,
@@ -334,16 +340,16 @@ class _HomeState extends State<Home> {
       iconSize: deviceHeight*0.0325,
       curve: Curves.easeInOutQuart,
       items: <BottomNavyBarItem>[
-        myBottomNavyBarItem('Calendario', const Icon(Icons.today_rounded)),
-        myBottomNavyBarItem('Tareas', const Icon(Icons.check_circle_outline_rounded)),
-        myBottomNavyBarItem('Notas', const Icon(Icons.sticky_note_2_outlined)),
-        myBottomNavyBarItem('Rutina', const Icon(Icons.timeline_rounded)),
-        myBottomNavyBarItem('Ajustes', const Icon(Icons.settings_outlined)),
+        _homeBottomNavigationBarItem('Calendario', const Icon(Icons.today_rounded)),
+        _homeBottomNavigationBarItem('Tareas', const Icon(Icons.check_circle_outline_rounded)),
+        _homeBottomNavigationBarItem('Notas', const Icon(Icons.sticky_note_2_outlined)),
+        _homeBottomNavigationBarItem('Rutina', const Icon(Icons.timeline_rounded)),
+        _homeBottomNavigationBarItem('Ajustes', const Icon(Icons.settings_outlined)),
       ],
     );
   }
 
-  BottomNavyBarItem myBottomNavyBarItem(String text, Icon icon) {
+  BottomNavyBarItem _homeBottomNavigationBarItem(String text, Icon icon) {
     return BottomNavyBarItem(
         title: Text(text),
         icon: icon,

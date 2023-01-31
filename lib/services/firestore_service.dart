@@ -89,25 +89,25 @@ Stream<List<Todo>> readPendingLimitedTodos() {
       snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
 }
 
-Stream<List<Todo>> readPendingTodosWithPriority(int priority) {
-  return FirebaseFirestore.instance.
-  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
-      .where('done', isEqualTo: false)
-      .where('priority', isEqualTo: priority)
-      .orderBy('limited', descending: true)
-      .orderBy('limitDate', descending: false)
-      .orderBy('name', descending: false)
-      .snapshots().map((snapshot) =>
-      snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
-}
-
-Stream<List<Todo>> readPendingTodosWithLimitDate(DateTime date) {
+Stream<List<Todo>> readPendingLimitedTodosByDateTime(DateTime date) {
   return FirebaseFirestore.instance.
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
       .where('done', isEqualTo: false)
       .where('limited', isEqualTo: true)
       .where('limitDate', isEqualTo: date)
       .orderBy('priority', descending: true)
+      .orderBy('name', descending: false)
+      .snapshots().map((snapshot) =>
+      snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
+}
+
+Stream<List<Todo>> readPendingTodosByPriority(int priority) {
+  return FirebaseFirestore.instance.
+  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
+      .where('done', isEqualTo: false)
+      .where('priority', isEqualTo: priority)
+      .orderBy('limited', descending: true)
+      .orderBy('limitDate', descending: false)
       .orderBy('name', descending: false)
       .snapshots().map((snapshot) =>
       snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
@@ -191,7 +191,27 @@ deleteDoneTodos() async {
 }
 
 /// NOTES MANAGEMENT
-Stream<List<Note>> readNotesWithTitle(String content) {
+Stream<List<Note>> readCalendarNotes() {
+  return FirebaseFirestore.instance.
+  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('notes')
+      .where('onCalendar', isEqualTo: true)
+      .orderBy('modificationDate', descending: true)
+      .snapshots().map((snapshot) =>
+      snapshot.docs.map((doc) => Note.fromJson(doc.data())).toList());
+}
+
+Stream<List<Note>> readCalendarNotesByDateTime(DateTime date) {
+  return FirebaseFirestore.instance.
+  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('notes')
+      .where('onCalendar', isEqualTo: true)
+      .where('calendarDate', isEqualTo: date)
+      .orderBy('modificationDate', descending: true)
+      .orderBy('name', descending: false)
+      .snapshots().map((snapshot) =>
+      snapshot.docs.map((doc) => Note.fromJson(doc.data())).toList());
+}
+
+Stream<List<Note>> readNotesByTitle(String content) {
   if (content == "") return FirebaseFirestore.instance.
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('notes')
       .orderBy('modificationDate', descending: true)

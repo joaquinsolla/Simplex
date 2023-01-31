@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 
-Container actionsButton(IconData icon, Color color, String text, Function() actions){
+Container MainButton(IconData icon, Color color, String text, Function() actions){
 
   return Container(
     decoration: BoxDecoration(

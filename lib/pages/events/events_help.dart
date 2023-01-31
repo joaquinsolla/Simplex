@@ -29,8 +29,8 @@ class _EventsHelpState extends State<EventsHelp> {
 
     return Scaffold(
         backgroundColor: colorMainBackground,
-        body: homeArea([
-          pageHeaderWithBackArrow(context, 'Acerca del calendario'),
+        body: HomeArea([
+          PageHeader(context, 'Acerca del calendario'),
           Text('Botones',
               style: TextStyle(
                   color: colorMainText,
@@ -39,7 +39,7 @@ class _EventsHelpState extends State<EventsHelp> {
           SizedBox(
             height: deviceHeight * 0.0125,
           ),
-          buttonExplanationContainer(Icon(Icons.add_rounded, color: colorSpecialItem, size: deviceWidth * 0.085),
+          ButtonExplanationContainer(Icon(Icons.add_rounded, color: colorSpecialItem, size: deviceWidth * 0.085),
               'Añadir un evento al calendario',
               'Accederás a un breve formulario para crear el evento '
                   'con los datos que desees. Una vez confirmado, el evento'
@@ -47,7 +47,7 @@ class _EventsHelpState extends State<EventsHelp> {
           SizedBox(
             height: deviceHeight * 0.0125,
           ),
-          buttonExplanationContainer(Column(
+          ButtonExplanationContainer(Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
             Icon(Icons.keyboard_arrow_right_rounded, color: colorSpecialItem, size: deviceWidth * 0.085),
@@ -57,11 +57,11 @@ class _EventsHelpState extends State<EventsHelp> {
               'Calendario: Permiten cambiar de mes/semana (dependiendo del modo de vista en el que estés).\n'
                   'Día: Permiten avanzar o retroceder de día en el calendario.'),
           SizedBox(height: deviceHeight * 0.0125),
-          buttonExplanationContainer(Image.asset(calendarButtonImage),
+          ButtonExplanationContainer(Image.asset(calendarButtonImage),
               'Alternar vista de calendario',
               'Podrás cambiar entre la vista de mes comleto y la de semana.'),
           SizedBox(height: deviceHeight * 0.0125),
-          buttonExplanationContainer(Icon(Icons.help_outline_rounded, color: colorSpecialItem, size: deviceWidth * 0.085),
+          ButtonExplanationContainer(Icon(Icons.help_outline_rounded, color: colorSpecialItem, size: deviceWidth * 0.085),
               'Apartado de ayuda',
               'Esta ventana, con la información necesaria para aprender el funcionamiento de la app.'),
 
@@ -77,25 +77,25 @@ class _EventsHelpState extends State<EventsHelp> {
           SizedBox(
             height: deviceHeight * 0.0125,
           ),
-          othersExplanationContainer('Añadir un evento',
+          OthersExplanationContainer('Añadir un evento',
               'Puedes añadir un evento pulsando el botón +, o manteniendo pulsado sobre un día del calendario. '
                   'Puedes cambiar la fecha del evento en el formulario si lo deseas.'),
           SizedBox(
             height: deviceHeight * 0.0125,
           ),
-          othersExplanationContainer('Manipulación de eventos',
+          OthersExplanationContainer('Manipulación de eventos',
               'Los eventos siempre podrán editarse, eliminarse y verse sus detalles. '
                   'Puedes hacerlo manteniendo pulsado sobre uno de ellos, o simplemente tocándolo.'),
           SizedBox(
             height: deviceHeight * 0.0125,
           ),
-          othersExplanationContainer('Días con eventos',
+          OthersExplanationContainer('Días con eventos',
               'En el calendario aparecerán marcados con puntos los días que tengan eventos asignados. '
                   'Para ver los eventos que contiene pulsa en ese día en el calendario o llega a él mediante las flechas de desplazamiento.'),
           SizedBox(
             height: deviceHeight * 0.0125,
           ),
-          othersExplanationContainer('Tareas con fecha límite',
+          OthersExplanationContainer('Tareas con fecha límite',
               'Las tareas pendientes con fecha límite aparecerán también en el calendario de Simplex, puedes acceder a ellas tocándolas o ver'
                   ' más opciones manteniendo pulsado sobre ellas. Una vez marcadas como hechas, ya no aparecerán en el calendario.'),
 

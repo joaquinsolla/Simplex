@@ -5,6 +5,7 @@ import 'package:focused_menu/modals.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/classes/event.dart';
 import 'package:simplex/classes/todo.dart';
+import 'package:simplex/classes/note.dart';
 import 'package:simplex/services/firestore_service.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:simplex/common/all_common.dart';
@@ -34,7 +35,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
     super.initState();
   }
 
-  loadEventsToCalendar(List<Event> events, List<Todo> todos) {
+  loadEventsToCalendar(List<Event> events, List<Todo> todos, List<Note> notes) {
     daysWithEvents = {};
     events.forEach((event) {
       DateTime date = DateTime(event.dateTime.year, event.dateTime.month, event.dateTime.day);
@@ -50,6 +51,14 @@ class _EventsMainPageState extends State<EventsMainPage> {
         daysWithEvents[date]?.add(todo);
       } else {
         daysWithEvents[date] = [todo];
+      }
+    });
+    notes.forEach((note) {
+      DateTime date = DateTime(note.calendarDate.year, note.calendarDate.month, note.calendarDate.day);
+      if (daysWithEvents[date] != null){
+        daysWithEvents[date]?.add(note);
+      } else {
+        daysWithEvents[date] = [note];
       }
     });
   }
@@ -82,8 +91,8 @@ class _EventsMainPageState extends State<EventsMainPage> {
     else if (formatDates==true) dateText = DateFormat('dd/MM/yyyy').format(_selectedDay);
     else dateText = DateFormat('MM/dd/yyyy').format(_selectedDay);
 
-    return homeArea([
-      homeHeaderDouble('Calendario',
+    return HomeArea([
+      HomeHeaderDouble('Calendario',
         IconButton(
           icon: Icon(Icons.help_outline_rounded,
               color: colorSpecialItem, size: deviceWidth * 0.085),
@@ -106,17 +115,19 @@ class _EventsMainPageState extends State<EventsMainPage> {
           stream: CombineLatestStream.list([
             readAllEvents(),
             readPendingLimitedTodos(),
+            readCalendarNotes(),
           ]),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               debugPrint('[ERR] Cannot load calendar: ' + snapshot.error.toString());
-              return errorContainer('No se puede cargar el calendario.', 0.4);
+              return ErrorContainer('No se puede cargar el calendario.', 0.4);
             }
             else if (snapshot.hasData) {
 
               final events = snapshot.data![0];
               final todos = snapshot.data![1];
-              loadEventsToCalendar(events as List<Event>, todos as List<Todo>);
+              final notes = snapshot.data![2];
+              loadEventsToCalendar(events as List<Event>, todos as List<Todo>, notes as List<Note>);
 
               return Card(
                 shape: RoundedRectangleBorder(
@@ -210,22 +221,24 @@ class _EventsMainPageState extends State<EventsMainPage> {
                 ),
               );
             }
-            else return loadingContainer('Cargando calendario...', 0.4);
+            else return LoadingContainer('Cargando calendario...', 0.4);
           }),
 
       StreamBuilder<List<List<dynamic>>>(
           stream: CombineLatestStream.list([
             readEventsOfDate(_selectedDay),
-            readPendingTodosWithLimitDate(dateTimeToDateOnly(_selectedDay))
+            readPendingLimitedTodosByDateTime(dateTimeToDateOnly(_selectedDay)),
+            readCalendarNotesByDateTime(dateTimeToDateOnly(_selectedDay))
           ]),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               debugPrint('[ERR] Cannot load day events: ' + snapshot.error.toString());
-              return errorContainer('No se pueden cargar los eventos de este día.', 0.35);
+              return ErrorContainer('No se pueden cargar los eventos de este día.', 0.35);
             }
             else if (snapshot.hasData) {
               final events = snapshot.data![0];
               final todos = snapshot.data![1];
+              final notes = snapshot.data![2];
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -270,8 +283,8 @@ class _EventsMainPageState extends State<EventsMainPage> {
                     ],
                   ),
 
-                  if (events.length == 0 && todos.length == 0) SizedBox(height: deviceHeight*0.025,),
-                  if (events.length == 0 && todos.length == 0 && darkMode==true) Row(
+                  if (events.length == 0 && todos.length == 0 && notes.length == 0) SizedBox(height: deviceHeight*0.025,),
+                  if (events.length == 0 && todos.length == 0 && notes.length == 0 && darkMode==true) Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [Container(
                       width: deviceWidth * 0.85,
@@ -280,7 +293,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                         scale: deviceWidth * 0.0001,),
                     ),],
                   ),
-                  if (events.length == 0 && todos.length == 0 && darkMode==false) Row(
+                  if (events.length == 0 && todos.length == 0 && notes.length == 0 && darkMode==false) Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [Container(
                       width: deviceWidth * 0.85,
@@ -289,15 +302,18 @@ class _EventsMainPageState extends State<EventsMainPage> {
                         scale: deviceWidth * 0.0001,),
                     ),],
                   ),
-                  if (events.length > 0 || todos.length > 0) SizedBox(height: deviceHeight * 0.01),
+                  if (events.length > 0 || todos.length > 0 || notes.length > 0) SizedBox(height: deviceHeight * 0.01),
 
                   Column(children: todos.map(buildTodoBox).toList(),),
 
+                  Column(children: notes.map(buildNoteBox).toList(),),
+
                   Column(children: events.map(buildEventBox).toList(),),
+
                   SizedBox(height: deviceHeight * 0.015),
                 ],);
             }
-            else return loadingContainer('Cargando eventos...', 0.35);
+            else return LoadingContainer('Cargando eventos...', 0.35);
           }),
 
     ]);
@@ -442,6 +458,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
       ],
       child: Column(
         children: [
+          SizedBox(height: deviceHeight*0.00625,),
           Container(
             padding: EdgeInsets.all(deviceWidth * 0.0185),
             decoration: BoxDecoration(
@@ -491,7 +508,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               ),
             ),
           ),
-          SizedBox(height: deviceHeight*0.0125,),
+          SizedBox(height: deviceHeight*0.00625,),
         ],
       ),
     );
@@ -627,6 +644,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
       ],
       child: Column(
         children: [
+          SizedBox(height: deviceHeight*0.00625,),
           Container(
             padding: EdgeInsets.all(deviceWidth * 0.0185),
             decoration: BoxDecoration(
@@ -675,7 +693,170 @@ class _EventsMainPageState extends State<EventsMainPage> {
               ),
             ),
           ),
-          SizedBox(height: deviceHeight*0.0125,),
+          SizedBox(height: deviceHeight*0.00625,),
+        ],
+      ),
+    );
+  }
+
+  Widget buildNoteBox(dynamic note){
+
+    late int color;
+    if (darkMode == false) {
+      color = 0xFFFFFFFF;
+    } else {
+      color = 0xff1c1c1f;
+    }
+
+    Color backgroundColor = colorThirdBackground;
+    if (darkMode) backgroundColor = colorSecondBackground;
+    Color secondColor = colorSecondText;
+    Color iconColor = colorSpecialItem;
+
+    return FocusedMenuHolder(
+      onPressed: (){
+        selectedNote = note;
+        Navigator.pushNamed(context, '/notes/note_details');
+      },
+      menuItems: <FocusedMenuItem>[
+        FocusedMenuItem(
+          backgroundColor: backgroundColor,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.open_in_new_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
+                SizedBox(width: deviceWidth*0.025,),
+                Text('Ver detalles', style: TextStyle(
+                    color: colorSpecialItem,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),),
+              ],
+            ),
+          ),
+          onPressed: (){
+            selectedNote = note;
+            Navigator.pushNamed(context, '/notes/note_details');
+          },
+        ),
+        FocusedMenuItem(
+          backgroundColor: backgroundColor,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.edit, color: colorSpecialItem, size: deviceWidth * 0.06),
+                SizedBox(width: deviceWidth*0.025,),
+                Text('Editar', style: TextStyle(
+                    color: colorSpecialItem,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),),
+              ],
+            ),
+          ),
+          onPressed: (){
+            selectedNote = note;
+            Navigator.pushNamed(context, '/notes/edit_note');
+          },
+        ),
+        FocusedMenuItem(
+          backgroundColor: backgroundColor,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth * 0.06),
+                SizedBox(width: deviceWidth*0.025,),
+                Text('Eliminar', style: TextStyle(
+                    color: Colors.red,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),),
+              ],
+            ),
+          ),
+          onPressed: (){
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return CupertinoAlertDialog(
+                    title: Text('Eliminar nota'),
+                    content: Text('Una vez eliminada no podrás restaurarla.'),
+                    actions: <Widget>[
+                      TextButton(
+                          onPressed: () async {
+                            await cancelNoteNotification(note.id);
+                            await deleteNoteById(note.id);
+                            Navigator.pop(context);
+                            showSnackBar(context, 'Nota eliminada', Colors.green);
+                          },
+                          child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('Cancelar', style: TextStyle(color: Colors.red),),
+                      )
+                    ],
+                  );
+                });
+          },
+        ),
+      ],
+      child: Column(
+        children: [
+          SizedBox(height: deviceHeight*0.00625,),
+          Container(
+            padding: EdgeInsets.all(deviceWidth * 0.0185),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color(color),
+            ),
+            child: IntrinsicHeight(
+              child: Row(
+                children: [
+                  Container(
+                    width: deviceWidth*0.155,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Nota', style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.055, fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                  VerticalDivider(color: secondColor,),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                          width: deviceWidth*0.515,
+                          alignment: Alignment.centerLeft,
+                          child: Text(note.name,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.06, fontWeight: FontWeight.bold))),
+                      if (note.content!='') SizedBox(height: deviceHeight*0.00375,),
+                      if (note.content!='') Container(
+                          width: deviceWidth*0.515,
+                          alignment: Alignment.centerLeft,
+                          child: Text(note.content,
+                              maxLines: 5,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(color: secondColor, fontSize: deviceWidth * 0.03, fontWeight: FontWeight.normal))),
+                    ],
+                  ),
+                  Expanded(child: Text(''),),
+                  Icon(Icons.open_in_new_rounded, color: iconColor, size: deviceWidth * 0.06),
+                  SizedBox(width: deviceWidth*0.01,),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: deviceHeight*0.00625,),
         ],
       ),
     );
