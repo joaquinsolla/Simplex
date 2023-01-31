@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/classes/todo.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
 class AddTodo extends StatefulWidget {
@@ -45,7 +46,7 @@ class _AddTodoState extends State<AddTodo> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: homeArea([
-        pageHeader(context, 'Nueva Tarea'),
+        pageHeaderWithBackArrow(context, 'Nueva Tarea'),
         formContainer([
           formTextField(
               nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
@@ -236,7 +237,7 @@ class _AddTodoState extends State<AddTodo> {
             ' Crear tarea ',
                 () {
               if (nameController.text.isEmpty) {
-                snackBar(context, 'Debes indicar un nombre', Colors.red);
+                showSnackBar(context, 'Debes indicar un nombre', Colors.red);
                 nameFocusNode.requestFocus();
               } else {
                 try {
@@ -254,7 +255,7 @@ class _AddTodoState extends State<AddTodo> {
                   Navigator.pop(context);
                 } on Exception catch (e) {
                   debugPrint('[ERR] Could not create todo: $e');
-                  snackBar(context, 'Ha ocurrido un error', Colors.red);
+                  showSnackBar(context, 'Ha ocurrido un error', Colors.red);
                 }
               }
             }

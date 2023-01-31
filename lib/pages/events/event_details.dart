@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
 
@@ -222,7 +223,7 @@ class _EventDetailsState extends State<EventDetails> {
                         if (selectedEvent!.notificationsList[index].values.first.toDate().isBefore(selectedEvent!.dateTime)) Icon(Icons.notifications_active_outlined, color: colorSpecialItem, size: deviceWidth*0.05,),
                         if (selectedEvent!.notificationsList[index].values.first.toDate().isAfter(selectedEvent!.dateTime)) Icon(Icons.notification_important_outlined, color: Colors.red, size: deviceWidth*0.05,),
                         SizedBox(width: deviceWidth*0.025,),
-                        Text(formatNotificationDate(selectedEvent!.notificationsList[index].values.first.toDate()),
+                        Text(formatEventNotificationDate(selectedEvent!.notificationsList[index].values.first.toDate()),
                             style: TextStyle(
                                 color: colorMainText,
                                 fontSize: deviceWidth * 0.04,
@@ -255,7 +256,7 @@ class _EventDetailsState extends State<EventDetails> {
                           await cancelAllEventNotifications(selectedEvent!.id);
                           await deleteEventById(selectedEvent!.id);
                           Navigator.of(context).popUntil((route) => route.isFirst);
-                          snackBar(context, 'Evento eliminado', Colors.green);
+                          showSnackBar(context, 'Evento eliminado', Colors.green);
                         },
                         child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
                     TextButton(

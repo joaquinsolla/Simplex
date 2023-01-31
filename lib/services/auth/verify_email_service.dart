@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/pages/home.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
+
 
 class VerifyEmailService extends StatefulWidget {
   const VerifyEmailService({Key? key}) : super(key: key);
@@ -114,14 +116,14 @@ class _VerifyEmailServiceState extends State<VerifyEmailService> {
 
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
-      snackBar(context, 'Se ha enviado un email de verificación a ' + user.email.toString(), Colors.green);
+      showSnackBar(context, 'Se ha enviado un email de verificación a ' + user.email.toString(), Colors.green);
       debugPrint('[OK] Verification email sent');
 
       setState(() => canResendEmail = false);
       await Future.delayed(Duration(seconds: 5));
       setState(() => canResendEmail = true);
     } on Exception catch (e) {
-      snackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
+      showSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
       debugPrint('[ERR] ' + e.toString());
     }
   }

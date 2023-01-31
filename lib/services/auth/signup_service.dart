@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/firestore_service.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
+
 
 class SignUpService extends StatefulWidget{
   const SignUpService({Key? key}) : super(key: key);
@@ -147,7 +149,7 @@ class _SignUpServiceState extends State<SignUpService> {
                 if (emailController.text == '' ||
                     passwordController.text == '' ||
                     confirmPasswordController.text == '') {
-                  snackBar(context, 'Debes cubrir todos los campos', Colors.red);
+                  showSnackBar(context, 'Debes cubrir todos los campos', Colors.red);
                   if (emailController.text == '')
                     emailFocusNode.requestFocus();
                   else if (passwordController.text == '')
@@ -162,19 +164,19 @@ class _SignUpServiceState extends State<SignUpService> {
                         .trim()
                         .length < 6) {
                       passwordFocusNode.requestFocus();
-                      snackBar(context, 'La contraseña debe contener al menos 6 caracteres', Colors.red);
+                      showSnackBar(context, 'La contraseña debe contener al menos 6 caracteres', Colors.red);
                     } else {
                       if (passwordController.text.trim() !=
                           confirmPasswordController.text.trim()) {
                         passwordFocusNode.requestFocus();
-                        snackBar(context, 'Las contraseñas no coinciden', Colors.red);
+                        showSnackBar(context, 'Las contraseñas no coinciden', Colors.red);
                       } else
                         signUp();
                     }
                   }
                   else {
                     emailFocusNode.requestFocus();
-                    snackBar(context, 'Formato de email inválido', Colors.red);
+                    showSnackBar(context, 'Formato de email inválido', Colors.red);
                   }
                 }
               }
@@ -214,8 +216,8 @@ class _SignUpServiceState extends State<SignUpService> {
       debugPrint('[OK] Signed up, waiting for email verification');
     } on FirebaseAuthException catch (e){
       if (e.message!.contains('The email address is already in use by another account.'))
-        snackBar(context, 'Ya existe una cuenta con este email', Colors.red);
-      else snackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
+        showSnackBar(context, 'Ya existe una cuenta con este email', Colors.red);
+      else showSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
       debugPrint('[ERR] ' + e.message.toString());
     }
     createUserDoc();

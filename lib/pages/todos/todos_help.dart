@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
 
 class TodosHelp extends StatefulWidget {
   const TodosHelp({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@ class _TodosHelpState extends State<TodosHelp> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: homeArea([
-        pageHeader(context, 'Acerca de las tareas'),
+        pageHeaderWithBackArrow(context, 'Acerca de las tareas'),
         Text('Botones',
             style: TextStyle(
                 color: colorMainText,

@@ -8,6 +8,7 @@ import 'package:simplex/classes/todo.dart';
 import 'package:simplex/services/firestore_service.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:rxdart/rxdart.dart';
 
 class EventsMainPage extends StatefulWidget {
@@ -392,7 +393,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
           ),
           onPressed: (){
             // TODO: share events
-            snackBar(context, '[Beta] En desarrollo', colorSpecialItem);
+            showSnackBar(context, '[Beta] En desarrollo', colorSpecialItem);
           },
         ),
         FocusedMenuItem(
@@ -424,7 +425,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                           await cancelAllEventNotifications(event.id);
                           await deleteEventById(event.id);
                           Navigator.pop(context);
-                          snackBar(context, 'Evento eliminado', Colors.green);
+                          showSnackBar(context, 'Evento eliminado', Colors.green);
                         },
                         child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
                     TextButton(
@@ -609,7 +610,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                             await cancelAllTodoNotifications(todo.id);
                             await deleteTodoById(todo.id);
                             Navigator.pop(context);
-                            snackBar(context, 'Tarea eliminada', Colors.green);
+                            showSnackBar(context, 'Tarea eliminada', Colors.green);
                           },
                           child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
                       TextButton(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
 
 class RoutinesMainPage extends StatefulWidget {
   const RoutinesMainPage({Key? key}) : super(key: key);
@@ -31,7 +32,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
               color: colorSpecialItem, size: deviceWidth * 0.085),
           splashRadius: 0.001,
           onPressed: () {
-            snackBar(context, '[Beta] En desarrollo', colorSpecialItem);
+            showSnackBar(context, '[Beta] En desarrollo', colorSpecialItem);
           },
         ),
       )

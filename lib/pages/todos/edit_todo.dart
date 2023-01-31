@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/classes/todo.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
 class EditTodo extends StatefulWidget {
@@ -50,7 +51,7 @@ class _EditTodoState extends State<EditTodo> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: homeArea([
-        pageHeader(context, 'Editar Tarea'),
+        pageHeaderWithBackArrow(context, 'Editar Tarea'),
         formContainer([
           formTextField(
               nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
@@ -231,7 +232,7 @@ class _EditTodoState extends State<EditTodo> {
             ' Confirmar cambios ',
                 () {
               if (nameController.text.isEmpty) {
-                snackBar(context, 'Debes indicar un nombre', Colors.red);
+                showSnackBar(context, 'Debes indicar un nombre', Colors.red);
                 nameFocusNode.requestFocus();
               } else {
                 try {
@@ -249,10 +250,10 @@ class _EditTodoState extends State<EditTodo> {
                   if (limited) buildTodoNotifications(id, 'Tarea: ' + nameController.text, limitDate);
 
                   Navigator.of(context).popUntil((route) => route.isFirst);
-                  snackBar(context, 'Tarea actualizada', Colors.green);
+                  showSnackBar(context, 'Tarea actualizada', Colors.green);
                 } on Exception catch (e) {
                   debugPrint('[ERR] Could not update todo: $e');
-                  snackBar(context, 'Ha ocurrido un error', Colors.red);
+                  showSnackBar(context, 'Ha ocurrido un error', Colors.red);
                 }
               }
             }

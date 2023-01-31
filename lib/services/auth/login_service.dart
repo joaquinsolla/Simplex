@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
+
 
 class LogInService extends StatefulWidget{
   const LogInService({Key? key}) : super(key: key);
@@ -105,7 +107,7 @@ class _LogInServiceState extends State<LogInService> {
               () {
                 if (emailController.text == '' ||
                     passwordController.text == '') {
-                  snackBar(context, 'Debes cubrir todos los campos', Colors.red);
+                  showSnackBar(context, 'Debes cubrir todos los campos', Colors.red);
                   if (emailController.text == '')
                     emailFocusNode.requestFocus();
                   else
@@ -117,7 +119,7 @@ class _LogInServiceState extends State<LogInService> {
                     signIn();
                   else {
                     emailFocusNode.requestFocus();
-                    snackBar(context, 'Formato de email inválido', Colors.red);
+                    showSnackBar(context, 'Formato de email inválido', Colors.red);
                   }
                 }
               }
@@ -173,10 +175,10 @@ class _LogInServiceState extends State<LogInService> {
       debugPrint('[OK] Logged in');
     } on FirebaseAuthException catch (e){
       if (e.message!.contains('The password is invalid or the user does not have a password.'))
-        snackBar(context, 'Contraseña incorrecta', Colors.red);
+        showSnackBar(context, 'Contraseña incorrecta', Colors.red);
       else if (e.message!.contains('There is no user record corresponding to this identifier. The user may have been deleted.'))
-        snackBar(context, 'No existe ninguna cuenta con este email', Colors.red);
-      else snackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
+        showSnackBar(context, 'No existe ninguna cuenta con este email', Colors.red);
+      else showSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
       debugPrint('[ERR] ' + e.message.toString());
     }
     navigatorKey.currentState!.pop();

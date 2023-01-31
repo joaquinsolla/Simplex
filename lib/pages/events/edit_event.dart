@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/classes/event.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
 class EditEvent extends StatefulWidget {
@@ -79,7 +80,7 @@ class _EditEventState extends State<EditEvent> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: homeArea([
-        pageHeader(context, 'Editar evento'),
+        pageHeaderWithBackArrow(context, 'Editar evento'),
         formContainer([
           formTextField(nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
           formTextField(descriptionController, 'Descripción', '(Opcional)', descriptionFocusNode),
@@ -284,7 +285,7 @@ class _EditEventState extends State<EditEvent> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(formatNotificationDate(notificationsList[index].values.first),
+                        Text(formatEventNotificationDate(notificationsList[index].values.first),
                           style: TextStyle(
                               color: colorMainText,
                               fontSize: deviceWidth * 0.04,
@@ -399,7 +400,7 @@ class _EditEventState extends State<EditEvent> {
             ' Confirmar cambios ',
                 () async {
                   if (nameController.text.isEmpty) {
-                    snackBar(context, 'Debes indicar un nombre', Colors.red);
+                    showSnackBar(context, 'Debes indicar un nombre', Colors.red);
                     nameFocusNode.requestFocus();
                   } else {
                     DateTime newFullDateTime = DateTime(
@@ -439,10 +440,10 @@ class _EditEventState extends State<EditEvent> {
                           newFullDateTime);
 
                       Navigator.of(context).popUntil((route) => route.isFirst);
-                      snackBar(context, 'Evento actualizado', Colors.green);
+                      showSnackBar(context, 'Evento actualizado', Colors.green);
                     } on Exception catch (e) {
                       debugPrint('[ERR] Could not edit event: $e');
-                      snackBar(context, 'Ha ocurrido un error', Colors.red);
+                      showSnackBar(context, 'Ha ocurrido un error', Colors.red);
                     }
                   }
                 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/classes/event.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
 class AddEvent extends StatefulWidget {
@@ -57,7 +58,7 @@ class _AddEventState extends State<AddEvent> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: homeArea([
-        pageHeader(context, 'Nuevo evento'),
+        pageHeaderWithBackArrow(context, 'Nuevo evento'),
         formContainer([
           formTextField(
               nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
@@ -266,7 +267,7 @@ class _AddEventState extends State<AddEvent> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(formatNotificationDate(
+                        Text(formatEventNotificationDate(
                             notificationsList[index].values.first),
                           style: TextStyle(
                               color: colorMainText,
@@ -390,7 +391,7 @@ class _AddEventState extends State<AddEvent> {
             ' Crear evento ',
                 () {
               if (nameController.text.isEmpty) {
-                snackBar(context, 'Debes indicar un nombre', Colors.red);
+                showSnackBar(context, 'Debes indicar un nombre', Colors.red);
                 nameFocusNode.requestFocus();
               } else {
                 try {
@@ -429,7 +430,7 @@ class _AddEventState extends State<AddEvent> {
                   Navigator.pop(context);
                 } on Exception catch (e) {
                   debugPrint('[ERR] Could not create event: $e');
-                  snackBar(context, 'Ha ocurrido un error', Colors.red);
+                  showSnackBar(context, 'Ha ocurrido un error', Colors.red);
                 }
               }
             }

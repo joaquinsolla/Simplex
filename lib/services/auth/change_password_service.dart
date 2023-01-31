@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
 
 
 class ChangePasswordService extends StatefulWidget{
@@ -31,7 +32,7 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: homeArea([
-        pageHeader(context, 'Cambia tu contraseña'),
+        pageHeaderWithBackArrow(context, 'Cambia tu contraseña'),
         formContainer([
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,23 +145,23 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
                 () {
               if (newPassController1.text.trim() == '') {
                 oldPassFocusNode.requestFocus();
-                snackBar(context, 'Debes introducir tu contraseña actual', Colors.red);
+                showSnackBar(context, 'Debes introducir tu contraseña actual', Colors.red);
               }
               else if (newPassController1.text
                   .trim()
                   .length < 6) {
                 newPassFocusNode1.requestFocus();
-                snackBar(context, 'La contraseña debe contener al menos 6 caracteres', Colors.red);
+                showSnackBar(context, 'La contraseña debe contener al menos 6 caracteres', Colors.red);
               }
               else if (newPassController1.text.trim() !=
                   newPassController2.text.trim()) {
                 newPassFocusNode2.requestFocus();
-                snackBar(context, 'Las contraseñas no coinciden', Colors.red);
+                showSnackBar(context, 'Las contraseñas no coinciden', Colors.red);
               }
               else if (newPassController1.text.trim() ==
                   oldPassController.text.trim()) {
                 newPassFocusNode1.requestFocus();
-                snackBar(context, 'La contraseña nueva es igual que la actual', Colors.red);
+                showSnackBar(context, 'La contraseña nueva es igual que la actual', Colors.red);
               }
               else
                 changePassword(oldPassController.text.trim(),
@@ -188,19 +189,19 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
     } on FirebaseAuthException catch (e){
       if (e.message!.contains('The password is invalid or the user does not have a password.')) {
         oldPassFocusNode.requestFocus();
-        snackBar(context, 'Contraseña actual incorrecta', Colors.red);
+        showSnackBar(context, 'Contraseña actual incorrecta', Colors.red);
       }
-      else snackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
+      else showSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
       debugPrint('[ERR] ' + e.message.toString());
       hasErrors = true;
     }
 
     if (hasErrors==false) try {
       await FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
-      snackBar(context, 'Contraseña actualizada', Colors.green);
+      showSnackBar(context, 'Contraseña actualizada', Colors.green);
       debugPrint('[OK] Password updated');
     } on Exception catch (e){
-      snackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
+      showSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
       debugPrint('[ERR] ' + e.toString());
     }
 

@@ -5,7 +5,7 @@ import 'package:simplex/services/notification_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-void snackBar(BuildContext context, String content, Color color) {
+void showSnackBar(BuildContext context, String content, Color color) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text(content),
     backgroundColor: color,
@@ -32,7 +32,7 @@ String timeToString(DateTime dateTime) {
     return DateFormat('h:mm aa').format(dateTime);
 }
 
-String millisecondsToStringTime(int millis) {
+String millisecondsTimeToString(int millis) {
   DateTime date = DateTime.fromMicrosecondsSinceEpoch(millis * 1000);
 
   return timeToString(date);
@@ -146,7 +146,7 @@ cancelNoteNotification(int noteId) async {
   debugPrint('[OK] All notifications canceled for note $noteId');
 }
 
-String formatNotificationDate(DateTime dateTime) {
+String formatEventNotificationDate(DateTime dateTime) {
   String formattedDate = 'El ';
   if (formatDates == true)
     formattedDate = formattedDate + DateFormat('dd/MM/yyyy').format(dateTime);

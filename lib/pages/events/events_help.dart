@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
 
 class EventsHelp extends StatefulWidget {
   const EventsHelp({Key? key}) : super(key: key);
@@ -29,7 +30,7 @@ class _EventsHelpState extends State<EventsHelp> {
     return Scaffold(
         backgroundColor: colorMainBackground,
         body: homeArea([
-          pageHeader(context, 'Acerca del calendario'),
+          pageHeaderWithBackArrow(context, 'Acerca del calendario'),
           Text('Botones',
               style: TextStyle(
                   color: colorMainText,

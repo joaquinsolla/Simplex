@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
 
 
 class RecoverPasswordService extends StatefulWidget{
@@ -74,7 +75,7 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
                     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                     .hasMatch(emailController.text.trim()) == false) {
                   emailFocusNode.requestFocus();
-                  snackBar(context, 'Debes indicar un email válido', Colors.red);
+                  showSnackBar(context, 'Debes indicar un email válido', Colors.red);
                 } else {
                   resetPassword();
                 }
@@ -120,12 +121,12 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(
           email: emailController.text.trim());
-      snackBar(context, 'Se ha enviado un email de recuperación, comprueba tu bandeja de entrada', Colors.green);
+      showSnackBar(context, 'Se ha enviado un email de recuperación, comprueba tu bandeja de entrada', Colors.green);
       debugPrint('[OK] Password recovery email sent');
     } on FirebaseAuthException catch (e){
       if (e.message!.contains('There is no user record corresponding to this identifier. The user may have been deleted.'))
-        snackBar(context, 'No existe ninguna cuenta con este email', Colors.red);
-      else snackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
+        showSnackBar(context, 'No existe ninguna cuenta con este email', Colors.red);
+      else showSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
       debugPrint('[ERR] ' + e.message.toString());
     }
     navigatorKey.currentState!.pop();

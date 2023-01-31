@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
 
@@ -166,7 +167,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                           await cancelNoteNotification(selectedNote!.id);
                           await deleteNoteById(selectedNote!.id);
                           Navigator.of(context).popUntil((route) => route.isFirst);
-                          snackBar(context, 'Nota eliminada', Colors.green);
+                          showSnackBar(context, 'Nota eliminada', Colors.green);
                         },
                         child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
                     TextButton(

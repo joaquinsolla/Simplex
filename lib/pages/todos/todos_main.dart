@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:simplex/classes/todo.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
 class TodosMainPage extends StatefulWidget {
@@ -16,10 +18,16 @@ class TodosMainPage extends StatefulWidget {
 }
 
 class _TodosMainPageState extends State<TodosMainPage> {
+  final ScrollController _scrollController = ScrollController();
+  FocusNode keywordsFocusNode = FocusNode();
+  final keywordsController = TextEditingController();
+  String keywords = '';
+  bool showSearcher = false;
 
   @override
   void dispose() {
     super.dispose();
+    keywordsController.dispose();
   }
 
   @override
@@ -41,185 +49,291 @@ class _TodosMainPageState extends State<TodosMainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return homeArea([
-      homeHeaderTriple(
-        'Tareas',
-        IconButton(
-          icon: Icon(Icons.help_outline_rounded,
-              color: colorSpecialItem, size: deviceWidth * 0.085),
-          splashRadius: 0.001,
-          onPressed: () {
-            Navigator.pushNamed(context, '/todos/todos_help');
-          },
-        ),
-        IconButton(
-          icon: Container(
-            alignment: Alignment.center,
-            child: Column(
-              children: [
-                Row(children: [
-                  Icon(Icons.done_all_rounded,
-                      color: colorSpecialItem, size: deviceWidth * 0.0405),
-                  Icon(Icons.delete_outline_rounded,
-                      color: Colors.transparent, size: deviceWidth * 0.0405),
-                ],),
-                Row(children: [
-                  Icon(Icons.subdirectory_arrow_right_rounded,
-                      color: colorSpecialItem, size: deviceWidth * 0.0405),
-                  Icon(Icons.delete_outline_rounded,
-                      color: colorSpecialItem, size: deviceWidth * 0.0405),
-                ],),
-              ],
+    IconData searcherIcon = Icons.search_rounded;
+    if (showSearcher==true) searcherIcon = Icons.search_off_rounded;
+
+    return Container(
+        color: colorMainBackground,
+        alignment: Alignment.topLeft,
+        margin: EdgeInsets.fromLTRB(
+            deviceWidth * 0.075, deviceHeight * 0.075, deviceWidth * 0.075, 0.0),
+        child: ListView(
+          addAutomaticKeepAlives: true,
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            homeHeaderTriple(
+              'Tareas',
+              IconButton(
+                icon: Container(
+                  alignment: Alignment.center,
+                  child: Column(
+                    children: [
+                      Row(children: [
+                        Icon(Icons.done_all_rounded,
+                            color: colorSpecialItem, size: deviceWidth * 0.0405),
+                        Icon(Icons.delete_outline_rounded,
+                            color: Colors.transparent, size: deviceWidth * 0.0405),
+                      ],),
+                      Row(children: [
+                        Icon(Icons.subdirectory_arrow_right_rounded,
+                            color: colorSpecialItem, size: deviceWidth * 0.0405),
+                        Icon(Icons.delete_outline_rounded,
+                            color: colorSpecialItem, size: deviceWidth * 0.0405),
+                      ],),
+                    ],
+                  ),
+                ),
+                splashRadius: 0.001,
+                onPressed: () => _showDeleteAllDoneDialog(),
+              ),
+              IconButton(
+                icon: Icon(searcherIcon,
+                    color: colorSpecialItem, size: deviceWidth * 0.085),
+                splashRadius: 0.001,
+                onPressed: () {
+                  setState(() {
+                    showSearcher=!showSearcher;
+                    keywordsController.clear();
+                    keywords='';
+                  });
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.add_rounded,
+                    color: colorSpecialItem, size: deviceWidth * 0.085),
+                splashRadius: 0.001,
+                onPressed: () {
+                  Navigator.pushNamed(context, '/todos/add_todo');
+                },
+              ),
             ),
-          ),
-          splashRadius: 0.001,
-          onPressed: () => _showDeleteAllDoneDialog(),
-        ),
-        IconButton(
-          icon: Icon(Icons.add_rounded,
-              color: colorSpecialItem, size: deviceWidth * 0.085),
-          splashRadius: 0.001,
-          onPressed: () {
-            Navigator.pushNamed(context, '/todos/add_todo');
-          },
-        ),
-      ),
 
-      StreamBuilder<List<List<Todo>>>(
-          stream: CombineLatestStream.list([
-            readDoneTodos(),
-            readPendingTodosWithPriority(1),
-            readPendingTodosWithPriority(2),
-            readPendingTodosWithPriority(3),
+            if (showSearcher) Wrap(
+              alignment: WrapAlignment.center,
+              children: [
+                Container(
+                  width: deviceWidth*0.65,
+                  child: TextField(
+                    focusNode: keywordsFocusNode,
+                    controller: keywordsController,
+                    keyboardType: TextInputType.text,
+                    textCapitalization: TextCapitalization.sentences,
+                    textInputAction: TextInputAction.search,
+                    maxLines: null,
+                    style: TextStyle(color: colorMainText),
+                    decoration: InputDecoration(
+                      fillColor: colorThirdBackground,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: colorThirdBackground, width: 1),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                        BorderSide(color: colorSpecialItem, width: 2),
+                      ),
+
+                      hintText: 'Buscar tareas...',
+                      hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
+                    ),
+                    onChanged: (text){
+                      setState(() {
+                        keywords=text;
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(width: deviceWidth*0.015,),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: colorSecondBackground,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [ SizedBox(
+                      //width: deviceWidth*0.1,
+                      height: deviceHeight*0.07,
+                      child: TextButton(
+                        child: Text(
+                          'Borrar',
+                          style: TextStyle(
+                              color: colorSpecialItem,
+                              fontSize: deviceWidth * 0.035,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        onPressed: (){
+                          setState(() {
+                            keywords='';
+                            keywordsController.clear();
+                            keywordsFocusNode.unfocus();
+                          });
+                        },
+                      ),
+                    ),],
+                  ),
+                ),
+              ],),
+            if (showSearcher) SizedBox(height: deviceHeight*0.015,),
+
+            Container(
+                height: deviceHeight*0.725,
+                child: StreamBuilder<List<List<Todo>>>(
+                    stream: CombineLatestStream.list([
+                      readDoneTodos(),
+                      readPendingTodosWithPriority(1),
+                      readPendingTodosWithPriority(2),
+                      readPendingTodosWithPriority(3),
+                    ]),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        debugPrint('[ERR] Cannot load todos: ' + snapshot.error.toString());
+                        return errorContainer('No se pueden cargar las tareas.', 0.75);
+                      }
+                      else if (snapshot.hasData) {
+
+                        final doneTodos = snapshot.data![0];
+                        final pendingTodosPriority1 = snapshot.data![1];
+                        final pendingTodosPriority2 = snapshot.data![2];
+                        final pendingTodosPriority3 = snapshot.data![3];
+
+                        int pendingTodosLength = pendingTodosPriority1.length +
+                            pendingTodosPriority2.length +
+                            pendingTodosPriority3.length;
+
+                        late IconData showPendingTodosIcon;
+                        late IconData showDoneTodosIcon;
+
+                        if (showPendingTodos) showPendingTodosIcon = Icons.visibility_outlined;
+                        else showPendingTodosIcon = Icons.visibility_off_outlined;
+                        if (showDoneTodos) showDoneTodosIcon = Icons.visibility_outlined;
+                        else showDoneTodosIcon = Icons.visibility_off_outlined;
+
+                        return ListView(
+                          addAutomaticKeepAlives: true,
+                          physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
+                          controller: _scrollController,
+                          children: [
+                            TextButton(
+                              child: Row(children: [
+                                Container(
+                                  padding: EdgeInsets.all(deviceWidth*0.0075),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: colorSpecialItem,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0)
+                                    ),
+                                  ),
+                                  child: Text('Pendiente: ' + pendingTodosLength.toString(),
+                                      style: TextStyle(
+                                          color: colorMainText,
+                                          fontSize: deviceWidth * 0.05,
+                                          fontWeight: FontWeight.bold)
+                                  ),
+                                ),
+                                SizedBox(width: deviceWidth*0.02,),
+                                Icon(showPendingTodosIcon, color: colorSpecialItem,),
+                              ],),
+                              onPressed: (){
+                                setState(() {
+                                  showPendingTodos = !showPendingTodos;
+                                });
+                              },
+                            ),
+                            if (pendingTodosLength > 0 && showPendingTodos) SizedBox(height: deviceHeight * 0.005),
+                            if (pendingTodosLength == 0 && darkMode==true && showPendingTodos) Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [Container(
+                                width: deviceWidth * 0.85,
+                                alignment: Alignment.center,
+                                child: Image.asset('assets/todo_preview_dark.png',
+                                  scale: deviceWidth * 0.0001,),
+                              ),],
+                            ),
+                            if (pendingTodosLength == 0 && darkMode==false && showPendingTodos) Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [Container(
+                                width: deviceWidth * 0.85,
+                                alignment: Alignment.center,
+                                child: Image.asset('assets/todo_preview_light.png',
+                                  scale: deviceWidth * 0.0001,),
+                              ),],
+                            ),
+
+                            if (pendingTodosPriority3.length > 0 && showPendingTodos) customDivider('Prioridad Alta'),
+                            if (pendingTodosPriority3.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
+                            if (showPendingTodos) Column(children: pendingTodosPriority3.map(buildPendingTodoBox).toList(),),
+
+                            if (pendingTodosPriority2.length > 0 && showPendingTodos) customDivider('Prioridad Media'),
+                            if (pendingTodosPriority2.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
+                            if (showPendingTodos) Column(children: pendingTodosPriority2.map(buildPendingTodoBox).toList(),),
+
+                            if (pendingTodosPriority1.length > 0 && showPendingTodos) customDivider('Prioridad Baja'),
+                            if (pendingTodosPriority1.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
+                            if (showPendingTodos) Column(children: pendingTodosPriority1.map(buildPendingTodoBox).toList(),),
+
+                            SizedBox(height: deviceHeight*0.02,),
+                            TextButton(
+                              child: Row(children: [
+                                Container(
+                                  padding: EdgeInsets.all(deviceWidth*0.0075),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: colorSpecialItem,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0)
+                                    ),
+                                  ),
+                                  child: Text('Hecho: ' + doneTodos.length.toString(),
+                                      style: TextStyle(
+                                          color: colorMainText,
+                                          fontSize: deviceWidth * 0.05,
+                                          fontWeight: FontWeight.bold)
+                                  ),
+                                ),
+                                SizedBox(width: deviceWidth*0.02,),
+                                Icon(showDoneTodosIcon, color: colorSpecialItem,),
+                              ],),
+                              onPressed: (){
+                                setState(() {
+                                  showDoneTodos = !showDoneTodos;
+                                });
+                              },
+                            ),
+                            if (showDoneTodos) Column(children: doneTodos.map(buildDoneTodoBox).toList(),),
+                            SizedBox(height: deviceHeight*0.01,),
+                            Container(
+                              alignment: Alignment.center,
+                              child: IconButton(
+                                icon: Icon(Icons.arrow_circle_up_rounded,
+                                    color: colorSpecialItem, size: deviceWidth * 0.08),
+                                splashRadius: 0.001,
+                                onPressed: () async {
+                                  await Future.delayed(const Duration(milliseconds: 100));
+                                  SchedulerBinding.instance?.addPostFrameCallback((_) {
+                                    _scrollController.animateTo(
+                                        _scrollController.position.minScrollExtent,
+                                        duration: const Duration(milliseconds: 400),
+                                        curve: Curves.fastOutSlowIn);
+                                  });
+                                },
+                              ),),
+                            SizedBox(height: deviceHeight*0.1,),
+                          ],
+                        );
+                      }
+                      else return loadingContainer('Cargando tus tareas...', 0.75);
+
+                    }),),
           ]),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              debugPrint('[ERR] Cannot load todos: ' + snapshot.error.toString());
-              return errorContainer('No se pueden cargar las tareas.', 0.75);
-            }
-            else if (snapshot.hasData) {
+    );
 
-              final doneTodos = snapshot.data![0];
-              final pendingTodosPriority1 = snapshot.data![1];
-              final pendingTodosPriority2 = snapshot.data![2];
-              final pendingTodosPriority3 = snapshot.data![3];
-
-              int pendingTodosLength = pendingTodosPriority1.length +
-                  pendingTodosPriority2.length +
-                  pendingTodosPriority3.length;
-
-              late IconData showPendingTodosIcon;
-              late IconData showDoneTodosIcon;
-
-              if (showPendingTodos) showPendingTodosIcon = Icons.visibility_outlined;
-              else showPendingTodosIcon = Icons.visibility_off_outlined;
-              if (showDoneTodos) showDoneTodosIcon = Icons.visibility_outlined;
-              else showDoneTodosIcon = Icons.visibility_off_outlined;
-
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    child: Row(children: [
-                      Container(
-                        padding: EdgeInsets.all(deviceWidth*0.0075),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: colorSpecialItem,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(10.0)
-                          ),
-                        ),
-                        child: Text('Pendiente: ' + pendingTodosLength.toString(),
-                            style: TextStyle(
-                                color: colorMainText,
-                                fontSize: deviceWidth * 0.05,
-                                fontWeight: FontWeight.bold)
-                        ),
-                      ),
-                      SizedBox(width: deviceWidth*0.02,),
-                      Icon(showPendingTodosIcon, color: colorSpecialItem,),
-                    ],),
-                    onPressed: (){
-                      setState(() {
-                        showPendingTodos = !showPendingTodos;
-                      });
-                    },
-                  ),
-                  if (pendingTodosLength > 0 && showPendingTodos) SizedBox(height: deviceHeight * 0.005),
-                  if (pendingTodosLength == 0 && darkMode==true && showPendingTodos) Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Container(
-                      width: deviceWidth * 0.85,
-                      alignment: Alignment.center,
-                      child: Image.asset('assets/todo_preview_dark.png',
-                        scale: deviceWidth * 0.0001,),
-                    ),],
-                  ),
-                  if (pendingTodosLength == 0 && darkMode==false && showPendingTodos) Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Container(
-                      width: deviceWidth * 0.85,
-                      alignment: Alignment.center,
-                      child: Image.asset('assets/todo_preview_light.png',
-                        scale: deviceWidth * 0.0001,),
-                    ),],
-                  ),
-
-                  if (pendingTodosPriority3.length > 0 && showPendingTodos) customDivider('Prioridad Alta'),
-                  if (pendingTodosPriority3.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
-                  if (showPendingTodos) Column(children: pendingTodosPriority3.map(buildPendingTodoBox).toList(),),
-
-                  if (pendingTodosPriority2.length > 0 && showPendingTodos) customDivider('Prioridad Media'),
-                  if (pendingTodosPriority2.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
-                  if (showPendingTodos) Column(children: pendingTodosPriority2.map(buildPendingTodoBox).toList(),),
-
-                  if (pendingTodosPriority1.length > 0 && showPendingTodos) customDivider('Prioridad Baja'),
-                  if (pendingTodosPriority1.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
-                  if (showPendingTodos) Column(children: pendingTodosPriority1.map(buildPendingTodoBox).toList(),),
-
-                  SizedBox(height: deviceHeight*0.02,),
-                  TextButton(
-                    child: Row(children: [
-                      Container(
-                        padding: EdgeInsets.all(deviceWidth*0.0075),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: colorSpecialItem,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(10.0)
-                          ),
-                        ),
-                        child: Text('Hecho: ' + doneTodos.length.toString(),
-                            style: TextStyle(
-                                color: colorMainText,
-                                fontSize: deviceWidth * 0.05,
-                                fontWeight: FontWeight.bold)
-                        ),
-                      ),
-                      SizedBox(width: deviceWidth*0.02,),
-                      Icon(showDoneTodosIcon, color: colorSpecialItem,),
-                    ],),
-                    onPressed: (){
-                      setState(() {
-                        showDoneTodos = !showDoneTodos;
-                      });
-                    },
-                  ),
-                  if (showDoneTodos) Column(children: doneTodos.map(buildDoneTodoBox).toList(),),
-
-                ],
-              );
-            }
-            else return loadingContainer('Cargando tus tareas...', 0.75);
-
-          }),
-
-    ]);
   }
 
   Widget buildPendingTodoBox(Todo todo) {
@@ -1841,7 +1955,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     await cancelAllTodoNotifications(id);
                     await deleteTodoById(id);
                     Navigator.pop(context);
-                    snackBar(context, 'Tarea eliminada', Colors.green);
+                    showSnackBar(context, 'Tarea eliminada', Colors.green);
                   },
                   child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
               TextButton(
@@ -1867,7 +1981,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   onPressed: () async {
                     await deleteDoneTodos();
                     Navigator.pop(context);
-                    snackBar(context, 'Tareas hechas eliminadas', Colors.green);
+                    showSnackBar(context, 'Tareas hechas eliminadas', Colors.green);
                   },
                   child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
               TextButton(

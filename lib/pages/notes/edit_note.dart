@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/classes/note.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
 class EditNote extends StatefulWidget {
@@ -46,7 +47,7 @@ class _EditNoteState extends State<EditNote> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: homeArea([
-        pageHeader(context, 'Editar Nota'),
+        pageHeaderWithBackArrow(context, 'Editar Nota'),
         formContainer([
           formTextField(
               nameController, 'Título', '(Opcional)', nameFocusNode),
@@ -162,10 +163,10 @@ class _EditNoteState extends State<EditNote> {
                 if (onCalendar) buildNoteNotification(id, nameController.text, calendarDate);
 
                 Navigator.of(context).popUntil((route) => route.isFirst);
-                snackBar(context, 'Nota actualizada', Colors.green);
+                showSnackBar(context, 'Nota actualizada', Colors.green);
               } on Exception catch (e) {
                 debugPrint('[ERR] Could not update note: $e');
-                snackBar(context, 'Ha ocurrido un error', Colors.red);
+                showSnackBar(context, 'Ha ocurrido un error', Colors.red);
               }
             }),
         SizedBox(height: deviceHeight * 0.025),

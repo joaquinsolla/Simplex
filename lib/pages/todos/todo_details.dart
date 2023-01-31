@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
 
@@ -233,7 +234,7 @@ class _TodoDetailsState extends State<TodoDetails> {
                           await cancelAllTodoNotifications(selectedTodo!.id);
                           await deleteTodoById(selectedTodo!.id);
                           Navigator.of(context).popUntil((route) => route.isFirst);
-                          snackBar(context, 'Tarea eliminada', Colors.green);
+                          showSnackBar(context, 'Tarea eliminada', Colors.green);
                         },
                         child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
                     TextButton(

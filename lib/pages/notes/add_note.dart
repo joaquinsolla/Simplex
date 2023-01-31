@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/classes/note.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
 class AddNote extends StatefulWidget {
@@ -43,7 +44,7 @@ class _AddNoteState extends State<AddNote> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: homeArea([
-        pageHeader(context, 'Nueva Nota'),
+        pageHeaderWithBackArrow(context, 'Nueva Nota'),
         formContainer([
           formTextField(
               nameController, 'Título', '(Opcional)', nameFocusNode),
@@ -159,7 +160,7 @@ class _AddNoteState extends State<AddNote> {
                     Navigator.pop(context);
                   } on Exception catch (e) {
                     debugPrint('[ERR] Could not create note: $e');
-                    snackBar(context, 'Ha ocurrido un error', Colors.red);
+                    showSnackBar(context, 'Ha ocurrido un error', Colors.red);
                   }
                 }),
         SizedBox(height: deviceHeight * 0.025),

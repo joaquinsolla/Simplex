@@ -5,6 +5,7 @@ import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:simplex/classes/note.dart';
 import 'package:simplex/common/all_common.dart';
+import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -20,6 +21,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
   FocusNode keywordsFocusNode = FocusNode();
   final keywordsController = TextEditingController();
   String keywords = '';
+  bool showSearcher = false;
 
   @override
   void dispose() {
@@ -35,6 +37,9 @@ class _NotesMainPageState extends State<NotesMainPage> {
 
   @override
   Widget build(BuildContext context) {
+    IconData searcherIcon = Icons.search_rounded;
+    if (showSearcher==true) searcherIcon = Icons.search_off_rounded;
+
     return Container(
       color: colorMainBackground,
       alignment: Alignment.topLeft,
@@ -48,13 +53,15 @@ class _NotesMainPageState extends State<NotesMainPage> {
           homeHeaderDouble(
             'Notas',
             IconButton(
-              icon: Icon(Icons.help_outline_rounded,
+              icon: Icon(searcherIcon,
                   color: colorSpecialItem, size: deviceWidth * 0.085),
               splashRadius: 0.001,
               onPressed: () {
-                snackBar(context, '[Beta] En desarrollo', colorSpecialItem);
-                //TODO
-                //Navigator.pushNamed(context, '/notes/notes_help');
+                setState(() {
+                  showSearcher=!showSearcher;
+                  keywordsController.clear();
+                  keywords='';
+                });
               },
             ),
             IconButton(
@@ -67,7 +74,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
             ),
           ),
 
-          Wrap(
+          if (showSearcher) Wrap(
             alignment: WrapAlignment.center,
             children: [
               Container(
@@ -134,7 +141,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                 ),
               ),
             ],),
-          SizedBox(height: deviceHeight*0.015,),
+          if (showSearcher) SizedBox(height: deviceHeight*0.015,),
           StreamBuilder<List<Note>>(
               stream: readNotesWithTitle(keywords.trim()),
               builder: (context, snapshot) {
@@ -305,7 +312,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
           ),
           onPressed: (){
             // TODO: share notes
-            snackBar(context, '[Beta] En desarrollo', colorSpecialItem);
+            showSnackBar(context, '[Beta] En desarrollo', colorSpecialItem);
           },
         ),
         FocusedMenuItem(
@@ -337,7 +344,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                             await cancelNoteNotification(note.id);
                             await deleteNoteById(note.id);
                             Navigator.pop(context);
-                            snackBar(context, 'Nota eliminada', Colors.green);
+                            showSnackBar(context, 'Nota eliminada', Colors.green);
                           },
                           child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
                       TextButton(
