@@ -119,7 +119,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     keyboardType: TextInputType.text,
                     textCapitalization: TextCapitalization.sentences,
                     textInputAction: TextInputAction.search,
-                    maxLines: null,
+                    maxLines: 1,
                     style: TextStyle(color: colorMainText),
                     decoration: InputDecoration(
                       fillColor: colorThirdBackground,

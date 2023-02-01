@@ -2,7 +2,6 @@ TO-DO:
 crear widgets en el escritorio?
 link para compartir evento
 INTERNACIONALIZACION
-optimizar busqueda notas
 
 DOING:
 
@@ -25,3 +24,5 @@ notificaciones personalizadas
 migrar views
 alinear en modo horizontal
 Reorganizar ficheros
+optimizar busqueda notas
+

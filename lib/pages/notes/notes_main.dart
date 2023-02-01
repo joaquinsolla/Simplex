@@ -49,7 +49,6 @@ class _NotesMainPageState extends State<NotesMainPage> {
         addAutomaticKeepAlives: true,
         physics: const NeverScrollableScrollPhysics(),
         children: [
-
           HomeHeaderDouble(
             'Notas',
             IconButton(
@@ -73,7 +72,6 @@ class _NotesMainPageState extends State<NotesMainPage> {
               },
             ),
           ),
-
           if (showSearcher) Wrap(
             alignment: WrapAlignment.center,
             children: [
@@ -85,7 +83,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                   keyboardType: TextInputType.text,
                   textCapitalization: TextCapitalization.sentences,
                   textInputAction: TextInputAction.search,
-                  maxLines: null,
+                  maxLines: 1,
                   style: TextStyle(color: colorMainText),
                   decoration: InputDecoration(
                     fillColor: colorThirdBackground,

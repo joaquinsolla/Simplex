@@ -218,12 +218,13 @@ Stream<List<Note>> readNotesByTitle(String content) {
       .snapshots().map((snapshot) =>
       snapshot.docs.map((doc) => Note.fromJson(doc.data())).toList());
 
+  // Cannot use orderBy
   else return FirebaseFirestore.instance.
-  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('notes')
-      .where("name", whereIn: [content, content.toLowerCase(), content.toUpperCase()])
-      .orderBy('modificationDate', descending: true)
-      .snapshots().map((snapshot) =>
-      snapshot.docs.map((doc) => Note.fromJson(doc.data())).toList());
+    collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('notes')
+        .where('name', isGreaterThanOrEqualTo: content)
+        .where('name', isLessThanOrEqualTo: content+ '\uf8ff')
+        .snapshots().map((snapshot) =>
+        snapshot.docs.map((doc) => Note.fromJson(doc.data())).toList());
 }
 
 Future createNote(Note note) async{
