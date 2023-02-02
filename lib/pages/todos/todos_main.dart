@@ -289,11 +289,11 @@ class _TodosMainPageState extends State<TodosMainPage> {
                                 });
                               },
                             ),
-                            if (pendingTodosLength == 0 && showDoneTodos) NoItemsContainer('tareas hechas', 0.2),
-                            if (pendingTodosLength > 0 && showDoneTodos) Column(children: doneTodos.map(buildDoneTodoBox).toList(),),
+                            if (doneTodos.length == 0 && showDoneTodos) NoItemsContainer('tareas hechas', 0.2),
+                            if (doneTodos.length > 0 && showDoneTodos) Column(children: doneTodos.map(buildDoneTodoBox).toList(),),
 
-                            SizedBox(height: deviceHeight*0.01,),
-                            Container(
+                            if (pendingTodosLength != 0 || doneTodos.length != 0) SizedBox(height: deviceHeight*0.01,),
+                            if (pendingTodosLength != 0 || doneTodos.length != 0) Container(
                               alignment: Alignment.center,
                               child: IconButton(
                                 icon: Icon(Icons.arrow_circle_up_rounded,

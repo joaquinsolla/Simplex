@@ -16,6 +16,21 @@ Container HomeArea(List<Widget> children) {
   );
 }
 
+Container HomeAreaWithScrollController(ScrollController scrollController, List<Widget> children) {
+  return Container(
+    color: colorMainBackground,
+    alignment: Alignment.topLeft,
+    margin: EdgeInsets.fromLTRB(
+        deviceWidth * 0.075, deviceHeight * 0.075, deviceWidth * 0.075, 0.0),
+    child: ListView(
+      addAutomaticKeepAlives: true,
+      physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
+      controller: scrollController,
+      children: children,
+    ),
+  );
+}
+
 /// CONTAINERS
 Container FormContainer (List<Widget> formWidgets){
   return Container(

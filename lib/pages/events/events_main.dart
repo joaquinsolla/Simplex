@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
 import 'package:intl/intl.dart';
@@ -20,6 +21,7 @@ class EventsMainPage extends StatefulWidget {
 }
 
 class _EventsMainPageState extends State<EventsMainPage> {
+  final ScrollController _scrollController = ScrollController();
   Map<DateTime, List<dynamic>> daysWithEvents = {};
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
@@ -91,8 +93,9 @@ class _EventsMainPageState extends State<EventsMainPage> {
     else if (formatDates==true) dateText = DateFormat('dd/MM/yyyy').format(_selectedDay);
     else dateText = DateFormat('MM/dd/yyyy').format(_selectedDay);
 
-    return HomeArea([
-      HomeHeaderDouble('Calendario',
+    return HomeAreaWithScrollController(_scrollController,
+        [
+          HomeHeaderDouble('Calendario',
         IconButton(
           icon: Icon(Icons.help_outline_rounded,
               color: colorSpecialItem, size: deviceWidth * 0.085),
@@ -111,7 +114,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
         ),
       ),
 
-      StreamBuilder<List<List<dynamic>>>(
+          StreamBuilder<List<List<dynamic>>>(
           stream: CombineLatestStream.list([
             readAllEvents(),
             readPendingLimitedTodos(),
@@ -224,7 +227,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
             else return LoadingContainer('Cargando calendario...', 0.4);
           }),
 
-      StreamBuilder<List<List<dynamic>>>(
+          StreamBuilder<List<List<dynamic>>>(
           stream: CombineLatestStream.list([
             readEventsOfDate(_selectedDay),
             readPendingLimitedTodosByDateTime(dateTimeToDateOnly(_selectedDay)),
@@ -291,13 +294,31 @@ class _EventsMainPageState extends State<EventsMainPage> {
 
                   Column(children: events.map(buildEventBox).toList(),),
 
+                  if (events.length != 0 || todos.length != 0 || notes.length != 0) SizedBox(height: deviceHeight*0.01,),
+                  if (events.length != 0 || todos.length != 0 || notes.length != 0) Container(
+                    alignment: Alignment.center,
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_circle_up_rounded,
+                          color: colorSpecialItem, size: deviceWidth * 0.08),
+                      splashRadius: 0.001,
+                      onPressed: () async {
+                        await Future.delayed(const Duration(milliseconds: 100));
+                        SchedulerBinding.instance?.addPostFrameCallback((_) {
+                          _scrollController.animateTo(
+                              _scrollController.position.minScrollExtent,
+                              duration: const Duration(milliseconds: 400),
+                              curve: Curves.fastOutSlowIn);
+                        });
+                      },
+                    ),),
+
                   SizedBox(height: deviceHeight * 0.015),
                 ],);
             }
             else return LoadingContainer('Cargando eventos...', 0.35);
           }),
-
-    ]);
+        ]
+    );
   }
 
   Widget buildEventBox(dynamic event){
