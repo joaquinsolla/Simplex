@@ -153,25 +153,8 @@ class _NotesMainPageState extends State<NotesMainPage> {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      //TODO: change images
-                      if (notes.length == 0 && keywords=='' && darkMode==true) Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [Container(
-                          width: deviceWidth * 0.85,
-                          alignment: Alignment.center,
-                          child: Image.asset('assets/todo_preview_dark.png',
-                            scale: deviceWidth * 0.0001,),
-                        ),],
-                      ),
-                      if (notes.length == 0 && keywords=='' && darkMode==false) Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [Container(
-                          width: deviceWidth * 0.85,
-                          alignment: Alignment.center,
-                          child: Image.asset('assets/todo_preview_light.png',
-                            scale: deviceWidth * 0.0001,),
-                        ),],
-                      ),
+                      if (notes.length == 0 && keywords=='') NoItemsContainer('notas', 0.65),
+                      
                       if (notes.length == 0 && keywords!='') Container(
                         height: deviceHeight*0.3,
                         alignment: Alignment.center,

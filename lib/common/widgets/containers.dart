@@ -126,3 +126,15 @@ Container LoadingContainer(String text, double heightProportion){
       )
   );
 }
+
+Container NoItemsContainer(String items, double heightProportion){
+  return Container(
+    height: deviceHeight*heightProportion,
+    alignment: Alignment.center,
+    child: Text('Sin ' + items,
+        style: TextStyle(
+            color: colorSecondText,
+            fontSize: deviceWidth * 0.05,
+            fontWeight: FontWeight.normal)),
+  );
+}

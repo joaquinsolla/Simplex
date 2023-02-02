@@ -245,24 +245,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                               },
                             ),
                             if (pendingTodosLength > 0 && showPendingTodos) SizedBox(height: deviceHeight * 0.005),
-                            if (pendingTodosLength == 0 && darkMode==true && showPendingTodos) Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [Container(
-                                width: deviceWidth * 0.85,
-                                alignment: Alignment.center,
-                                child: Image.asset('assets/todo_preview_dark.png',
-                                  scale: deviceWidth * 0.0001,),
-                              ),],
-                            ),
-                            if (pendingTodosLength == 0 && darkMode==false && showPendingTodos) Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [Container(
-                                width: deviceWidth * 0.85,
-                                alignment: Alignment.center,
-                                child: Image.asset('assets/todo_preview_light.png',
-                                  scale: deviceWidth * 0.0001,),
-                              ),],
-                            ),
+                            if (pendingTodosLength == 0 && showPendingTodos) NoItemsContainer('tareas pendientes', 0.2),
 
                             if (pendingTodosPriority3.length > 0 && showPendingTodos) CustomDivider('Prioridad Alta'),
                             if (pendingTodosPriority3.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
@@ -306,7 +289,9 @@ class _TodosMainPageState extends State<TodosMainPage> {
                                 });
                               },
                             ),
-                            if (showDoneTodos) Column(children: doneTodos.map(buildDoneTodoBox).toList(),),
+                            if (pendingTodosLength == 0 && showDoneTodos) NoItemsContainer('tareas hechas', 0.2),
+                            if (pendingTodosLength > 0 && showDoneTodos) Column(children: doneTodos.map(buildDoneTodoBox).toList(),),
+
                             SizedBox(height: deviceHeight*0.01,),
                             Container(
                               alignment: Alignment.center,
