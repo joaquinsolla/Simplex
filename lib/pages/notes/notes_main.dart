@@ -223,7 +223,6 @@ class _NotesMainPageState extends State<NotesMainPage> {
                 else return LoadingContainer('Cargando tus notas...', 0.75);
 
               }),
-
         ],
       ),
     );

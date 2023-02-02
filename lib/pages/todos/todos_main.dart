@@ -181,10 +181,10 @@ class _TodosMainPageState extends State<TodosMainPage> {
                 height: deviceHeight*0.725,
                 child: StreamBuilder<List<List<Todo>>>(
                     stream: CombineLatestStream.list([
-                      readDoneTodos(),
-                      readPendingTodosByPriority(1),
-                      readPendingTodosByPriority(2),
-                      readPendingTodosByPriority(3),
+                      readDoneTodosByName(keywords.trim()),
+                      readPendingTodosByPriorityAndName(1, keywords.trim()),
+                      readPendingTodosByPriorityAndName(2, keywords.trim()),
+                      readPendingTodosByPriorityAndName(3, keywords.trim()),
                     ]),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {

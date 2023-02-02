@@ -101,8 +101,8 @@ Stream<List<Todo>> readPendingLimitedTodosByDateTime(DateTime date) {
       snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
 }
 
-Stream<List<Todo>> readPendingTodosByPriority(int priority) {
-  return FirebaseFirestore.instance.
+Stream<List<Todo>> readPendingTodosByPriorityAndName(int priority, String content) {
+  if (content == "") return FirebaseFirestore.instance.
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
       .where('done', isEqualTo: false)
       .where('priority', isEqualTo: priority)
@@ -111,10 +111,21 @@ Stream<List<Todo>> readPendingTodosByPriority(int priority) {
       .orderBy('name', descending: false)
       .snapshots().map((snapshot) =>
       snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
+
+  // Cannot use orderBy
+  else return FirebaseFirestore.instance.
+  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
+      .where('done', isEqualTo: false)
+      .where('priority', isEqualTo: priority)
+      .where('name', isGreaterThanOrEqualTo: content)
+      .where('name', isLessThanOrEqualTo: content+ '\uf8ff')
+      .snapshots().map((snapshot) =>
+      snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
+
 }
 
-Stream<List<Todo>> readDoneTodos() {
-  return FirebaseFirestore.instance.
+Stream<List<Todo>> readDoneTodosByName(String content) {
+  if (content == "") return FirebaseFirestore.instance.
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
       .where('done', isEqualTo: true)
       .orderBy('priority', descending: true)
@@ -123,6 +134,16 @@ Stream<List<Todo>> readDoneTodos() {
       .orderBy('name', descending: false)
       .snapshots().map((snapshot) =>
       snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
+
+  // Cannot use orderBy
+  else return FirebaseFirestore.instance.
+  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
+      .where('done', isEqualTo: true)
+      .where('name', isGreaterThanOrEqualTo: content)
+      .where('name', isLessThanOrEqualTo: content+ '\uf8ff')
+      .snapshots().map((snapshot) =>
+  snapshot.docs.map((doc) => Todo.fromJson(doc.data())).toList());
+
 }
 
 Future createTodo(Todo todo) async{
