@@ -42,11 +42,11 @@ class _NoteDetailsState extends State<NoteDetails> {
       body: HomeArea([
       PageHeader(context, 'Nota'),
         FormContainer([
-          if (selectedNote!.content == '') Text(
+          if (selectedNote!.name == '') Text(
             'Sin título',
               style: TextStyle(color: colorThirdText, fontSize: deviceWidth * 0.065, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
           ),
-          if (selectedNote!.content != '') Text(
+          if (selectedNote!.name != '') Text(
             selectedNote!.name,
             style: TextStyle(
                 color: colorMainText,

@@ -221,7 +221,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
 
           StreamBuilder<List<List<dynamic>>>(
           stream: CombineLatestStream.list([
-            readEventsOfDate(_selectedDay),
+            readEventsOfDate(dateTimeToDateOnly(_selectedDay)),
             readPendingLimitedTodosByDateTime(dateTimeToDateOnly(_selectedDay)),
             readCalendarNotesByDateTime(dateTimeToDateOnly(_selectedDay))
           ]),
