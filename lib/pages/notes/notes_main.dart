@@ -60,6 +60,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                   showSearcher=!showSearcher;
                   keywordsController.clear();
                   keywords='';
+                  if (showSearcher) keywordsFocusNode.requestFocus();
                 });
               },
             ),

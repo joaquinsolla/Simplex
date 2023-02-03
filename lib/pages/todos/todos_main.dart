@@ -95,6 +95,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     showSearcher=!showSearcher;
                     keywordsController.clear();
                     keywords='';
+                    if (showSearcher) keywordsFocusNode.requestFocus();
                   });
                 },
               ),
