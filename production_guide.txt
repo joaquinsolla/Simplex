@@ -6,3 +6,6 @@ flutter install
 
 Compilar appbundle a partir del apk:
 flutter build appbundle
+
+*Añadir*
+--no-tree-shake-icons
