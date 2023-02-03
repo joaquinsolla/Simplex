@@ -95,23 +95,15 @@ class _EventsMainPageState extends State<EventsMainPage> {
 
     return HomeAreaWithScrollController(_scrollController,
         [
-          HomeHeaderDouble('Calendario',
-        IconButton(
-          icon: Icon(Icons.help_outline_rounded,
-              color: colorSpecialItem, size: deviceWidth * 0.085),
-          splashRadius: 0.001,
-          onPressed: () {
-            Navigator.pushNamed(context, '/events/events_help');
-          },
-        ),
-        IconButton(
-          icon: Icon(Icons.add_rounded,
-              color: colorSpecialItem, size: deviceWidth * 0.085),
-          splashRadius: 0.001,
-          onPressed: () {
-            Navigator.pushNamed(context, '/events/add_event');
-          },
-        ),
+          HomeHeaderSimple('Calendario',
+          IconButton(
+            icon: Icon(Icons.add_rounded,
+                color: colorSpecialItem, size: deviceWidth * 0.085),
+            splashRadius: 0.001,
+            onPressed: () {
+              Navigator.pushNamed(context, '/events/add_event');
+            },
+          ),
       ),
 
           StreamBuilder<List<List<dynamic>>>(

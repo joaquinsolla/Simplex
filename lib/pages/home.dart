@@ -76,7 +76,7 @@ class _HomeState extends State<Home> {
       SizedBox(
         height: deviceHeight * 0.03,
       ),
-      Text('Formatos y medidas',
+      Text('Globalización',
           style: TextStyle(
               color: colorMainText,
               fontSize: deviceWidth * 0.05,
@@ -297,6 +297,15 @@ class _HomeState extends State<Home> {
           ),
         ),
       ]),
+      SizedBox(height: deviceHeight * 0.025),
+      MainButton(
+          Icons.help_outline_rounded,
+          colorSpecialItem,
+          ' Ayuda ',
+              () {
+                Navigator.pushNamed(context, '/help');
+              }
+      ),
       SizedBox(height: deviceHeight * 0.025),
       MainButton(
           Icons.logout_rounded,

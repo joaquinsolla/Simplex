@@ -33,17 +33,16 @@ Future main() async {
     routes: {
       '/auth': (context) => const Auth(),
       '/home': (context) => const Home(),
+      '/help': (context) => const Help(),
       '/services/change_password_service': (context) => const ChangePasswordService(),
 
       '/events/add_event': (context) => const AddEvent(),
       '/events/event_details': (context) => const EventDetails(),
       '/events/edit_event': (context) => const EditEvent(),
-      '/events/events_help': (context) => const EventsHelp(),
 
       '/todos/add_todo': (context) => const AddTodo(),
       '/todos/todo_details': (context) => const TodoDetails(),
       '/todos/edit_todo': (context) => const EditTodo(),
-      '/todos/todos_help': (context) => const TodosHelp(),
 
       '/notes/add_note': (context) => const AddNote(),
       '/notes/note_details': (context) => const NoteDetails(),
