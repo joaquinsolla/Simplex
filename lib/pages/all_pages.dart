@@ -1,6 +1,5 @@
 export 'home.dart';
 export 'auth.dart';
-export 'help.dart';
 
 export 'events/events_main.dart';
 export 'events/add_event.dart';
@@ -18,3 +17,10 @@ export 'todos/todos_main.dart';
 export 'todos/add_todo.dart';
 export 'todos/todo_details.dart';
 export 'todos/edit_todo.dart';
+
+export 'help/help_main.dart';
+export 'help/help_buttons.dart';
+export 'help/help_events.dart';
+export 'help/help_todos.dart';
+export 'help/help_notes.dart';
+export 'help/help_routines.dart';

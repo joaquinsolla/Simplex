@@ -303,7 +303,7 @@ class _HomeState extends State<Home> {
           colorSpecialItem,
           ' Ayuda ',
               () {
-                Navigator.pushNamed(context, '/help');
+                Navigator.pushNamed(context, '/help/help_main');
               }
       ),
       SizedBox(height: deviceHeight * 0.025),
@@ -318,7 +318,7 @@ class _HomeState extends State<Home> {
             debugPrint('[OK] Signed out');
           }
       ),
-      SizedBox(height: deviceHeight * 0.025),
+      FooterWithUrl(),
     ]);
   }
 

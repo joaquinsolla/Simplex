@@ -189,7 +189,7 @@ class _SignUpServiceState extends State<SignUpService> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('¿Ya tienes una cuenta?  ', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal),),
-                  Text('Inicia sesión', style: TextStyle(color: colorSpecialItem, fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal, decoration: TextDecoration.underline),),
+                  Text('Iniciar sesión', style: TextStyle(color: colorSpecialItem, fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal, decoration: TextDecoration.underline),),
                 ],
               ),
             ),

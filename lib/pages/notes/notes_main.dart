@@ -240,7 +240,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.open_in_new_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
+                Icon(Icons.open_in_browser_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Ver detalles', style: TextStyle(
                     color: colorSpecialItem,

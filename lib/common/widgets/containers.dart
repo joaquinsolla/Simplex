@@ -81,7 +81,7 @@ Container ButtonExplanationContainer(Widget buttonImg, String title, String body
   ]);
 }
 
-Container OthersExplanationContainer(String title, String body){
+Container TextExplanationContainer(String title, String body){
   return FormContainer([
     Container(
       alignment: Alignment.centerLeft,

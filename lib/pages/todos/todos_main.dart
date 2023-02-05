@@ -64,25 +64,8 @@ class _TodosMainPageState extends State<TodosMainPage> {
             HomeHeaderTriple(
               'Tareas',
               IconButton(
-                icon: Container(
-                  alignment: Alignment.center,
-                  child: Column(
-                    children: [
-                      Row(children: [
-                        Icon(Icons.done_all_rounded,
-                            color: colorSpecialItem, size: deviceWidth * 0.0405),
-                        Icon(Icons.delete_outline_rounded,
-                            color: Colors.transparent, size: deviceWidth * 0.0405),
-                      ],),
-                      Row(children: [
-                        Icon(Icons.subdirectory_arrow_right_rounded,
-                            color: colorSpecialItem, size: deviceWidth * 0.0405),
-                        Icon(Icons.delete_outline_rounded,
-                            color: colorSpecialItem, size: deviceWidth * 0.0405),
-                      ],),
-                    ],
-                  ),
-                ),
+                icon: Icon(Icons.clear_all_rounded,
+                    color: colorSpecialItem, size: deviceWidth * 0.085),
                 splashRadius: 0.001,
                 onPressed: () => _showDeleteAllDoneDialog(),
               ),
@@ -351,7 +334,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.open_in_new_rounded,
+                        Icon(Icons.open_in_browser_rounded,
                             color: colorSpecialItem,
                             size: deviceWidth * 0.06),
                         SizedBox(width: deviceWidth * 0.025,),
@@ -567,7 +550,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.open_in_new_rounded,
+                        Icon(Icons.open_in_browser_rounded,
                             color: colorSpecialItem,
                             size: deviceWidth * 0.06),
                         SizedBox(width: deviceWidth * 0.025,),
@@ -754,7 +737,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.open_in_new_rounded,
+                        Icon(Icons.open_in_browser_rounded,
                             color: colorSpecialItem,
                             size: deviceWidth * 0.06),
                         SizedBox(width: deviceWidth * 0.025,),
@@ -957,7 +940,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.open_in_new_rounded,
+                        Icon(Icons.open_in_browser_rounded,
                             color: colorSpecialItem,
                             size: deviceWidth * 0.06),
                         SizedBox(width: deviceWidth * 0.025,),
@@ -1146,7 +1129,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.open_in_new_rounded,
+                        Icon(Icons.open_in_browser_rounded,
                             color: colorSpecialItem,
                             size: deviceWidth * 0.06),
                         SizedBox(width: deviceWidth * 0.025,),
@@ -1367,7 +1350,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.open_in_new_rounded,
+                        Icon(Icons.open_in_browser_rounded,
                             color: colorSpecialItem,
                             size: deviceWidth * 0.06),
                         SizedBox(width: deviceWidth * 0.025,),
@@ -1557,7 +1540,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.open_in_new_rounded,
+                        Icon(Icons.open_in_browser_rounded,
                             color: colorSpecialItem,
                             size: deviceWidth * 0.06),
                         SizedBox(width: deviceWidth * 0.025,),
@@ -1764,7 +1747,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.open_in_new_rounded,
+                        Icon(Icons.open_in_browser_rounded,
                             color: colorSpecialItem,
                             size: deviceWidth * 0.06),
                         SizedBox(width: deviceWidth * 0.025,),

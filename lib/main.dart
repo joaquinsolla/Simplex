@@ -1,5 +1,5 @@
 /// APP DESIGNED AND CODED BY:
-/// Joaquin Solla Vazquez
+/// Joaquín Solla Vázquez
 /// App repository: https://github.com/joaquinsolla/Simplex
 
 import 'package:flutter/material.dart';
@@ -33,7 +33,6 @@ Future main() async {
     routes: {
       '/auth': (context) => const Auth(),
       '/home': (context) => const Home(),
-      '/help': (context) => const Help(),
       '/services/change_password_service': (context) => const ChangePasswordService(),
 
       '/events/add_event': (context) => const AddEvent(),
@@ -47,6 +46,14 @@ Future main() async {
       '/notes/add_note': (context) => const AddNote(),
       '/notes/note_details': (context) => const NoteDetails(),
       '/notes/edit_note': (context) => const EditNote(),
+
+      '/help/help_main': (context) => const HelpMainPage(),
+      '/help/help_buttons': (context) => const HelpButtons(),
+      '/help/help_events': (context) => const HelpEvents(),
+      '/help/help_todos': (context) => const HelpTodos(),
+      '/help/help_notes': (context) => const HelpNotes(),
+      '/help/help_routines': (context) => const HelpRoutines(),
+
     },
   ));
 
