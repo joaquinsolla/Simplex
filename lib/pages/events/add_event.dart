@@ -436,8 +436,7 @@ class _AddEventState extends State<AddEvent> {
             }
         ),
 
-
-        SizedBox(height: deviceHeight * 0.025),
+        EmptyFooter(),
       ]),
     );
   }

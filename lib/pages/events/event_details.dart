@@ -247,7 +247,8 @@ class _EventDetailsState extends State<EventDetails> {
                 );
               });
         }),
-        SizedBox(height: deviceHeight * 0.025),
+
+        EmptyFooter(),
       ]),
     );
   }

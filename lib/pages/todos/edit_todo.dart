@@ -265,7 +265,8 @@ class _EditTodoState extends State<EditTodo> {
           ' Cancelar ',
               () => Navigator.pop(context),
         ),
-        SizedBox(height: deviceHeight * 0.025),
+
+        EmptyFooter(),
       ]),
     );
   }

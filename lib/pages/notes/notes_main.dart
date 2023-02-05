@@ -73,6 +73,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
               },
             ),
           ),
+
           if (showSearcher) Wrap(
             alignment: WrapAlignment.center,
             children: [
@@ -141,6 +142,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
               ),
             ],),
           if (showSearcher) SizedBox(height: deviceHeight*0.015,),
+
           StreamBuilder<List<Note>>(
               stream: readNotesByTitle(keywords.trim()),
               builder: (context, snapshot) {
@@ -204,9 +206,11 @@ class _NotesMainPageState extends State<NotesMainPage> {
                     ],
                   );
                 }
-                else return LoadingContainer('Cargando tus notas...', 0.75);
 
+                else return LoadingContainer('Cargando tus notas...', 0.75);
               }),
+
+          EmptyFooter(),
         ],
       ),
     );

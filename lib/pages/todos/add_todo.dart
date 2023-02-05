@@ -260,7 +260,8 @@ class _AddTodoState extends State<AddTodo> {
               }
             }
         ),
-        SizedBox(height: deviceHeight * 0.025),
+
+        EmptyFooter(),
       ]),
     );
   }

@@ -42,90 +42,26 @@ class _HelpMainPageState extends State<HelpMainPage> {
           height: deviceHeight * 0.0125,
         ),
         FormContainer([
-          Container(
-            width: deviceHeight,
-            height: deviceHeight * 0.05,
-            child: TextButton(
-              child: Text(
-                'Botones',
-                style: TextStyle(
-                    color: colorMainText,
-                    fontSize: deviceWidth * 0.04,
-                    fontWeight: FontWeight.normal),
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/help/help_buttons');
-              },
-            ),
-          ),
+          SecondaryButton(colorMainText, 'Botones', (){
+            Navigator.pushNamed(context, '/help/help_buttons');
+          }),
           Divider(color: colorThirdText),
-          Container(
-            width: deviceHeight,
-            height: deviceHeight * 0.05,
-            child: TextButton(
-              child: Text(
-                'Calendario',
-                style: TextStyle(
-                    color: colorMainText,
-                    fontSize: deviceWidth * 0.04,
-                    fontWeight: FontWeight.normal),
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/help/help_events');
-              },
-            ),
-          ),
+          SecondaryButton(colorMainText, 'Calendario', (){
+            Navigator.pushNamed(context, '/help/help_events');
+          }),
           Divider(color: colorThirdText),
-          Container(
-            width: deviceHeight,
-            height: deviceHeight * 0.05,
-            child: TextButton(
-              child: Text(
-                'Tareas',
-                style: TextStyle(
-                    color: colorMainText,
-                    fontSize: deviceWidth * 0.04,
-                    fontWeight: FontWeight.normal),
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/help/help_todos');
-              },
-            ),
-          ),
+          SecondaryButton(colorMainText, 'Tareas', (){
+            Navigator.pushNamed(context, '/help/help_todos');
+          }),
           Divider(color: colorThirdText),
-          Container(
-            width: deviceHeight,
-            height: deviceHeight * 0.05,
-            child: TextButton(
-              child: Text(
-                'Notas',
-                style: TextStyle(
-                    color: colorMainText,
-                    fontSize: deviceWidth * 0.04,
-                    fontWeight: FontWeight.normal),
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/help/help_notes');
-              },
-            ),
-          ),
+          SecondaryButton(colorMainText, 'Notas', (){
+            Navigator.pushNamed(context, '/help/help_notes');
+          }),
           Divider(color: colorThirdText),
-          Container(
-            width: deviceHeight,
-            height: deviceHeight * 0.05,
-            child: TextButton(
-              child: Text(
-                'Rutinas',
-                style: TextStyle(
-                    color: colorMainText,
-                    fontSize: deviceWidth * 0.04,
-                    fontWeight: FontWeight.normal),
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/help/help_routines');
-              },
-            ),
-          ),
+          SecondaryButton(colorMainText, 'Rutinas', (){
+            Navigator.pushNamed(context, '/help/help_routines');
+          }),
+
         ]),
 
         SizedBox(height: deviceHeight * 0.03),
@@ -138,40 +74,13 @@ class _HelpMainPageState extends State<HelpMainPage> {
           height: deviceHeight * 0.0125,
         ),
         FormContainer([
-          Container(
-            width: deviceHeight,
-            height: deviceHeight * 0.05,
-            child: TextButton(
-              child: Text(
-                'Política de privacidad',
-                style: TextStyle(
-                    color: colorMainText,
-                    fontSize: deviceWidth * 0.04,
-                    fontWeight: FontWeight.normal),
-              ),
-              onPressed: () {
-                // TODO: privacy policy
-              },
-            ),
-          ),
+          SecondaryButton(colorMainText, 'Política de privacidad', (){
+            // TODO: privacy policy
+          }),
           Divider(color: colorThirdText),
-          Container(
-            width: deviceHeight,
-            height: deviceHeight * 0.05,
-            child: TextButton(
-              child: Text(
-                'Reportar un problema',
-                style: TextStyle(
-                    color: Colors.red,
-                    fontSize: deviceWidth * 0.04,
-                    fontWeight: FontWeight.normal),
-              ),
-              onPressed: () {
-                // TODO: problems report
-              },
-            ),
-          ),
-
+          SecondaryButton(Colors.red, 'Reportar un problema', (){
+            // TODO: problems report
+          }),
         ]),
 
         FooterWithUrl(),

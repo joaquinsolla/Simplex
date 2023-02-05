@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 
 Container MainButton(IconData icon, Color color, String text, Function() actions){
-
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
@@ -31,8 +30,31 @@ Container MainButton(IconData icon, Color color, String text, Function() actions
             ],
           ),
           onPressed: actions,
+          style: ButtonStyle(
+            overlayColor: MaterialStateProperty.all(color.withOpacity(0.1)),
+          ),
         ),
       ),],
+    ),
+  );
+}
+
+Container SecondaryButton(Color color, String text, Function() actions){
+  return Container(
+    width: deviceHeight,
+    height: deviceHeight * 0.05,
+    child: TextButton(
+      child: Text(
+        text,
+        style: TextStyle(
+            color: color,
+            fontSize: deviceWidth * 0.04,
+            fontWeight: FontWeight.normal),
+      ),
+      onPressed: actions,
+      style: ButtonStyle(
+        overlayColor: MaterialStateProperty.all(color.withOpacity(0.1)),
+      ),
     ),
   );
 }

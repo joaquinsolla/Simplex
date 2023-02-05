@@ -169,7 +169,8 @@ class _EditNoteState extends State<EditNote> {
                 showSnackBar(context, 'Ha ocurrido un error', Colors.red);
               }
             }),
-        SizedBox(height: deviceHeight * 0.025),
+
+        EmptyFooter(),
       ]),
     );
   }

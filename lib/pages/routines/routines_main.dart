@@ -35,7 +35,9 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
             showSnackBar(context, '[Beta] En desarrollo', colorSpecialItem);
           },
         ),
-      )
+      ),
+
+      EmptyFooter(),
     ]);
   }
 

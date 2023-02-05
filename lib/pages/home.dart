@@ -280,22 +280,9 @@ class _HomeState extends State<Home> {
           height: deviceHeight * 0.005,
         ),
         Divider(color: colorThirdText),
-        Container(
-          width: deviceHeight,
-          height: deviceHeight * 0.05,
-          child: TextButton(
-            child: Text(
-              'Cambia tu contraseña',
-              style: TextStyle(
-                  color: colorSpecialItem,
-                  fontSize: deviceWidth * 0.04,
-                  fontWeight: FontWeight.normal),
-            ),
-            onPressed: () {
-              Navigator.pushNamed(context, '/services/change_password_service');
-            },
-          ),
-        ),
+        SecondaryButton(colorSpecialItem, 'Cambia tu contraseña', (){
+          Navigator.pushNamed(context, '/services/change_password_service');
+        }),
       ]),
       SizedBox(height: deviceHeight * 0.025),
       MainButton(

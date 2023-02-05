@@ -304,11 +304,12 @@ class _EventsMainPageState extends State<EventsMainPage> {
                       },
                     ),),
 
-                  SizedBox(height: deviceHeight * 0.015),
                 ],);
             }
             else return LoadingContainer('Cargando eventos...', 0.35);
           }),
+
+          EmptyFooter(),
         ]
     );
   }

@@ -160,7 +160,8 @@ class _AddNoteState extends State<AddNote> {
                     showSnackBar(context, 'Ha ocurrido un error', Colors.red);
                   }
                 }),
-        SizedBox(height: deviceHeight * 0.025),
+
+        EmptyFooter(),
       ]),
     );
   }

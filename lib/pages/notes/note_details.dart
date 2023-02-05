@@ -158,7 +158,8 @@ class _NoteDetailsState extends State<NoteDetails> {
                 );
               });
         }),
-        SizedBox(height: deviceHeight * 0.025),
+
+        EmptyFooter(),
       ]),
     );
   }

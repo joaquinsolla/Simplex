@@ -225,7 +225,8 @@ class _TodoDetailsState extends State<TodoDetails> {
                 );
               });
         }),
-        SizedBox(height: deviceHeight * 0.025),
+
+        EmptyFooter(),
       ]),
     );
   }
