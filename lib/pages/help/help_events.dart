@@ -24,27 +24,34 @@ class _HelpEventsState extends State<HelpEvents> {
   @override
   Widget build(BuildContext context) {
 
-    late String calendarButtonImage;
-    if (darkMode) calendarButtonImage = 'assets/calendar_button_dark.png';
-    else calendarButtonImage = 'assets/calendar_button_light.png';
-
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea([
         PageHeader(context, 'Calendario'),
         Column(children: [
           SizedBox(height: deviceHeight * 0.0125),
-          TextExplanationContainer('Elementos en el calendario',
-              'El calendario puede mostrar: eventos, tareas con fecha límite y '
-                  'notas. Estos elementos aparecerán marcados como puntos en el '
-                  'calendario. Para ver los elementos que contiene un día pulsa en'
-                  ' él o llega a él mediante las flechas de navegación entre '
-                  'fechas (<, >).'),
+          TextExplanationContainer('Los eventos',
+              'Los eventos repesentan actividades o sucesos en una fecha y hora '
+                  'concretos. Siempre aparecen en el calendario y cuentan con: '
+                  'un nombre, descripción, fecha, hora, color y hasta 5 '
+                  'notificaciones.'),
           SizedBox(height: deviceHeight * 0.0125),
           TextExplanationContainer('Creación de eventos',
               'Los eventos pueden ser creados de dos formas: \n'
-                  '1) Pulsando el botón +.\n'
+                  '1) Pulsando el botón + en la ventana del calendario.\n'
                   '2) Manteniendo pulsado el día deseado en el calendario.'),
+          SizedBox(height: deviceHeight * 0.0125),
+          TextExplanationContainer('Notificaciones de eventos',
+              'Se te notificará acerca de un evento si configuras una '
+                  'notificación, esta te llegará al móvil en el momento '
+                  'seleccionado a modo de recordatorio indicándote en qué fecha'
+                  ' y hora será.'),
+          SizedBox(height: deviceHeight * 0.0125),
+          TextExplanationContainer('Otros elementos en el calendario',
+              'Además de eventos, el calendario también puede mostrar: tareas '
+                  'con fecha límite, notas de calendario y rutinas. '
+                  'Todos estos elementos aparecerán representados como puntos '
+                  'en su día correspondiente.'),
         ],),
 
         FooterWithUrl(),
