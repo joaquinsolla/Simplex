@@ -53,7 +53,7 @@ class _HelpButtonsState extends State<HelpButtons> {
                   'título.'),
           SizedBox(height: deviceHeight * 0.0125),
           ButtonExplanationContainer(
-              Icon(Icons.open_in_browser_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
+              Icon(Icons.input_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
               'Ver detalles',
               'Este botón te dirigirá a una ventana con los detalles del elemento '
                   'seleccionado.'),

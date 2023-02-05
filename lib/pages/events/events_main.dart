@@ -295,7 +295,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                       splashRadius: 0.001,
                       onPressed: () async {
                         await Future.delayed(const Duration(milliseconds: 100));
-                        SchedulerBinding.instance?.addPostFrameCallback((_) {
+                        SchedulerBinding.instance.addPostFrameCallback((_) {
                           _scrollController.animateTo(
                               _scrollController.position.minScrollExtent,
                               duration: const Duration(milliseconds: 400),
@@ -351,7 +351,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.open_in_browser_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
+                Icon(Icons.input_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Ver detalles', style: TextStyle(
                     color: colorSpecialItem,
@@ -497,7 +497,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                     ],
                   ),
                   Expanded(child: Text(''),),
-                  Icon(Icons.open_in_browser_rounded, color: iconColor, size: deviceWidth * 0.06),
+                  Icon(Icons.input_rounded, color: iconColor, size: deviceWidth * 0.06),
                   SizedBox(width: deviceWidth*0.01,),
                 ],
               ),
@@ -536,7 +536,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.open_in_browser_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
+                Icon(Icons.input_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Ver detalles', style: TextStyle(
                     color: colorSpecialItem,
@@ -682,7 +682,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                     ],
                   ),
                   Expanded(child: Text(''),),
-                  Icon(Icons.open_in_browser_rounded, color: iconColor, size: deviceWidth * 0.06),
+                  Icon(Icons.input_rounded, color: iconColor, size: deviceWidth * 0.06),
                   SizedBox(width: deviceWidth*0.01,),
                 ],
               ),
@@ -721,7 +721,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.open_in_browser_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
+                Icon(Icons.input_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Ver detalles', style: TextStyle(
                     color: colorSpecialItem,
@@ -845,7 +845,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                     ],
                   ),
                   Expanded(child: Text(''),),
-                  Icon(Icons.open_in_browser_rounded, color: iconColor, size: deviceWidth * 0.06),
+                  Icon(Icons.input_rounded, color: iconColor, size: deviceWidth * 0.06),
                   SizedBox(width: deviceWidth*0.01,),
                 ],
               ),
