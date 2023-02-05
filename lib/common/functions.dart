@@ -4,6 +4,8 @@ import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/notification_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 void showSnackBar(BuildContext context, String content, Color color) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -161,4 +163,12 @@ String formatEventNotificationDate(DateTime dateTime) {
     formattedDate = formattedDate + DateFormat('K:mm aa').format(dateTime);
 
   return formattedDate;
+}
+
+void tryLaunchUrl(String url) async {
+  if (await canLaunchUrl(Uri.parse(url))) {
+    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+  } else {
+    throw "[ERR] Cannot launch URL: $url";
+  }
 }
