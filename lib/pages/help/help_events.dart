@@ -33,7 +33,7 @@ class _HelpEventsState extends State<HelpEvents> {
           TextExplanationContainer('Los eventos',
               'Los eventos repesentan actividades o sucesos en una fecha y hora '
                   'concretos. Siempre aparecen en el calendario y cuentan con: '
-                  'un nombre, descripción, fecha, hora, color y hasta 5 '
+                  'un título, descripción, fecha, hora, color y hasta 5 '
                   'notificaciones.'),
           SizedBox(height: deviceHeight * 0.0125),
           TextExplanationContainer('Creación de eventos',
@@ -53,7 +53,6 @@ class _HelpEventsState extends State<HelpEvents> {
                   'Todos estos elementos aparecerán representados como puntos '
                   'en su día correspondiente.'),
         ],),
-
         FooterWithUrl(),
       ]),
     );

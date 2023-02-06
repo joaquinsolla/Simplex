@@ -24,24 +24,25 @@ class _HelpTodosState extends State<HelpTodos> {
   @override
   Widget build(BuildContext context) {
 
-    late String calendarButtonImage;
-    if (darkMode) calendarButtonImage = 'assets/calendar_button_dark.png';
-    else calendarButtonImage = 'assets/calendar_button_light.png';
-
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea([
-        PageHeader(context, 'Rutinas'),
-
-        Text('Rutinas', style: TextStyle(
-            color: colorMainText,
-            fontSize: deviceWidth * 0.05,
-            fontWeight: FontWeight.bold)),
+        PageHeader(context, 'Tareas'),
         Column(children: [
           SizedBox(height: deviceHeight * 0.0125),
-
+          TextExplanationContainer('Las tareas',
+              'Las tareas representan objetivos o actividades que tienen dos '
+                  'posibldes estados: pendientes y hechas. Cada tarea cuenta '
+                  'con: título, descripción, una prioridad, una fecha límite '
+                  'opcional y su estado (pendiente o hecha).'),
+          SizedBox(height: deviceHeight * 0.0125),
+          TextExplanationContainer('Tareas limitadas y sus notificaciones',
+              'Puede definirse una fecha límite para las tareas. Las tareas '
+                  'limitadas y pendientes aparecerán en el calendario en la '
+                  'fecha límite. Además, se notificará cuando queden 24 horas '
+                  'para que se alcance la fecha límite y cuando la tarea ya '
+                  'haya caducado.'),
         ],),
-
         FooterWithUrl(),
       ]),
     );

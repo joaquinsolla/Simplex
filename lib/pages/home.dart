@@ -229,24 +229,25 @@ class _HomeState extends State<Home> {
           height: deviceHeight * 0.0025,
         ),
         Wrap(
-          children: [
-            Text(
-              user.email!,
-              style: TextStyle(
-                  color: colorSecondText,
-                  fontSize: deviceWidth * 0.04,
-                  fontWeight: FontWeight.normal),
-            ),
-            SizedBox(
-              width: deviceWidth * 0.005,
-            ),
-            Icon(
-              Icons.verified_rounded,
-              color: colorSecondText,
-              size: deviceWidth * 0.04,
-            ),
-          ],
-        ),
+          crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              Text(
+                user.email!,
+                style: TextStyle(
+                    color: colorSecondText,
+                    fontSize: deviceWidth * 0.04,
+                    fontWeight: FontWeight.normal),
+              ),
+              SizedBox(
+                width: deviceWidth * 0.005,
+              ),
+              Icon(
+                Icons.verified_rounded,
+                color: colorSecondText,
+                size: deviceWidth * 0.04,
+              ),
+            ],
+          ),
         if (isTester)
           SizedBox(
             height: deviceHeight * 0.005,
