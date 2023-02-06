@@ -153,7 +153,7 @@ class _LogInServiceState extends State<LogInService> {
               Navigator.pushReplacementNamed(context, '/auth');
             },
           ),
-          SizedBox(height: deviceHeight * 0.025),
+          FooterPrivacyPolicy(),
         ]),
     );
 
