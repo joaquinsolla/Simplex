@@ -301,7 +301,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                       else return LoadingContainer('Cargando tus tareas...', 0.75);
                     }),),
 
-            EmptyFooter(),
+            FooterEmpty(),
           ]),
     );
 

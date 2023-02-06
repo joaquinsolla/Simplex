@@ -19,7 +19,7 @@ readSettings() async {
   } else {
     appLocale = Locale('en', '');
   }
-  darkMode = prefs.getBool(darkModeKey) ?? (SchedulerBinding.instance!.window.platformBrightness == Brightness.dark);
+  darkMode = prefs.getBool(darkModeKey) ?? (SchedulerBinding.instance.window.platformBrightness == Brightness.dark);
   if (darkMode) {
     colorMainBackground = Colors.black;
     colorSecondBackground = const Color(0xff1c1c1f);

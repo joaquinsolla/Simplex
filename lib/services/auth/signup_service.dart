@@ -198,7 +198,7 @@ class _SignUpServiceState extends State<SignUpService> {
               Navigator.pushReplacementNamed(context, '/auth');
             },
           ),
-          SizedBox(height: deviceHeight * 0.025),
+          FooterPrivacyPolicy(),
         ]));
   }
 

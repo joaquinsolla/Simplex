@@ -455,7 +455,7 @@ class _EditEventState extends State<EditEvent> {
             ' Cancelar ',
             () => Navigator.pop(context),
         ),
-        EmptyFooter(),
+        FooterEmpty(),
       ]),
     );
   }

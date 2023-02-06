@@ -309,7 +309,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
             else return LoadingContainer('Cargando eventos...', 0.35);
           }),
 
-          EmptyFooter(),
+          FooterEmpty(),
         ]
     );
   }

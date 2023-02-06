@@ -261,7 +261,7 @@ class _AddTodoState extends State<AddTodo> {
             }
         ),
 
-        EmptyFooter(),
+        FooterEmpty(),
       ]),
     );
   }

@@ -161,7 +161,7 @@ class _AddNoteState extends State<AddNote> {
                   }
                 }),
 
-        EmptyFooter(),
+        FooterEmpty(),
       ]),
     );
   }

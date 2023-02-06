@@ -159,7 +159,7 @@ class _NoteDetailsState extends State<NoteDetails> {
               });
         }),
 
-        EmptyFooter(),
+        FooterEmpty(),
       ]),
     );
   }

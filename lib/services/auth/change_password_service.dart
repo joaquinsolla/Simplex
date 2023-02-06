@@ -168,7 +168,13 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
                     newPassController1.text.trim());
             }
         ),
-
+        SizedBox(height: deviceHeight * 0.025),
+        Text("Si no recuerdas tu contraseña debes cerrar sesión y acceder al "
+            "apartado '¿Has olvidado tu contraseña?'.",
+          style: TextStyle(color: colorSecondText,
+              fontSize: deviceWidth * 0.0375,
+              fontWeight: FontWeight.normal), textAlign: TextAlign.center,),
+        FooterCredits(),
       ]),
     );
   }

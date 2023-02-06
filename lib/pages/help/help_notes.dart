@@ -41,7 +41,7 @@ class _HelpNotesState extends State<HelpNotes> {
                   'ver tu nota en el calendario en la fecha indicada. También '
                   'recibirás una notificación en esa fecha.'),
         ],),
-        FooterWithUrl(),
+        FooterCredits(),
       ]),
     );
   }

@@ -37,7 +37,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
         ),
       ),
 
-      EmptyFooter(),
+      FooterEmpty(),
     ]);
   }
 

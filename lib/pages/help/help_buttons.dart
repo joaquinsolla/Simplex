@@ -119,7 +119,7 @@ class _HelpButtonsState extends State<HelpButtons> {
                   'Una vez eliminadas no podrás recuperarlas.'),
         ],),
 
-        FooterWithUrl(),
+        FooterCredits(),
       ]),
     );
   }

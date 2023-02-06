@@ -43,7 +43,7 @@ class _HelpTodosState extends State<HelpTodos> {
                   'para que se alcance la fecha límite y cuando la tarea ya '
                   'haya caducado.'),
         ],),
-        FooterWithUrl(),
+        FooterCredits(),
       ]),
     );
   }

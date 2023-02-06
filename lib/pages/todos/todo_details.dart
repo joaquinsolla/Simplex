@@ -226,7 +226,7 @@ class _TodoDetailsState extends State<TodoDetails> {
               });
         }),
 
-        EmptyFooter(),
+        FooterEmpty(),
       ]),
     );
   }

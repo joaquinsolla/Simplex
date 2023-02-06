@@ -436,7 +436,7 @@ class _AddEventState extends State<AddEvent> {
             }
         ),
 
-        EmptyFooter(),
+        FooterEmpty(),
       ]),
     );
   }

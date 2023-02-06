@@ -266,7 +266,7 @@ class _EditTodoState extends State<EditTodo> {
               () => Navigator.pop(context),
         ),
 
-        EmptyFooter(),
+        FooterEmpty(),
       ]),
     );
   }

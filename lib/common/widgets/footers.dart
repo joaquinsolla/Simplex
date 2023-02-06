@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 
-SizedBox EmptyFooter(){
+SizedBox FooterEmpty(){
   return SizedBox(height: deviceHeight * 0.025);
 }
 
-Column FooterWithUrl(){
+Column FooterCredits(){
   return Column(
     children: [
       SizedBox(height: deviceHeight * 0.01),
@@ -28,12 +28,49 @@ Column FooterWithUrl(){
                     decoration: TextDecoration.underline,
                   )
               ),
-              // can add more TextSpans here...
             ],
           ),
         ),
         onPressed: () {
           tryLaunchUrl(joaquinSollaUrl);
+        },
+        style: ButtonStyle(
+          overlayColor: MaterialStateProperty.all(Colors.transparent),
+        ),
+      ),
+      SizedBox(height: deviceHeight * 0.01),
+    ],
+  );
+}
+
+Column FooterPrivacyPolicy(){
+  return Column(
+    children: [
+      SizedBox(height: deviceHeight * 0.01),
+      TextButton(
+        child: Text.rich(
+          TextSpan(
+            text: 'Consulta nuestra ',
+            style: TextStyle(
+              color: colorSecondText,
+              fontSize: deviceWidth * 0.025,
+              fontWeight: FontWeight.normal,
+            ),
+            children: <TextSpan>[
+              TextSpan(
+                  text: 'Política de privacidad',
+                  style: TextStyle(
+                    color: colorSecondText,
+                    fontSize: deviceWidth * 0.025,
+                    fontWeight: FontWeight.normal,
+                    decoration: TextDecoration.underline,
+                  )
+              ),
+            ],
+          ),
+        ),
+        onPressed: () {
+          tryLaunchUrl(privacyPolicyUrl);
         },
         style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.transparent),

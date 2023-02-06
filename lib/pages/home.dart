@@ -306,7 +306,7 @@ class _HomeState extends State<Home> {
             debugPrint('[OK] Signed out');
           }
       ),
-      FooterWithUrl(),
+      FooterCredits(),
     ]);
   }
 

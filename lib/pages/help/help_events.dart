@@ -53,7 +53,7 @@ class _HelpEventsState extends State<HelpEvents> {
                   'Todos estos elementos aparecerán representados como puntos '
                   'en su día correspondiente.'),
         ],),
-        FooterWithUrl(),
+        FooterCredits(),
       ]),
     );
   }

@@ -170,7 +170,7 @@ class _EditNoteState extends State<EditNote> {
               }
             }),
 
-        EmptyFooter(),
+        FooterEmpty(),
       ]),
     );
   }

@@ -32,7 +32,7 @@ class _HelpRoutinesState extends State<HelpRoutines> {
           SizedBox(height: deviceHeight * 0.0125),
 
         ],),
-        FooterWithUrl(),
+        FooterCredits(),
       ]),
     );
   }

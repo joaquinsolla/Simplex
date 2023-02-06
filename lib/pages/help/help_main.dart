@@ -23,7 +23,7 @@ class _HelpMainPageState extends State<HelpMainPage> {
 
   @override
   Widget build(BuildContext context) {
-    
+
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea([
@@ -79,7 +79,7 @@ class _HelpMainPageState extends State<HelpMainPage> {
           }),
         ]),
 
-        FooterWithUrl(),
+        FooterCredits(),
       ]),
     );
   }
