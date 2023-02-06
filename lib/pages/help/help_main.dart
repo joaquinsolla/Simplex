@@ -23,11 +23,7 @@ class _HelpMainPageState extends State<HelpMainPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    late String calendarButtonImage;
-    if (darkMode) calendarButtonImage = 'assets/calendar_button_dark.png';
-    else calendarButtonImage = 'assets/calendar_button_light.png';
-
+    
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea([
@@ -75,7 +71,7 @@ class _HelpMainPageState extends State<HelpMainPage> {
         ),
         FormContainer([
           SecondaryButton(colorMainText, 'Política de privacidad', (){
-            // TODO: privacy policy
+            tryLaunchUrl(privacyPolicyUrl);
           }),
           Divider(color: colorThirdText),
           SecondaryButton(Colors.red, 'Reportar un problema', (){

@@ -165,9 +165,9 @@ String formatEventNotificationDate(DateTime dateTime) {
   return formattedDate;
 }
 
-void tryLaunchUrl(String url) async {
-  if (await canLaunchUrl(Uri.parse(url))) {
-    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+void tryLaunchUrl(Uri url) async {
+  if (await canLaunchUrl(url)) {
+    await launchUrl(url, mode: LaunchMode.externalApplication);
   } else {
     throw "[ERR] Cannot launch URL: $url";
   }

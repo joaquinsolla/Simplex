@@ -33,7 +33,7 @@ Column FooterWithUrl(){
           ),
         ),
         onPressed: () {
-          tryLaunchUrl("https://www.joaquinsolla.com");
+          tryLaunchUrl(joaquinSollaUrl);
         },
         style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.transparent),
