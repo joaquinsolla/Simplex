@@ -1,11 +1,11 @@
-Generar apk optimizado:
+Generar APK optimizado:
 flutter build apk --release --no-tree-shake-icons
 
-Probar el apk:
+Probar APK:
 flutter install
 
-Compilar appbundle a partir del apk:
+Compilar Appbundle a partir del APK:
 flutter build appbundle --no-tree-shake-icons
 
-*Añadir*
+* Añadido para este proyecto
 --no-tree-shake-icons
