@@ -143,7 +143,7 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
             colorSpecialItem,
             ' Cambiar contraseña ',
                 () {
-              if (newPassController1.text.trim() == '') {
+              if (oldPassController.text.trim().isEmpty) {
                 oldPassFocusNode.requestFocus();
                 showSnackBar(context, 'Debes introducir tu contraseña actual', Colors.red);
               }

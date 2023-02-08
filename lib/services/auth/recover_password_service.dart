@@ -71,7 +71,7 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
               colorSpecialItem,
               ' Enviar email ',
               () {
-                if (emailController.text == '' || RegExp(
+                if (emailController.text.trim().isEmpty || RegExp(
                     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                     .hasMatch(emailController.text.trim()) == false) {
                   emailFocusNode.requestFocus();

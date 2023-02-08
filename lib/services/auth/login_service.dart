@@ -105,10 +105,10 @@ class _LogInServiceState extends State<LogInService> {
               colorSpecialItem,
               ' Entrar ',
               () {
-                if (emailController.text == '' ||
-                    passwordController.text == '') {
+                if (emailController.text.trim().isEmpty ||
+                    passwordController.text.trim().isEmpty) {
                   showSnackBar(context, 'Debes cubrir todos los campos', Colors.red);
-                  if (emailController.text == '')
+                  if (emailController.text.trim().isEmpty)
                     emailFocusNode.requestFocus();
                   else
                     passwordFocusNode.requestFocus();

@@ -231,7 +231,7 @@ class _EditTodoState extends State<EditTodo> {
             colorSpecialItem,
             ' Confirmar cambios ',
                 () {
-              if (nameController.text.isEmpty) {
+              if (nameController.text.trim().isEmpty) {
                 showSnackBar(context, 'Debes indicar un nombre', Colors.red);
                 nameFocusNode.requestFocus();
               } else {

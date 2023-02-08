@@ -146,13 +146,13 @@ class _SignUpServiceState extends State<SignUpService> {
               colorSpecialItem,
               ' Registrarme ',
               () {
-                if (emailController.text == '' ||
-                    passwordController.text == '' ||
-                    confirmPasswordController.text == '') {
+                if (emailController.text.trim().isEmpty ||
+                    passwordController.text.trim().isEmpty ||
+                    confirmPasswordController.text.trim().isEmpty) {
                   showSnackBar(context, 'Debes cubrir todos los campos', Colors.red);
-                  if (emailController.text == '')
+                  if (emailController.text.trim().isEmpty)
                     emailFocusNode.requestFocus();
-                  else if (passwordController.text == '')
+                  else if (passwordController.text.trim().isEmpty)
                     passwordFocusNode.requestFocus();
                   else
                     confirmPasswordFocusNode.requestFocus();

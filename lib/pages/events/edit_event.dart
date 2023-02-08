@@ -399,7 +399,7 @@ class _EditEventState extends State<EditEvent> {
             colorSpecialItem,
             ' Confirmar cambios ',
                 () async {
-                  if (nameController.text.isEmpty) {
+                  if (nameController.text.trim().isEmpty) {
                     showSnackBar(context, 'Debes indicar un nombre', Colors.red);
                     nameFocusNode.requestFocus();
                   } else {
