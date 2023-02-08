@@ -286,3 +286,25 @@ deleteNoteById(int noteId) async {
   await doc.delete();
   debugPrint('[OK] Note deleted');
 }
+
+/// REPORTS MANAGEMENT
+Future sendReport(Report report, bool sendAccountData) async{
+  final user = FirebaseAuth.instance.currentUser!;
+  final doc = FirebaseFirestore.instance.collection('reports').doc(report.id);
+
+  if (sendAccountData){
+    report.userId = user.uid;
+    report.userEmail = user.email;
+  }
+
+  final json = {
+    'id': report.id,
+    'problem': report.problem,
+    'date': report.date,
+    'userId': report.userId,
+    'userEmail': report.userEmail,
+  };
+
+  await doc.set(json);
+  debugPrint('[OK] Report sent');
+}

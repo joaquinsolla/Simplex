@@ -24,3 +24,4 @@ export 'help/help_events.dart';
 export 'help/help_todos.dart';
 export 'help/help_notes.dart';
 export 'help/help_routines.dart';
+export 'help/help_report.dart';

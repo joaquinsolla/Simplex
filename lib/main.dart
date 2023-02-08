@@ -53,6 +53,7 @@ Future main() async {
       '/help/help_todos': (context) => const HelpTodos(),
       '/help/help_notes': (context) => const HelpNotes(),
       '/help/help_routines': (context) => const HelpRoutines(),
+      '/help/help_report': (context) => const HelpReport(),
 
     },
   ));

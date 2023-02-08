@@ -75,7 +75,7 @@ class _HelpMainPageState extends State<HelpMainPage> {
           }),
           Divider(color: colorThirdText),
           SecondaryButton(Colors.red, 'Reportar un problema', (){
-            // TODO: problems report
+            Navigator.pushNamed(context, '/help/help_report');
           }),
         ]),
 
