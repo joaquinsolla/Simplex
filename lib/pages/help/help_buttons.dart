@@ -107,7 +107,10 @@ class _HelpButtonsState extends State<HelpButtons> {
         Column(children: [
           SizedBox(height: deviceHeight * 0.0125),
           ButtonExplanationContainer(
-              Icon(Icons.visibility_outlined, color: colorSpecialItem, size: deviceWidth * 0.075),
+              Column(children: [
+                Icon(Icons.keyboard_arrow_up_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
+                Icon(Icons.keyboard_arrow_down_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
+              ],),
               'Visibilidad de tareas',
               'Puedes decidir si mostrar u ocultar tanto las tareas pendientes '
                   'como las completadas.'),

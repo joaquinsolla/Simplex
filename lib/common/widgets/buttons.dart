@@ -58,3 +58,22 @@ Container SecondaryButton(Color color, String text, Function() actions){
     ),
   );
 }
+
+Container VisibilityButton(String text, bool visibility, Function() actions){
+  return Container(
+    child: TextButton(
+      child: Row(children: [
+        if (visibility) Icon(Icons.keyboard_arrow_down_rounded, color: colorSpecialItem,),
+        if (!visibility) Icon(Icons.keyboard_arrow_up_rounded, color: colorSpecialItem,),
+        SizedBox(width: deviceWidth*0.02,),
+        Text(text,
+            style: TextStyle(
+                color: colorMainText,
+                fontSize: deviceWidth * 0.05,
+                fontWeight: FontWeight.bold)
+        )
+      ],),
+      onPressed: actions,
+    ),
+  );
+}

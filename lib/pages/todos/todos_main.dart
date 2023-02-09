@@ -186,49 +186,21 @@ class _TodosMainPageState extends State<TodosMainPage> {
                             pendingTodosPriority2.length +
                             pendingTodosPriority3.length;
 
-                        late IconData showPendingTodosIcon;
-                        late IconData showDoneTodosIcon;
-
-                        if (showPendingTodos) showPendingTodosIcon = Icons.visibility_outlined;
-                        else showPendingTodosIcon = Icons.visibility_off_outlined;
-                        if (showDoneTodos) showDoneTodosIcon = Icons.visibility_outlined;
-                        else showDoneTodosIcon = Icons.visibility_off_outlined;
-
                         return ListView(
                           addAutomaticKeepAlives: true,
                           physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
                           controller: _scrollController,
                           children: [
-                            TextButton(
-                              child: Row(children: [
-                                Container(
-                                  padding: EdgeInsets.all(deviceWidth*0.0075),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: colorSpecialItem,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0)
-                                    ),
-                                  ),
-                                  child: Text('Pendiente: ' + pendingTodosLength.toString(),
-                                      style: TextStyle(
-                                          color: colorMainText,
-                                          fontSize: deviceWidth * 0.05,
-                                          fontWeight: FontWeight.bold)
-                                  ),
-                                ),
-                                SizedBox(width: deviceWidth*0.02,),
-                                Icon(showPendingTodosIcon, color: colorSpecialItem,),
-                              ],),
-                              onPressed: (){
-                                setState(() {
-                                  showPendingTodos = !showPendingTodos;
-                                });
-                              },
+                            VisibilityButton(
+                                'Pendiente: ' + pendingTodosLength.toString(),
+                                showPendingTodos,
+                                    (){
+                                      setState(() {
+                                        showPendingTodos = !showPendingTodos;
+                                      });
+                                    }
                             ),
-                            if (pendingTodosLength > 0 && showPendingTodos) SizedBox(height: deviceHeight * 0.005),
+
                             if (pendingTodosLength == 0 && showPendingTodos) NoItemsContainer('tareas pendientes', 0.2),
 
                             if (pendingTodosPriority3.length > 0 && showPendingTodos) CustomDivider('Prioridad Alta'),
@@ -244,35 +216,17 @@ class _TodosMainPageState extends State<TodosMainPage> {
                             if (showPendingTodos) Column(children: pendingTodosPriority1.map(buildPendingTodoBox).toList(),),
 
                             SizedBox(height: deviceHeight*0.02,),
-                            TextButton(
-                              child: Row(children: [
-                                Container(
-                                  padding: EdgeInsets.all(deviceWidth*0.0075),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: colorSpecialItem,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0)
-                                    ),
-                                  ),
-                                  child: Text('Completado: ' + doneTodos.length.toString(),
-                                      style: TextStyle(
-                                          color: colorMainText,
-                                          fontSize: deviceWidth * 0.05,
-                                          fontWeight: FontWeight.bold)
-                                  ),
-                                ),
-                                SizedBox(width: deviceWidth*0.02,),
-                                Icon(showDoneTodosIcon, color: colorSpecialItem,),
-                              ],),
-                              onPressed: (){
-                                setState(() {
-                                  showDoneTodos = !showDoneTodos;
-                                });
-                              },
+
+                            VisibilityButton(
+                                'Completado: ' + doneTodos.length.toString(),
+                                showDoneTodos,
+                                () {
+                                  setState(() {
+                                    showDoneTodos = !showDoneTodos;
+                                  });
+                                }
                             ),
+
                             if (doneTodos.length == 0 && showDoneTodos) NoItemsContainer('tareas completadas', 0.2),
                             if (doneTodos.length > 0 && showDoneTodos) Column(children: doneTodos.map(buildDoneTodoBox).toList(),),
 
