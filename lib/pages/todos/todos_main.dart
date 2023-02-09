@@ -257,7 +257,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                                         Radius.circular(10.0)
                                     ),
                                   ),
-                                  child: Text('Hecho: ' + doneTodos.length.toString(),
+                                  child: Text('Completado: ' + doneTodos.length.toString(),
                                       style: TextStyle(
                                           color: colorMainText,
                                           fontSize: deviceWidth * 0.05,
@@ -273,7 +273,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                                 });
                               },
                             ),
-                            if (doneTodos.length == 0 && showDoneTodos) NoItemsContainer('tareas hechas', 0.2),
+                            if (doneTodos.length == 0 && showDoneTodos) NoItemsContainer('tareas completadas', 0.2),
                             if (doneTodos.length > 0 && showDoneTodos) Column(children: doneTodos.map(buildDoneTodoBox).toList(),),
 
                             if (pendingTodosLength != 0 || doneTodos.length != 0) SizedBox(height: deviceHeight*0.01,),
@@ -317,794 +317,193 @@ class _TodosMainPageState extends State<TodosMainPage> {
     bool hasDescription = (todo.description != '');
     bool hasLimitDate = todo.limited;
 
-    //TODO: optimize
-    if(hasDescription) {
-      if (hasLimitDate){
-        // YES DESC - YES LIMIT
-        return Row(
-          children: [
-            FocusedMenuHolder(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          width: deviceWidth*0.125,
+          alignment: Alignment.centerLeft,
+          child: IconButton(
+            splashRadius: 0.0001,
+            icon: Icon(Icons.circle_outlined, color: colorSecondText,
+                size: deviceWidth * 0.07),
+            onPressed: () => toggleTodo(todo.id, true),
+          ),
+        ),
+        FocusedMenuHolder(
+          onPressed: () {
+            selectedTodo = todo;
+            Navigator.pushNamed(context, '/todos/todo_details');
+          },
+          menuItems: <FocusedMenuItem>[
+            FocusedMenuItem(
+              backgroundColor: backgroundColor,
+              title: Container(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.input_rounded,
+                        color: colorSpecialItem,
+                        size: deviceWidth * 0.06),
+                    SizedBox(width: deviceWidth * 0.025,),
+                    Text('Ver detalles', style: TextStyle(
+                        color: colorSpecialItem,
+                        fontSize: deviceWidth * 0.04,
+                        fontWeight: FontWeight.normal),),
+                  ],
+                ),
+              ),
               onPressed: () {
                 selectedTodo = todo;
                 Navigator.pushNamed(context, '/todos/todo_details');
               },
-              menuItems: <FocusedMenuItem>[
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.input_rounded,
-                            color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Ver detalles', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    selectedTodo = todo;
-                    Navigator.pushNamed(context, '/todos/todo_details');
-                  },
+            ),
+            FocusedMenuItem(
+              backgroundColor: backgroundColor,
+              title: Container(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.done_all_rounded,
+                        color: colorSpecialItem,
+                        size: deviceWidth * 0.06),
+                    SizedBox(width: deviceWidth * 0.025,),
+                    Text('Marcar como completada', style: TextStyle(
+                        color: colorSpecialItem,
+                        fontSize: deviceWidth * 0.04,
+                        fontWeight: FontWeight.normal),),
+                  ],
                 ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.done_all_rounded,
-                            color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Marcar como hecho', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    toggleTodo(todo.id, !todo.done);
-                  },
+              ),
+              onPressed: () {
+                toggleTodo(todo.id, !todo.done);
+              },
+            ),
+            FocusedMenuItem(
+              backgroundColor: backgroundColor,
+              title: Container(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.edit, color: colorSpecialItem,
+                        size: deviceWidth * 0.06),
+                    SizedBox(width: deviceWidth * 0.025,),
+                    Text('Editar', style: TextStyle(
+                        color: colorSpecialItem,
+                        fontSize: deviceWidth * 0.04,
+                        fontWeight: FontWeight.normal),),
+                  ],
                 ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.edit, color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Editar', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    selectedTodo = todo;
-                    Navigator.pushNamed(context, '/todos/edit_todo');
-                  },
+              ),
+              onPressed: () {
+                selectedTodo = todo;
+                Navigator.pushNamed(context, '/todos/edit_todo');
+              },
+            ),
+            FocusedMenuItem(
+              backgroundColor: backgroundColor,
+              title: Container(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                        Icons.delete_outline_rounded, color: Colors.red,
+                        size: deviceWidth * 0.06),
+                    SizedBox(width: deviceWidth * 0.025,),
+                    Text('Eliminar', style: TextStyle(
+                        color: Colors.red,
+                        fontSize: deviceWidth * 0.04,
+                        fontWeight: FontWeight.normal),),
+                  ],
                 ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+              ),
+              onPressed: () {
+                _showDeleteTodoDialog(todo.id);
+              },
+            ),
+          ],
+          child: Column(
+            children: [
+              SizedBox(height: deviceHeight*0.005,),
+              Container(
+                width: deviceWidth * 0.725,
+                padding: EdgeInsets.all(deviceWidth * 0.0185),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  color: colorSecondBackground,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(todo.name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: colorMainText,
+                                fontSize: deviceWidth * 0.06,
+                                fontWeight: FontWeight.bold))),
+
+                    if (hasDescription) SizedBox(
+                        height: deviceHeight * 0.00375),
+                    if (hasDescription) Container(
+                        alignment: Alignment.centerLeft,
+                        width: deviceWidth * 0.65,
+                        child: Text(todo.description,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: colorSecondText,
+                                fontSize: deviceWidth * 0.03,
+                                fontWeight: FontWeight.normal))),
+
+                    if (hasLimitDate) Divider(color: colorSecondText),
+                    if (hasLimitDate) Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(
-                            Icons.delete_outline_rounded, color: Colors.red,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Eliminar', style: TextStyle(
+                        if (todayDate.isAtSameMomentAs(limitDate)) Icon(
+                            Icons.error_outline_rounded,
                             color: Colors.red,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    _showDeleteTodoDialog(todo.id);
-                  },
-                ),
-              ],
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: deviceHeight*0.1175,
-                    padding: EdgeInsets.fromLTRB(
-                        deviceWidth * 0.0185, deviceWidth * 0.0185, 0.0,
-                        deviceWidth * 0.0185),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          bottomLeft: Radius.circular(10.0)),
-                      color: colorSecondBackground,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                            width: deviceWidth * 0.65,
-                            alignment: Alignment.centerLeft,
-                            child: Text(todo.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: colorMainText,
-                                    fontSize: deviceWidth * 0.06,
-                                    fontWeight: FontWeight.bold))),
-
-                        SizedBox(
-                          height: deviceHeight * 0.00375,),
-                        Container(
-                            alignment: Alignment.centerLeft,
-                            width: deviceWidth * 0.65,
-                            child: Text(todo.description,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: colorSecondText,
-                                    fontSize: deviceWidth * 0.03,
-                                    fontWeight: FontWeight.normal))),
-
-                        Container(
-                          width: deviceWidth * 0.65,
-                          child: Divider(color: colorSecondText,),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            if (todayDate.isAtSameMomentAs(limitDate)) Icon(
-                                Icons.error_outline_rounded,
-                                color: Colors.red,
-                                size: deviceWidth * 0.05),
-                            if (todayDate.isAfter(limitDate)) Icon(
-                                Icons.cancel_outlined, color: Colors.red,
-                                size: deviceWidth * 0.05),
-                            if (todayDate.isAtSameMomentAs(limitDate)
+                            size: deviceWidth * 0.05),
+                        if (todayDate.isAfter(limitDate)) Icon(
+                            Icons.cancel_outlined, color: Colors.red,
+                            size: deviceWidth * 0.05),
+                        if (todayDate.isAtSameMomentAs(limitDate)
                             || todayDate.isAfter(limitDate)) SizedBox(
-                              width: deviceWidth * 0.0125,),
-                            if (todayDate.isAfter(limitDate)) Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(dateToString(limitDate),
-                                    style: TextStyle(color: Colors.red,
-                                        fontSize: deviceWidth * 0.03,
-                                        fontWeight: FontWeight.normal))),
-                            if ((todayDate.isAfter(limitDate))==false) Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(dateToString(limitDate),
-                                    style: TextStyle(color: colorMainText,
-                                        fontSize: deviceWidth * 0.03,
-                                        fontWeight: FontWeight.normal))),
-                          ],),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: deviceHeight * 0.0125,),
-                ],
-              ),
-            ),
-            Column(children: [
-              IntrinsicHeight(child: Container(
-                height: deviceHeight*0.1175,
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.fromLTRB(
-                    0.0, deviceWidth * 0.0185, deviceWidth * 0.0185,
-                    deviceWidth * 0.0185),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10.0),
-                      bottomRight: Radius.circular(10.0)),
-                  color: colorSecondBackground,
-                ),
-                child: Row(mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    VerticalDivider(color: colorSecondText,),
-                    SizedBox(
-                      height: deviceHeight*0.1175,
-                      width: deviceWidth * 0.12,
-                      child: TextButton(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.transparent,
-                            border: Border.all(
-                              width: 1.5,
-                              color: colorSpecialItem,
-                            ),
-                          ),
-                        ),
-                        onPressed: () => toggleTodo(todo.id, true),
-                      ),
-                    ),
-                  ],),
-              ),),
-              SizedBox(height: deviceHeight * 0.0125,),
-            ],),
-          ],
-        );
-      } else {
-        // YES DESC - NO LIMIT
-        return Row(
-          children: [
-            FocusedMenuHolder(
-              onPressed: () {
-                selectedTodo = todo;
-                Navigator.pushNamed(context, '/todos/todo_details');
-              },
-              menuItems: <FocusedMenuItem>[
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.input_rounded,
-                            color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Ver detalles', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    selectedTodo = todo;
-                    Navigator.pushNamed(context, '/todos/todo_details');
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.done_all_rounded,
-                            color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Marcar como hecho', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    toggleTodo(todo.id, !todo.done);
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.edit, color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Editar', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    selectedTodo = todo;
-                    Navigator.pushNamed(context, '/todos/edit_todo');
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                            Icons.delete_outline_rounded, color: Colors.red,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Eliminar', style: TextStyle(
-                            color: Colors.red,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                     _showDeleteTodoDialog(todo.id);
-                  },
-                ),
-              ],
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: deviceHeight*0.075,
-                    padding: EdgeInsets.fromLTRB(
-                        deviceWidth * 0.0185, deviceWidth * 0.0185, 0.0,
-                        deviceWidth * 0.0185),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          bottomLeft: Radius.circular(10.0)),
-                      color: colorSecondBackground,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                            width: deviceWidth * 0.65,
+                          width: deviceWidth * 0.0125,),
+                        if (todayDate.isAfter(limitDate)) Container(
                             alignment: Alignment.centerLeft,
-                            child: Text(todo.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: colorMainText,
-                                    fontSize: deviceWidth * 0.06,
-                                    fontWeight: FontWeight.bold))),
-
-                        SizedBox(
-                          height: deviceHeight * 0.00375,),
-                        Container(
-                            alignment: Alignment.centerLeft,
-                            width: deviceWidth * 0.65,
-                            child: Text(todo.description,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: colorSecondText,
+                            child: Text(dateToString(limitDate),
+                                style: TextStyle(color: Colors.red,
                                     fontSize: deviceWidth * 0.03,
                                     fontWeight: FontWeight.normal))),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: deviceHeight * 0.0125,),
-                ],
-              ),
-            ),
-            Column(children: [
-              IntrinsicHeight(child: Container(
-                height: deviceHeight*0.075,
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.fromLTRB(
-                    0.0, deviceWidth * 0.0185, deviceWidth * 0.0185,
-                    deviceWidth * 0.0185),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10.0),
-                      bottomRight: Radius.circular(10.0)),
-                  color: colorSecondBackground,
-                ),
-                child: Row(mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    VerticalDivider(color: colorSecondText,),
-                    SizedBox(
-                      height: deviceHeight * 0.075,
-                      width: deviceWidth * 0.12,
-                      child: TextButton(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.transparent,
-                            border: Border.all(
-                              width: 1.5,
-                              color: colorSpecialItem,
-                            ),
-                          ),
-                        ),
-                        onPressed: () => toggleTodo(todo.id, true),
-                      ),
-                    ),
-                  ],),
-              ),),
-              SizedBox(height: deviceHeight * 0.0125,),
-            ],),
-          ],
-        );
-      }
-    } else {
-      if (hasLimitDate){
-        // NO DESC - YES LIMIT
-        return Row(
-          children: [
-            FocusedMenuHolder(
-              onPressed: () {
-                selectedTodo = todo;
-                Navigator.pushNamed(context, '/todos/todo_details');
-              },
-              menuItems: <FocusedMenuItem>[
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.input_rounded,
-                            color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Ver detalles', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    selectedTodo = todo;
-                    Navigator.pushNamed(context, '/todos/todo_details');
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.done_all_rounded,
-                            color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Marcar como hecho', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    toggleTodo(todo.id, !todo.done);
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.edit, color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Editar', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    selectedTodo = todo;
-                    Navigator.pushNamed(context, '/todos/edit_todo');
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                            Icons.delete_outline_rounded, color: Colors.red,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Eliminar', style: TextStyle(
-                            color: Colors.red,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                     _showDeleteTodoDialog(todo.id);
-                  },
-                ),
-              ],
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: deviceHeight*0.0975,
-                    padding: EdgeInsets.fromLTRB(
-                        deviceWidth * 0.0185, deviceWidth * 0.0185, 0.0,
-                        deviceWidth * 0.0185),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          bottomLeft: Radius.circular(10.0)),
-                      color: colorSecondBackground,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                            width: deviceWidth * 0.65,
+                        if ((todayDate.isAfter(limitDate))==false) Container(
                             alignment: Alignment.centerLeft,
-                            child: Text(todo.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                            child: Text(dateToString(limitDate),
                                 style: TextStyle(color: colorMainText,
-                                    fontSize: deviceWidth * 0.06,
-                                    fontWeight: FontWeight.bold))),
-                        Container(
-                          width: deviceWidth * 0.65,
-                          child: Divider(color: colorSecondText,),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            if (todayDate.isAtSameMomentAs(limitDate)) Icon(
-                                Icons.error_outline_rounded,
-                                color: Colors.red,
-                                size: deviceWidth * 0.05),
-                            if (todayDate.isAfter(limitDate)) Icon(
-                                Icons.cancel_outlined, color: Colors.red,
-                                size: deviceWidth * 0.05),
-                            if (todayDate.isAtSameMomentAs(limitDate)
-                                || todayDate.isAfter(limitDate)) SizedBox(
-                              width: deviceWidth * 0.0125,),
-                            if (todayDate.isAfter(limitDate)) Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(dateToString(limitDate),
-                                    style: TextStyle(color: Colors.red,
-                                        fontSize: deviceWidth * 0.03,
-                                        fontWeight: FontWeight.normal))),
-                            if ((todayDate.isAfter(limitDate))==false) Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(dateToString(limitDate),
-                                    style: TextStyle(color: colorMainText,
-                                        fontSize: deviceWidth * 0.03,
-                                        fontWeight: FontWeight.normal))),
-                          ],),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: deviceHeight * 0.0125,),
-                ],
+                                    fontSize: deviceWidth * 0.03,
+                                    fontWeight: FontWeight.normal))),
+                      ],),
+                  ],
+                ),
               ),
-            ),
-            Column(children: [
-              IntrinsicHeight(child: Container(
-                height: deviceHeight*0.0975,
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.fromLTRB(
-                    0.0, deviceWidth * 0.01, deviceWidth * 0.0185,
-                    deviceWidth * 0.01),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10.0),
-                      bottomRight: Radius.circular(10.0)),
-                  color: colorSecondBackground,
-                ),
-                child: Row(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    VerticalDivider(color: colorSecondText,),
-                    SizedBox(
-                      height: deviceHeight * 0.0975,
-                      width: deviceWidth * 0.12,
-                      child: TextButton(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.transparent,
-                            border: Border.all(
-                              width: 1.5,
-                              color: colorSpecialItem,
-                            ),
-                          ),
-                        ),
-                        onPressed: () => toggleTodo(todo.id, true),
-                      ),
-                    )
-                  ],),
-              ),),
-              SizedBox(height: deviceHeight * 0.0125,),
-            ],),
-          ],
-        );
-      } else {
-        // NO DESC - NO LIMIT
-        return Row(
-          children: [
-            FocusedMenuHolder(
-              onPressed: () {
-                selectedTodo = todo;
-                Navigator.pushNamed(context, '/todos/todo_details');
-              },
-              menuItems: <FocusedMenuItem>[
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.input_rounded,
-                            color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Ver detalles', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    selectedTodo = todo;
-                    Navigator.pushNamed(context, '/todos/todo_details');
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.done_all_rounded,
-                            color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Marcar como hecho', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    toggleTodo(todo.id, !todo.done);
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.edit, color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Editar', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    selectedTodo = todo;
-                    Navigator.pushNamed(context, '/todos/edit_todo');
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                            Icons.delete_outline_rounded, color: Colors.red,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Eliminar', style: TextStyle(
-                            color: Colors.red,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                     _showDeleteTodoDialog(todo.id);
-                  },
-                ),
-              ],
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: deviceHeight*0.065,
-                    padding: EdgeInsets.fromLTRB(
-                        deviceWidth * 0.0185, deviceWidth * 0.0185, 0.0,
-                        deviceWidth * 0.0185),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          bottomLeft: Radius.circular(10.0)),
-                      color: colorSecondBackground,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                            width: deviceWidth * 0.65,
-                            alignment: Alignment.centerLeft,
-                            child: Text(todo.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: colorMainText,
-                                    fontSize: deviceWidth * 0.06,
-                                    fontWeight: FontWeight.bold))),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: deviceHeight * 0.0125,),
-                ],
-              ),
-            ),
-            Column(children: [
-              IntrinsicHeight(child: Container(
-                height: deviceHeight*0.065,
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.fromLTRB(
-                    0.0, deviceWidth * 0.01, deviceWidth * 0.0185,
-                    deviceWidth * 0.01),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10.0),
-                      bottomRight: Radius.circular(10.0)),
-                  color: colorSecondBackground,
-                ),
-                child: Row(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    VerticalDivider(color: colorSecondText,),
-                    SizedBox(
-                      height: deviceHeight*0.065,
-                      width: deviceWidth * 0.12,
-                      child: TextButton(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.transparent,
-                            border: Border.all(
-                              width: 1.5,
-                              color: colorSpecialItem,
-                            ),
-                          ),
-                        ),
-                        onPressed: () => toggleTodo(todo.id, true),
-                      ),
-                    )
-                  ],),
-              ),),
-              SizedBox(height: deviceHeight * 0.0125,),
-            ],),
-          ],
-        );
-      }
-    }
+              SizedBox(height: deviceHeight*0.005,),
+            ],
+          ),
+        ),
+      ],
+    );
+
   }
 
   Widget buildDoneTodoBox(Todo todo) {
     DateTime todayDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-    DateTime todoDate = DateTime(todo.limitDate.year, todo.limitDate.month, todo.limitDate.day);
+    DateTime limitDate = DateTime(todo.limitDate.year, todo.limitDate.month, todo.limitDate.day);
 
     Color backgroundColor = colorThirdBackground;
     if (darkMode) backgroundColor = colorSecondBackground;
@@ -1112,803 +511,189 @@ class _TodosMainPageState extends State<TodosMainPage> {
     bool hasDescription = (todo.description != '');
     bool hasLimitDate = (todo.limited);
 
-    //TODO: optimize
-    if(hasDescription) {
-      if (hasLimitDate){
-        // YES DESC - YES LIMIT
-        return Row(
-          children: [
-            FocusedMenuHolder(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          width: deviceWidth*0.125,
+          alignment: Alignment.centerLeft,
+          child: IconButton(
+            splashRadius: 0.0001,
+            icon: Icon(Icons.check_circle_outline_rounded, color: colorSecondText,
+                size: deviceWidth * 0.07),
+            onPressed: () => toggleTodo(todo.id, false),
+          ),
+        ),
+        FocusedMenuHolder(
+          onPressed: () {
+            selectedTodo = todo;
+            Navigator.pushNamed(context, '/todos/todo_details');
+          },
+          menuItems: <FocusedMenuItem>[
+            FocusedMenuItem(
+              backgroundColor: backgroundColor,
+              title: Container(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.input_rounded,
+                        color: colorSpecialItem,
+                        size: deviceWidth * 0.06),
+                    SizedBox(width: deviceWidth * 0.025,),
+                    Text('Ver detalles', style: TextStyle(
+                        color: colorSpecialItem,
+                        fontSize: deviceWidth * 0.04,
+                        fontWeight: FontWeight.normal),),
+                  ],
+                ),
+              ),
               onPressed: () {
                 selectedTodo = todo;
                 Navigator.pushNamed(context, '/todos/todo_details');
               },
-              menuItems: <FocusedMenuItem>[
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.input_rounded,
-                            color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Ver detalles', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    selectedTodo = todo;
-                    Navigator.pushNamed(context, '/todos/todo_details');
-                  },
+            ),
+            FocusedMenuItem(
+              backgroundColor: backgroundColor,
+              title: Container(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.remove_done_rounded,
+                        color: colorSpecialItem,
+                        size: deviceWidth * 0.06),
+                    SizedBox(width: deviceWidth * 0.025,),
+                    Text('Marcar como pendiente', style: TextStyle(
+                        color: colorSpecialItem,
+                        fontSize: deviceWidth * 0.04,
+                        fontWeight: FontWeight.normal),),
+                  ],
                 ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.remove_done_rounded,
-                            color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Marcar como pendiente', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    toggleTodo(todo.id, !todo.done);
-                  },
+              ),
+              onPressed: () {
+                toggleTodo(todo.id, !todo.done);
+              },
+            ),
+            FocusedMenuItem(
+              backgroundColor: backgroundColor,
+              title: Container(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.edit, color: colorSpecialItem,
+                        size: deviceWidth * 0.06),
+                    SizedBox(width: deviceWidth * 0.025,),
+                    Text('Editar', style: TextStyle(
+                        color: colorSpecialItem,
+                        fontSize: deviceWidth * 0.04,
+                        fontWeight: FontWeight.normal),),
+                  ],
                 ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.edit, color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Editar', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    selectedTodo = todo;
-                    Navigator.pushNamed(context, '/todos/edit_todo');
-                  },
+              ),
+              onPressed: () {
+                selectedTodo = todo;
+                Navigator.pushNamed(context, '/todos/edit_todo');
+              },
+            ),
+            FocusedMenuItem(
+              backgroundColor: backgroundColor,
+              title: Container(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                        Icons.delete_outline_rounded, color: Colors.red,
+                        size: deviceWidth * 0.06),
+                    SizedBox(width: deviceWidth * 0.025,),
+                    Text('Eliminar', style: TextStyle(
+                        color: Colors.red,
+                        fontSize: deviceWidth * 0.04,
+                        fontWeight: FontWeight.normal),),
+                  ],
                 ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                            Icons.delete_outline_rounded, color: Colors.red,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Eliminar', style: TextStyle(
-                            color: Colors.red,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                     _showDeleteTodoDialog(todo.id);
-                  },
+              ),
+              onPressed: () {
+                _showDeleteTodoDialog(todo.id);
+              },
+            ),
+          ],
+          child: Column(
+            children: [
+              SizedBox(height: deviceHeight*0.005,),
+              Container(
+                width: deviceWidth * 0.725,
+                padding: EdgeInsets.all(deviceWidth * 0.0185),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  color: colorThirdBackground,
                 ),
-              ],
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: deviceHeight*0.1175,
-                    padding: EdgeInsets.fromLTRB(
-                        deviceWidth * 0.0185, deviceWidth * 0.0185, 0.0,
-                        deviceWidth * 0.0185),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          bottomLeft: Radius.circular(10.0)),
-                      color: colorThirdBackground,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                            width: deviceWidth * 0.65,
-                            alignment: Alignment.centerLeft,
-                            child: Text(todo.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: colorThirdText,
-                                    fontSize: deviceWidth * 0.06,
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.lineThrough))),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(todo.name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: colorThirdText,
+                                fontSize: deviceWidth * 0.06,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.lineThrough))),
 
-                        SizedBox(
-                          height: deviceHeight * 0.00375,),
-                        Container(
+                    if (hasDescription) SizedBox(
+                        height: deviceHeight * 0.00375),
+                    if (hasDescription) Container(
+                        alignment: Alignment.centerLeft,
+                        width: deviceWidth * 0.65,
+                        child: Text(todo.description,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: colorThirdText,
+                                fontSize: deviceWidth * 0.03,
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.lineThrough))),
+
+                    if (hasLimitDate) Divider(color: colorThirdText),
+                    if (hasLimitDate) Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        if (todayDate.isAtSameMomentAs(limitDate)) Icon(
+                            Icons.error_outline_rounded,
+                            color: colorThirdText,
+                            size: deviceWidth * 0.05),
+                        if (todayDate.isAfter(limitDate)) Icon(
+                            Icons.cancel_outlined, color: colorThirdText,
+                            size: deviceWidth * 0.05),
+                        if (todayDate.isAtSameMomentAs(limitDate)
+                            || todayDate.isAfter(limitDate)) SizedBox(
+                          width: deviceWidth * 0.0125,),
+                        if (todayDate.isAfter(limitDate)) Container(
                             alignment: Alignment.centerLeft,
-                            width: deviceWidth * 0.65,
-                            child: Text(todo.description,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                            child: Text(dateToString(limitDate),
                                 style: TextStyle(color: colorThirdText,
                                     fontSize: deviceWidth * 0.03,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.lineThrough))),
-
-                        Container(
-                          width: deviceWidth * 0.65,
-                          child: Divider(color: colorThirdText,),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            if (todayDate.isAtSameMomentAs(todoDate)) Icon(
-                                Icons.error_outline_rounded,
-                                color: Colors.red,
-                                size: deviceWidth * 0.05),
-                            if (todayDate.isAfter(todoDate)) Icon(
-                                Icons.cancel_outlined, color: Colors.red,
-                                size: deviceWidth * 0.05),
-                            if (todayDate.isAtSameMomentAs(todoDate)
-                                || todayDate.isAfter(todoDate)) SizedBox(
-                              width: deviceWidth * 0.0125,),
-                            if (todayDate.isAfter(todoDate)) Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(dateToString(todoDate),
-                                    style: TextStyle(color: Colors.red,
-                                        fontSize: deviceWidth * 0.03,
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.lineThrough))),
-                            if ((todayDate.isAfter(todoDate))==false) Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(dateToString(todoDate),
-                                    style: TextStyle(color: colorThirdText,
-                                        fontSize: deviceWidth * 0.03,
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.lineThrough))),
-                          ],),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: deviceHeight * 0.0125,),
-                ],
-              ),
-            ),
-            Column(children: [
-              IntrinsicHeight(child: Container(
-                height: deviceHeight*0.1175,
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.fromLTRB(
-                    0.0, deviceWidth * 0.0185, deviceWidth * 0.0185,
-                    deviceWidth * 0.0185),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10.0),
-                      bottomRight: Radius.circular(10.0)),
-                  color: colorThirdBackground,
-                ),
-                child: Row(mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    VerticalDivider(color: colorThirdText,),
-                    SizedBox(
-                      height: deviceHeight*0.1175,
-                      width: deviceWidth * 0.12,
-                      child: TextButton(
-                        child: Container(
-                          child: Icon(Icons.check_rounded, size: deviceWidth*0.07, color: colorSpecialItem,),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.transparent,
-                            border: Border.all(
-                              width: 1.5,
-                              color: colorSpecialItem,
-                            ),
-                          ),
-                        ),
-                        onPressed: () => toggleTodo(todo.id, false),
-                      ),
-                    ),
-                  ],),
-              ),),
-              SizedBox(height: deviceHeight * 0.0125,),
-            ],),
-          ],
-        );
-      } else {
-        // YES DESC - NO LIMIT
-        return Row(
-          children: [
-            FocusedMenuHolder(
-              onPressed: () {
-                selectedTodo = todo;
-                Navigator.pushNamed(context, '/todos/todo_details');
-              },
-              menuItems: <FocusedMenuItem>[
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.input_rounded,
-                            color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Ver detalles', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    selectedTodo = todo;
-                    Navigator.pushNamed(context, '/todos/todo_details');
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.remove_done_rounded,
-                            color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Marcar como pendiente', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    toggleTodo(todo.id, !todo.done);
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.edit, color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Editar', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    selectedTodo = todo;
-                    Navigator.pushNamed(context, '/todos/edit_todo');
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                            Icons.delete_outline_rounded, color: Colors.red,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Eliminar', style: TextStyle(
-                            color: Colors.red,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                     _showDeleteTodoDialog(todo.id);
-                  },
-                ),
-              ],
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: deviceHeight*0.075,
-                    padding: EdgeInsets.fromLTRB(
-                        deviceWidth * 0.0185, deviceWidth * 0.0185, 0.0,
-                        deviceWidth * 0.0185),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          bottomLeft: Radius.circular(10.0)),
-                      color: colorThirdBackground,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                            width: deviceWidth * 0.65,
+                                    fontWeight: FontWeight.normal))),
+                        if ((todayDate.isAfter(limitDate))==false) Container(
                             alignment: Alignment.centerLeft,
-                            child: Text(todo.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: colorThirdText,
-                                    fontSize: deviceWidth * 0.06,
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.lineThrough))),
-
-                        SizedBox(
-                          height: deviceHeight * 0.00375,),
-                        Container(
-                            alignment: Alignment.centerLeft,
-                            width: deviceWidth * 0.65,
-                            child: Text(todo.description,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                            child: Text(dateToString(limitDate),
                                 style: TextStyle(color: colorThirdText,
                                     fontSize: deviceWidth * 0.03,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.lineThrough))),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: deviceHeight * 0.0125,),
-                ],
+                                    fontWeight: FontWeight.normal))),
+                      ],),
+                  ],
+                ),
               ),
-            ),
-            Column(children: [
-              IntrinsicHeight(child: Container(
-                height: deviceHeight*0.075,
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.fromLTRB(
-                    0.0, deviceWidth * 0.0185, deviceWidth * 0.0185,
-                    deviceWidth * 0.0185),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10.0),
-                      bottomRight: Radius.circular(10.0)),
-                  color: colorThirdBackground,
-                ),
-                child: Row(mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    VerticalDivider(color: colorThirdText,),
-                    SizedBox(
-                      height: deviceHeight * 0.075,
-                      width: deviceWidth * 0.12,
-                      child: TextButton(
-                        child: Container(
-                          child: Icon(Icons.check_rounded, size: deviceWidth*0.07, color: colorSpecialItem,),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.transparent,
-                            border: Border.all(
-                              width: 1.5,
-                              color: colorSpecialItem,
-                            ),
-                          ),
-                        ),
-                        onPressed: () => toggleTodo(todo.id, false),
-                      ),
-                    ),
-                  ],),
-              ),),
-              SizedBox(height: deviceHeight * 0.0125,),
-            ],),
-          ],
-        );
-      }
-    } else {
-      if (hasLimitDate){
-        // NO DESC - YES LIMIT
-        return Row(
-          children: [
-            FocusedMenuHolder(
-              onPressed: () {
-                selectedTodo = todo;
-                Navigator.pushNamed(context, '/todos/todo_details');
-              },
-              menuItems: <FocusedMenuItem>[
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.input_rounded,
-                            color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Ver detalles', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    selectedTodo = todo;
-                    Navigator.pushNamed(context, '/todos/todo_details');
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.remove_done_rounded,
-                            color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Marcar como pendiente', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    toggleTodo(todo.id, !todo.done);
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.edit, color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Editar', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    selectedTodo = todo;
-                    Navigator.pushNamed(context, '/todos/edit_todo');
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                            Icons.delete_outline_rounded, color: Colors.red,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Eliminar', style: TextStyle(
-                            color: Colors.red,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                     _showDeleteTodoDialog(todo.id);
-                  },
-                ),
-              ],
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: deviceHeight*0.0975,
-                    padding: EdgeInsets.fromLTRB(
-                        deviceWidth * 0.0185, deviceWidth * 0.0185, 0.0,
-                        deviceWidth * 0.0185),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          bottomLeft: Radius.circular(10.0)),
-                      color: colorThirdBackground,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                            width: deviceWidth * 0.65,
-                            alignment: Alignment.centerLeft,
-                            child: Text(todo.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: colorThirdText,
-                                    fontSize: deviceWidth * 0.06,
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.lineThrough))),
-                        Container(
-                          width: deviceWidth * 0.65,
-                          child: Divider(color: colorThirdText,),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            if (todayDate.isAtSameMomentAs(todoDate)) Icon(
-                                Icons.error_outline_rounded,
-                                color: Colors.red,
-                                size: deviceWidth * 0.05),
-                            if (todayDate.isAfter(todoDate)) Icon(
-                                Icons.cancel_outlined, color: Colors.red,
-                                size: deviceWidth * 0.05),
-                            if (todayDate.isAtSameMomentAs(todoDate)
-                                || todayDate.isAfter(todoDate)) SizedBox(
-                              width: deviceWidth * 0.0125,),
-                            if (todayDate.isAfter(todoDate)) Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(dateToString(todoDate),
-                                    style: TextStyle(color: Colors.red,
-                                        fontSize: deviceWidth * 0.03,
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.lineThrough))),
-                            if ((todayDate.isAfter(todoDate))==false) Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(dateToString(todoDate),
-                                    style: TextStyle(color: colorThirdText,
-                                        fontSize: deviceWidth * 0.03,
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.lineThrough))),
-                          ],),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: deviceHeight * 0.0125,),
-                ],
-              ),
-            ),
-            Column(children: [
-              IntrinsicHeight(child: Container(
-                height: deviceHeight*0.0975,
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.fromLTRB(
-                    0.0, deviceWidth * 0.01, deviceWidth * 0.0185,
-                    deviceWidth * 0.01),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10.0),
-                      bottomRight: Radius.circular(10.0)),
-                  color: colorThirdBackground,
-                ),
-                child: Row(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    VerticalDivider(color: colorThirdText,),
-                    SizedBox(
-                      height: deviceHeight * 0.0975,
-                      width: deviceWidth * 0.12,
-                      child: TextButton(
-                        child: Container(
-                          child: Icon(Icons.check_rounded, size: deviceWidth*0.07, color: colorSpecialItem,),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.transparent,
-                            border: Border.all(
-                              width: 1.5,
-                              color: colorSpecialItem,
-                            ),
-                          ),
-                        ),
-                        onPressed: () => toggleTodo(todo.id, false),
-                      ),
-                    )
-                  ],),
-              ),),
-              SizedBox(height: deviceHeight * 0.0125,),
-            ],),
-          ],
-        );
-      } else {
-        // NO DESC - NO LIMIT
-        return Row(
-          children: [
-            FocusedMenuHolder(
-              onPressed: () {
-                selectedTodo = todo;
-                Navigator.pushNamed(context, '/todos/todo_details');
-              },
-              menuItems: <FocusedMenuItem>[
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.input_rounded,
-                            color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Ver detalles', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    selectedTodo = todo;
-                    Navigator.pushNamed(context, '/todos/todo_details');
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.remove_done_rounded,
-                            color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Marcar como pendiente', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    toggleTodo(todo.id, !todo.done);
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.edit, color: colorSpecialItem,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Editar', style: TextStyle(
-                            color: colorSpecialItem,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    selectedTodo = todo;
-                    Navigator.pushNamed(context, '/todos/edit_todo');
-                  },
-                ),
-                FocusedMenuItem(
-                  backgroundColor: backgroundColor,
-                  title: Container(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                            Icons.delete_outline_rounded, color: Colors.red,
-                            size: deviceWidth * 0.06),
-                        SizedBox(width: deviceWidth * 0.025,),
-                        Text('Eliminar', style: TextStyle(
-                            color: Colors.red,
-                            fontSize: deviceWidth * 0.04,
-                            fontWeight: FontWeight.normal),),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                     _showDeleteTodoDialog(todo.id);
-                  },
-                ),
-              ],
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    height: deviceHeight*0.065,
-                    padding: EdgeInsets.fromLTRB(
-                        deviceWidth * 0.0185, deviceWidth * 0.0185, 0.0,
-                        deviceWidth * 0.0185),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          bottomLeft: Radius.circular(10.0)),
-                      color: colorThirdBackground,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                            width: deviceWidth * 0.65,
-                            alignment: Alignment.centerLeft,
-                            child: Text(todo.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: colorThirdText,
-                                    fontSize: deviceWidth * 0.06,
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.lineThrough))),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: deviceHeight * 0.0125,),
-                ],
-              ),
-            ),
-            Column(children: [
-              IntrinsicHeight(child: Container(
-                height: deviceHeight*0.065,
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.fromLTRB(
-                    0.0, deviceWidth * 0.01, deviceWidth * 0.0185,
-                    deviceWidth * 0.01),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10.0),
-                      bottomRight: Radius.circular(10.0)),
-                  color: colorThirdBackground,
-                ),
-                child: Row(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    VerticalDivider(color: colorThirdText,),
-                    SizedBox(
-                      height: deviceHeight*0.065,
-                      width: deviceWidth * 0.12,
-                      child: TextButton(
-                        child: Container(
-                          child: Icon(Icons.check_rounded, size: deviceWidth*0.07, color: colorSpecialItem,),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.transparent,
-                            border: Border.all(
-                              width: 1.5,
-                              color: colorSpecialItem,
-                            ),
-                          ),
-                        ),
-                        onPressed: () => toggleTodo(todo.id, false),
-                      ),
-                    )
-                  ],),
-              ),),
-              SizedBox(height: deviceHeight * 0.0125,),
-            ],),
-          ],
-        );
-      }
-    }
+              SizedBox(height: deviceHeight*0.005,),
+            ],
+          ),
+        ),
+      ],
+    );
 
   }
   
@@ -1944,14 +729,14 @@ class _TodosMainPageState extends State<TodosMainPage> {
         context: context,
         builder: (context) {
           return CupertinoAlertDialog(
-            title: Text('Eliminar tareas hechas'),
+            title: Text('Eliminar tareas completadas'),
             content: Text('Una vez eliminadas, no podrás restaurarlas.'),
             actions: <Widget>[
               TextButton(
                   onPressed: () async {
                     await deleteDoneTodos();
                     Navigator.pop(context);
-                    showSnackBar(context, 'Tareas hechas eliminadas', Colors.green);
+                    showSnackBar(context, 'Tareas completadas eliminadas', Colors.green);
                   },
                   child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
               TextButton(

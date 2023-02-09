@@ -110,13 +110,13 @@ class _HelpButtonsState extends State<HelpButtons> {
               Icon(Icons.visibility_outlined, color: colorSpecialItem, size: deviceWidth * 0.075),
               'Visibilidad de tareas',
               'Puedes decidir si mostrar u ocultar tanto las tareas pendientes '
-                  'como las hechas.'),
+                  'como las completadas.'),
           SizedBox(height: deviceHeight * 0.0125),
           ButtonExplanationContainer(
               Icon(Icons.clear_all_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
-              'Eliminar tareas hechas',
-              'Se eliminarán todas las tareas que estén marcadas como hechas. '
-                  'Una vez eliminadas no podrás recuperarlas.'),
+              'Eliminar tareas completadas',
+              'Se eliminarán todas las tareas que estén marcadas como '
+                  'completadas. Una vez eliminadas no podrás recuperarlas.'),
         ],),
 
         FooterCredits(),

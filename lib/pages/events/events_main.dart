@@ -453,7 +453,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
       ],
       child: Column(
         children: [
-          SizedBox(height: deviceHeight*0.00625,),
+          SizedBox(height: deviceHeight*0.005,),
           Container(
             padding: EdgeInsets.all(deviceWidth * 0.0185),
             decoration: BoxDecoration(
@@ -503,7 +503,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               ),
             ),
           ),
-          SizedBox(height: deviceHeight*0.00625,),
+          SizedBox(height: deviceHeight*0.005,),
         ],
       ),
     );
@@ -639,7 +639,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
       ],
       child: Column(
         children: [
-          SizedBox(height: deviceHeight*0.00625,),
+          SizedBox(height: deviceHeight*0.005,),
           Container(
             padding: EdgeInsets.all(deviceWidth * 0.0185),
             decoration: BoxDecoration(
@@ -688,7 +688,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               ),
             ),
           ),
-          SizedBox(height: deviceHeight*0.00625,),
+          SizedBox(height: deviceHeight*0.005,),
         ],
       ),
     );
@@ -802,7 +802,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
       ],
       child: Column(
         children: [
-          SizedBox(height: deviceHeight*0.00625,),
+          SizedBox(height: deviceHeight*0.005,),
           Container(
             padding: EdgeInsets.all(deviceWidth * 0.0185),
             decoration: BoxDecoration(
@@ -851,7 +851,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               ),
             ),
           ),
-          SizedBox(height: deviceHeight*0.00625,),
+          SizedBox(height: deviceHeight*0.005,),
         ],
       ),
     );

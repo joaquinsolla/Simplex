@@ -32,9 +32,9 @@ class _HelpTodosState extends State<HelpTodos> {
           SizedBox(height: deviceHeight * 0.0125),
           TextExplanationContainer('Las tareas',
               'Las tareas representan objetivos o actividades que tienen dos '
-                  'posibldes estados: pendientes y hechas. Cada tarea cuenta '
+                  'posibldes estados: pendientes y completadas. Cada tarea cuenta '
                   'con: título, descripción, una prioridad, una fecha límite '
-                  'opcional y su estado (pendiente o hecha).'),
+                  'opcional y su estado (pendiente o completada).'),
           SizedBox(height: deviceHeight * 0.0125),
           TextExplanationContainer('Tareas limitadas y sus notificaciones',
               'Puede definirse una fecha límite para las tareas. Las tareas '
