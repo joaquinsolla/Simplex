@@ -272,12 +272,10 @@ class _TodosMainPageState extends State<TodosMainPage> {
     bool hasLimitDate = todo.limited;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
           width: deviceWidth*0.125,
-          alignment: Alignment.centerLeft,
           child: IconButton(
             splashRadius: 0.0001,
             icon: Icon(Icons.circle_outlined, color: colorSecondText,
@@ -385,7 +383,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
             children: [
               SizedBox(height: deviceHeight*0.005,),
               Container(
-                width: deviceWidth * 0.725,
+                width: deviceWidth * 0.7,
                 padding: EdgeInsets.all(deviceWidth * 0.0185),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -466,7 +464,6 @@ class _TodosMainPageState extends State<TodosMainPage> {
     bool hasLimitDate = (todo.limited);
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
@@ -579,7 +576,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
             children: [
               SizedBox(height: deviceHeight*0.005,),
               Container(
-                width: deviceWidth * 0.725,
+                width: deviceWidth * 0.7,
                 padding: EdgeInsets.all(deviceWidth * 0.0185),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
