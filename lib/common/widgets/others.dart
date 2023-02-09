@@ -77,7 +77,6 @@ Column FormTextField(TextEditingController controller, String fieldName, String 
             borderSide:
             BorderSide(color: colorSpecialItem, width: 2),
           ),
-
           hintText: hintText,
           hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
         ),

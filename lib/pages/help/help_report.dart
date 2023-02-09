@@ -16,7 +16,7 @@ class _HelpReportState extends State<HelpReport> {
   final FocusNode problemFocusNode = FocusNode();
 
   String id = int.parse((DateTime.now().millisecondsSinceEpoch).toString().substring(6)).toString();
-  bool sendAccountData = false;
+  bool sendAccountData = true;
 
   @override
   void dispose() {
@@ -95,18 +95,6 @@ class _HelpReportState extends State<HelpReport> {
             },
             controlAffinity: ListTileControlAffinity.leading,
           ),
-          SizedBox(height: deviceHeight * 0.01),
-          Text(
-            'Es posible que el problema sea más fácil de resolver si se adjunta'
-                ' cierta información de la cuenta como el email o el id de '
-                'cuenta. También podremos informarte con un email cuando tu '
-                'problema se solucione.',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * 0.03,
-                fontWeight: FontWeight.normal,
-                fontStyle: FontStyle.italic),
-          ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
         MainButton(Icons.report_gmailerrorred_rounded, Colors.red, ' Reportar '
@@ -135,7 +123,15 @@ class _HelpReportState extends State<HelpReport> {
                     }
                   }
             }),
-
+        SizedBox(height: deviceHeight * 0.025),
+        Text('Es posible que el problema sea más fácil de resolver si se adjunta'
+            ' cierta información de la cuenta como el email o el id de '
+            'cuenta. También podremos informarte con un email cuando tu '
+            'problema se solucione. Nunca recopilaremos tu contraseña ni '
+            'información privada.',
+          style: TextStyle(color: colorSecondText,
+              fontSize: deviceWidth * 0.0375,
+              fontWeight: FontWeight.normal), textAlign: TextAlign.center,),
         FooterCredits(),
       ]),
     );

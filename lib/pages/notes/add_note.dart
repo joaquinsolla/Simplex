@@ -131,7 +131,7 @@ class _AddNoteState extends State<AddNote> {
           ),
           SizedBox(height: deviceHeight * 0.01),
           Text(
-            '[Beta] Las notas aparecerán en el calendario de Simplex en el día indicado.'
+            'Las notas aparecerán en el calendario de Simplex en el día indicado.'
                 ' También recibirás una notificación en esa fecha.',
             style: TextStyle(
                 color: colorMainText,
