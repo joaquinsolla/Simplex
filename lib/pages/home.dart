@@ -1,6 +1,7 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -300,10 +301,38 @@ class _HomeState extends State<Home> {
           Colors.red,
           ' Cerrar sesión ',
           () {
-            loginIndex = 0;
-            homeIndex = 0;
-            FirebaseAuth.instance.signOut();
-            debugPrint('[OK] Signed out');
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return CupertinoAlertDialog(
+                    title: Text('¿Cerrar sesión?'),
+                    content: Text('Para volver a acceder a tu cuenta deberás '
+                        'proporcionar tu email y contraseña.'),
+                    actions: <Widget>[
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            try{
+                              loginIndex = 0;
+                              homeIndex = 0;
+                              FirebaseAuth.instance.signOut();
+                              debugPrint('[OK] Signed out');
+                            } on Exception catch (e) {
+                              debugPrint('[ERR] Cannot sign out');
+                              showSnackBar(context, 'Ha ocurrido un error, '
+                                  'inténtalo de nuevo', Colors.red);
+                            }
+                          },
+                          child: Text('Aceptar', style: TextStyle(color: colorSpecialItem),)),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text('Cancelar', style: TextStyle(color: Colors.red),),
+                      )
+                    ],
+                  );
+                });
           }
       ),
       FooterCredits(),
