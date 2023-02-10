@@ -14,7 +14,7 @@ class NotificationService {
 
   Future<void> initNotification() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
+    AndroidInitializationSettings('@drawable/ic_notification');
 
     const InitializationSettings initializationSettings =
     InitializationSettings(
@@ -40,7 +40,7 @@ class NotificationService {
             'Main Channel',
             importance: Importance.max,
             priority: Priority.max,
-            icon: '@mipmap/ic_launcher'
+            icon: '@drawable/ic_notification'
         ),
       ),
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
