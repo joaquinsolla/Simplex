@@ -45,8 +45,10 @@ class _AddTodoState extends State<AddTodo> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea([
-        PageHeader(context, 'Nueva Tarea'),
+      body: NewHomeArea(null,
+          PageHeader(context, 'Nueva Tarea'),
+          FooterEmpty(),
+          [
         FormContainer([
           FormTextField(
               nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
@@ -260,9 +262,8 @@ class _AddTodoState extends State<AddTodo> {
               }
             }
         ),
-
-        FooterEmpty(),
-      ]),
+      ]
+      ),
     );
   }
 

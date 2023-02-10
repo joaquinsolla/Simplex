@@ -31,6 +31,29 @@ Container HomeAreaWithScrollController(ScrollController scrollController, List<W
   );
 }
 
+/// RENAME ---------------------------
+Container NewHomeArea(ScrollController? scrollController,
+    Widget header, Widget footer, List<Widget> body) {
+  List<Widget> widgets = body + [footer];
+
+  return Container(
+    color: colorMainBackground,
+    alignment: Alignment.topLeft,
+    margin: EdgeInsets.fromLTRB(
+        deviceWidth * 0.075, deviceHeight * 0.075, deviceWidth * 0.075, 0.0),
+    child: Column(children: [
+      header,
+      Expanded(child: ListView(
+        padding: EdgeInsets.zero,
+        addAutomaticKeepAlives: true,
+        physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
+        controller: scrollController,
+        children: widgets,
+      )),
+    ],),
+  );
+}
+
 /// CONTAINERS
 Container FormContainer (List<Widget> formWidgets){
   return Container(

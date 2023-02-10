@@ -57,8 +57,8 @@ class _AddEventState extends State<AddEvent> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea([
-        PageHeader(context, 'Nuevo evento'),
+      body: NewHomeArea(null, PageHeader(context, 'Nuevo evento'), FooterEmpty(),
+          [
         FormContainer([
           FormTextField(
               nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
@@ -436,8 +436,8 @@ class _AddEventState extends State<AddEvent> {
             }
         ),
 
-        FooterEmpty(),
-      ]),
+      ]
+      ),
     );
   }
 

@@ -26,8 +26,10 @@ class _HelpNotesState extends State<HelpNotes> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea([
-        PageHeader(context, 'Notas'),
+      body: NewHomeArea(null,
+          PageHeader(context, 'Notas'),
+          FooterCredits(),
+          [
         Column(children: [
           SizedBox(height: deviceHeight * 0.0125),
           TextExplanationContainer('Las notas',
@@ -41,8 +43,8 @@ class _HelpNotesState extends State<HelpNotes> {
                   'ver tu nota en el calendario en la fecha indicada. También '
                   'recibirás una notificación en esa fecha.'),
         ],),
-        FooterCredits(),
-      ]),
+      ]
+      ),
     );
   }
 

@@ -26,8 +26,10 @@ class _HelpMainPageState extends State<HelpMainPage> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea([
-        PageHeader(context, 'Ayuda'),
+      body: NewHomeArea(null,
+          PageHeader(context, 'Ayuda'),
+          FooterCredits(),
+          [
 
         Text('Uso de la aplicación',
             style: TextStyle(
@@ -79,8 +81,8 @@ class _HelpMainPageState extends State<HelpMainPage> {
           }),
         ]),
 
-        FooterCredits(),
-      ]),
+      ]
+      ),
     );
   }
 

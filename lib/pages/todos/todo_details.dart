@@ -93,8 +93,10 @@ class _TodoDetailsState extends State<TodoDetails> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea([
-        PageHeader(context, 'Tarea'),
+      body: NewHomeArea(null,
+          PageHeader(context, 'Tarea'),
+          FooterEmpty(),
+          [
         FormContainer([
           Text(
             selectedTodo!.name,
@@ -225,9 +227,8 @@ class _TodoDetailsState extends State<TodoDetails> {
                 );
               });
         }),
-
-        FooterEmpty(),
-      ]),
+          ]
+      ),
     );
   }
 

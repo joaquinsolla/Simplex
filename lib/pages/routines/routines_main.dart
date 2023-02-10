@@ -10,6 +10,7 @@ class RoutinesMainPage extends StatefulWidget {
 }
 
 class _RoutinesMainPageState extends State<RoutinesMainPage> {
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void dispose() {
@@ -24,21 +25,20 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return HomeArea([
-      HomeHeaderSimple(
-        'Rutina',
-        IconButton(
-          icon: Icon(Icons.add_rounded,
-              color: colorSpecialItem, size: deviceWidth * 0.085),
-          splashRadius: 0.001,
-          onPressed: () {
-            showSnackBar(context, '[Beta] En desarrollo', colorSpecialItem);
-          },
-        ),
-      ),
-
-      FooterEmpty(),
-    ]);
+    return NewHomeArea(_scrollController,
+        HomeHeader('Rutina', [
+            IconButton(
+              icon: Icon(Icons.add_rounded,
+                  color: colorSpecialItem, size: deviceWidth * 0.085),
+              splashRadius: 0.001,
+              onPressed: () {
+                showSnackBar(context, '[Beta] En desarrollo', colorSpecialItem);
+              },
+            ),
+          ]),
+        FooterEmpty(),
+        []
+    );
   }
 
 }

@@ -33,9 +33,10 @@ class _LogInServiceState extends State<LogInService> {
 
     return Scaffold(
         backgroundColor: colorMainBackground,
-        body: HomeArea([
-          AuthHeader(),
-          SizedBox(height: deviceHeight * 0.03,),
+        body: NewHomeArea(null,
+            AuthHeader(),
+            FooterPrivacyPolicy(),
+            [
           FormContainer([
             Text('Iniciar sesión', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.075, fontWeight: FontWeight.bold),),
             SizedBox(height: deviceHeight*0.025),
@@ -153,8 +154,8 @@ class _LogInServiceState extends State<LogInService> {
               Navigator.pushReplacementNamed(context, '/auth');
             },
           ),
-          FooterPrivacyPolicy(),
-        ]),
+        ]
+        ),
     );
 
   }

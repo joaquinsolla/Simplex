@@ -46,8 +46,10 @@ class _EditNoteState extends State<EditNote> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea([
-        PageHeader(context, 'Editar Nota'),
+      body: NewHomeArea(null,
+          PageHeader(context, 'Editar Nota'),
+          FooterEmpty(),
+          [
         FormContainer([
           FormTextField(
               nameController, 'Título', '(Opcional)', nameFocusNode),
@@ -169,9 +171,8 @@ class _EditNoteState extends State<EditNote> {
                 showSnackBar(context, 'Ha ocurrido un error', Colors.red);
               }
             }),
-
-        FooterEmpty(),
-      ]),
+      ]
+      ),
     );
   }
 

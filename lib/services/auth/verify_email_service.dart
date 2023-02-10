@@ -46,11 +46,10 @@ class _VerifyEmailServiceState extends State<VerifyEmailService> {
       ? Home()
       : Scaffold(
           backgroundColor: colorMainBackground,
-          body: HomeArea([
-            AuthHeader(),
-            SizedBox(
-              height: deviceHeight * 0.03,
-            ),
+          body: NewHomeArea(null,
+              AuthHeader(),
+              FooterEmpty(),
+              [
             FormContainer([
               Text(
                 'Verifica tu email',
@@ -86,7 +85,6 @@ class _VerifyEmailServiceState extends State<VerifyEmailService> {
                 ' Cancelar ',
                 () => FirebaseAuth.instance.signOut()
             ),
-            SizedBox(height: deviceHeight * 0.025),
           ]));
 
   Future checkVerifiedEmail() async {

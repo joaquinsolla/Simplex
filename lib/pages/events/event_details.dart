@@ -60,8 +60,10 @@ class _EventDetailsState extends State<EventDetails> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea([
-        PageHeader(context, 'Evento'),
+      body: NewHomeArea(null,
+          PageHeader(context, 'Evento'),
+          FooterEmpty(),
+          [
         FormContainer([
           Text(
             selectedEvent!.name,
@@ -247,9 +249,8 @@ class _EventDetailsState extends State<EventDetails> {
                 );
               });
         }),
-
-        FooterEmpty(),
-      ]),
+      ]
+      ),
     );
   }
 

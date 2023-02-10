@@ -26,8 +26,10 @@ class _HelpTodosState extends State<HelpTodos> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea([
-        PageHeader(context, 'Tareas'),
+      body: NewHomeArea(null,
+          PageHeader(context, 'Tareas'),
+          FooterCredits(),
+          [
         Column(children: [
           SizedBox(height: deviceHeight * 0.0125),
           TextExplanationContainer('Las tareas',
@@ -43,8 +45,8 @@ class _HelpTodosState extends State<HelpTodos> {
                   'para que se alcance la fecha límite y cuando la tarea ya '
                   'haya caducado.'),
         ],),
-        FooterCredits(),
-      ]),
+      ]
+      ),
     );
   }
 

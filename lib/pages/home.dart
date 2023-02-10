@@ -68,15 +68,10 @@ class _HomeState extends State<Home> {
   Container SettingsView(){
     final user = FirebaseAuth.instance.currentUser!;
 
-    return HomeArea([
-      Text('Ajustes',
-          style: TextStyle(
-              color: colorMainText,
-              fontSize: deviceWidth * 0.1,
-              fontWeight: FontWeight.bold)),
-      SizedBox(
-        height: deviceHeight * 0.03,
-      ),
+    return NewHomeArea(null,
+        HomeHeader('Ajustes', []),
+        FooterCredits(),
+        [
       Text('Globalización',
           style: TextStyle(
               color: colorMainText,
@@ -318,7 +313,7 @@ class _HomeState extends State<Home> {
                               FirebaseAuth.instance.signOut();
                               debugPrint('[OK] Signed out');
                             } on Exception catch (e) {
-                              debugPrint('[ERR] Cannot sign out');
+                              debugPrint('[ERR] Cannot sign out: $e');
                               showSnackBar(context, 'Ha ocurrido un error, '
                                   'inténtalo de nuevo', Colors.red);
                             }
@@ -335,8 +330,8 @@ class _HomeState extends State<Home> {
                 });
           }
       ),
-      FooterCredits(),
-    ]);
+    ]
+    );
   }
 
   /// AUX FUNCTIONS

@@ -34,8 +34,10 @@ class _HelpReportState extends State<HelpReport> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea([
-        PageHeader(context, 'Reportar un problema'),
+      body: NewHomeArea(null,
+          PageHeader(context, 'Reportar un problema'),
+          FooterCredits(),
+          [
         FormContainer([
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,8 +134,8 @@ class _HelpReportState extends State<HelpReport> {
           style: TextStyle(color: colorSecondText,
               fontSize: deviceWidth * 0.0375,
               fontWeight: FontWeight.normal), textAlign: TextAlign.center,),
-        FooterCredits(),
-      ]),
+      ]
+      ),
     );
   }
 

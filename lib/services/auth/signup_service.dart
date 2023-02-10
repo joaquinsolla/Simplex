@@ -32,9 +32,10 @@ class _SignUpServiceState extends State<SignUpService> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: colorMainBackground,
-        body: HomeArea([
-          AuthHeader(),
-          SizedBox(height: deviceHeight * 0.03,),
+        body: NewHomeArea(null,
+            AuthHeader(),
+            FooterPrivacyPolicy(),
+            [
           FormContainer([
             Text('Registrarse', style: TextStyle(color: colorMainText,
                 fontSize: deviceWidth * 0.075,
@@ -198,8 +199,9 @@ class _SignUpServiceState extends State<SignUpService> {
               Navigator.pushReplacementNamed(context, '/auth');
             },
           ),
-          FooterPrivacyPolicy(),
-        ]));
+        ]
+        )
+    );
   }
 
   Future signUp() async {

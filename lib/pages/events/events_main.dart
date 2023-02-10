@@ -93,19 +93,16 @@ class _EventsMainPageState extends State<EventsMainPage> {
     else if (formatDates==true) dateText = DateFormat('dd/MM/yyyy').format(_selectedDay);
     else dateText = DateFormat('MM/dd/yyyy').format(_selectedDay);
 
-    return HomeAreaWithScrollController(_scrollController,
-        [
-          HomeHeaderSimple('Calendario',
-          IconButton(
+    return NewHomeArea(_scrollController,
+        HomeHeader('Calendario', [IconButton(
             icon: Icon(Icons.add_rounded,
                 color: colorSpecialItem, size: deviceWidth * 0.085),
             splashRadius: 0.001,
             onPressed: () {
               Navigator.pushNamed(context, '/events/add_event');
-            },
-          ),
-      ),
-
+            },)]),
+        FooterEmpty(),
+        [
           StreamBuilder<List<List<dynamic>>>(
           stream: CombineLatestStream.list([
             readAllEvents(),

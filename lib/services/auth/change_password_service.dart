@@ -31,8 +31,10 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea([
-        PageHeader(context, 'Cambia tu contraseña'),
+      body: NewHomeArea(null,
+          PageHeader(context, 'Cambia tu contraseña'),
+          FooterCredits(),
+          [
         FormContainer([
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,8 +176,8 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
           style: TextStyle(color: colorSecondText,
               fontSize: deviceWidth * 0.0375,
               fontWeight: FontWeight.normal), textAlign: TextAlign.center,),
-        FooterCredits(),
-      ]),
+          ]
+      ),
     );
   }
 

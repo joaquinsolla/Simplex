@@ -40,40 +40,32 @@ class _NotesMainPageState extends State<NotesMainPage> {
     IconData searcherIcon = Icons.search_rounded;
     if (showSearcher==true) searcherIcon = Icons.search_off_rounded;
 
-    return Container(
-      color: colorMainBackground,
-      alignment: Alignment.topLeft,
-      margin: EdgeInsets.fromLTRB(
-          deviceWidth * 0.075, deviceHeight * 0.075, deviceWidth * 0.075, 0.0),
-      child: ListView(
-        addAutomaticKeepAlives: true,
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          HomeHeaderDouble(
-            'Notas',
-            IconButton(
-              icon: Icon(searcherIcon,
-                  color: colorSpecialItem, size: deviceWidth * 0.085),
-              splashRadius: 0.001,
-              onPressed: () {
-                setState(() {
-                  showSearcher=!showSearcher;
-                  keywordsController.clear();
-                  keywords='';
-                  if (showSearcher) keywordsFocusNode.requestFocus();
-                });
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.add_rounded,
-                  color: colorSpecialItem, size: deviceWidth * 0.085),
-              splashRadius: 0.001,
-              onPressed: () {
-                Navigator.pushNamed(context, '/notes/add_note');
-              },
-            ),
+    return NewHomeArea(_scrollController,
+        HomeHeader('Notas', [
+          IconButton(
+            icon: Icon(searcherIcon,
+                color: colorSpecialItem, size: deviceWidth * 0.085),
+            splashRadius: 0.001,
+            onPressed: () {
+              setState(() {
+                showSearcher=!showSearcher;
+                keywordsController.clear();
+                keywords='';
+                if (showSearcher) keywordsFocusNode.requestFocus();
+              });
+            },
           ),
-
+          IconButton(
+            icon: Icon(Icons.add_rounded,
+                color: colorSpecialItem, size: deviceWidth * 0.085),
+            splashRadius: 0.001,
+            onPressed: () {
+              Navigator.pushNamed(context, '/notes/add_note');
+            },
+          ),
+          ]),
+        FooterEmpty(),
+        [
           if (showSearcher) Wrap(
             alignment: WrapAlignment.center,
             children: [
@@ -157,7 +149,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       if (notes.length == 0 && keywords=='') NoItemsContainer('notas', 0.65),
-                      
+
                       if (notes.length == 0 && keywords!='') Container(
                         height: deviceHeight*0.3,
                         alignment: Alignment.center,
@@ -170,8 +162,8 @@ class _NotesMainPageState extends State<NotesMainPage> {
                       ),
 
                       Container(
-                        height: deviceHeight*0.725,
                         child: MasonryGridView.count(
+                            padding: EdgeInsets.zero,
                             physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
                             controller: _scrollController,
                             shrinkWrap: true,
@@ -185,19 +177,19 @@ class _NotesMainPageState extends State<NotesMainPage> {
                                 Container(
                                   alignment: Alignment.center,
                                   child: IconButton(
-                                  icon: Icon(Icons.arrow_circle_up_rounded,
-                                      color: colorSpecialItem, size: deviceWidth * 0.08),
-                                  splashRadius: 0.001,
-                                  onPressed: () async {
-                                    await Future.delayed(const Duration(milliseconds: 100));
-                                    SchedulerBinding.instance.addPostFrameCallback((_) {
-                                      _scrollController.animateTo(
-                                          _scrollController.position.minScrollExtent,
-                                          duration: const Duration(milliseconds: 400),
-                                          curve: Curves.fastOutSlowIn);
-                                    });
-                                  },
-                                ),),
+                                    icon: Icon(Icons.arrow_circle_up_rounded,
+                                        color: colorSpecialItem, size: deviceWidth * 0.08),
+                                    splashRadius: 0.001,
+                                    onPressed: () async {
+                                      await Future.delayed(const Duration(milliseconds: 100));
+                                      SchedulerBinding.instance.addPostFrameCallback((_) {
+                                        _scrollController.animateTo(
+                                            _scrollController.position.minScrollExtent,
+                                            duration: const Duration(milliseconds: 400),
+                                            curve: Curves.fastOutSlowIn);
+                                      });
+                                    },
+                                  ),),
                                 SizedBox(height: deviceHeight*0.1,),
                               ],);
                               else return notes.map(buildNoteCard).toList()[index];
@@ -206,15 +198,10 @@ class _NotesMainPageState extends State<NotesMainPage> {
                     ],
                   );
                 }
-
                 else return LoadingContainer('Cargando tus notas...', 0.75);
               }),
-
-          FooterEmpty(),
-        ],
-      ),
+        ]
     );
-
   }
 
   Widget buildNoteCard(Note note){

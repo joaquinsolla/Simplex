@@ -30,8 +30,11 @@ class _HelpButtonsState extends State<HelpButtons> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea([
-        PageHeader(context, 'Botones'),
+      body: NewHomeArea(null,
+          PageHeader(context, 'Botones'),
+          FooterCredits(),
+          [
+
 
         Text('Botones comunes', style: TextStyle(
             color: colorMainText,
@@ -121,9 +124,8 @@ class _HelpButtonsState extends State<HelpButtons> {
               'Se eliminarán todas las tareas que estén marcadas como '
                   'completadas. Una vez eliminadas no podrás recuperarlas.'),
         ],),
-
-        FooterCredits(),
-      ]),
+      ]
+      ),
     );
   }
 

@@ -79,8 +79,10 @@ class _EditEventState extends State<EditEvent> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea([
-        PageHeader(context, 'Editar evento'),
+      body: NewHomeArea(null,
+          PageHeader(context, 'Editar evento'),
+          FooterEmpty(),
+          [
         FormContainer([
           FormTextField(nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
           FormTextField(descriptionController, 'Descripción', '(Opcional)', descriptionFocusNode),
@@ -455,7 +457,6 @@ class _EditEventState extends State<EditEvent> {
             ' Cancelar ',
             () => Navigator.pop(context),
         ),
-        FooterEmpty(),
       ]),
     );
   }

@@ -43,8 +43,10 @@ class _AddNoteState extends State<AddNote> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea([
-        PageHeader(context, 'Nueva Nota'),
+      body: NewHomeArea(null,
+          PageHeader(context, 'Nueva Nota'),
+          FooterEmpty(),
+          [
         FormContainer([
           FormTextField(
               nameController, 'Título', '(Opcional)', nameFocusNode),
@@ -161,8 +163,8 @@ class _AddNoteState extends State<AddNote> {
                   }
                 }),
 
-        FooterEmpty(),
-      ]),
+      ]
+      ),
     );
   }
 

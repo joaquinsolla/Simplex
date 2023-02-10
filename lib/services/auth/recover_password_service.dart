@@ -25,9 +25,10 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: colorMainBackground,
-        body: HomeArea([
-          AuthHeader(),
-          SizedBox(height: deviceHeight * 0.03,),
+        body: NewHomeArea(null,
+            AuthHeader(),
+            FooterEmpty(),
+            [
           FormContainer([
             Text('Restablecer contraseña', style: TextStyle(color: colorMainText,
                 fontSize: deviceWidth * 0.075,
@@ -107,8 +108,8 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
               Navigator.pushReplacementNamed(context, '/auth');
             },
           ),
-          SizedBox(height: deviceHeight * 0.025),
-        ]));
+        ])
+    );
   }
 
   Future resetPassword() async{

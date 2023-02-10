@@ -50,8 +50,10 @@ class _EditTodoState extends State<EditTodo> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea([
-        PageHeader(context, 'Editar Tarea'),
+      body: NewHomeArea(null,
+          PageHeader(context, 'Editar Tarea'),
+          FooterEmpty(),
+          [
         FormContainer([
           FormTextField(
               nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
@@ -265,9 +267,8 @@ class _EditTodoState extends State<EditTodo> {
           ' Cancelar ',
               () => Navigator.pop(context),
         ),
-
-        FooterEmpty(),
-      ]),
+      ]
+      ),
     );
   }
 

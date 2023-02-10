@@ -26,14 +26,16 @@ class _HelpRoutinesState extends State<HelpRoutines> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea([
-        PageHeader(context, 'Rutinas'),
+      body: NewHomeArea(null,
+          PageHeader(context, 'Rutinas'),
+          FooterCredits(),
+          [
         Column(children: [
           SizedBox(height: deviceHeight * 0.0125),
 
         ],),
-        FooterCredits(),
-      ]),
+      ]
+      ),
     );
   }
 

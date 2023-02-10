@@ -26,8 +26,10 @@ class _HelpEventsState extends State<HelpEvents> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea([
-        PageHeader(context, 'Calendario'),
+      body: NewHomeArea(null,
+          PageHeader(context, 'Calendario'),
+          FooterCredits(),
+          [
         Column(children: [
           SizedBox(height: deviceHeight * 0.0125),
           TextExplanationContainer('Los eventos',
@@ -53,8 +55,8 @@ class _HelpEventsState extends State<HelpEvents> {
                   'Todos estos elementos aparecerán representados como puntos '
                   'en su día correspondiente.'),
         ],),
-        FooterCredits(),
-      ]),
+      ]
+      ),
     );
   }
 

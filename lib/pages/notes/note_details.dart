@@ -39,8 +39,10 @@ class _NoteDetailsState extends State<NoteDetails> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea([
-      PageHeader(context, 'Nota'),
+      body: NewHomeArea(null,
+          PageHeader(context, 'Nota'),
+          FooterEmpty(),
+          [
         FormContainer([
           if (selectedNote!.name == '') Text(
             'Sin título',
@@ -158,9 +160,8 @@ class _NoteDetailsState extends State<NoteDetails> {
                 );
               });
         }),
-
-        FooterEmpty(),
-      ]),
+      ]
+      ),
     );
   }
 
