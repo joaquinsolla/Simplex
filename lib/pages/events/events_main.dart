@@ -283,6 +283,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
 
                   Column(children: events.map(buildEventBox).toList(),),
 
+                  // TODO: Update when routines implemented
                   if (events.length != 0 || todos.length != 0 || notes.length != 0) SizedBox(height: deviceHeight*0.01,),
                   if (events.length != 0 || todos.length != 0 || notes.length != 0) Container(
                     alignment: Alignment.center,

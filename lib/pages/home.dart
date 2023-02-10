@@ -300,7 +300,7 @@ class _HomeState extends State<Home> {
                 context: context,
                 builder: (context) {
                   return CupertinoAlertDialog(
-                    title: Text('¿Cerrar sesión?'),
+                    title: Text('Cerrar sesión'),
                     content: Text('Para volver a acceder a tu cuenta deberás '
                         'proporcionar tu email y contraseña.'),
                     actions: <Widget>[

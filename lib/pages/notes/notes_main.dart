@@ -163,35 +163,32 @@ class _NotesMainPageState extends State<NotesMainPage> {
                         child: MasonryGridView.count(
                             padding: EdgeInsets.zero,
                             physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
-                            controller: _scrollController,
                             shrinkWrap: true,
                             itemCount: notes.length,
                             crossAxisCount: 2,
 
                             itemBuilder: (context, index) {
-                              if (index==notes.length-1) return Column(children: [
-                                notes.map(buildNoteCard).toList()[index],
-                                SizedBox(height: deviceHeight*0.01,),
-                                Container(
-                                  alignment: Alignment.center,
-                                  child: IconButton(
-                                    icon: Icon(Icons.arrow_circle_up_rounded,
-                                        color: colorSpecialItem, size: deviceWidth * 0.08),
-                                    splashRadius: 0.001,
-                                    onPressed: () async {
-                                      await Future.delayed(const Duration(milliseconds: 100));
-                                      SchedulerBinding.instance.addPostFrameCallback((_) {
-                                        _scrollController.animateTo(
-                                            _scrollController.position.minScrollExtent,
-                                            duration: const Duration(milliseconds: 400),
-                                            curve: Curves.fastOutSlowIn);
-                                      });
-                                    },
-                                  ),),
-                                SizedBox(height: deviceHeight*0.1,),
-                              ],);
-                              else return notes.map(buildNoteCard).toList()[index];
+                              return notes.map(buildNoteCard).toList()[index];
                             }),
+                      ),
+
+                      if (notes != 0) SizedBox(height: deviceHeight*0.01,),
+                      if (notes != 0) Container(
+                        alignment: Alignment.center,
+                        child: IconButton(
+                          icon: Icon(Icons.arrow_circle_up_rounded,
+                              color: colorSpecialItem, size: deviceWidth * 0.08),
+                          splashRadius: 0.001,
+                          onPressed: () async {
+                            await Future.delayed(const Duration(milliseconds: 100));
+                            SchedulerBinding.instance.addPostFrameCallback((_) {
+                              _scrollController.animateTo(
+                                  _scrollController.position.minScrollExtent,
+                                  duration: const Duration(milliseconds: 400),
+                                  curve: Curves.fastOutSlowIn);
+                            });
+                          },
+                        ),
                       ),
                     ],
                   );

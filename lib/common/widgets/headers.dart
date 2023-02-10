@@ -5,7 +5,7 @@ Column AuthHeader(){
   return Column(
     children: [
       SizedBox(
-        height: deviceHeight * 0.04,
+        height: deviceHeight * 0.01,
       ),
       Row(
         children: [
@@ -41,7 +41,7 @@ Column HomeHeader(String text, List<Widget> buttons) {
   return Column(
     children: [
       SizedBox(
-        height: deviceHeight * 0.04,
+        height: deviceHeight * 0.01,
       ),
       Row(
         children: headerItems,
@@ -53,7 +53,7 @@ Column HomeHeader(String text, List<Widget> buttons) {
 Column PageHeader(BuildContext context, String text) {
   return Column(
     children: [
-      SizedBox(height: deviceHeight * 0.04),
+      SizedBox(height: deviceHeight * 0.01),
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

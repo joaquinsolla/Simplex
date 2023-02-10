@@ -233,11 +233,9 @@ class _TodosMainPageState extends State<TodosMainPage> {
                             });
                           },
                         ),),
-                      SizedBox(height: deviceHeight*0.1,),
                     ],
                   );
                 }
-
                 else return LoadingContainer('Cargando tus tareas...', 0.75);
               }),
         ],
