@@ -9,7 +9,7 @@ Column AuthHeader(){
       ),
       Row(
         children: [
-          Image.asset('assets/app_icon_preview.png', scale: deviceWidth*0.0175,),
+          Image.asset('assets/icon_no_background.png', scale: deviceWidth*0.0175,),
           SizedBox(width: deviceWidth*0.02,),
           Container(
             width: deviceWidth*0.625,
