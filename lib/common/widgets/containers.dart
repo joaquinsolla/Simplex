@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 
-/// HOME AREA
+/// HOME AREAS
 Container HomeArea(ScrollController? scrollController,
     Widget header, Widget footer, List<Widget> body) {
   List<Widget> widgets = [SizedBox(height: deviceHeight*0.03,)];
@@ -23,6 +23,46 @@ Container HomeArea(ScrollController? scrollController,
             end: Alignment.bottomCenter,
             colors: [colorMainBackground, Colors.transparent],
             stops: [0.0, 0.05], // 10% colorMainBackground, 80% transparent, 10% colorMainBackground
+          ).createShader(rect);
+        },
+        blendMode: BlendMode.dstOut,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          addAutomaticKeepAlives: true,
+          physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
+          controller: scrollController,
+          children: widgets,
+        ),
+      ),
+      ),
+    ],),
+  );
+}
+
+Container HomeAreaWithSearchbar(ScrollController? scrollController, bool showSearchbar,
+    Widget header, Widget searchbar, Widget footer, List<Widget> body) {
+  List<Widget> widgets = [if (!showSearchbar) SizedBox(height: deviceHeight*0.03,)];
+  widgets += body;
+  widgets += [footer];
+
+  return Container(
+    color: colorMainBackground,
+    alignment: Alignment.topLeft,
+    margin: EdgeInsets.fromLTRB(
+        deviceWidth * 0.075, deviceHeight * 0.075, deviceWidth * 0.075, 0.0),
+    child: Column(children: [
+      header,
+      if (showSearchbar) SizedBox(height: deviceHeight*0.015,),
+      if (showSearchbar) searchbar,
+      if (showSearchbar) SizedBox(height: deviceHeight*0.015,),
+      Expanded(child:
+      ShaderMask(
+        shaderCallback: (Rect rect) {
+          return LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [colorMainBackground, Colors.transparent],
+            stops: [0.0, 0.05], // 5% colorMainBackground, 95% transparent
           ).createShader(rect);
         },
         blendMode: BlendMode.dstOut,

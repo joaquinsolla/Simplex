@@ -22,7 +22,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
   FocusNode keywordsFocusNode = FocusNode();
   final keywordsController = TextEditingController();
   String keywords = '';
-  bool showSearcher = false;
+  bool showSearchbar = false;
 
   @override
   void dispose() {
@@ -50,9 +50,9 @@ class _TodosMainPageState extends State<TodosMainPage> {
   @override
   Widget build(BuildContext context) {
     IconData searcherIcon = Icons.search_rounded;
-    if (showSearcher==true) searcherIcon = Icons.search_off_rounded;
+    if (showSearchbar==true) searcherIcon = Icons.search_off_rounded;
 
-    return HomeArea(_scrollController,
+    return HomeAreaWithSearchbar(_scrollController, showSearchbar,
       HomeHeader('Tareas', [
         IconButton(
         icon: Icon(Icons.clear_all_rounded,
@@ -66,10 +66,10 @@ class _TodosMainPageState extends State<TodosMainPage> {
         splashRadius: 0.001,
         onPressed: () {
           setState(() {
-            showSearcher=!showSearcher;
+            showSearchbar=!showSearchbar;
             keywordsController.clear();
             keywords='';
-            if (showSearcher) keywordsFocusNode.requestFocus();
+            if (showSearchbar) keywordsFocusNode.requestFocus();
           });
         },
       ),
@@ -82,78 +82,77 @@ class _TodosMainPageState extends State<TodosMainPage> {
         },
       ),
       ]),
+      Wrap(
+        alignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Container(
+            width: deviceWidth*0.65,
+            child: TextField(
+              focusNode: keywordsFocusNode,
+              controller: keywordsController,
+              keyboardType: TextInputType.text,
+              textCapitalization: TextCapitalization.sentences,
+              textInputAction: TextInputAction.search,
+              maxLines: 1,
+              style: TextStyle(color: colorMainText),
+              decoration: InputDecoration(
+                fillColor: colorThirdBackground,
+                filled: true,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: colorThirdBackground, width: 1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide:
+                  BorderSide(color: colorSpecialItem, width: 2),
+                ),
+
+                hintText: 'Buscar tareas...',
+                hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
+              ),
+              onChanged: (text){
+                setState(() {
+                  keywords=text;
+                });
+              },
+            ),
+          ),
+          SizedBox(width: deviceWidth*0.015,),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: colorSecondBackground,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [ SizedBox(
+                //width: deviceWidth*0.1,
+                height: deviceHeight*0.07,
+                child: TextButton(
+                  child: Text(
+                    'Borrar',
+                    style: TextStyle(
+                        color: colorSpecialItem,
+                        fontSize: deviceWidth * 0.035,
+                        fontWeight: FontWeight.normal),
+                  ),
+                  onPressed: (){
+                    setState(() {
+                      keywords='';
+                      keywordsController.clear();
+                      keywordsFocusNode.unfocus();
+                    });
+                  },
+                ),
+              ),],
+            ),
+          ),
+        ],),
       FooterEmpty(),
         [
-        if (showSearcher) Wrap(
-          alignment: WrapAlignment.center,
-          children: [
-            Container(
-              width: deviceWidth*0.65,
-              child: TextField(
-                focusNode: keywordsFocusNode,
-                controller: keywordsController,
-                keyboardType: TextInputType.text,
-                textCapitalization: TextCapitalization.sentences,
-                textInputAction: TextInputAction.search,
-                maxLines: 1,
-                style: TextStyle(color: colorMainText),
-                decoration: InputDecoration(
-                  fillColor: colorThirdBackground,
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: colorThirdBackground, width: 1),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide:
-                    BorderSide(color: colorSpecialItem, width: 2),
-                  ),
-
-                  hintText: 'Buscar tareas...',
-                  hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
-                ),
-                onChanged: (text){
-                  setState(() {
-                    keywords=text;
-                  });
-                },
-              ),
-            ),
-            SizedBox(width: deviceWidth*0.015,),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: colorSecondBackground,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [ SizedBox(
-                  //width: deviceWidth*0.1,
-                  height: deviceHeight*0.07,
-                  child: TextButton(
-                    child: Text(
-                      'Borrar',
-                      style: TextStyle(
-                          color: colorSpecialItem,
-                          fontSize: deviceWidth * 0.035,
-                          fontWeight: FontWeight.normal),
-                    ),
-                    onPressed: (){
-                      setState(() {
-                        keywords='';
-                        keywordsController.clear();
-                        keywordsFocusNode.unfocus();
-                      });
-                    },
-                  ),
-                ),],
-              ),
-            ),
-          ],),
-        if (showSearcher) SizedBox(height: deviceHeight*0.015,),
-        Container(
-          child: StreamBuilder<List<List<Todo>>>(
+          StreamBuilder<List<List<Todo>>>(
               stream: CombineLatestStream.list([
                 readDoneTodosByName(keywords.trim()),
                 readPendingTodosByPriorityAndName(1, keywords.trim()),
@@ -240,7 +239,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                 }
 
                 else return LoadingContainer('Cargando tus tareas...', 0.75);
-              }),),
+              }),
         ],
     );
   }
