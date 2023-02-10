@@ -54,7 +54,7 @@ Container HomeAreaWithSearchbar(ScrollController? scrollController, bool showSea
       header,
       if (showSearchbar) SizedBox(height: deviceHeight*0.015,),
       if (showSearchbar) searchbar,
-      if (showSearchbar) SizedBox(height: deviceHeight*0.015,),
+      if (showSearchbar) SizedBox(height: deviceHeight*0.025,),
       Expanded(child:
       ShaderMask(
         shaderCallback: (Rect rect) {
@@ -199,5 +199,18 @@ Container NoItemsContainer(String items, double heightProportion){
             color: colorSecondText,
             fontSize: deviceWidth * 0.05,
             fontWeight: FontWeight.normal)),
+  );
+}
+
+Container NoResultsContainer(double heightProportion){
+  return Container(
+    height: deviceHeight*heightProportion,
+    alignment: Alignment.center,
+    child: Text("Sin resultados...",
+        style: TextStyle(
+            color: colorSecondText,
+            fontSize: deviceWidth * 0.05,
+            fontWeight: FontWeight.normal)
+    ),
   );
 }

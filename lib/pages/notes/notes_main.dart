@@ -148,29 +148,18 @@ class _NotesMainPageState extends State<NotesMainPage> {
                     children: [
                       if (notes.length == 0 && keywords=='') NoItemsContainer('notas', 0.65),
 
-                      if (notes.length == 0 && keywords!='') Container(
-                        height: deviceHeight*0.3,
-                        alignment: Alignment.center,
-                        child: Text("Sin resultados...",
-                            style: TextStyle(
-                                color: colorSecondText,
-                                fontSize: deviceWidth * 0.0475,
-                                fontWeight: FontWeight.normal)
-                        ),
-                      ),
+                      if (notes.length == 0 && keywords!='') NoResultsContainer(0.65),
 
-                      Container(
-                        child: MasonryGridView.count(
-                            padding: EdgeInsets.zero,
-                            physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
-                            shrinkWrap: true,
-                            itemCount: notes.length,
-                            crossAxisCount: 2,
+                      MasonryGridView.count(
+                          padding: EdgeInsets.zero,
+                          physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
+                          shrinkWrap: true,
+                          itemCount: notes.length,
+                          crossAxisCount: 2,
 
-                            itemBuilder: (context, index) {
-                              return notes.map(buildNoteCard).toList()[index];
-                            }),
-                      ),
+                          itemBuilder: (context, index) {
+                            return notes.map(buildNoteCard).toList()[index];
+                          }),
 
                       if (notes != 0) SizedBox(height: deviceHeight*0.01,),
                       if (notes != 0) Container(

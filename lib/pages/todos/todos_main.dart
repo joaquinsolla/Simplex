@@ -187,7 +187,8 @@ class _TodosMainPageState extends State<TodosMainPage> {
                           }
                       ),
 
-                      if (pendingTodosLength == 0 && showPendingTodos) NoItemsContainer('tareas pendientes', 0.2),
+                      if (pendingTodosLength == 0 && showPendingTodos && keywords=='') NoItemsContainer('tareas pendientes', 0.2),
+                      if (pendingTodosLength == 0 && showPendingTodos && keywords!='') NoResultsContainer(0.2),
 
                       if (pendingTodosPriority3.length > 0 && showPendingTodos) CustomDivider('Prioridad Alta'),
                       if (pendingTodosPriority3.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
@@ -213,7 +214,9 @@ class _TodosMainPageState extends State<TodosMainPage> {
                           }
                       ),
 
-                      if (doneTodos.length == 0 && showDoneTodos) NoItemsContainer('tareas completadas', 0.2),
+                      if (doneTodos.length == 0 && showDoneTodos && keywords=='') NoItemsContainer('tareas completadas', 0.2),
+                      if (doneTodos.length == 0 && showDoneTodos && keywords!='') NoResultsContainer(0.2),
+
                       if (doneTodos.length > 0 && showDoneTodos) Column(children: doneTodos.map(buildDoneTodoBox).toList(),),
 
                       if (pendingTodosLength != 0 || doneTodos.length != 0) SizedBox(height: deviceHeight*0.01,),
@@ -300,7 +303,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.done_all_rounded,
+                    Icon(Icons.check_circle_outline_rounded,
                         color: colorSpecialItem,
                         size: deviceWidth * 0.06),
                     SizedBox(width: deviceWidth * 0.025,),
@@ -493,7 +496,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.remove_done_rounded,
+                    Icon(Icons.circle_outlined,
                         color: colorSpecialItem,
                         size: deviceWidth * 0.06),
                     SizedBox(width: deviceWidth * 0.025,),

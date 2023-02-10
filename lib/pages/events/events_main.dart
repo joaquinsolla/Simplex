@@ -555,11 +555,11 @@ class _EventsMainPageState extends State<EventsMainPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.done_all_rounded,
+                Icon(Icons.check_circle_outline_rounded,
                     color: colorSpecialItem,
                     size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth * 0.025,),
-                Text('Marcar como hecho', style: TextStyle(
+                Text('Marcar como completada', style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * 0.04,
                     fontWeight: FontWeight.normal),),
