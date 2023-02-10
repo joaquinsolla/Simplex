@@ -340,6 +340,30 @@ class _AddEventState extends State<AddEvent> {
                 fieldHintText: "dd/mm/aaaa",
                 fieldLabelText: "Fecha de notificación",
                 errorFormatText: "Introduce una fecha válida",
+                builder: (context, child) {
+                  if (darkMode) return Theme(
+                    data: ThemeData.dark().copyWith(
+                      primaryColor: colorSpecialItem,
+                      colorScheme: ColorScheme.dark(
+                          primary: colorSpecialItem),
+                      buttonTheme: ButtonThemeData(
+                          textTheme: ButtonTextTheme.primary
+                      ),
+                    ),
+                    child: child!,
+                  );
+                  else return Theme(
+                    data: ThemeData.light().copyWith(
+                      primaryColor: colorSpecialItem,
+                      colorScheme: ColorScheme.light(
+                          primary: colorSpecialItem),
+                      buttonTheme: ButtonThemeData(
+                          textTheme: ButtonTextTheme.primary
+                      ),
+                    ),
+                    child: child!,
+                  );
+                },
               );
               if (dateSelected != null) {
                 notDate = dateSelected;
@@ -350,6 +374,30 @@ class _AddEventState extends State<AddEvent> {
                   confirmText: "CONFIRMAR",
                   initialTime: TimeOfDay(hour: 0, minute: 0),
                   initialEntryMode: TimePickerEntryMode.dial,
+                  builder: (context, child) {
+                    if (darkMode) return Theme(
+                      data: ThemeData.dark().copyWith(
+                        primaryColor: colorSpecialItem,
+                        colorScheme: ColorScheme.dark(
+                          primary: colorSpecialItem,),
+                        buttonTheme: ButtonThemeData(
+                            textTheme: ButtonTextTheme.primary
+                        ),
+                      ),
+                      child: child!,
+                    );
+                    else return Theme(
+                      data: ThemeData.light().copyWith(
+                        primaryColor: colorSpecialItem,
+                        colorScheme: ColorScheme.light(
+                            primary: colorSpecialItem),
+                        buttonTheme: ButtonThemeData(
+                            textTheme: ButtonTextTheme.primary
+                        ),
+                      ),
+                      child: child!,
+                    );
+                  },
                 );
                 if (timeSelected != null) {
                   notTime = timeSelected;

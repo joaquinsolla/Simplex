@@ -190,14 +190,17 @@ class _TodosMainPageState extends State<TodosMainPage> {
                       if (pendingTodosLength == 0 && showPendingTodos && keywords=='') NoItemsContainer('tareas pendientes', 0.2),
                       if (pendingTodosLength == 0 && showPendingTodos && keywords!='') NoResultsContainer(0.2),
 
+                      if (pendingTodosPriority3.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
                       if (pendingTodosPriority3.length > 0 && showPendingTodos) CustomDivider('Prioridad Alta'),
                       if (pendingTodosPriority3.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
                       if (showPendingTodos) Column(children: pendingTodosPriority3.map(buildPendingTodoBox).toList(),),
 
+                      if (pendingTodosPriority2.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
                       if (pendingTodosPriority2.length > 0 && showPendingTodos) CustomDivider('Prioridad Media'),
                       if (pendingTodosPriority2.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
                       if (showPendingTodos) Column(children: pendingTodosPriority2.map(buildPendingTodoBox).toList(),),
 
+                      if (pendingTodosPriority1.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
                       if (pendingTodosPriority1.length > 0 && showPendingTodos) CustomDivider('Prioridad Baja'),
                       if (pendingTodosPriority1.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
                       if (showPendingTodos) Column(children: pendingTodosPriority1.map(buildPendingTodoBox).toList(),),
