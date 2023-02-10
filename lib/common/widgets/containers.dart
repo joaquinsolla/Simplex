@@ -4,7 +4,7 @@ import 'package:simplex/common/all_common.dart';
 /// HOME AREAS
 Container HomeArea(ScrollController? scrollController,
     Widget header, Widget footer, List<Widget> body) {
-  List<Widget> widgets = [SizedBox(height: deviceHeight*0.03,)];
+  List<Widget> widgets = [SizedBox(height: deviceHeight*0.0325,)];
   widgets += body;
   widgets += [footer];
 
@@ -41,7 +41,7 @@ Container HomeArea(ScrollController? scrollController,
 
 Container HomeAreaWithSearchbar(ScrollController? scrollController, bool showSearchbar,
     Widget header, Widget searchbar, Widget footer, List<Widget> body) {
-  List<Widget> widgets = [if (!showSearchbar) SizedBox(height: deviceHeight*0.03,)];
+  List<Widget> widgets = [if (!showSearchbar) SizedBox(height: deviceHeight*0.0325,)];
   widgets += body;
   widgets += [footer];
 

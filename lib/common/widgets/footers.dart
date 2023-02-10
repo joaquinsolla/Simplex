@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 
 SizedBox FooterEmpty(){
-  return SizedBox(height: deviceHeight * 0.025);
+  return SizedBox(height: deviceHeight * 0.05);
 }
 
 Column FooterCredits(){
