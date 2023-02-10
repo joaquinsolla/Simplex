@@ -32,7 +32,7 @@ class _SignUpServiceState extends State<SignUpService> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: colorMainBackground,
-        body: NewHomeArea(null,
+        body: HomeArea(null,
             AuthHeader(),
             FooterPrivacyPolicy(),
             [

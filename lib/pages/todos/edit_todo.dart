@@ -50,7 +50,7 @@ class _EditTodoState extends State<EditTodo> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: NewHomeArea(null,
+      body: HomeArea(null,
           PageHeader(context, 'Editar Tarea'),
           FooterEmpty(),
           [

@@ -26,7 +26,7 @@ class _HelpNotesState extends State<HelpNotes> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: NewHomeArea(null,
+      body: HomeArea(null,
           PageHeader(context, 'Notas'),
           FooterCredits(),
           [

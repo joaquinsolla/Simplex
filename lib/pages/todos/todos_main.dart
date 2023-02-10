@@ -52,7 +52,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
     IconData searcherIcon = Icons.search_rounded;
     if (showSearcher==true) searcherIcon = Icons.search_off_rounded;
 
-    return NewHomeArea(_scrollController,
+    return HomeArea(_scrollController,
       HomeHeader('Tareas', [
         IconButton(
         icon: Icon(Icons.clear_all_rounded,

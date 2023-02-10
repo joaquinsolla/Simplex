@@ -46,7 +46,7 @@ class _VerifyEmailServiceState extends State<VerifyEmailService> {
       ? Home()
       : Scaffold(
           backgroundColor: colorMainBackground,
-          body: NewHomeArea(null,
+          body: HomeArea(null,
               AuthHeader(),
               FooterEmpty(),
               [

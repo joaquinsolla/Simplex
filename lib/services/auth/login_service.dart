@@ -33,7 +33,7 @@ class _LogInServiceState extends State<LogInService> {
 
     return Scaffold(
         backgroundColor: colorMainBackground,
-        body: NewHomeArea(null,
+        body: HomeArea(null,
             AuthHeader(),
             FooterPrivacyPolicy(),
             [

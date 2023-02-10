@@ -46,7 +46,7 @@ class _EditNoteState extends State<EditNote> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: NewHomeArea(null,
+      body: HomeArea(null,
           PageHeader(context, 'Editar Nota'),
           FooterEmpty(),
           [

@@ -39,7 +39,7 @@ class _NoteDetailsState extends State<NoteDetails> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: NewHomeArea(null,
+      body: HomeArea(null,
           PageHeader(context, 'Nota'),
           FooterEmpty(),
           [

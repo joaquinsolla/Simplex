@@ -25,7 +25,7 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: colorMainBackground,
-        body: NewHomeArea(null,
+        body: HomeArea(null,
             AuthHeader(),
             FooterEmpty(),
             [

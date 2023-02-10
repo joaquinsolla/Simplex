@@ -60,7 +60,7 @@ class _EventDetailsState extends State<EventDetails> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: NewHomeArea(null,
+      body: HomeArea(null,
           PageHeader(context, 'Evento'),
           FooterEmpty(),
           [

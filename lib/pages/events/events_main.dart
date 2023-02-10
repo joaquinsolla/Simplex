@@ -93,7 +93,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
     else if (formatDates==true) dateText = DateFormat('dd/MM/yyyy').format(_selectedDay);
     else dateText = DateFormat('MM/dd/yyyy').format(_selectedDay);
 
-    return NewHomeArea(_scrollController,
+    return HomeArea(_scrollController,
         HomeHeader('Calendario', [IconButton(
             icon: Icon(Icons.add_rounded,
                 color: colorSpecialItem, size: deviceWidth * 0.085),

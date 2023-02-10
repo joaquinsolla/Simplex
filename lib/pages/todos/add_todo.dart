@@ -45,7 +45,7 @@ class _AddTodoState extends State<AddTodo> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: NewHomeArea(null,
+      body: HomeArea(null,
           PageHeader(context, 'Nueva Tarea'),
           FooterEmpty(),
           [

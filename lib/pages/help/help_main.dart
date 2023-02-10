@@ -26,7 +26,7 @@ class _HelpMainPageState extends State<HelpMainPage> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: NewHomeArea(null,
+      body: HomeArea(null,
           PageHeader(context, 'Ayuda'),
           FooterCredits(),
           [

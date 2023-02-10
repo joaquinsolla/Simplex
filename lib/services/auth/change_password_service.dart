@@ -31,7 +31,7 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: NewHomeArea(null,
+      body: HomeArea(null,
           PageHeader(context, 'Cambia tu contraseña'),
           FooterCredits(),
           [

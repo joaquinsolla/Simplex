@@ -79,7 +79,7 @@ class _EditEventState extends State<EditEvent> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: NewHomeArea(null,
+      body: HomeArea(null,
           PageHeader(context, 'Editar evento'),
           FooterEmpty(),
           [

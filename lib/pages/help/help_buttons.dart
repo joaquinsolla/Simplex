@@ -30,7 +30,7 @@ class _HelpButtonsState extends State<HelpButtons> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: NewHomeArea(null,
+      body: HomeArea(null,
           PageHeader(context, 'Botones'),
           FooterCredits(),
           [

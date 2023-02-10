@@ -25,7 +25,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return NewHomeArea(_scrollController,
+    return HomeArea(_scrollController,
         HomeHeader('Rutina', [
             IconButton(
               icon: Icon(Icons.add_rounded,

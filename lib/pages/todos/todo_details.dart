@@ -93,7 +93,7 @@ class _TodoDetailsState extends State<TodoDetails> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: NewHomeArea(null,
+      body: HomeArea(null,
           PageHeader(context, 'Tarea'),
           FooterEmpty(),
           [

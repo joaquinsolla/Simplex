@@ -26,7 +26,7 @@ class _HelpEventsState extends State<HelpEvents> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: NewHomeArea(null,
+      body: HomeArea(null,
           PageHeader(context, 'Calendario'),
           FooterCredits(),
           [

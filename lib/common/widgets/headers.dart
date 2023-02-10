@@ -5,7 +5,7 @@ Column AuthHeader(){
   return Column(
     children: [
       SizedBox(
-        height: deviceHeight * 0.065,
+        height: deviceHeight * 0.04,
       ),
       Row(
         children: [
@@ -20,9 +20,6 @@ Column AuthHeader(){
                     fontWeight: FontWeight.bold)),
           ),
         ],
-      ),
-      SizedBox(
-        height: deviceHeight * 0.03,
       ),
     ],
   );
@@ -44,13 +41,10 @@ Column HomeHeader(String text, List<Widget> buttons) {
   return Column(
     children: [
       SizedBox(
-        height: deviceHeight * 0.065,
+        height: deviceHeight * 0.04,
       ),
       Row(
         children: headerItems,
-      ),
-      SizedBox(
-        height: deviceHeight * 0.03,
       ),
     ],
   );
@@ -59,7 +53,7 @@ Column HomeHeader(String text, List<Widget> buttons) {
 Column PageHeader(BuildContext context, String text) {
   return Column(
     children: [
-      SizedBox(height: deviceHeight * 0.065),
+      SizedBox(height: deviceHeight * 0.04),
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -78,7 +72,6 @@ Column PageHeader(BuildContext context, String text) {
           ),
         ],
       ),
-      SizedBox(height: deviceHeight*0.03)
     ],
   );
 }

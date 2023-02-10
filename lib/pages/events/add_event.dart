@@ -57,7 +57,7 @@ class _AddEventState extends State<AddEvent> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: NewHomeArea(null, PageHeader(context, 'Nuevo evento'), FooterEmpty(),
+      body: HomeArea(null, PageHeader(context, 'Nuevo evento'), FooterEmpty(),
           [
         FormContainer([
           FormTextField(

@@ -2,39 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 
 /// HOME AREA
-Container HomeArea(List<Widget> children) {
-  return Container(
-    color: colorMainBackground,
-    alignment: Alignment.topLeft,
-    margin: EdgeInsets.fromLTRB(
-        deviceWidth * 0.075, deviceHeight * 0.075, deviceWidth * 0.075, 0.0),
-    child: ListView(
-      addAutomaticKeepAlives: true,
-      physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
-      children: children,
-    ),
-  );
-}
-
-Container HomeAreaWithScrollController(ScrollController scrollController, List<Widget> children) {
-  return Container(
-    color: colorMainBackground,
-    alignment: Alignment.topLeft,
-    margin: EdgeInsets.fromLTRB(
-        deviceWidth * 0.075, deviceHeight * 0.075, deviceWidth * 0.075, 0.0),
-    child: ListView(
-      addAutomaticKeepAlives: true,
-      physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
-      controller: scrollController,
-      children: children,
-    ),
-  );
-}
-
-/// RENAME ---------------------------
-Container NewHomeArea(ScrollController? scrollController,
+Container HomeArea(ScrollController? scrollController,
     Widget header, Widget footer, List<Widget> body) {
-  List<Widget> widgets = body + [footer];
+  List<Widget> widgets = [SizedBox(height: deviceHeight*0.03,)];
+  widgets += body;
+  widgets += [footer];
 
   return Container(
     color: colorMainBackground,
@@ -43,13 +15,26 @@ Container NewHomeArea(ScrollController? scrollController,
         deviceWidth * 0.075, deviceHeight * 0.075, deviceWidth * 0.075, 0.0),
     child: Column(children: [
       header,
-      Expanded(child: ListView(
-        padding: EdgeInsets.zero,
-        addAutomaticKeepAlives: true,
-        physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
-        controller: scrollController,
-        children: widgets,
-      )),
+      Expanded(child:
+      ShaderMask(
+        shaderCallback: (Rect rect) {
+          return LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [colorMainBackground, Colors.transparent],
+            stops: [0.0, 0.05], // 10% colorMainBackground, 80% transparent, 10% colorMainBackground
+          ).createShader(rect);
+        },
+        blendMode: BlendMode.dstOut,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          addAutomaticKeepAlives: true,
+          physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
+          controller: scrollController,
+          children: widgets,
+        ),
+      ),
+      ),
     ],),
   );
 }

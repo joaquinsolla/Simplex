@@ -68,7 +68,7 @@ class _HomeState extends State<Home> {
   Container SettingsView(){
     final user = FirebaseAuth.instance.currentUser!;
 
-    return NewHomeArea(null,
+    return HomeArea(null,
         HomeHeader('Ajustes', []),
         FooterCredits(),
         [

@@ -26,7 +26,7 @@ class _HelpTodosState extends State<HelpTodos> {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: NewHomeArea(null,
+      body: HomeArea(null,
           PageHeader(context, 'Tareas'),
           FooterCredits(),
           [
