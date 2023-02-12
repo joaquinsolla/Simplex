@@ -8,6 +8,7 @@ int homeIndex = 0;
 double deviceHeight = 0;
 double deviceWidth = 0;
 
+bool verticalDevice = true;
 bool deviceChecked = false;
 bool settingsRead = false;
 bool isTester = false;

@@ -41,7 +41,10 @@ Container HomeArea(ScrollController? scrollController,
 
 Container HomeAreaWithSearchbar(ScrollController? scrollController, bool showSearchbar,
     Widget header, Widget searchbar, Widget footer, List<Widget> body) {
-  List<Widget> widgets = [if (!showSearchbar) SizedBox(height: deviceHeight*0.0325,)];
+  List<Widget> widgets = [
+    if (!showSearchbar) SizedBox(height: deviceHeight*0.0325,),
+    if (showSearchbar) SizedBox(height: deviceHeight*0.01,),
+  ];
   widgets += body;
   widgets += [footer];
 
@@ -54,7 +57,7 @@ Container HomeAreaWithSearchbar(ScrollController? scrollController, bool showSea
       header,
       if (showSearchbar) SizedBox(height: deviceHeight*0.015,),
       if (showSearchbar) searchbar,
-      if (showSearchbar) SizedBox(height: deviceHeight*0.025,),
+      if (showSearchbar) SizedBox(height: deviceHeight*0.01,),
       Expanded(child:
       ShaderMask(
         shaderCallback: (Rect rect) {

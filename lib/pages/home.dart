@@ -338,7 +338,9 @@ class _HomeState extends State<Home> {
   void _check_device(){
     setState(() {
       var padding = MediaQuery.of(context).padding;
-      deviceHeight = max(MediaQuery.of(context).size.height - padding.top - padding.bottom, MediaQuery.of(context).size.width - padding.top - padding.bottom);
+      verticalDevice = MediaQuery.of(context).orientation == Orientation.portrait;
+
+      deviceHeight = max(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width) - padding.top - padding.bottom;
       deviceWidth = min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width);
 
       if (deviceHeight!=0 || deviceWidth!=0){
