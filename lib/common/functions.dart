@@ -94,6 +94,8 @@ void buildTodoNotifications(int id, String title, DateTime todoLimitDate) {
 }
 
 void buildNoteNotification(int id, String noteName, DateTime calendarDate) {
+
+  if (noteName == '') noteName = 'Sin título';
   String title = 'Tienes una nota';
   String body = 'Echa un vistazo a: $noteName';
 
