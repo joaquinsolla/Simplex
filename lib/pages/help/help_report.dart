@@ -42,7 +42,7 @@ class _HelpReportState extends State<HelpReport> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Problema', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.045, fontWeight: FontWeight.bold),),
+              Text('Problema', style: TextStyle(color: colorMainText,fontSize: deviceWidth * fontSize * 0.045, fontWeight: FontWeight.bold),),
               SizedBox(height: deviceHeight*0.005),
               TextField(
                 keyboardType: TextInputType.multiline,

@@ -34,8 +34,6 @@ class _HelpButtonsState extends State<HelpButtons> {
           PageHeader(context, 'Botones'),
           FooterCredits(),
           [
-
-
         Text('Botones comunes', style: TextStyle(
             color: colorMainText,
             fontSize: deviceWidth * fontSize * 0.05,
@@ -94,7 +92,9 @@ class _HelpButtonsState extends State<HelpButtons> {
               'Podrás cambiar entre la vista de mes comleto y la de semana.'),
           SizedBox(height: deviceHeight * 0.0125),
           ButtonExplanationContainer(
-              Column(children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                 Icon(Icons.keyboard_arrow_left_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
                 Icon(Icons.keyboard_arrow_right_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
               ],),
@@ -110,7 +110,9 @@ class _HelpButtonsState extends State<HelpButtons> {
         Column(children: [
           SizedBox(height: deviceHeight * 0.0125),
           ButtonExplanationContainer(
-              Column(children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                 Icon(Icons.keyboard_arrow_up_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
                 Icon(Icons.keyboard_arrow_down_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
               ],),

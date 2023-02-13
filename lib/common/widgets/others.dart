@@ -57,7 +57,7 @@ Column FormTextField(TextEditingController controller, String fieldName, String 
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text(fieldName, style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.045, fontWeight: FontWeight.bold),),
+      Text(fieldName, style: TextStyle(color: colorMainText,fontSize: deviceWidth * fontSize * 0.045, fontWeight: FontWeight.bold),),
       SizedBox(height: deviceHeight*0.005),
       TextField(
         keyboardType: TextInputType.text,

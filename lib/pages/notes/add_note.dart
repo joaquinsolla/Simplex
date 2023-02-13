@@ -53,7 +53,7 @@ class _AddNoteState extends State<AddNote> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Contenido', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.045, fontWeight: FontWeight.bold),),
+              Text('Contenido', style: TextStyle(color: colorMainText,fontSize: deviceWidth * fontSize *0.045, fontWeight: FontWeight.bold),),
               SizedBox(height: deviceHeight*0.005),
               TextField(
                 keyboardType: TextInputType.multiline,

@@ -56,7 +56,7 @@ class _EditNoteState extends State<EditNote> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Contenido', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.045, fontWeight: FontWeight.bold),),
+              Text('Contenido', style: TextStyle(color: colorMainText,fontSize: deviceWidth * fontSize *0.045, fontWeight: FontWeight.bold),),
               SizedBox(height: deviceHeight*0.005),
               TextField(
                 keyboardType: TextInputType.multiline,
@@ -136,7 +136,7 @@ class _EditNoteState extends State<EditNote> {
           ),
           SizedBox(height: deviceHeight * 0.01),
           Text(
-            '[Beta] Las notas aparecerán en el calendario de Simplex en el día indicado.'
+            'Las notas aparecerán en el calendario de Simplex en el día indicado.'
                 ' También recibirás una notificación en esa fecha.',
             style: TextStyle(
                 color: colorMainText,

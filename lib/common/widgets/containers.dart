@@ -22,7 +22,7 @@ Container HomeArea(ScrollController? scrollController,
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [colorMainBackground, Colors.transparent],
-            stops: [0.0, 0.05], // 10% colorMainBackground, 80% transparent, 10% colorMainBackground
+            stops: [0.0, 0.035], // 3.5% colorMainBackground, 96.5% transparent
           ).createShader(rect);
         },
         blendMode: BlendMode.dstOut,
@@ -64,7 +64,7 @@ Container HomeAreaWithSearchbar(ScrollController? scrollController, bool showSea
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [colorMainBackground, Colors.transparent],
-            stops: [0.0, 0.05], // 5% colorMainBackground, 95% transparent
+            stops: [0.0, 0.035], // 3.5% colorMainBackground, 96.5% transparent
           ).createShader(rect);
         },
         blendMode: BlendMode.dstOut,
@@ -100,7 +100,7 @@ Container HomeAreaWithFixedFooter(ScrollController? scrollController,
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [colorMainBackground, Colors.transparent],
-            stops: [0.0, 0.05], // 10% colorMainBackground, 80% transparent, 10% colorMainBackground
+            stops: [0.0, 0.035], // 3.5% colorMainBackground, 96.5% transparent
           ).createShader(rect);
         },
         blendMode: BlendMode.dstOut,
