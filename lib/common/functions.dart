@@ -111,6 +111,24 @@ void buildNoteNotification(int id, String noteName, DateTime calendarDate) {
   }
 }
 
+void buildNotificationNow() {
+  /// TESTING METHOD
+
+  DateTime date = DateTime.now().add(const Duration(seconds: 5));
+  int id = date.millisecondsSinceEpoch;
+  String title = '[TEST] Notificación';
+  String body = 'Mostrada el ' + dateToString(date) +
+      ' a las ' + timeToString(date);
+
+  WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
+  tz.initializeTimeZones();
+
+  NotificationService().showNotification(id, title, body, date);
+  debugPrint('[OK] Testing notification ready: $id');
+
+}
+
 cancelAllEventNotifications(int eventId) async {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();

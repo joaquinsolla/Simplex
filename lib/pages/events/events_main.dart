@@ -401,8 +401,8 @@ class _EventsMainPageState extends State<EventsMainPage> {
             ),
           ),
           onPressed: (){
-            // TODO: share events
-            showSnackBar(context, '[Beta] En desarrollo', colorSpecialItem);
+            // selectedTodo = todo;
+            // TODO: SHARE
           },
         ),
         FocusedMenuItem(
@@ -598,6 +598,27 @@ class _EventsMainPageState extends State<EventsMainPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Icon(Icons.share_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
+                SizedBox(width: deviceWidth*0.025,),
+                Text('Compartir', style: TextStyle(
+                    color: colorSpecialItem,
+                    fontSize: deviceWidth * fontSize * 0.04,
+                    fontWeight: FontWeight.normal),),
+              ],
+            ),
+          ),
+          onPressed: (){
+            // selectedTodo = todo;
+            // TODO: SHARE
+          },
+        ),
+        FocusedMenuItem(
+          backgroundColor: backgroundColor,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Eliminar', style: TextStyle(
@@ -761,6 +782,27 @@ class _EventsMainPageState extends State<EventsMainPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Icon(Icons.share_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
+                SizedBox(width: deviceWidth*0.025,),
+                Text('Compartir', style: TextStyle(
+                    color: colorSpecialItem,
+                    fontSize: deviceWidth * fontSize * 0.04,
+                    fontWeight: FontWeight.normal),),
+              ],
+            ),
+          ),
+          onPressed: (){
+            // selectedTodo = todo;
+            // TODO: SHARE
+          },
+        ),
+        FocusedMenuItem(
+          backgroundColor: backgroundColor,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Eliminar', style: TextStyle(
@@ -825,13 +867,24 @@ class _EventsMainPageState extends State<EventsMainPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
+                      if (note.name!='') Container(
                           width: deviceWidth*0.515,
                           alignment: Alignment.centerLeft,
                           child: Text(note.name,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.06, fontWeight: FontWeight.bold))),
+                      if (note.name=='') Container(
+                          width: deviceWidth*0.515,
+                          alignment: Alignment.centerLeft,
+                          child: Text('Sin título',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(color: colorSecondText,
+                                  fontSize: deviceWidth * fontSize * 0.06,
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic
+                              ))),
                       if (note.content!='') SizedBox(height: deviceHeight*0.00375,),
                       if (note.content!='') Container(
                           width: deviceWidth*0.515,

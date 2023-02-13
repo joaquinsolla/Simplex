@@ -29,5 +29,5 @@ Event? selectedEvent;
 Todo? selectedTodo;
 Note? selectedNote;
 
-/// MATERIAL APP VARIABLES
+/// MATERIAL APP KEY
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

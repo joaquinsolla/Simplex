@@ -65,12 +65,23 @@ class _EventDetailsState extends State<EventDetails> {
           FooterEmpty(),
           [
         FormContainer([
-          Text(
+
+          ExpandedRow(
+            Text(
             selectedEvent!.name,
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * fontSize * 0.065,
                 fontWeight: FontWeight.bold),
+          ),
+            IconButton(
+              icon: Icon(Icons.share_rounded,
+                  color: colorSpecialItem, size: deviceWidth * 0.05),
+              splashRadius: 0.001,
+              onPressed: (){
+                // TODO: SHARE
+              },
+            ),
           ),
           SizedBox(height: deviceHeight * 0.01),
           if (selectedEvent!.description == '') Container(

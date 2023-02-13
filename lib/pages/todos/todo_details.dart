@@ -98,12 +98,22 @@ class _TodoDetailsState extends State<TodoDetails> {
           FooterEmpty(),
           [
         FormContainer([
-          Text(
-            selectedTodo!.name,
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.065,
-                fontWeight: FontWeight.bold),
+          ExpandedRow(
+            Text(
+              selectedTodo!.name,
+              style: TextStyle(
+                  color: colorMainText,
+                  fontSize: deviceWidth * fontSize * 0.065,
+                  fontWeight: FontWeight.bold),
+            ),
+            IconButton(
+              icon: Icon(Icons.share_rounded,
+                  color: colorSpecialItem, size: deviceWidth * 0.05),
+              splashRadius: 0.001,
+              onPressed: (){
+                // TODO: SHARE
+              },
+            ),
           ),
           SizedBox(height: deviceHeight * 0.01),
           if (selectedTodo!.description == '') Container(

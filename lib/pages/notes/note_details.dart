@@ -44,16 +44,36 @@ class _NoteDetailsState extends State<NoteDetails> {
           FooterEmpty(),
           [
         FormContainer([
-          if (selectedNote!.name == '') Text(
-            'Sin título',
+          if (selectedNote!.name == '') ExpandedRow(
+            Text(
+              'Sin título',
               style: TextStyle(color: colorThirdText, fontSize: deviceWidth * fontSize * 0.065, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+            ),
+            IconButton(
+              icon: Icon(Icons.share_rounded,
+                  color: colorSpecialItem, size: deviceWidth * 0.05),
+              splashRadius: 0.001,
+              onPressed: (){
+                // TODO: SHARE
+              },
+            ),
           ),
-          if (selectedNote!.name != '') Text(
-            selectedNote!.name,
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.065,
-                fontWeight: FontWeight.bold),
+          if (selectedNote!.name != '') ExpandedRow(
+            Text(
+              selectedNote!.name,
+              style: TextStyle(
+                  color: colorMainText,
+                  fontSize: deviceWidth * fontSize * 0.065,
+                  fontWeight: FontWeight.bold),
+            ),
+            IconButton(
+              icon: Icon(Icons.share_rounded,
+                  color: colorSpecialItem, size: deviceWidth * 0.05),
+              splashRadius: 0.001,
+              onPressed: (){
+                // TODO: SHARE
+              },
+            ),
           ),
           SizedBox(height: deviceHeight * 0.01),
           if (selectedNote!.content == '') Container(

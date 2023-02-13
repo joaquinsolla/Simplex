@@ -252,3 +252,21 @@ Container NoResultsContainer(double heightProportion){
     ),
   );
 }
+
+Container ExpandedRow(Widget expandedWidget, Widget nonExpandedWidget){
+  return Container(
+    child: Row(
+      children: <Widget>[
+        Flexible(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Expanded(child: expandedWidget),
+              nonExpandedWidget
+            ],
+          ),
+        )
+      ],
+    ),
+  );
+}
