@@ -34,7 +34,7 @@ class _HelpMainPageState extends State<HelpMainPage> {
         Text('Uso de la aplicación',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.05,
+                fontSize: deviceWidth * fontSize * 0.05,
                 fontWeight: FontWeight.bold)),
         SizedBox(
           height: deviceHeight * 0.0125,
@@ -66,7 +66,7 @@ class _HelpMainPageState extends State<HelpMainPage> {
         Text('Otros',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.05,
+                fontSize: deviceWidth * fontSize * 0.05,
                 fontWeight: FontWeight.bold)),
         SizedBox(
           height: deviceHeight * 0.0125,

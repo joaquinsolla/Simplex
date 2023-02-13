@@ -256,7 +256,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                         child: Text(dateText,
                             style: TextStyle(
                                 color: colorMainText,
-                                fontSize: deviceWidth * 0.05,
+                                fontSize: deviceWidth * fontSize * 0.05,
                                 fontWeight: FontWeight.bold)
                         ),
                       ),
@@ -353,7 +353,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Ver detalles', style: TextStyle(
                     color: colorSpecialItem,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
               ],
             ),
@@ -374,7 +374,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Editar', style: TextStyle(
                     color: colorSpecialItem,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
               ],
             ),
@@ -395,7 +395,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Compartir', style: TextStyle(
                     color: colorSpecialItem,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
               ],
             ),
@@ -416,7 +416,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Eliminar', style: TextStyle(
                     color: Colors.red,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
               ],
             ),
@@ -462,13 +462,13 @@ class _EventsMainPageState extends State<EventsMainPage> {
               child: Row(
                 children: [
                   Container(
-                    width: deviceWidth*0.155,
+                    width: deviceWidth*0.175,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(DateFormat(dateFormat).format(eventDate), style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.055, fontWeight: FontWeight.bold)),
-                        if (format24Hours==false) Text(DateFormat('aa').format(eventDate), style: TextStyle(color: secondColor, fontSize: deviceWidth * 0.034, fontWeight: FontWeight.normal)),
+                        Text(DateFormat(dateFormat).format(eventDate), style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.055, fontWeight: FontWeight.bold)),
+                        if (format24Hours==false) Text(DateFormat('aa').format(eventDate), style: TextStyle(color: secondColor, fontSize: deviceWidth * fontSize * 0.034, fontWeight: FontWeight.normal)),
                       ],
                     ),
                   ),
@@ -483,7 +483,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                           child: Text(event.name,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.06, fontWeight: FontWeight.bold))),
+                              style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.06, fontWeight: FontWeight.bold))),
                       if (event.description!='') SizedBox(height: deviceHeight*0.00375,),
                       if (event.description!='') Container(
                           width: deviceWidth*0.515,
@@ -491,7 +491,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                           child: Text(event.description,
                               maxLines: 5,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: secondColor, fontSize: deviceWidth * 0.03, fontWeight: FontWeight.normal))),
+                              style: TextStyle(color: secondColor, fontSize: deviceWidth * fontSize * 0.03, fontWeight: FontWeight.normal))),
                     ],
                   ),
                   Expanded(child: Text(''),),
@@ -538,7 +538,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Ver detalles', style: TextStyle(
                     color: colorSpecialItem,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
               ],
             ),
@@ -561,7 +561,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                 SizedBox(width: deviceWidth * 0.025,),
                 Text('Marcar como completada', style: TextStyle(
                     color: colorSpecialItem,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
               ],
             ),
@@ -581,7 +581,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Editar', style: TextStyle(
                     color: colorSpecialItem,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
               ],
             ),
@@ -602,7 +602,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Eliminar', style: TextStyle(
                     color: Colors.red,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
               ],
             ),
@@ -648,12 +648,12 @@ class _EventsMainPageState extends State<EventsMainPage> {
               child: Row(
                 children: [
                   Container(
-                    width: deviceWidth*0.155,
+                    width: deviceWidth*0.175,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text('Tarea', style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.055, fontWeight: FontWeight.bold)),
+                        Text('Tarea', style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.055, fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ),
@@ -668,7 +668,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                           child: Text(todo.name,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.06, fontWeight: FontWeight.bold))),
+                              style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.06, fontWeight: FontWeight.bold))),
                       if (todo.description!='') SizedBox(height: deviceHeight*0.00375,),
                       if (todo.description!='') Container(
                           width: deviceWidth*0.515,
@@ -676,7 +676,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                           child: Text(todo.description,
                               maxLines: 5,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: secondColor, fontSize: deviceWidth * 0.03, fontWeight: FontWeight.normal))),
+                              style: TextStyle(color: secondColor, fontSize: deviceWidth * fontSize * 0.03, fontWeight: FontWeight.normal))),
                     ],
                   ),
                   Expanded(child: Text(''),),
@@ -723,7 +723,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Ver detalles', style: TextStyle(
                     color: colorSpecialItem,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
               ],
             ),
@@ -744,7 +744,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Editar', style: TextStyle(
                     color: colorSpecialItem,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
               ],
             ),
@@ -765,7 +765,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Eliminar', style: TextStyle(
                     color: Colors.red,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
               ],
             ),
@@ -811,12 +811,12 @@ class _EventsMainPageState extends State<EventsMainPage> {
               child: Row(
                 children: [
                   Container(
-                    width: deviceWidth*0.155,
+                    width: deviceWidth*0.175,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text('Nota', style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.055, fontWeight: FontWeight.bold)),
+                        Text('Nota', style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.055, fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ),
@@ -831,7 +831,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                           child: Text(note.name,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.06, fontWeight: FontWeight.bold))),
+                              style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.06, fontWeight: FontWeight.bold))),
                       if (note.content!='') SizedBox(height: deviceHeight*0.00375,),
                       if (note.content!='') Container(
                           width: deviceWidth*0.515,
@@ -839,7 +839,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                           child: Text(note.content,
                               maxLines: 5,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: secondColor, fontSize: deviceWidth * 0.03, fontWeight: FontWeight.normal))),
+                              style: TextStyle(color: secondColor, fontSize: deviceWidth * fontSize * 0.03, fontWeight: FontWeight.normal))),
                     ],
                   ),
                   Expanded(child: Text(''),),

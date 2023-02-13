@@ -102,7 +102,7 @@ class _TodoDetailsState extends State<TodoDetails> {
             selectedTodo!.name,
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.065,
+                fontSize: deviceWidth * fontSize * 0.065,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.01),
@@ -114,7 +114,7 @@ class _TodoDetailsState extends State<TodoDetails> {
               color: colorThirdBackground,
             ),
             child: Text('Sin descripción',
-              style: TextStyle(color: colorThirdText, fontSize: deviceWidth * 0.04, fontStyle: FontStyle.italic),),
+              style: TextStyle(color: colorThirdText, fontSize: deviceWidth * fontSize * 0.04, fontStyle: FontStyle.italic),),
           ),
           if (selectedTodo!.description != '') Container(
             width: deviceHeight,
@@ -124,7 +124,7 @@ class _TodoDetailsState extends State<TodoDetails> {
               color: colorThirdBackground,
             ),
             child: Text(selectedTodo!.description,
-              style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.04,),),
+              style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.04,),),
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
@@ -133,7 +133,7 @@ class _TodoDetailsState extends State<TodoDetails> {
             'Estado: ',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.0475,
+                fontSize: deviceWidth * fontSize * 0.0475,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
@@ -144,7 +144,7 @@ class _TodoDetailsState extends State<TodoDetails> {
               stateText,
               style: TextStyle(
                   color: colorMainText,
-                  fontSize: deviceWidth * 0.04,
+                  fontSize: deviceWidth * fontSize * 0.04,
                   fontWeight: FontWeight.normal),
             ),
           ],),
@@ -153,7 +153,7 @@ class _TodoDetailsState extends State<TodoDetails> {
             'Prioridad: ',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.0475,
+                fontSize: deviceWidth * fontSize * 0.0475,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
@@ -164,7 +164,7 @@ class _TodoDetailsState extends State<TodoDetails> {
               priorityText,
               style: TextStyle(
                   color: colorMainText,
-                  fontSize: deviceWidth * 0.04,
+                  fontSize: deviceWidth * fontSize * 0.04,
                   fontWeight: FontWeight.normal),
             ),
           ],),
@@ -175,7 +175,7 @@ class _TodoDetailsState extends State<TodoDetails> {
             'Fecha límite: ',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.0475,
+                fontSize: deviceWidth * fontSize * 0.0475,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
@@ -188,7 +188,7 @@ class _TodoDetailsState extends State<TodoDetails> {
                 limitFormattedDate,
                 style: TextStyle(
                     color: limitTextColor,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal,
                     fontStyle: limitFontStyle),
               ),

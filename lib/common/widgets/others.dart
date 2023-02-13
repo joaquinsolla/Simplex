@@ -13,7 +13,7 @@ Row CustomDivider (String label){
 
     Text(label, style: TextStyle(
         color: colorSecondText,
-        fontSize: deviceWidth * 0.0375,
+        fontSize: deviceWidth * fontSize * 0.0375,
         fontWeight: FontWeight.normal),),
 
     Expanded(
@@ -38,12 +38,12 @@ Row SettingsRow (String mainText, String secondText, Widget widget) {
           children: [
             Text(mainText, style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.0475,
+                fontSize: deviceWidth * fontSize * 0.0475,
                 fontWeight: FontWeight.bold),),
             SizedBox(height: deviceHeight*0.0025,),
             Text(secondText, style: TextStyle(
                 color: colorSecondText,
-                fontSize: deviceWidth * 0.0325,
+                fontSize: deviceWidth * fontSize * 0.0325,
                 fontWeight: FontWeight.normal),),
           ],
         ),

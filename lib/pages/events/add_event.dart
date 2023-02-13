@@ -71,7 +71,7 @@ class _AddEventState extends State<AddEvent> {
                 'Fecha',
                 style: TextStyle(
                     color: colorMainText,
-                    fontSize: deviceWidth * 0.045,
+                    fontSize: deviceWidth * fontSize * 0.045,
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(height: deviceHeight * 0.005),
@@ -106,7 +106,7 @@ class _AddEventState extends State<AddEvent> {
                 'Hora',
                 style: TextStyle(
                     color: colorMainText,
-                    fontSize: deviceWidth * 0.045,
+                    fontSize: deviceWidth * fontSize * 0.045,
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(height: deviceHeight * 0.005),
@@ -140,7 +140,7 @@ class _AddEventState extends State<AddEvent> {
             'Color',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.045,
+                fontSize: deviceWidth * fontSize * 0.045,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.015),
@@ -252,7 +252,7 @@ class _AddEventState extends State<AddEvent> {
             'Notificaciones',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.045,
+                fontSize: deviceWidth * fontSize * 0.045,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.015),
@@ -271,7 +271,7 @@ class _AddEventState extends State<AddEvent> {
                             notificationsList[index].values.first),
                           style: TextStyle(
                               color: colorMainText,
-                              fontSize: deviceWidth * 0.04,
+                              fontSize: deviceWidth * fontSize * 0.04,
                               fontWeight: FontWeight.normal),),
                         Expanded(child: Text(''),),
                         Icon(Icons.delete_outline_rounded, color: Colors.red,
@@ -316,7 +316,7 @@ class _AddEventState extends State<AddEvent> {
                   size: deviceWidth * 0.055,),
                 Text(' Añadir notificación ', style: TextStyle(
                     color: colorSpecialItem,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
                 Icon(Icons.add_rounded, color: Colors.transparent,
                   size: deviceWidth * 0.055,),

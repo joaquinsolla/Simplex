@@ -22,6 +22,7 @@ bool format24Hours = true;
 bool formatDates = true;
 Locale appLocale = Locale('es', '');
 bool darkMode = false;
+double fontSize = 1;
 
 /// SELECTED CLASSES
 Event? selectedEvent;

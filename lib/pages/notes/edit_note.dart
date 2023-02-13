@@ -90,7 +90,7 @@ class _EditNoteState extends State<EditNote> {
             'En el calendario',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.045,
+                fontSize: deviceWidth * fontSize * 0.045,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
@@ -100,7 +100,7 @@ class _EditNoteState extends State<EditNote> {
               'Mostrar nota en el calendario',
               style: TextStyle(
                   color: colorMainText,
-                  fontSize: deviceWidth * 0.04,
+                  fontSize: deviceWidth * fontSize * 0.04,
                   fontWeight: FontWeight.normal),
             ),
             value: onCalendar,
@@ -140,7 +140,7 @@ class _EditNoteState extends State<EditNote> {
                 ' También recibirás una notificación en esa fecha.',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.03,
+                fontSize: deviceWidth * fontSize * 0.03,
                 fontWeight: FontWeight.normal,
                 fontStyle: FontStyle.italic),
           ),

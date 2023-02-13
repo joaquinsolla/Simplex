@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
       Text('Globalización',
           style: TextStyle(
               color: colorMainText,
-              fontSize: deviceWidth * 0.05,
+              fontSize: deviceWidth * fontSize * 0.05,
               fontWeight: FontWeight.bold)),
       SizedBox(
         height: deviceHeight * 0.0125,
@@ -91,7 +91,7 @@ class _HomeState extends State<Home> {
               setState(() {
                 format24Hours = val;
               });
-              saveSetting('format24Hours', val);
+              saveSettingBool('format24Hours', val);
             },
             activeColor: colorSpecialItem,
           ),
@@ -113,7 +113,7 @@ class _HomeState extends State<Home> {
               setState(() {
                 formatDates = val;
               });
-              saveSetting('formatDates', val);
+              saveSettingBool('formatDates', val);
             },
             activeColor: colorSpecialItem,
           ),
@@ -139,7 +139,7 @@ class _HomeState extends State<Home> {
                 else
                   appLocale = Locale('en', '');
               });
-              saveSetting('appLocale', val);
+              saveSettingBool('appLocale', val);
             },
             activeColor: colorSpecialItem,
           ),
@@ -154,7 +154,7 @@ class _HomeState extends State<Home> {
       Text('Apariencia',
           style: TextStyle(
               color: colorMainText,
-              fontSize: deviceWidth * 0.05,
+              fontSize: deviceWidth * fontSize * 0.05,
               fontWeight: FontWeight.bold)),
       SizedBox(
         height: deviceHeight * 0.0125,
@@ -193,7 +193,7 @@ class _HomeState extends State<Home> {
                   colorCalendarEvent = Color(0xff1f2932);
                 }
               });
-              saveSetting('darkMode', val);
+              saveSettingBool('darkMode', val);
             },
             activeColor: colorSpecialItem,
           ),
@@ -201,6 +201,10 @@ class _HomeState extends State<Home> {
         SizedBox(
           height: deviceHeight * 0.005,
         ),
+        Divider(color: colorThirdText),
+        SecondaryButton(colorSpecialItem, 'Ajusta el tamaño del texto', (){
+          Navigator.pushNamed(context, '/settings/settings_font');
+        }),
       ]),
       SizedBox(
         height: deviceHeight * 0.03,
@@ -208,7 +212,7 @@ class _HomeState extends State<Home> {
       Text('Cuenta',
           style: TextStyle(
               color: colorMainText,
-              fontSize: deviceWidth * 0.05,
+              fontSize: deviceWidth * fontSize * 0.05,
               fontWeight: FontWeight.bold)),
       SizedBox(
         height: deviceHeight * 0.0125,
@@ -218,7 +222,7 @@ class _HomeState extends State<Home> {
           'Email:',
           style: TextStyle(
               color: colorMainText,
-              fontSize: deviceWidth * 0.0475,
+              fontSize: deviceWidth * fontSize * 0.0475,
               fontWeight: FontWeight.bold),
         ),
         SizedBox(
@@ -231,7 +235,7 @@ class _HomeState extends State<Home> {
                 user.email!,
                 style: TextStyle(
                     color: colorSecondText,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),
               ),
               SizedBox(
@@ -258,7 +262,7 @@ class _HomeState extends State<Home> {
             'Tester:',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.0475,
+                fontSize: deviceWidth * fontSize * 0.0475,
                 fontWeight: FontWeight.bold),
           ),
         if (isTester)
@@ -270,7 +274,7 @@ class _HomeState extends State<Home> {
             'Formas parte del programa de testers.',
             style: TextStyle(
                 color: colorSecondText,
-                fontSize: deviceWidth * 0.04,
+                fontSize: deviceWidth * fontSize * 0.04,
                 fontWeight: FontWeight.normal),
           ),
         SizedBox(
@@ -363,7 +367,7 @@ class _HomeState extends State<Home> {
       iconSize: deviceHeight*0.0325,
       curve: Curves.easeInOutQuart,
       items: <BottomNavyBarItem>[
-        _homeBottomNavigationBarItem('Calendario', const Icon(Icons.today_rounded)),
+        _homeBottomNavigationBarItem('Calendario', const Icon(Icons.edit_calendar_rounded)),
         _homeBottomNavigationBarItem('Tareas', const Icon(Icons.check_circle_outline_rounded)),
         _homeBottomNavigationBarItem('Notas', const Icon(Icons.sticky_note_2_outlined)),
         _homeBottomNavigationBarItem('Rutina', const Icon(Icons.timeline_rounded)),
@@ -374,7 +378,7 @@ class _HomeState extends State<Home> {
 
   BottomNavyBarItem _homeBottomNavigationBarItem(String text, Icon icon) {
     return BottomNavyBarItem(
-        title: Text(text),
+        title: Text(text, style: TextStyle(fontSize: deviceWidth * fontSize * 0.036),),
         icon: icon,
         activeColor: colorSpecialItem,
         inactiveColor: colorNavigationBarText,

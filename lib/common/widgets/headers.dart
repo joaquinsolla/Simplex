@@ -16,7 +16,7 @@ Column AuthHeader(){
             child: Text('Bienvenido a Simplex',
                 style: TextStyle(
                     color: colorMainText,
-                    fontSize: deviceWidth * 0.1,
+                    fontSize: deviceWidth * fontSize * 0.1,
                     fontWeight: FontWeight.bold)),
           ),
         ],
@@ -80,6 +80,6 @@ Text HeaderText(String content) {
   return Text(content,
       style: TextStyle(
           color: colorMainText,
-          fontSize: deviceWidth * 0.1,
+          fontSize: deviceWidth * fontSize * 0.1,
           fontWeight: FontWeight.bold));
 }

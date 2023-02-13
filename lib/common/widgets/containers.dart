@@ -33,8 +33,7 @@ Container HomeArea(ScrollController? scrollController,
           controller: scrollController,
           children: widgets,
         ),
-      ),
-      ),
+      )),
     ],),
   );
 }
@@ -82,6 +81,42 @@ Container HomeAreaWithSearchbar(ScrollController? scrollController, bool showSea
   );
 }
 
+Container HomeAreaWithFixedFooter(ScrollController? scrollController,
+    Widget header, Widget footer, List<Widget> body) {
+  List<Widget> widgets = [SizedBox(height: deviceHeight*0.0325,)];
+  widgets += body;
+
+  return Container(
+    color: colorMainBackground,
+    alignment: Alignment.topLeft,
+    margin: EdgeInsets.fromLTRB(
+        deviceWidth * 0.075, deviceHeight * 0.075, deviceWidth * 0.075, 0.0),
+    child: Column(children: [
+      header,
+      Expanded(child:
+      ShaderMask(
+        shaderCallback: (Rect rect) {
+          return LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [colorMainBackground, Colors.transparent],
+            stops: [0.0, 0.05], // 10% colorMainBackground, 80% transparent, 10% colorMainBackground
+          ).createShader(rect);
+        },
+        blendMode: BlendMode.dstOut,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          addAutomaticKeepAlives: true,
+          physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
+          controller: scrollController,
+          children: widgets,
+        ),
+      )),
+      footer,
+    ],),
+  );
+}
+
 /// CONTAINERS
 Container FormContainer (List<Widget> formWidgets){
   return Container(
@@ -117,12 +152,12 @@ Container ButtonExplanationContainer(Widget buttonImg, String title, String body
             children: [
               Text(title, style: TextStyle(
                   color: colorMainText,
-                  fontSize: deviceWidth * 0.0475,
+                  fontSize: deviceWidth * fontSize * 0.0475,
                   fontWeight: FontWeight.bold),),
               SizedBox(height: deviceHeight*0.0025,),
               Text(body, style: TextStyle(
                   color: colorSecondText,
-                  fontSize: deviceWidth * 0.0325,
+                  fontSize: deviceWidth * fontSize * 0.0325,
                   fontWeight: FontWeight.normal),),
             ],
           ),
@@ -142,12 +177,12 @@ Container TextExplanationContainer(String title, String body){
         children: [
           Text(title, style: TextStyle(
               color: colorMainText,
-              fontSize: deviceWidth * 0.0475,
+              fontSize: deviceWidth * fontSize * 0.0475,
               fontWeight: FontWeight.bold),),
           SizedBox(height: deviceHeight*0.0025,),
           Text(body, style: TextStyle(
               color: colorSecondText,
-              fontSize: deviceWidth * 0.0325,
+              fontSize: deviceWidth * fontSize * 0.0325,
               fontWeight: FontWeight.normal),),
         ],
       ),
@@ -168,7 +203,7 @@ Container ErrorContainer(String text, double heightProportion){
           text + ' Revisa tu conexión a Internet y reinicia la app.',
           textAlign: TextAlign.center,
           style: TextStyle(
-              fontSize: deviceWidth * 0.0475, color: colorSecondText),),
+              fontSize: deviceWidth * fontSize * 0.0475, color: colorSecondText),),
       ],
     ),
   );
@@ -187,7 +222,7 @@ Container LoadingContainer(String text, double heightProportion){
             text,
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontSize: deviceWidth * 0.035, color: colorMainText),),
+                fontSize: deviceWidth * fontSize * 0.035, color: colorMainText),),
         ],
       )
   );
@@ -200,7 +235,7 @@ Container NoItemsContainer(String items, double heightProportion){
     child: Text('Sin ' + items,
         style: TextStyle(
             color: colorSecondText,
-            fontSize: deviceWidth * 0.05,
+            fontSize: deviceWidth * fontSize * 0.05,
             fontWeight: FontWeight.normal)),
   );
 }
@@ -212,7 +247,7 @@ Container NoResultsContainer(double heightProportion){
     child: Text("Sin resultados...",
         style: TextStyle(
             color: colorSecondText,
-            fontSize: deviceWidth * 0.05,
+            fontSize: deviceWidth * fontSize * 0.05,
             fontWeight: FontWeight.normal)
     ),
   );

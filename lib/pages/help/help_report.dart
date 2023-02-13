@@ -76,7 +76,7 @@ class _HelpReportState extends State<HelpReport> {
             'Información de la cuenta',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.045,
+                fontSize: deviceWidth * fontSize * 0.045,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
@@ -86,7 +86,7 @@ class _HelpReportState extends State<HelpReport> {
               'Enviar información de mi cuenta',
               style: TextStyle(
                   color: colorMainText,
-                  fontSize: deviceWidth * 0.04,
+                  fontSize: deviceWidth * fontSize * 0.04,
                   fontWeight: FontWeight.normal),
             ),
             value: sendAccountData,
@@ -132,7 +132,7 @@ class _HelpReportState extends State<HelpReport> {
             'problema se solucione. Nunca recopilaremos tu contraseña ni '
             'información privada.',
           style: TextStyle(color: colorSecondText,
-              fontSize: deviceWidth * 0.0375,
+              fontSize: deviceWidth * fontSize * 0.0375,
               fontWeight: FontWeight.normal), textAlign: TextAlign.center,),
       ]
       ),

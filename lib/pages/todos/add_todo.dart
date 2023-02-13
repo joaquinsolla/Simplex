@@ -89,7 +89,7 @@ class _AddTodoState extends State<AddTodo> {
             'Prioridad',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.045,
+                fontSize: deviceWidth * fontSize * 0.045,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.015),
@@ -100,7 +100,7 @@ class _AddTodoState extends State<AddTodo> {
               '-',
               style: TextStyle(
                   color: colorMainText,
-                  fontSize: deviceWidth * 0.03,
+                  fontSize: deviceWidth * fontSize * 0.03,
                   fontWeight: FontWeight.bold),
             ),
             if (priority == 1) Container(
@@ -153,7 +153,7 @@ class _AddTodoState extends State<AddTodo> {
               '+',
               style: TextStyle(
                   color: colorMainText,
-                  fontSize: deviceWidth * 0.03,
+                  fontSize: deviceWidth * fontSize * 0.03,
                   fontWeight: FontWeight.bold),
             ),
           ],),
@@ -164,7 +164,7 @@ class _AddTodoState extends State<AddTodo> {
             'Las tareas de mayor prioridad aparecerán sobre las que tengan una prioridad inferior.',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.03,
+                fontSize: deviceWidth * fontSize * 0.03,
                 fontWeight: FontWeight.normal,
                 fontStyle: FontStyle.italic),
           ),
@@ -176,7 +176,7 @@ class _AddTodoState extends State<AddTodo> {
             'Fecha límite',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.045,
+                fontSize: deviceWidth * fontSize * 0.045,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
@@ -186,7 +186,7 @@ class _AddTodoState extends State<AddTodo> {
               'Tarea con fecha límite',
               style: TextStyle(
                   color: colorMainText,
-                  fontSize: deviceWidth * 0.04,
+                  fontSize: deviceWidth * fontSize * 0.04,
                   fontWeight: FontWeight.normal),
             ),
             value: limited,
@@ -227,7 +227,7 @@ class _AddTodoState extends State<AddTodo> {
                 'cuando alcancen dicha fecha si todavía no se han hecho.',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.03,
+                fontSize: deviceWidth * fontSize * 0.03,
                 fontWeight: FontWeight.normal,
                 fontStyle: FontStyle.italic),
           ),

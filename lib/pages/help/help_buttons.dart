@@ -38,7 +38,7 @@ class _HelpButtonsState extends State<HelpButtons> {
 
         Text('Botones comunes', style: TextStyle(
             color: colorMainText,
-            fontSize: deviceWidth * 0.05,
+            fontSize: deviceWidth * fontSize * 0.05,
             fontWeight: FontWeight.bold)),
         Column(children: [
           SizedBox(height: deviceHeight * 0.0125),
@@ -85,7 +85,7 @@ class _HelpButtonsState extends State<HelpButtons> {
 
         Text('Botones del calendario', style: TextStyle(
             color: colorMainText,
-            fontSize: deviceWidth * 0.05,
+            fontSize: deviceWidth * fontSize * 0.05,
             fontWeight: FontWeight.bold)),
         Column(children: [
           SizedBox(height: deviceHeight * 0.0125),
@@ -105,7 +105,7 @@ class _HelpButtonsState extends State<HelpButtons> {
 
         Text('Botones de las tareas', style: TextStyle(
             color: colorMainText,
-            fontSize: deviceWidth * 0.05,
+            fontSize: deviceWidth * fontSize * 0.05,
             fontWeight: FontWeight.bold)),
         Column(children: [
           SizedBox(height: deviceHeight * 0.0125),

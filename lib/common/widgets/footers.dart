@@ -15,7 +15,7 @@ Column FooterCredits(){
             text: '\u00a9 Simplex 2023 - ',
             style: TextStyle(
               color: colorSecondText,
-              fontSize: deviceWidth * 0.025,
+              fontSize: deviceWidth * fontSize * 0.025,
               fontWeight: FontWeight.normal,
             ),
             children: <TextSpan>[
@@ -23,7 +23,7 @@ Column FooterCredits(){
                   text: 'Joaquín Solla Vázquez',
                   style: TextStyle(
                     color: colorSecondText,
-                    fontSize: deviceWidth * 0.025,
+                    fontSize: deviceWidth * fontSize * 0.025,
                     fontWeight: FontWeight.normal,
                     decoration: TextDecoration.underline,
                   )
@@ -53,7 +53,7 @@ Column FooterPrivacyPolicy(){
             text: 'Consulta nuestra ',
             style: TextStyle(
               color: colorSecondText,
-              fontSize: deviceWidth * 0.025,
+              fontSize: deviceWidth * fontSize * 0.025,
               fontWeight: FontWeight.normal,
             ),
             children: <TextSpan>[
@@ -61,7 +61,7 @@ Column FooterPrivacyPolicy(){
                   text: 'Política de privacidad',
                   style: TextStyle(
                     color: colorSecondText,
-                    fontSize: deviceWidth * 0.025,
+                    fontSize: deviceWidth * fontSize * 0.025,
                     fontWeight: FontWeight.normal,
                     decoration: TextDecoration.underline,
                   )

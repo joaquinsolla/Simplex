@@ -23,7 +23,7 @@ Container MainButton(IconData icon, Color color, String text, Function() actions
                 text,
                 style: TextStyle(
                     color: color,
-                    fontSize: deviceWidth * 0.05,
+                    fontSize: deviceWidth * fontSize * 0.05,
                     fontWeight: FontWeight.normal),
               ),
               Icon(icon, color: Colors.transparent, size: deviceWidth * 0.06),
@@ -48,7 +48,7 @@ Container SecondaryButton(Color color, String text, Function() actions){
         text,
         style: TextStyle(
             color: color,
-            fontSize: deviceWidth * 0.04,
+            fontSize: deviceWidth * fontSize * 0.04,
             fontWeight: FontWeight.normal),
       ),
       onPressed: actions,
@@ -69,7 +69,7 @@ Container VisibilityButton(String text, bool visibility, Function() actions){
         Text(text,
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.05,
+                fontSize: deviceWidth * fontSize * 0.05,
                 fontWeight: FontWeight.bold)
         )
       ],),

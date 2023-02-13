@@ -135,7 +135,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     'Borrar',
                     style: TextStyle(
                         color: colorSpecialItem,
-                        fontSize: deviceWidth * 0.035,
+                        fontSize: deviceWidth * fontSize * 0.035,
                         fontWeight: FontWeight.normal),
                   ),
                   onPressed: (){
@@ -289,7 +289,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     SizedBox(width: deviceWidth * 0.025,),
                     Text('Ver detalles', style: TextStyle(
                         color: colorSpecialItem,
-                        fontSize: deviceWidth * 0.04,
+                        fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
                   ],
                 ),
@@ -312,7 +312,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     SizedBox(width: deviceWidth * 0.025,),
                     Text('Marcar como completada', style: TextStyle(
                         color: colorSpecialItem,
-                        fontSize: deviceWidth * 0.04,
+                        fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
                   ],
                 ),
@@ -333,7 +333,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     SizedBox(width: deviceWidth * 0.025,),
                     Text('Editar', style: TextStyle(
                         color: colorSpecialItem,
-                        fontSize: deviceWidth * 0.04,
+                        fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
                   ],
                 ),
@@ -356,7 +356,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     SizedBox(width: deviceWidth * 0.025,),
                     Text('Eliminar', style: TextStyle(
                         color: Colors.red,
-                        fontSize: deviceWidth * 0.04,
+                        fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
                   ],
                 ),
@@ -386,7 +386,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(color: colorMainText,
-                                fontSize: deviceWidth * 0.06,
+                                fontSize: deviceWidth * fontSize * 0.06,
                                 fontWeight: FontWeight.bold))),
 
                     if (hasDescription) SizedBox(
@@ -398,7 +398,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(color: colorSecondText,
-                                fontSize: deviceWidth * 0.03,
+                                fontSize: deviceWidth * fontSize * 0.03,
                                 fontWeight: FontWeight.normal))),
 
                     if (hasLimitDate) Divider(color: colorSecondText),
@@ -419,13 +419,13 @@ class _TodosMainPageState extends State<TodosMainPage> {
                             alignment: Alignment.centerLeft,
                             child: Text(dateToString(limitDate),
                                 style: TextStyle(color: Colors.red,
-                                    fontSize: deviceWidth * 0.03,
+                                    fontSize: deviceWidth * fontSize * 0.03,
                                     fontWeight: FontWeight.normal))),
                         if ((todayDate.isAfter(limitDate))==false) Container(
                             alignment: Alignment.centerLeft,
                             child: Text(dateToString(limitDate),
                                 style: TextStyle(color: colorMainText,
-                                    fontSize: deviceWidth * 0.03,
+                                    fontSize: deviceWidth * fontSize * 0.03,
                                     fontWeight: FontWeight.normal))),
                       ],),
                   ],
@@ -482,7 +482,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     SizedBox(width: deviceWidth * 0.025,),
                     Text('Ver detalles', style: TextStyle(
                         color: colorSpecialItem,
-                        fontSize: deviceWidth * 0.04,
+                        fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
                   ],
                 ),
@@ -505,7 +505,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     SizedBox(width: deviceWidth * 0.025,),
                     Text('Marcar como pendiente', style: TextStyle(
                         color: colorSpecialItem,
-                        fontSize: deviceWidth * 0.04,
+                        fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
                   ],
                 ),
@@ -526,7 +526,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     SizedBox(width: deviceWidth * 0.025,),
                     Text('Editar', style: TextStyle(
                         color: colorSpecialItem,
-                        fontSize: deviceWidth * 0.04,
+                        fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
                   ],
                 ),
@@ -549,7 +549,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     SizedBox(width: deviceWidth * 0.025,),
                     Text('Eliminar', style: TextStyle(
                         color: Colors.red,
-                        fontSize: deviceWidth * 0.04,
+                        fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
                   ],
                 ),
@@ -579,7 +579,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(color: colorThirdText,
-                                fontSize: deviceWidth * 0.06,
+                                fontSize: deviceWidth * fontSize * 0.06,
                                 fontWeight: FontWeight.bold,
                                 decoration: TextDecoration.lineThrough))),
 
@@ -592,7 +592,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(color: colorThirdText,
-                                fontSize: deviceWidth * 0.03,
+                                fontSize: deviceWidth * fontSize * 0.03,
                                 fontWeight: FontWeight.normal,
                                 decoration: TextDecoration.lineThrough))),
 
@@ -614,13 +614,13 @@ class _TodosMainPageState extends State<TodosMainPage> {
                             alignment: Alignment.centerLeft,
                             child: Text(dateToString(limitDate),
                                 style: TextStyle(color: colorThirdText,
-                                    fontSize: deviceWidth * 0.03,
+                                    fontSize: deviceWidth * fontSize * 0.03,
                                     fontWeight: FontWeight.normal))),
                         if ((todayDate.isAfter(limitDate))==false) Container(
                             alignment: Alignment.centerLeft,
                             child: Text(dateToString(limitDate),
                                 style: TextStyle(color: colorThirdText,
-                                    fontSize: deviceWidth * 0.03,
+                                    fontSize: deviceWidth * fontSize * 0.03,
                                     fontWeight: FontWeight.normal))),
                       ],),
                   ],

@@ -35,6 +35,8 @@ Future main() async {
       '/home': (context) => const Home(),
       '/services/change_password_service': (context) => const ChangePasswordService(),
 
+      '/settings/settings_font': (context) => const SettingsFont(),
+
       '/events/add_event': (context) => const AddEvent(),
       '/events/event_details': (context) => const EventDetails(),
       '/events/edit_event': (context) => const EditEvent(),

@@ -40,7 +40,7 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Contraseña actual:', style: TextStyle(color: colorMainText,
-                  fontSize: deviceWidth * 0.045,
+                  fontSize: deviceWidth * fontSize * 0.045,
                   fontWeight: FontWeight.bold),),
               SizedBox(height: deviceHeight * 0.005),
               TextField(
@@ -74,7 +74,7 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Nueva contraseña:', style: TextStyle(color: colorMainText,
-                  fontSize: deviceWidth * 0.045,
+                  fontSize: deviceWidth * fontSize * 0.045,
                   fontWeight: FontWeight.bold),),
               SizedBox(height: deviceHeight * 0.005),
               TextField(
@@ -109,7 +109,7 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
             children: [
               Text(
                 'Confirmar contraseña:', style: TextStyle(color: colorMainText,
-                  fontSize: deviceWidth * 0.045,
+                  fontSize: deviceWidth * fontSize * 0.045,
                   fontWeight: FontWeight.bold),),
               SizedBox(height: deviceHeight * 0.005),
               TextField(
@@ -174,7 +174,7 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
         Text("Si no recuerdas tu contraseña debes cerrar sesión y acceder al "
             "apartado '¿Has olvidado tu contraseña?'.",
           style: TextStyle(color: colorSecondText,
-              fontSize: deviceWidth * 0.0375,
+              fontSize: deviceWidth * fontSize * 0.0375,
               fontWeight: FontWeight.normal), textAlign: TextAlign.center,),
           ]
       ),

@@ -94,7 +94,7 @@ class _EditTodoState extends State<EditTodo> {
             'Prioridad',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.045,
+                fontSize: deviceWidth * fontSize * 0.045,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.015),
@@ -105,7 +105,7 @@ class _EditTodoState extends State<EditTodo> {
                 '-',
                 style: TextStyle(
                     color: colorMainText,
-                    fontSize: deviceWidth * 0.03,
+                    fontSize: deviceWidth * fontSize * 0.03,
                     fontWeight: FontWeight.bold),
               ),
               if (priority == 1) Container(
@@ -158,7 +158,7 @@ class _EditTodoState extends State<EditTodo> {
                 '+',
                 style: TextStyle(
                     color: colorMainText,
-                    fontSize: deviceWidth * 0.03,
+                    fontSize: deviceWidth * fontSize * 0.03,
                     fontWeight: FontWeight.bold),
               ),
             ],),
@@ -169,7 +169,7 @@ class _EditTodoState extends State<EditTodo> {
             'Las tareas de mayor prioridad aparecerán sobre las que tengan una prioridad inferior.',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.03,
+                fontSize: deviceWidth * fontSize * 0.03,
                 fontWeight: FontWeight.normal,
                 fontStyle: FontStyle.italic),
           ),
@@ -181,7 +181,7 @@ class _EditTodoState extends State<EditTodo> {
             'Fecha límite',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.045,
+                fontSize: deviceWidth * fontSize * 0.045,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
@@ -191,7 +191,7 @@ class _EditTodoState extends State<EditTodo> {
               'Tarea con fecha límite',
               style: TextStyle(
                   color: colorMainText,
-                  fontSize: deviceWidth * 0.04,
+                  fontSize: deviceWidth * fontSize * 0.04,
                   fontWeight: FontWeight.normal),
             ),
             value: limited,

@@ -11,6 +11,7 @@ readSettings() async {
   final formatDatesKey = 'formatDates';
   final appLocaleKey = 'appLocale';
   final darkModeKey = 'darkMode';
+  final fontSizeKey = 'fontSize';
 
   format24Hours = prefs.getBool(format24HoursKey) ?? true;
   formatDates = prefs.getBool(formatDatesKey) ?? true;
@@ -32,12 +33,19 @@ readSettings() async {
     colorThirdText = const Color(0xff706e74);
     colorCalendarEvent = Color(0xfff2f2f7);
   }
+  fontSize = prefs.getDouble(fontSizeKey) ?? 1.0;
 
   debugPrint('[OK] Read settings');
 }
 
-saveSetting(String key, bool value) async {
+saveSettingBool(String key, bool value) async {
   final prefs = await SharedPreferences.getInstance();
   prefs.setBool(key, value);
+  debugPrint('[OK] Saved setting $key to $value');
+}
+
+saveSettingDouble(String key, double value) async {
+  final prefs = await SharedPreferences.getInstance();
+  prefs.setDouble(key, value);
   debugPrint('[OK] Saved setting $key to $value');
 }

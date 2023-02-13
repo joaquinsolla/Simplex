@@ -69,7 +69,7 @@ class _EventDetailsState extends State<EventDetails> {
             selectedEvent!.name,
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.065,
+                fontSize: deviceWidth * fontSize * 0.065,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.01),
@@ -81,7 +81,7 @@ class _EventDetailsState extends State<EventDetails> {
               color: colorThirdBackground,
             ),
             child: Text('Sin descripción',
-              style: TextStyle(color: colorThirdText, fontSize: deviceWidth * 0.04, fontStyle: FontStyle.italic),),
+              style: TextStyle(color: colorThirdText, fontSize: deviceWidth * fontSize * 0.04, fontStyle: FontStyle.italic),),
           ),
           if (selectedEvent!.description != '') Container(
             width: deviceHeight,
@@ -91,7 +91,7 @@ class _EventDetailsState extends State<EventDetails> {
               color: colorThirdBackground,
             ),
             child: Text(selectedEvent!.description,
-              style: TextStyle(color: colorMainText, fontSize: deviceWidth * 0.04,),),
+              style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.04,),),
           ),
         ]),
         SizedBox(height: deviceHeight * 0.025),
@@ -100,7 +100,7 @@ class _EventDetailsState extends State<EventDetails> {
             'Fecha: ',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.0475,
+                fontSize: deviceWidth * fontSize * 0.0475,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
@@ -111,7 +111,7 @@ class _EventDetailsState extends State<EventDetails> {
               eventDate,
               style: TextStyle(
                   color: colorMainText,
-                  fontSize: deviceWidth * 0.04,
+                  fontSize: deviceWidth * fontSize * 0.04,
                   fontWeight: FontWeight.normal),
             ),
           ],),
@@ -120,7 +120,7 @@ class _EventDetailsState extends State<EventDetails> {
             'Hora: ',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.0475,
+                fontSize: deviceWidth * fontSize * 0.0475,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
@@ -131,7 +131,7 @@ class _EventDetailsState extends State<EventDetails> {
               eventTime,
               style: TextStyle(
                   color: colorMainText,
-                  fontSize: deviceWidth * 0.04,
+                  fontSize: deviceWidth * fontSize * 0.04,
                   fontWeight: FontWeight.normal),
             ),
           ],),
@@ -142,7 +142,7 @@ class _EventDetailsState extends State<EventDetails> {
             'Color: ',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.0475,
+                fontSize: deviceWidth * fontSize * 0.0475,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
@@ -155,7 +155,7 @@ class _EventDetailsState extends State<EventDetails> {
                 colorName,
                 style: TextStyle(
                     color: colorMainText,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),
               ),
             ],
@@ -168,7 +168,7 @@ class _EventDetailsState extends State<EventDetails> {
             'Notificaciones: ',
             style: TextStyle(
                 color: colorMainText,
-                fontSize: deviceWidth * 0.0475,
+                fontSize: deviceWidth * fontSize * 0.0475,
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
@@ -183,7 +183,7 @@ class _EventDetailsState extends State<EventDetails> {
                 Text('Sin notificaciones',
                     style: TextStyle(
                         color: colorMainText,
-                        fontSize: deviceWidth * 0.04,
+                        fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal)),
               ],
             ),
@@ -206,7 +206,7 @@ class _EventDetailsState extends State<EventDetails> {
                         Text(formatEventNotificationDate(selectedEvent!.notificationsList[index].values.first.toDate()),
                             style: TextStyle(
                                 color: colorMainText,
-                                fontSize: deviceWidth * 0.04,
+                                fontSize: deviceWidth * fontSize * 0.04,
                                 fontWeight: FontWeight.normal)),
                       ],
                     ),

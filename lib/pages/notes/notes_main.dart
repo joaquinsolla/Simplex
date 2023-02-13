@@ -116,7 +116,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                       'Borrar',
                       style: TextStyle(
                           color: colorSpecialItem,
-                          fontSize: deviceWidth * 0.035,
+                          fontSize: deviceWidth * fontSize * 0.035,
                           fontWeight: FontWeight.normal),
                     ),
                     onPressed: (){
@@ -219,7 +219,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Ver detalles', style: TextStyle(
                     color: colorSpecialItem,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
               ],
             ),
@@ -240,7 +240,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Editar', style: TextStyle(
                     color: colorSpecialItem,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
               ],
             ),
@@ -261,7 +261,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Compartir', style: TextStyle(
                     color: colorSpecialItem,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
               ],
             ),
@@ -282,7 +282,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                 SizedBox(width: deviceWidth*0.025,),
                 Text('Eliminar', style: TextStyle(
                     color: Colors.red,
-                    fontSize: deviceWidth * 0.04,
+                    fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
               ],
             ),
@@ -334,7 +334,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       color: colorMainText,
-                      fontSize: deviceWidth * 0.04,
+                      fontSize: deviceWidth * fontSize * 0.04,
                       fontWeight: FontWeight.bold)
               ),
               if (note.name == '') Text('Sin título',
@@ -342,7 +342,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       color: colorSecondText,
-                      fontSize: deviceWidth * 0.04,
+                      fontSize: deviceWidth * fontSize * 0.04,
                       fontWeight: FontWeight.bold,
                       fontStyle: FontStyle.italic)
               ),
@@ -353,13 +353,13 @@ class _NotesMainPageState extends State<NotesMainPage> {
                   overflow: TextOverflow.fade,
                   style: TextStyle(
                       color: colorMainText,
-                      fontSize: deviceWidth * 0.03,
+                      fontSize: deviceWidth * fontSize * 0.03,
                       fontWeight: FontWeight.normal)
               ),
               if (note.content == '') Text('Sin contenido',
                   style: TextStyle(
                       color: colorSecondText,
-                      fontSize: deviceWidth * 0.03,
+                      fontSize: deviceWidth * fontSize * 0.03,
                       fontWeight: FontWeight.normal,
                       fontStyle: FontStyle.italic)
               ),
@@ -374,7 +374,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: colorSecondText,
-                          fontSize: deviceWidth * 0.025,
+                          fontSize: deviceWidth * fontSize * 0.025,
                           fontWeight: FontWeight.normal,
                           fontStyle: FontStyle.italic)
                   ),
