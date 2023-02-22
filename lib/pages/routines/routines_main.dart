@@ -32,7 +32,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
                   color: colorSpecialItem, size: deviceWidth * 0.085),
               splashRadius: 0.001,
               onPressed: () {
-                showSnackBar(context, '[Beta] En desarrollo', colorSpecialItem);
+                showInfoSnackBar(context, '[Beta] En desarrollo');
               },
             ),
           ]),

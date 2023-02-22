@@ -234,7 +234,7 @@ class _EditTodoState extends State<EditTodo> {
             ' Confirmar cambios ',
                 () {
               if (nameController.text.trim().isEmpty) {
-                showSnackBar(context, 'Debes indicar un nombre', Colors.red);
+                showErrorSnackBar(context, 'Debes indicar un nombre');
                 nameFocusNode.requestFocus();
               } else {
                 try {
@@ -252,10 +252,10 @@ class _EditTodoState extends State<EditTodo> {
                   if (limited) buildTodoNotifications(id, 'Tarea pendiente: ' + nameController.text, limitDate);
 
                   Navigator.of(context).popUntil((route) => route.isFirst);
-                  showSnackBar(context, 'Tarea actualizada', Colors.green);
+                  showInfoSnackBar(context, 'Tarea actualizada');
                 } on Exception catch (e) {
                   debugPrint('[ERR] Could not update todo: $e');
-                  showSnackBar(context, 'Ha ocurrido un error', Colors.red);
+                  showErrorSnackBar(context, 'Ha ocurrido un error');
                 }
               }
             }

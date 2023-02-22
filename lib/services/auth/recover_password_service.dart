@@ -76,7 +76,7 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
                     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                     .hasMatch(emailController.text.trim()) == false) {
                   emailFocusNode.requestFocus();
-                  showSnackBar(context, 'Debes indicar un email válido', Colors.red);
+                  showErrorSnackBar(context, 'Debes indicar un email válido');
                 } else {
                   resetPassword();
                 }
@@ -122,12 +122,12 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(
           email: emailController.text.trim());
-      showSnackBar(context, 'Se ha enviado un email de recuperación, comprueba tu bandeja de entrada', Colors.green);
+      showInfoSnackBar(context, 'Se ha enviado un email de recuperación, comprueba tu bandeja de entrada');
       debugPrint('[OK] Password recovery email sent');
     } on FirebaseAuthException catch (e){
       if (e.message!.contains('There is no user record corresponding to this identifier. The user may have been deleted.'))
-        showSnackBar(context, 'No existe ninguna cuenta con este email', Colors.red);
-      else showSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
+        showErrorSnackBar(context, 'No existe ninguna cuenta con este email');
+      else showErrorSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo');
       debugPrint('[ERR] ' + e.message.toString());
     }
     navigatorKey.currentState!.pop();

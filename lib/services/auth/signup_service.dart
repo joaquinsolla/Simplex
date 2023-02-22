@@ -150,7 +150,7 @@ class _SignUpServiceState extends State<SignUpService> {
                 if (emailController.text.trim().isEmpty ||
                     passwordController.text.trim().isEmpty ||
                     confirmPasswordController.text.trim().isEmpty) {
-                  showSnackBar(context, 'Debes cubrir todos los campos', Colors.red);
+                  showErrorSnackBar(context, 'Debes cubrir todos los campos');
                   if (emailController.text.trim().isEmpty)
                     emailFocusNode.requestFocus();
                   else if (passwordController.text.trim().isEmpty)
@@ -165,19 +165,19 @@ class _SignUpServiceState extends State<SignUpService> {
                         .trim()
                         .length < 6) {
                       passwordFocusNode.requestFocus();
-                      showSnackBar(context, 'La contraseña debe contener al menos 6 caracteres', Colors.red);
+                      showErrorSnackBar(context, 'La contraseña debe contener al menos 6 caracteres');
                     } else {
                       if (passwordController.text.trim() !=
                           confirmPasswordController.text.trim()) {
                         passwordFocusNode.requestFocus();
-                        showSnackBar(context, 'Las contraseñas no coinciden', Colors.red);
+                        showErrorSnackBar(context, 'Las contraseñas no coinciden');
                       } else
                         signUp();
                     }
                   }
                   else {
                     emailFocusNode.requestFocus();
-                    showSnackBar(context, 'Formato de email inválido', Colors.red);
+                    showErrorSnackBar(context, 'Formato de email inválido');
                   }
                 }
               }
@@ -218,8 +218,8 @@ class _SignUpServiceState extends State<SignUpService> {
       debugPrint('[OK] Signed up, waiting for email verification');
     } on FirebaseAuthException catch (e){
       if (e.message!.contains('The email address is already in use by another account.'))
-        showSnackBar(context, 'Ya existe una cuenta con este email', Colors.red);
-      else showSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
+        showErrorSnackBar(context, 'Ya existe una cuenta con este email');
+      else showErrorSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo');
       debugPrint('[ERR] ' + e.message.toString());
     }
     createUserDoc();

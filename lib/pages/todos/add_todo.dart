@@ -239,7 +239,7 @@ class _AddTodoState extends State<AddTodo> {
             ' Crear tarea ',
                 () {
               if (nameController.text.trim().isEmpty) {
-                showSnackBar(context, 'Debes indicar un nombre', Colors.red);
+                showErrorSnackBar(context, 'Debes indicar un nombre');
                 nameFocusNode.requestFocus();
               } else {
                 try {
@@ -257,7 +257,7 @@ class _AddTodoState extends State<AddTodo> {
                   Navigator.pop(context);
                 } on Exception catch (e) {
                   debugPrint('[ERR] Could not create todo: $e');
-                  showSnackBar(context, 'Ha ocurrido un error', Colors.red);
+                  showErrorSnackBar(context, 'Ha ocurrido un error');
                 }
               }
             }

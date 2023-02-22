@@ -439,7 +439,7 @@ class _AddEventState extends State<AddEvent> {
             ' Crear evento ',
                 () {
               if (nameController.text.trim().isEmpty) {
-                showSnackBar(context, 'Debes indicar un nombre', Colors.red);
+                showErrorSnackBar(context, 'Debes indicar un nombre');
                 nameFocusNode.requestFocus();
               } else {
                 try {
@@ -478,7 +478,7 @@ class _AddEventState extends State<AddEvent> {
                   Navigator.pop(context);
                 } on Exception catch (e) {
                   debugPrint('[ERR] Could not create event: $e');
-                  showSnackBar(context, 'Ha ocurrido un error', Colors.red);
+                  showErrorSnackBar(context, 'Ha ocurrido un error');
                 }
               }
             }

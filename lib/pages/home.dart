@@ -318,8 +318,8 @@ class _HomeState extends State<Home> {
                               debugPrint('[OK] Signed out');
                             } on Exception catch (e) {
                               debugPrint('[ERR] Cannot sign out: $e');
-                              showSnackBar(context, 'Ha ocurrido un error, '
-                                  'inténtalo de nuevo', Colors.red);
+                              showErrorSnackBar(context, 'Ha ocurrido un error, '
+                                  'inténtalo de nuevo');
                             }
                           },
                           child: Text('Aceptar', style: TextStyle(color: colorSpecialItem),)),

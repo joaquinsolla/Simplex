@@ -159,7 +159,7 @@ class _AddNoteState extends State<AddNote> {
                     Navigator.pop(context);
                   } on Exception catch (e) {
                     debugPrint('[ERR] Could not create note: $e');
-                    showSnackBar(context, 'Ha ocurrido un error', Colors.red);
+                    showErrorSnackBar(context, 'Ha ocurrido un error');
                   }
                 }),
 

@@ -167,7 +167,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                           await cancelNoteNotification(selectedNote!.id);
                           await deleteNoteById(selectedNote!.id);
                           Navigator.of(context).popUntil((route) => route.isFirst);
-                          showSnackBar(context, 'Nota eliminada', Colors.green);
+                          showInfoSnackBar(context, 'Nota eliminada');
                         },
                         child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
                     TextButton(

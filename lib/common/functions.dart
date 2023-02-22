@@ -7,13 +7,51 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
-void showSnackBar(BuildContext context, String content, Color color) {
+void showErrorSnackBar(BuildContext context, String content) {
+
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text(content),
-    backgroundColor: color,
+    backgroundColor: Colors.red,
     behavior: SnackBarBehavior.floating,
-    duration: Duration(seconds: 3),
+    duration: const Duration(milliseconds: 2000),
   ));
+
+}
+
+void showInfoSnackBar(BuildContext context, String content) {
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+            child: Image.asset('assets/icon_small_rounded.png', width: 20*fontSize, height: 20*fontSize,),
+          ),
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+            child: Text(content,
+              style: TextStyle(
+                fontSize: 14*fontSize,
+              ),
+            ),
+          )
+        ],
+      ),
+      duration: const Duration(milliseconds: 2000),
+      padding: const EdgeInsets.fromLTRB(0, 3, 0, 3),
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      margin: EdgeInsets.fromLTRB(deviceWidth*0.225, 0, deviceWidth*0.225, deviceHeight*0.125),
+    ),
+  );
+
 }
 
 DateTime dateTimeToDateOnly(DateTime dateTime) {

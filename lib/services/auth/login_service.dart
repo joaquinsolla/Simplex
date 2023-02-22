@@ -108,7 +108,7 @@ class _LogInServiceState extends State<LogInService> {
               () {
                 if (emailController.text.trim().isEmpty ||
                     passwordController.text.trim().isEmpty) {
-                  showSnackBar(context, 'Debes cubrir todos los campos', Colors.red);
+                  showErrorSnackBar(context, 'Debes cubrir todos los campos');
                   if (emailController.text.trim().isEmpty)
                     emailFocusNode.requestFocus();
                   else
@@ -120,7 +120,7 @@ class _LogInServiceState extends State<LogInService> {
                     signIn();
                   else {
                     emailFocusNode.requestFocus();
-                    showSnackBar(context, 'Formato de email inválido', Colors.red);
+                    showErrorSnackBar(context, 'Formato de email inválido');
                   }
                 }
               }
@@ -176,10 +176,10 @@ class _LogInServiceState extends State<LogInService> {
       debugPrint('[OK] Logged in');
     } on FirebaseAuthException catch (e){
       if (e.message!.contains('The password is invalid or the user does not have a password.'))
-        showSnackBar(context, 'Contraseña incorrecta', Colors.red);
+        showErrorSnackBar(context, 'Contraseña incorrecta');
       else if (e.message!.contains('There is no user record corresponding to this identifier. The user may have been deleted.'))
-        showSnackBar(context, 'No existe ninguna cuenta con este email', Colors.red);
-      else showSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
+        showErrorSnackBar(context, 'No existe ninguna cuenta con este email');
+      else showErrorSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo');
       debugPrint('[ERR] ' + e.message.toString());
     }
     navigatorKey.currentState!.pop();

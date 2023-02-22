@@ -247,7 +247,7 @@ class _EventDetailsState extends State<EventDetails> {
                           await cancelAllEventNotifications(selectedEvent!.id);
                           await deleteEventById(selectedEvent!.id);
                           Navigator.of(context).popUntil((route) => route.isFirst);
-                          showSnackBar(context, 'Evento eliminado', Colors.green);
+                          showInfoSnackBar(context, 'Evento eliminado');
                         },
                         child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
                     TextButton(

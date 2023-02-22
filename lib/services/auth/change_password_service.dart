@@ -147,23 +147,23 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
                 () {
               if (oldPassController.text.trim().isEmpty) {
                 oldPassFocusNode.requestFocus();
-                showSnackBar(context, 'Debes introducir tu contraseña actual', Colors.red);
+                showErrorSnackBar(context, 'Debes introducir tu contraseña actual');
               }
               else if (newPassController1.text
                   .trim()
                   .length < 6) {
                 newPassFocusNode1.requestFocus();
-                showSnackBar(context, 'La contraseña debe contener al menos 6 caracteres', Colors.red);
+                showErrorSnackBar(context, 'La contraseña debe contener al menos 6 caracteres');
               }
               else if (newPassController1.text.trim() !=
                   newPassController2.text.trim()) {
                 newPassFocusNode2.requestFocus();
-                showSnackBar(context, 'Las contraseñas no coinciden', Colors.red);
+                showErrorSnackBar(context, 'Las contraseñas no coinciden');
               }
               else if (newPassController1.text.trim() ==
                   oldPassController.text.trim()) {
                 newPassFocusNode1.requestFocus();
-                showSnackBar(context, 'La contraseña nueva es igual que la actual', Colors.red);
+                showErrorSnackBar(context, 'La contraseña nueva es igual que la actual');
               }
               else
                 changePassword(oldPassController.text.trim(),
@@ -197,19 +197,19 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
     } on FirebaseAuthException catch (e){
       if (e.message!.contains('The password is invalid or the user does not have a password.')) {
         oldPassFocusNode.requestFocus();
-        showSnackBar(context, 'Contraseña actual incorrecta', Colors.red);
+        showErrorSnackBar(context, 'Contraseña actual incorrecta');
       }
-      else showSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
+      else showErrorSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo');
       debugPrint('[ERR] ' + e.message.toString());
       hasErrors = true;
     }
 
     if (hasErrors==false) try {
       await FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
-      showSnackBar(context, 'Contraseña actualizada', Colors.green);
+      showInfoSnackBar(context, 'Contraseña actualizada');
       debugPrint('[OK] Password updated');
     } on Exception catch (e){
-      showSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo', Colors.red);
+      showErrorSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo');
       debugPrint('[ERR] ' + e.toString());
     }
 

@@ -450,7 +450,7 @@ class _EditEventState extends State<EditEvent> {
             ' Confirmar cambios ',
                 () async {
                   if (nameController.text.trim().isEmpty) {
-                    showSnackBar(context, 'Debes indicar un nombre', Colors.red);
+                    showErrorSnackBar(context, 'Debes indicar un nombre');
                     nameFocusNode.requestFocus();
                   } else {
                     DateTime newFullDateTime = DateTime(
@@ -490,10 +490,10 @@ class _EditEventState extends State<EditEvent> {
                           newFullDateTime);
 
                       Navigator.of(context).popUntil((route) => route.isFirst);
-                      showSnackBar(context, 'Evento actualizado', Colors.green);
+                      showInfoSnackBar(context, 'Evento actualizado');
                     } on Exception catch (e) {
                       debugPrint('[ERR] Could not edit event: $e');
-                      showSnackBar(context, 'Ha ocurrido un error', Colors.red);
+                      showErrorSnackBar(context, 'Ha ocurrido un error');
                     }
                   }
                 }

@@ -165,10 +165,10 @@ class _EditNoteState extends State<EditNote> {
                 if (onCalendar) buildNoteNotification(id, nameController.text, calendarDate);
 
                 Navigator.of(context).popUntil((route) => route.isFirst);
-                showSnackBar(context, 'Nota actualizada', Colors.green);
+                showInfoSnackBar(context, 'Nota actualizada');
               } on Exception catch (e) {
                 debugPrint('[ERR] Could not update note: $e');
-                showSnackBar(context, 'Ha ocurrido un error', Colors.red);
+                showErrorSnackBar(context, 'Ha ocurrido un error');
               }
             }),
       ]

@@ -103,7 +103,7 @@ class _HelpReportState extends State<HelpReport> {
             'problema ',
                 () {
                   if (problemController.text.trim().isEmpty) {
-                    showSnackBar(context, 'Debes describir el problema', Colors.red);
+                    showErrorSnackBar(context, 'Debes describir el problema');
                     problemFocusNode.requestFocus();
                   } else {
                     try {
@@ -117,11 +117,11 @@ class _HelpReportState extends State<HelpReport> {
 
                       sendReport(newReport, sendAccountData);
                       Navigator.pop(context);
-                      showSnackBar(context, 'Problema reportado', Colors.green);
+                      showInfoSnackBar(context, 'Problema reportado, gracias');
 
                     } on Exception catch (e) {
                       debugPrint('[ERR] Could not send report: $e');
-                      showSnackBar(context, 'Ha ocurrido un error', Colors.red);
+                      showErrorSnackBar(context, 'Ha ocurrido un error');
                     }
                   }
             }),
