@@ -300,7 +300,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                             await cancelNoteNotification(note.id);
                             await deleteNoteById(note.id);
                             Navigator.pop(context);
-                            showInfoSnackBar(context, 'Nota eliminada');
+                            showInfoSnackBar(context, 'Nota eliminada.');
                           },
                           child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
                       TextButton(

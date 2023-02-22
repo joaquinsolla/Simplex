@@ -20,6 +20,17 @@ void showErrorSnackBar(BuildContext context, String content) {
 
 void showInfoSnackBar(BuildContext context, String content) {
 
+  // MAX: 0.1 on length 35
+  // MIN: 0.425 on length 1
+  late double sideMarginProportion;
+
+  if (content.length<35){
+    sideMarginProportion = 0.425 - (content.length * 0.00975 * fontSize);
+  } else {
+    sideMarginProportion = 0.1;
+  }
+
+
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Row(
@@ -28,12 +39,13 @@ void showInfoSnackBar(BuildContext context, String content) {
         children: [
           Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-            child: Image.asset('assets/icon_small_rounded.png', width: 20*fontSize, height: 20*fontSize,),
+            margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+            child:Image.asset('assets/icon_rounded.png', width: 20*fontSize, height: 20*fontSize,),
           ),
           Container(
+            width: deviceWidth - (deviceWidth*sideMarginProportion*2) - (20*fontSize + 30),
             alignment: Alignment.center,
-            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+            margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: Text(content,
               style: TextStyle(
                 fontSize: 14*fontSize,
@@ -43,12 +55,13 @@ void showInfoSnackBar(BuildContext context, String content) {
         ],
       ),
       duration: const Duration(milliseconds: 2000),
-      padding: const EdgeInsets.fromLTRB(0, 3, 0, 3),
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(10.0),
       ),
-      margin: EdgeInsets.fromLTRB(deviceWidth*0.225, 0, deviceWidth*0.225, deviceHeight*0.125),
+      margin: EdgeInsets.fromLTRB(deviceWidth*sideMarginProportion, 0,
+          deviceWidth*sideMarginProportion, deviceHeight*0.15),
     ),
   );
 

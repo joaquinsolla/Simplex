@@ -669,7 +669,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     await cancelAllTodoNotifications(id);
                     await deleteTodoById(id);
                     Navigator.pop(context);
-                    showInfoSnackBar(context, 'Tarea eliminada');
+                    showInfoSnackBar(context, 'Tarea eliminada.');
                   },
                   child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
               TextButton(
@@ -695,7 +695,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   onPressed: () async {
                     await deleteDoneTodos();
                     Navigator.pop(context);
-                    showInfoSnackBar(context, 'Tareas completadas eliminadas');
+                    showInfoSnackBar(context, 'Tareas completadas eliminadas.');
                   },
                   child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
               TextButton(

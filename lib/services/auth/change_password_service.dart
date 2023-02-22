@@ -206,7 +206,7 @@ class _ChangePasswordServiceState extends State<ChangePasswordService> {
 
     if (hasErrors==false) try {
       await FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
-      showInfoSnackBar(context, 'Contraseña actualizada');
+      showInfoSnackBar(context, 'Contraseña actualizada.');
       debugPrint('[OK] Password updated');
     } on Exception catch (e){
       showErrorSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo');

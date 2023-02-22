@@ -64,7 +64,7 @@ class _SettingsFontState extends State<SettingsFont> {
                         min: 0.8,
                         divisions: 4,
                         activeColor: Color(0xff40C4FF),
-                        label: 'Muy pequeña',
+                        label: 'Muy pequeño',
                         onChanged: (val) {
                           setState(() {
                             previewFontSize = val;
@@ -80,7 +80,7 @@ class _SettingsFontState extends State<SettingsFont> {
                         min: 0.8,
                         divisions: 4,
                         activeColor: Color(0xff1eb3ff),
-                        label: 'Pequeña',
+                        label: 'Pequeño',
                         onChanged: (val) {
                           setState(() {
                             previewFontSize = val;
@@ -160,6 +160,13 @@ class _SettingsFontState extends State<SettingsFont> {
                       setState(() {
                         homeIndex = 0;
                       });
+
+                      late String stringSize = 'Normal';
+                      if (previewFontSize == 0.8) stringSize = 'Muy pequeño';
+                      else if (previewFontSize == 0.9) stringSize = 'Pequeño';
+                      else if (previewFontSize == 1.1) stringSize = 'Grande';
+                      else if (previewFontSize == 1.2) stringSize = 'Muy Grande';
+                      showInfoSnackBar(context, 'Tamaño de texto ajustado: ' + stringSize + '.');
                     }
                 ),
               ],

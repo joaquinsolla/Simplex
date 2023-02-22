@@ -252,7 +252,7 @@ class _EditTodoState extends State<EditTodo> {
                   if (limited) buildTodoNotifications(id, 'Tarea pendiente: ' + nameController.text, limitDate);
 
                   Navigator.of(context).popUntil((route) => route.isFirst);
-                  showInfoSnackBar(context, 'Tarea actualizada');
+                  showInfoSnackBar(context, 'Tarea actualizada.');
                 } on Exception catch (e) {
                   debugPrint('[ERR] Could not update todo: $e');
                   showErrorSnackBar(context, 'Ha ocurrido un error');

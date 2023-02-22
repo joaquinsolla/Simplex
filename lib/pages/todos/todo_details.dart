@@ -224,7 +224,7 @@ class _TodoDetailsState extends State<TodoDetails> {
                           await cancelAllTodoNotifications(selectedTodo!.id);
                           await deleteTodoById(selectedTodo!.id);
                           Navigator.of(context).popUntil((route) => route.isFirst);
-                          showInfoSnackBar(context, 'Tarea eliminada');
+                          showInfoSnackBar(context, 'Tarea eliminada.');
                         },
                         child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
                     TextButton(

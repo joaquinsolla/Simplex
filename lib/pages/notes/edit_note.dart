@@ -165,7 +165,7 @@ class _EditNoteState extends State<EditNote> {
                 if (onCalendar) buildNoteNotification(id, nameController.text, calendarDate);
 
                 Navigator.of(context).popUntil((route) => route.isFirst);
-                showInfoSnackBar(context, 'Nota actualizada');
+                showInfoSnackBar(context, 'Nota actualizada.');
               } on Exception catch (e) {
                 debugPrint('[ERR] Could not update note: $e');
                 showErrorSnackBar(context, 'Ha ocurrido un error');

@@ -122,7 +122,7 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(
           email: emailController.text.trim());
-      showInfoSnackBar(context, 'Se ha enviado un email de recuperación, comprueba tu bandeja de entrada');
+      showInfoSnackBar(context, 'Se ha enviado un email de recuperación, comprueba tu bandeja de entrada.');
       debugPrint('[OK] Password recovery email sent');
     } on FirebaseAuthException catch (e){
       if (e.message!.contains('There is no user record corresponding to this identifier. The user may have been deleted.'))

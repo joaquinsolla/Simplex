@@ -117,7 +117,7 @@ class _HelpReportState extends State<HelpReport> {
 
                       sendReport(newReport, sendAccountData);
                       Navigator.pop(context);
-                      showInfoSnackBar(context, 'Problema reportado, gracias');
+                      showInfoSnackBar(context, 'Problema reportado, gracias.');
 
                     } on Exception catch (e) {
                       debugPrint('[ERR] Could not send report: $e');

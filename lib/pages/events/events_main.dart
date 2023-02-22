@@ -434,7 +434,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                           await cancelAllEventNotifications(event.id);
                           await deleteEventById(event.id);
                           Navigator.pop(context);
-                          showInfoSnackBar(context, 'Evento eliminado');
+                          showInfoSnackBar(context, 'Evento eliminado.');
                         },
                         child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
                     TextButton(
@@ -641,7 +641,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                             await cancelAllTodoNotifications(todo.id);
                             await deleteTodoById(todo.id);
                             Navigator.pop(context);
-                            showInfoSnackBar(context, 'Tarea eliminada');
+                            showInfoSnackBar(context, 'Tarea eliminada.');
                           },
                           child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
                       TextButton(
@@ -825,7 +825,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                             await cancelNoteNotification(note.id);
                             await deleteNoteById(note.id);
                             Navigator.pop(context);
-                            showInfoSnackBar(context, 'Nota eliminada');
+                            showInfoSnackBar(context, 'Nota eliminada.');
                           },
                           child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
                       TextButton(

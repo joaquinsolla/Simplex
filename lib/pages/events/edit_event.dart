@@ -490,7 +490,7 @@ class _EditEventState extends State<EditEvent> {
                           newFullDateTime);
 
                       Navigator.of(context).popUntil((route) => route.isFirst);
-                      showInfoSnackBar(context, 'Evento actualizado');
+                      showInfoSnackBar(context, 'Evento actualizado.');
                     } on Exception catch (e) {
                       debugPrint('[ERR] Could not edit event: $e');
                       showErrorSnackBar(context, 'Ha ocurrido un error');
