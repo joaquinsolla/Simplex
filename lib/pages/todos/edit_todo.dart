@@ -249,7 +249,7 @@ class _EditTodoState extends State<EditTodo> {
                   );
                   updateTodo(newTodo);
                   cancelAllTodoNotifications(id);
-                  if (limited) buildTodoNotifications(id, 'Tarea: ' + nameController.text, limitDate);
+                  if (limited) buildTodoNotifications(id, 'Tarea pendiente: ' + nameController.text, limitDate);
 
                   Navigator.of(context).popUntil((route) => route.isFirst);
                   showSnackBar(context, 'Tarea actualizada', Colors.green);

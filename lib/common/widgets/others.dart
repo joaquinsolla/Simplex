@@ -13,7 +13,7 @@ Row CustomDivider (String label){
 
     Text(label, style: TextStyle(
         color: colorSecondText,
-        fontSize: deviceWidth * fontSize * 0.0375,
+        fontSize: deviceWidth * fontSize * 0.03,
         fontWeight: FontWeight.normal),),
 
     Expanded(

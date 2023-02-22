@@ -567,7 +567,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
             ),
           ),
           onPressed: () {
-            toggleTodo(todo.id, !todo.done);
+            toggleTodo(todo.id, todo.name, todo.limited, todo.limitDate, !todo.done);
           },
         ),
         FocusedMenuItem(

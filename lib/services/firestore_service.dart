@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:simplex/classes/all_classes.dart';
+import 'package:simplex/common/all_common.dart';
 
 /// USER DOC
 Future createUserDoc() async{
@@ -164,9 +165,14 @@ Future createTodo(Todo todo) async{
   debugPrint('[OK] Todo created');
 }
 
-toggleTodo(int id, bool newDone) async{
+toggleTodo(int id, String name, bool limited, DateTime limitDate, bool newDone) async{
   final doc = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('todos').doc(id.toString());
+
+  if (limited){
+    if (newDone) cancelAllTodoNotifications(id);
+    else if (limitDate.isAfter(DateTime.now())) buildTodoNotifications(id, 'Tarea pendiente: ' + name, limitDate);
+  }
 
   await doc.update({
     'done': newDone,

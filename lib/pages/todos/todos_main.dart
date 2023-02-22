@@ -267,7 +267,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
             splashRadius: 0.0001,
             icon: Icon(Icons.circle_outlined, color: colorSecondText,
                 size: deviceWidth * 0.07),
-            onPressed: () => toggleTodo(todo.id, true),
+            onPressed: () => toggleTodo(todo.id, todo.name, todo.limited, todo.limitDate, true),
           ),
         ),
         FocusedMenuHolder(
@@ -318,7 +318,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                 ),
               ),
               onPressed: () {
-                toggleTodo(todo.id, !todo.done);
+                toggleTodo(todo.id, todo.name, todo.limited, todo.limitDate, !todo.done);
               },
             ),
             FocusedMenuItem(
@@ -460,7 +460,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
             splashRadius: 0.0001,
             icon: Icon(Icons.check_circle_outline_rounded, color: colorSecondText,
                 size: deviceWidth * 0.07),
-            onPressed: () => toggleTodo(todo.id, false),
+            onPressed: () => toggleTodo(todo.id, todo.name, todo.limited, todo.limitDate, false),
           ),
         ),
         FocusedMenuHolder(
@@ -511,7 +511,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                 ),
               ),
               onPressed: () {
-                toggleTodo(todo.id, !todo.done);
+                toggleTodo(todo.id, todo.name, todo.limited, todo.limitDate, !todo.done);
               },
             ),
             FocusedMenuItem(
