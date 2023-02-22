@@ -157,6 +157,7 @@ class _AddNoteState extends State<AddNote> {
                     createNote(newNote);
                     if (onCalendar) buildNoteNotification(id, nameController.text, calendarDate);
                     Navigator.pop(context);
+                    showInfoSnackBar(context, 'Nota creada.');
                   } on Exception catch (e) {
                     debugPrint('[ERR] Could not create note: $e');
                     showErrorSnackBar(context, 'Ha ocurrido un error');

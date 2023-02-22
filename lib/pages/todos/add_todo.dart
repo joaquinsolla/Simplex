@@ -255,6 +255,7 @@ class _AddTodoState extends State<AddTodo> {
                   createTodo(newTodo);
                   if (limited) buildTodoNotifications(id, 'Tarea pendiente: ' + nameController.text, limitDate);
                   Navigator.pop(context);
+                  showInfoSnackBar(context, 'Tarea creada.');
                 } on Exception catch (e) {
                   debugPrint('[ERR] Could not create todo: $e');
                   showErrorSnackBar(context, 'Ha ocurrido un error');

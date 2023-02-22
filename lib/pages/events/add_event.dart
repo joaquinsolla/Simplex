@@ -476,6 +476,7 @@ class _AddEventState extends State<AddEvent> {
                       notificationTitle, not5.values.first!,
                       fullEventDateTime);
                   Navigator.pop(context);
+                  showInfoSnackBar(context, 'Evento creado.');
                 } on Exception catch (e) {
                   debugPrint('[ERR] Could not create event: $e');
                   showErrorSnackBar(context, 'Ha ocurrido un error');
