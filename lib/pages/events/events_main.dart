@@ -275,7 +275,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                     ],
                   ),
 
-                  if (events.length == 0 && todos.length == 0 && notes.length == 0) NoItemsContainer('eventos', 0.225),
+                  if (events.length == 0 && todos.length == 0 && notes.length == 0) NoItemsContainer('eventos', 0.2),
 
                   Column(children: todos.map(buildTodoBox).toList(),),
 
