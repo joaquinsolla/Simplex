@@ -17,6 +17,8 @@ Future createUserDoc() async{
 
   await doc.set(json);
   debugPrint('[OK] User doc created');
+
+  createAllRoutines();
 }
 
 /// EVENTS MANAGEMENT
@@ -291,6 +293,54 @@ deleteNoteById(int noteId) async {
 
   await doc.delete();
   debugPrint('[OK] Note deleted');
+}
+
+/// ROUTINES MANAGEMENT
+/** Routines ids:
+ *    1 Monday
+ *    2 Tuesday
+ *    3 Wednesday
+ *    4 Thursday
+ *    5 Friday
+ *    6 Saturday
+ *    7 Sunday
+ */
+
+Future createAllRoutines() async{
+
+  final user = FirebaseAuth.instance.currentUser!;
+  late dynamic doc;
+
+  debugPrint('[OK] Creating routines:');
+
+  for (int i=1; i<=7; i++){
+    doc = FirebaseFirestore.instance.collection('users').doc(user.uid).collection('routines').doc(i.toString());
+
+    final json = {
+      'id': i,
+      'eventsList': [],
+      'todosList': [],
+      'notesList': [],
+    };
+
+    await doc.set(json);
+    debugPrint('   - Routine $i created');
+  }
+
+  debugPrint('[OK] All routines created');
+}
+
+updateRoutine(Routine routine) async {
+  final doc = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid)
+      .collection('notes').doc(routine.id.toString());
+
+  await doc.update({
+    'eventsList': routine.eventsList,
+    'todosList': routine.todosList,
+    'notesList': routine.notesList,
+  });
+
+  debugPrint('[OK] Routine ' + routine.id.toString() + ' updated');
 }
 
 /// REPORTS MANAGEMENT
