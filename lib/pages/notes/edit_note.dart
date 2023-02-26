@@ -50,127 +50,106 @@ class _EditNoteState extends State<EditNote> {
           PageHeader(context, 'Editar Nota'),
           FooterEmpty(),
           [
-        FormContainer([
-          FormTextField(
-              nameController, 'Título', '(Opcional)', nameFocusNode),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Contenido', style: TextStyle(color: colorMainText,fontSize: deviceWidth * fontSize *0.045, fontWeight: FontWeight.bold),),
-              SizedBox(height: deviceHeight*0.005),
-              TextField(
-                keyboardType: TextInputType.multiline,
-                textCapitalization: TextCapitalization.sentences,
-                textInputAction: TextInputAction.newline,
-                maxLines: null,
-                focusNode: contentFocusNode,
+            FormContainer([
+              FormTextField(
+                  nameController, 'Título:', '(Opcional)', nameFocusNode, false),
+              FormTextFieldMultiline(
+                  contentController, 'Contenido:', '(Opcional)', contentFocusNode, true),
+            ]),
+            FormSeparator(),
+            FormContainer([
+              Text(
+                'En el calendario:',
+                style: TextStyle(
+                    color: colorMainText,
+                    fontSize: deviceWidth * fontSize * 0.045,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: deviceHeight * 0.005),
+              CheckboxListTile(
+                activeColor: colorSpecialItem,
+                title: Text(
+                  'Mostrar nota en el calendario',
+                  style: TextStyle(
+                      color: colorMainText,
+                      fontSize: deviceWidth * fontSize * 0.04,
+                      fontWeight: FontWeight.normal),
+                ),
+                value: onCalendar,
+                onChanged: (val) {
+                  setState(() {
+                    onCalendar = val!;
+                    calendarDateController.clear();
+                    calendarDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+                  });
+                },
+                controlAffinity: ListTileControlAffinity.leading,
+              ),
+              if (onCalendar) SizedBox(height: deviceHeight * 0.005),
+              if (onCalendar) TextField(
+                controller: calendarDateController,
                 style: TextStyle(color: colorMainText),
-                controller: contentController,
+                readOnly: true,
                 decoration: InputDecoration(
                   fillColor: colorThirdBackground,
                   filled: true,
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: colorThirdBackground, width: 1),
+                    borderSide:
+                    BorderSide(color: colorThirdBackground, width: 1),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide:
-                    BorderSide(color: colorSpecialItem, width: 2),
+                    borderSide: BorderSide(color: colorSpecialItem, width: 2),
                   ),
-
-                  hintText: '(Opcional)',
-                  hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
+                  hintText: dateHintText,
+                  hintStyle: TextStyle(
+                      color: colorThirdText, fontStyle: FontStyle.italic),
                 ),
+                onTap: () => _dateSelector(context),
               ),
-            ],
-          )
-        ]),
-        SizedBox(height: deviceHeight * 0.025),
-        FormContainer([
-          Text(
-            'En el calendario',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.045,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: deviceHeight * 0.005),
-          CheckboxListTile(
-            activeColor: colorSpecialItem,
-            title: Text(
-              'Mostrar nota en el calendario',
-              style: TextStyle(
-                  color: colorMainText,
-                  fontSize: deviceWidth * fontSize * 0.04,
-                  fontWeight: FontWeight.normal),
-            ),
-            value: onCalendar,
-            onChanged: (val) {
-              setState(() {
-                onCalendar = val!;
-                calendarDateController.clear();
-                calendarDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-              });
-            },
-            controlAffinity: ListTileControlAffinity.leading,
-          ),
-          if (onCalendar) SizedBox(height: deviceHeight * 0.005),
-          if (onCalendar) TextField(
-            controller: calendarDateController,
-            style: TextStyle(color: colorMainText),
-            readOnly: true,
-            decoration: InputDecoration(
-              fillColor: colorThirdBackground,
-              filled: true,
-              enabledBorder: OutlineInputBorder(
-                borderSide:
-                BorderSide(color: colorThirdBackground, width: 1),
+              SizedBox(height: deviceHeight * 0.01),
+              Text(
+                'Las notas aparecerán en el calendario de Simplex en el día indicado.'
+                    ' También recibirás una notificación en esa fecha.',
+                style: TextStyle(
+                    color: colorMainText,
+                    fontSize: deviceWidth * fontSize * 0.03,
+                    fontWeight: FontWeight.normal,
+                    fontStyle: FontStyle.italic),
               ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: colorSpecialItem, width: 2),
-              ),
-              hintText: dateHintText,
-              hintStyle: TextStyle(
-                  color: colorThirdText, fontStyle: FontStyle.italic),
-            ),
-            onTap: () => _dateSelector(context),
-          ),
-          SizedBox(height: deviceHeight * 0.01),
-          Text(
-            'Las notas aparecerán en el calendario de Simplex en el día indicado.'
-                ' También recibirás una notificación en esa fecha.',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.03,
-                fontWeight: FontWeight.normal,
-                fontStyle: FontStyle.italic),
-          ),
-        ]),
-        SizedBox(height: deviceHeight * 0.025),
-        MainButton(
-            Icons.check_rounded,
-            colorSpecialItem,
-            ' Confirmar cambios ',
-                () {
-              try {
-                Note newNote = Note(
-                  id: id,
-                  name: nameController.text.trim(),
-                  content: contentController.text.trim(),
-                  onCalendar: onCalendar,
-                  calendarDate: calendarDate,
-                  modificationDate: DateTime.now(),
-                );
-                updateNote(newNote);
-                cancelNoteNotification(id);
-                if (onCalendar) buildNoteNotification(id, nameController.text, calendarDate);
+            ]),
+            FormSeparator(),
+            MainButton(
+                Icons.check_rounded,
+                colorSpecialItem,
+                ' Confirmar cambios ',
+                    () {
+                  try {
+                    Note newNote = Note(
+                      id: id,
+                      name: nameController.text.trim(),
+                      content: contentController.text.trim(),
+                      onCalendar: onCalendar,
+                      calendarDate: calendarDate,
+                      modificationDate: DateTime.now(),
+                    );
+                    updateNote(newNote);
+                    cancelNoteNotification(id);
+                    if (onCalendar) buildNoteNotification(id, nameController.text, calendarDate);
 
-                Navigator.of(context).popUntil((route) => route.isFirst);
-                showInfoSnackBar(context, 'Nota actualizada.');
-              } on Exception catch (e) {
-                debugPrint('[ERR] Could not update note: $e');
-                showErrorSnackBar(context, 'Ha ocurrido un error');
-              }
-            }),
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                    showInfoSnackBar(context, 'Nota actualizada.');
+                  } on Exception catch (e) {
+                    debugPrint('[ERR] Could not update note: $e');
+                    showErrorSnackBar(context, 'Ha ocurrido un error');
+                  }
+                }),
+            FormSeparator(),
+            MainButton(
+              Icons.close_rounded,
+              Colors.red,
+              ' Cancelar ',
+                  () => Navigator.pop(context),
+            ),
       ]
       ),
     );

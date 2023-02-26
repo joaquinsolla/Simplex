@@ -77,3 +77,76 @@ Container VisibilityButton(String text, bool visibility, Function() actions){
     ),
   );
 }
+
+Container FormSwitchButton(String text1, String text2, bool firstPage, Function() actions){
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      color: colorThirdBackground,
+    ),
+    padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (firstPage) Expanded(child: TextButton(
+          child: Text(
+            text1,
+            style: TextStyle(
+                color: colorSpecialItem,
+                fontSize: deviceWidth * fontSize * 0.04,
+                fontWeight: FontWeight.normal),
+          ),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(colorMainBackground),
+            overlayColor: MaterialStateProperty.all(colorSpecialItem.withOpacity(0.1)),
+          ),
+          onPressed: (){},
+        )),
+        if (!firstPage) Expanded(child: TextButton(
+          child: Text(
+            text1,
+            style: TextStyle(
+                color: colorSpecialItem,
+                fontSize: deviceWidth * fontSize * 0.04,
+                fontWeight: FontWeight.normal),
+          ),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(colorThirdBackground),
+            overlayColor: MaterialStateProperty.all(colorSpecialItem.withOpacity(0.1)),
+          ),
+          onPressed: actions,
+        )),
+
+        if (firstPage) Expanded(child: TextButton(
+          child: Text(
+            text2,
+            style: TextStyle(
+                color: colorSpecialItem,
+                fontSize: deviceWidth * fontSize * 0.04,
+                fontWeight: FontWeight.normal),
+          ),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(colorThirdBackground),
+            overlayColor: MaterialStateProperty.all(colorSpecialItem.withOpacity(0.1)),
+          ),
+          onPressed: actions,
+        )),
+        if (!firstPage) Expanded(child: TextButton(
+          child: Text(
+            text2,
+            style: TextStyle(
+                color: colorSpecialItem,
+                fontSize: deviceWidth * fontSize * 0.04,
+                fontWeight: FontWeight.normal),
+          ),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(colorMainBackground),
+            overlayColor: MaterialStateProperty.all(colorSpecialItem.withOpacity(0.1)),
+          ),
+          onPressed: (){},
+        )),
+        ],
+    ),
+  );
+}

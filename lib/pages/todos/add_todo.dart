@@ -51,42 +51,14 @@ class _AddTodoState extends State<AddTodo> {
           [
         FormContainer([
           FormTextField(
-              nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Descripción', style: TextStyle(color: colorMainText,fontSize: deviceWidth * fontSize *0.045, fontWeight: FontWeight.bold),),
-              SizedBox(height: deviceHeight*0.005),
-              TextField(
-                keyboardType: TextInputType.text,
-                textCapitalization: TextCapitalization.sentences,
-                textInputAction: TextInputAction.done,
-                maxLines: null,
-                focusNode: descriptionFocusNode,
-                style: TextStyle(color: colorMainText),
-                controller: descriptionController,
-                decoration: InputDecoration(
-                  fillColor: colorThirdBackground,
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: colorThirdBackground, width: 1),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide:
-                    BorderSide(color: colorSpecialItem, width: 2),
-                  ),
-
-                  hintText: '(Opcional)',
-                  hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
-                ),
-              ),
-            ],
-          )
+              nameController, 'Nombre:', '(Obligatorio)', nameFocusNode, false),
+          FormTextField(
+              descriptionController, 'Descripción:', '(Opcional)', descriptionFocusNode, true),
         ]),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         FormContainer([
           Text(
-            'Prioridad',
+            'Prioridad:',
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * fontSize * 0.045,
@@ -170,10 +142,10 @@ class _AddTodoState extends State<AddTodo> {
           ),
 
         ]),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         FormContainer([
           Text(
-            'Fecha límite',
+            'Fecha límite:',
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * fontSize * 0.045,
@@ -223,8 +195,9 @@ class _AddTodoState extends State<AddTodo> {
           ),
           SizedBox(height: deviceHeight * 0.01),
           Text(
-            'Las tareas con fecha límite aparecerán en el calenario y se notificará '
-                'cuando alcancen dicha fecha si todavía no se han hecho.',
+            'Las tareas con fecha límite aparecerán en el calenario y se te '
+                'notificará cuando alcancen dicha fecha si todavía no se han '
+                'completado.',
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * fontSize * 0.03,
@@ -232,7 +205,7 @@ class _AddTodoState extends State<AddTodo> {
                 fontStyle: FontStyle.italic),
           ),
         ]),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         MainButton(
             Icons.check_rounded,
             colorSpecialItem,

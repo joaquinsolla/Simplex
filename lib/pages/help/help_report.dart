@@ -39,38 +39,10 @@ class _HelpReportState extends State<HelpReport> {
           FooterCredits(),
           [
         FormContainer([
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Problema', style: TextStyle(color: colorMainText,fontSize: deviceWidth * fontSize * 0.045, fontWeight: FontWeight.bold),),
-              SizedBox(height: deviceHeight*0.005),
-              TextField(
-                keyboardType: TextInputType.multiline,
-                textCapitalization: TextCapitalization.sentences,
-                textInputAction: TextInputAction.newline,
-                maxLines: null,
-                focusNode: problemFocusNode,
-                style: TextStyle(color: colorMainText),
-                controller: problemController,
-                decoration: InputDecoration(
-                  fillColor: colorThirdBackground,
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: colorThirdBackground, width: 1),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide:
-                    BorderSide(color: colorSpecialItem, width: 2),
-                  ),
+          FormTextField(problemController, 'Problema', 'Describe el problema', problemFocusNode, true),
 
-                  hintText: 'Describe el problema',
-                  hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
-                ),
-              ),
-            ],
-          ),
         ]),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         FormContainer([
           Text(
             'Información de la cuenta',
@@ -98,7 +70,7 @@ class _HelpReportState extends State<HelpReport> {
             controlAffinity: ListTileControlAffinity.leading,
           ),
         ]),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         MainButton(Icons.report_gmailerrorred_rounded, Colors.red, ' Reportar '
             'problema ',
                 () {
@@ -125,7 +97,7 @@ class _HelpReportState extends State<HelpReport> {
                     }
                   }
             }),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         Text('Es posible que el problema sea más fácil de resolver si se adjunta'
             ' cierta información de la cuenta como el email o el id de '
             'cuenta. También podremos informarte con un email cuando tu '

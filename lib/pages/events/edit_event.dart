@@ -83,429 +83,382 @@ class _EditEventState extends State<EditEvent> {
           PageHeader(context, 'Editar evento'),
           FooterEmpty(),
           [
-        FormContainer([
-          FormTextField(nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
-          FormTextField(descriptionController, 'Descripción', '(Opcional)', descriptionFocusNode),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            FormContainer([
+              FormTextField(nameController, 'Nombre:', '(Obligatorio)', nameFocusNode, false),
+              FormTextField(descriptionController, 'Descripción:', '(Opcional)', descriptionFocusNode, true),
+            ]),
+            FormSeparator(),
+            FormContainer([
+              FormDateTimeSelector(
+                  dateController,
+                  'Fecha:',
+                  '',
+                  dateFocusNode,
+                      () => _dateSelector(context),
+                  false
+              ),
+              FormDateTimeSelector(
+                  timeController,
+                  'Hora:',
+                  '',
+                  timeFocusNode,
+                      () => _timeSelector(context),
+                  true
+              ),
+            ]),
+            FormSeparator(),
+            FormContainer([
               Text(
-                'Fecha',
+                'Color:',
                 style: TextStyle(
                     color: colorMainText,
                     fontSize: deviceWidth * fontSize * 0.045,
                     fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: deviceHeight * 0.005),
-              TextField(
-                focusNode: dateFocusNode,
-                controller: dateController,
-                style: TextStyle(color: colorMainText),
-                readOnly: true,
-                decoration: InputDecoration(
-                  fillColor: colorThirdBackground,
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide:
-                    BorderSide(color: colorThirdBackground, width: 1),
+              SizedBox(height: deviceHeight * 0.015),
+              Container(
+                alignment: Alignment.center,
+                child: Wrap(children: [
+                  Theme(
+                      data: Theme.of(context).copyWith(
+                        unselectedWidgetColor: colorThirdBackground,
+                        disabledColor: colorThirdBackground,
+                      ),
+                      child: Radio(
+                        value: -1,
+                        groupValue: selectedColor,
+                        activeColor: colorThirdBackground,
+                        onChanged: (val) {
+                          setState(() {
+                            selectedColor = val as int;
+                          });
+                        },
+                      )
                   ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: colorSpecialItem, width: 2),
-                  ),
-                ),
-                onTap: () => _dateSelector(context),
-              ),
-            ],
-          ),
-          SizedBox(height: deviceHeight*0.025),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Hora',
-                style: TextStyle(
-                    color: colorMainText,
-                    fontSize: deviceWidth * fontSize * 0.045,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: deviceHeight * 0.005),
-              TextField(
-                focusNode: timeFocusNode,
-                controller: timeController,
-                style: TextStyle(color: colorMainText),
-                readOnly: true,
-                decoration: InputDecoration(
-                  fillColor: colorThirdBackground,
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide:
-                    BorderSide(color: colorThirdBackground, width: 1),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: colorSpecialItem, width: 2),
-                  ),
-                ),
-                onTap: () => _timeSelector(context),
-              ),
-            ],
-          ),
-          SizedBox(height: deviceHeight * 0.01),
-
-
-        ]),
-        SizedBox(height: deviceHeight * 0.025),
-        FormContainer([
-          Text(
-            'Color',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.045,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: deviceHeight * 0.015),
-          Container(
-            alignment: Alignment.center,
-            child: Wrap(children: [
-              Theme(
-                  data: Theme.of(context).copyWith(
-                    unselectedWidgetColor: colorThirdBackground,
-                    disabledColor: colorThirdBackground,
-                  ),
-                  child: Radio(
-                    value: -1,
-                    groupValue: selectedColor,
-                    activeColor: colorThirdBackground,
-                    onChanged: (val) {
-                      setState(() {
-                        selectedColor = val as int;
-                      });
-                    },
-                  )
-              ),
-              Theme(
-                data: Theme.of(context).copyWith(
-                  unselectedWidgetColor: const Color(0xffF44336),
-                  disabledColor: const Color(0xffF44336),
-                ),
-                child: Radio(
-                  value: 0xffF44336,
-                  groupValue: selectedColor,
-                  activeColor: const Color(0xffF44336),
-                  onChanged: (val) {
-                    setState(() {
-                      selectedColor = val as int;
-                    });
-                  },
-                ),
-              ),
-              Theme(
-                data: Theme.of(context).copyWith(
-                  unselectedWidgetColor: const Color(0xffFF9800),
-                  disabledColor: const Color(0xffFF9800),
-                ),
-                child: Radio(
-                  value: 0xffFF9800,
-                  groupValue: selectedColor,
-                  activeColor: const Color(0xffFF9800),
-                  onChanged: (val) {
-                    setState(() {
-                      selectedColor = val as int;
-                    });
-                  },
-                ),
-              ),
-              Theme(
-                data: Theme.of(context).copyWith(
-                  unselectedWidgetColor: const Color(0xff4CAF50),
-                  disabledColor: const Color(0xff4CAF50),
-                ),
-                child: Radio(
-                  value: 0xff4CAF50,
-                  groupValue: selectedColor,
-                  activeColor: const Color(0xff4CAF50),
-                  onChanged: (val) {
-                    setState(() {
-                      selectedColor = val as int;
-                    });
-                  },
-                ),
-              ),
-              Theme(
-                data: Theme.of(context).copyWith(
-                  unselectedWidgetColor: const Color(0xff448AFF),
-                  disabledColor: const Color(0xff448AFF),
-                ),
-                child: Radio(
-                  value: 0xff448AFF,
-                  groupValue: selectedColor,
-                  activeColor: const Color(0xff448AFF),
-                  onChanged: (val) {
-                    setState(() {
-                      selectedColor = val as int;
-                    });
-                  },
-                ),
-              ),
-              Theme(
-                data: Theme.of(context).copyWith(
-                  unselectedWidgetColor: const Color(0xff7C4DFF),
-                  disabledColor: const Color(0xff7C4DFF),
-                ),
-                child: Radio(
-                  value: 0xff7C4DFF,
-                  groupValue: selectedColor,
-                  activeColor: const Color(0xff7C4DFF),
-                  onChanged: (val) {
-                    setState(() {
-                      selectedColor = val as int;
-                    });
-                  },
-                ),
-              ),
-            ],),
-          ),
-        ]),
-
-        SizedBox(height: deviceHeight * 0.025),
-        FormContainer([
-          Text(
-            'Notificaciones',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.045,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: deviceHeight * 0.015),
-
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(notificationsList.length,(index){
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(formatEventNotificationDate(notificationsList[index].values.first),
-                          style: TextStyle(
-                              color: colorMainText,
-                              fontSize: deviceWidth * fontSize * 0.04,
-                              fontWeight: FontWeight.normal),),
-                        Expanded(child: Text(''),),
-                        Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth*0.055,),
-                      ],
+                  Theme(
+                    data: Theme.of(context).copyWith(
+                      unselectedWidgetColor: const Color(0xffF44336),
+                      disabledColor: const Color(0xffF44336),
                     ),
-                    onPressed: (){
+                    child: Radio(
+                      value: 0xffF44336,
+                      groupValue: selectedColor,
+                      activeColor: const Color(0xffF44336),
+                      onChanged: (val) {
+                        setState(() {
+                          selectedColor = val as int;
+                        });
+                      },
+                    ),
+                  ),
+                  Theme(
+                    data: Theme.of(context).copyWith(
+                      unselectedWidgetColor: const Color(0xffFF9800),
+                      disabledColor: const Color(0xffFF9800),
+                    ),
+                    child: Radio(
+                      value: 0xffFF9800,
+                      groupValue: selectedColor,
+                      activeColor: const Color(0xffFF9800),
+                      onChanged: (val) {
+                        setState(() {
+                          selectedColor = val as int;
+                        });
+                      },
+                    ),
+                  ),
+                  Theme(
+                    data: Theme.of(context).copyWith(
+                      unselectedWidgetColor: const Color(0xff4CAF50),
+                      disabledColor: const Color(0xff4CAF50),
+                    ),
+                    child: Radio(
+                      value: 0xff4CAF50,
+                      groupValue: selectedColor,
+                      activeColor: const Color(0xff4CAF50),
+                      onChanged: (val) {
+                        setState(() {
+                          selectedColor = val as int;
+                        });
+                      },
+                    ),
+                  ),
+                  Theme(
+                    data: Theme.of(context).copyWith(
+                      unselectedWidgetColor: const Color(0xff448AFF),
+                      disabledColor: const Color(0xff448AFF),
+                    ),
+                    child: Radio(
+                      value: 0xff448AFF,
+                      groupValue: selectedColor,
+                      activeColor: const Color(0xff448AFF),
+                      onChanged: (val) {
+                        setState(() {
+                          selectedColor = val as int;
+                        });
+                      },
+                    ),
+                  ),
+                  Theme(
+                    data: Theme.of(context).copyWith(
+                      unselectedWidgetColor: const Color(0xff7C4DFF),
+                      disabledColor: const Color(0xff7C4DFF),
+                    ),
+                    child: Radio(
+                      value: 0xff7C4DFF,
+                      groupValue: selectedColor,
+                      activeColor: const Color(0xff7C4DFF),
+                      onChanged: (val) {
+                        setState(() {
+                          selectedColor = val as int;
+                        });
+                      },
+                    ),
+                  ),
+                ],),
+              ),
+            ]),
+            FormSeparator(),
+            FormContainer([
+              Text(
+                'Notificaciones:',
+                style: TextStyle(
+                    color: colorMainText,
+                    fontSize: deviceWidth * fontSize * 0.045,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: deviceHeight * 0.015),
+
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(notificationsList.length,(index){
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(formatEventNotificationDate(notificationsList[index].values.first),
+                              style: TextStyle(
+                                  color: colorMainText,
+                                  fontSize: deviceWidth * fontSize * 0.04,
+                                  fontWeight: FontWeight.normal),),
+                            Expanded(child: Text(''),),
+                            Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth*0.055,),
+                          ],
+                        ),
+                        onPressed: (){
+                          setState(() {
+                            if (not1.keys.first == notificationsList[index].keys.first){
+                              notificationsList.remove(not1);
+                              not1 = {null: null};
+                            } else if (not2.keys.first == notificationsList[index].keys.first){
+                              notificationsList.remove(not2);
+                              not2 = {null: null};
+                            } else if (not3.keys.first == notificationsList[index].keys.first){
+                              notificationsList.remove(not3);
+                              not3 = {null: null};
+                            } else if (not4.keys.first == notificationsList[index].keys.first){
+                              notificationsList.remove(not4);
+                              not4 = {null: null};
+                            } else {
+                              notificationsList.remove(not5);
+                              not5 = {null: null};
+                            }
+                          });
+                        },
+                      ),
+                      if (index < 4) Divider(color: colorSecondText,),
+                    ],
+                  );
+                }),
+              ),
+              if (notificationsList.length<5) TextButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.add_rounded, color: colorSpecialItem, size: deviceWidth*0.055,),
+                    Text(' Añadir notificación ', style: TextStyle(
+                        color: colorSpecialItem,
+                        fontSize: deviceWidth * fontSize * 0.04,
+                        fontWeight: FontWeight.normal),),
+                    Icon(Icons.add_rounded, color: Colors.transparent, size: deviceWidth*0.055,),
+                  ],
+                ),
+                onPressed: () async {
+                  late String notId;
+                  late DateTime notDate;
+                  late TimeOfDay notTime;
+                  late DateTime notDateTime;
+
+                  final DateTime? dateSelected = await showDatePicker(
+                    context: context,
+                    locale: appLocale,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime(2099, 12, 31),
+                    helpText: "SELECCIONA LA FECHA DE NOTIFICACIÓN",
+                    cancelText: "CANCELAR",
+                    confirmText: "CONFIRMAR",
+                    fieldHintText: "dd/mm/aaaa",
+                    fieldLabelText: "Fecha de notificación",
+                    errorFormatText: "Introduce una fecha válida",
+                    builder: (context, child) {
+                      if (darkMode) return Theme(
+                        data: ThemeData.dark().copyWith(
+                          primaryColor: colorSpecialItem,
+                          colorScheme: ColorScheme.dark(
+                              primary: colorSpecialItem),
+                          buttonTheme: ButtonThemeData(
+                              textTheme: ButtonTextTheme.primary
+                          ),
+                        ),
+                        child: child!,
+                      );
+                      else return Theme(
+                        data: ThemeData.light().copyWith(
+                          primaryColor: colorSpecialItem,
+                          colorScheme: ColorScheme.light(
+                              primary: colorSpecialItem),
+                          buttonTheme: ButtonThemeData(
+                              textTheme: ButtonTextTheme.primary
+                          ),
+                        ),
+                        child: child!,
+                      );
+                    },
+                  );
+                  if (dateSelected != null) {
+                    notDate = dateSelected;
+                    final TimeOfDay? timeSelected = await showTimePicker(
+                      context: context,
+                      helpText: "SELECCIONA LA HORA DE NOTIFICACIÓN",
+                      cancelText: "CANCELAR",
+                      confirmText: "CONFIRMAR",
+                      initialTime: TimeOfDay(hour: 0, minute: 0),
+                      initialEntryMode: TimePickerEntryMode.dial,
+                      builder: (context, child) {
+                        if (darkMode) return Theme(
+                          data: ThemeData.dark().copyWith(
+                            primaryColor: colorSpecialItem,
+                            colorScheme: ColorScheme.dark(
+                                primary: colorSpecialItem),
+                            buttonTheme: ButtonThemeData(
+                                textTheme: ButtonTextTheme.primary
+                            ),
+                          ),
+                          child: child!,
+                        );
+                        else return Theme(
+                          data: ThemeData.light().copyWith(
+                            primaryColor: colorSpecialItem,
+                            colorScheme: ColorScheme.light(
+                                primary: colorSpecialItem),
+                            buttonTheme: ButtonThemeData(
+                                textTheme: ButtonTextTheme.primary
+                            ),
+                          ),
+                          child: child!,
+                        );
+                      },
+                    );
+                    if (timeSelected != null) {
+                      notTime = timeSelected;
+                      notDateTime = DateTime(notDate.year, notDate.month, notDate.day, notTime.hour, notTime.minute);
                       setState(() {
-                        if (not1.keys.first == notificationsList[index].keys.first){
-                          notificationsList.remove(not1);
-                          not1 = {null: null};
-                        } else if (not2.keys.first == notificationsList[index].keys.first){
-                          notificationsList.remove(not2);
-                          not2 = {null: null};
-                        } else if (not3.keys.first == notificationsList[index].keys.first){
-                          notificationsList.remove(not3);
-                          not3 = {null: null};
-                        } else if (not4.keys.first == notificationsList[index].keys.first){
-                          notificationsList.remove(not4);
-                          not4 = {null: null};
+                        if (not1.keys.first == null){
+                          notId = '1'+selectedEvent!.id.toString();
+                          not1 = {notId: notDateTime};
+                          notificationsList.add(not1);
+                        } else if (not2.keys.first == null){
+                          notId = ('2'+selectedEvent!.id.toString());
+                          not2 = {notId: notDateTime};
+                          notificationsList.add(not2);
+                        } else if (not3.keys.first == null){
+                          notId = ('3'+selectedEvent!.id.toString());
+                          not3 = {notId: notDateTime};
+                          notificationsList.add(not3);
+                        } else if (not4.keys.first == null){
+                          notId = ('4'+selectedEvent!.id.toString());
+                          not4 = {notId: notDateTime};
+                          notificationsList.add(not4);
                         } else {
-                          notificationsList.remove(not5);
-                          not5 = {null: null};
+                          notId = ('5'+selectedEvent!.id.toString());
+                          not5 = {notId: notDateTime};
+                          notificationsList.add(not5);
                         }
                       });
-                    },
-                  ),
-                  if (index < 4) Divider(color: colorSecondText,),
-                ],
-              );
-            }),
-          ),
-          if (notificationsList.length<5) TextButton(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.add_rounded, color: colorSpecialItem, size: deviceWidth*0.055,),
-                Text(' Añadir notificación ', style: TextStyle(
-                    color: colorSpecialItem,
-                    fontSize: deviceWidth * fontSize * 0.04,
-                    fontWeight: FontWeight.normal),),
-                Icon(Icons.add_rounded, color: Colors.transparent, size: deviceWidth*0.055,),
-              ],
-            ),
-            onPressed: () async {
-              late String notId;
-              late DateTime notDate;
-              late TimeOfDay notTime;
-              late DateTime notDateTime;
-
-              final DateTime? dateSelected = await showDatePicker(
-                context: context,
-                locale: appLocale,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime(2099, 12, 31),
-                helpText: "SELECCIONA LA FECHA DE NOTIFICACIÓN",
-                cancelText: "CANCELAR",
-                confirmText: "CONFIRMAR",
-                fieldHintText: "dd/mm/aaaa",
-                fieldLabelText: "Fecha de notificación",
-                errorFormatText: "Introduce una fecha válida",
-                builder: (context, child) {
-                  if (darkMode) return Theme(
-                    data: ThemeData.dark().copyWith(
-                      primaryColor: colorSpecialItem,
-                      colorScheme: ColorScheme.dark(
-                          primary: colorSpecialItem),
-                      buttonTheme: ButtonThemeData(
-                          textTheme: ButtonTextTheme.primary
-                      ),
-                    ),
-                    child: child!,
-                  );
-                  else return Theme(
-                    data: ThemeData.light().copyWith(
-                      primaryColor: colorSpecialItem,
-                      colorScheme: ColorScheme.light(
-                          primary: colorSpecialItem),
-                      buttonTheme: ButtonThemeData(
-                          textTheme: ButtonTextTheme.primary
-                      ),
-                    ),
-                    child: child!,
-                  );
-                },
-              );
-              if (dateSelected != null) {
-                notDate = dateSelected;
-                final TimeOfDay? timeSelected = await showTimePicker(
-                  context: context,
-                  helpText: "SELECCIONA LA HORA DE NOTIFICACIÓN",
-                  cancelText: "CANCELAR",
-                  confirmText: "CONFIRMAR",
-                  initialTime: TimeOfDay(hour: 0, minute: 0),
-                  initialEntryMode: TimePickerEntryMode.dial,
-                  builder: (context, child) {
-                    if (darkMode) return Theme(
-                      data: ThemeData.dark().copyWith(
-                        primaryColor: colorSpecialItem,
-                        colorScheme: ColorScheme.dark(
-                            primary: colorSpecialItem),
-                        buttonTheme: ButtonThemeData(
-                            textTheme: ButtonTextTheme.primary
-                        ),
-                      ),
-                      child: child!,
-                    );
-                    else return Theme(
-                      data: ThemeData.light().copyWith(
-                        primaryColor: colorSpecialItem,
-                        colorScheme: ColorScheme.light(
-                            primary: colorSpecialItem),
-                        buttonTheme: ButtonThemeData(
-                            textTheme: ButtonTextTheme.primary
-                        ),
-                      ),
-                      child: child!,
-                    );
-                  },
-                );
-                if (timeSelected != null) {
-                  notTime = timeSelected;
-                  notDateTime = DateTime(notDate.year, notDate.month, notDate.day, notTime.hour, notTime.minute);
-                  setState(() {
-                    if (not1.keys.first == null){
-                      notId = '1'+selectedEvent!.id.toString();
-                      not1 = {notId: notDateTime};
-                      notificationsList.add(not1);
-                    } else if (not2.keys.first == null){
-                      notId = ('2'+selectedEvent!.id.toString());
-                      not2 = {notId: notDateTime};
-                      notificationsList.add(not2);
-                    } else if (not3.keys.first == null){
-                      notId = ('3'+selectedEvent!.id.toString());
-                      not3 = {notId: notDateTime};
-                      notificationsList.add(not3);
-                    } else if (not4.keys.first == null){
-                      notId = ('4'+selectedEvent!.id.toString());
-                      not4 = {notId: notDateTime};
-                      notificationsList.add(not4);
-                    } else {
-                      notId = ('5'+selectedEvent!.id.toString());
-                      not5 = {notId: notDateTime};
-                      notificationsList.add(not5);
-                    }
-                  });
-                }
-              }
-            },
-          ),
-        ]),
-
-        SizedBox(height: deviceHeight * 0.025),
-        MainButton(
-            Icons.check_rounded,
-            colorSpecialItem,
-            ' Confirmar cambios ',
-                () async {
-                  if (nameController.text.trim().isEmpty) {
-                    showErrorSnackBar(context, 'Debes indicar un nombre');
-                    nameFocusNode.requestFocus();
-                  } else {
-                    DateTime newFullDateTime = DateTime(
-                        date.year, date.month, date.day, time.hour,
-                        time.minute);
-                    try {
-                      Event newEvent = Event(id: selectedEvent!.id,
-                        name: nameController.text.trim(),
-                        description: descriptionController.text.trim(),
-                        dateTime: newFullDateTime,
-                        color: selectedColor,
-                        notificationsList: notificationsList,
-                      );
-
-                      await updateEvent(newEvent);
-                      await cancelAllEventNotifications(selectedEvent!.id);
-                      String notificationTitle = 'Evento: ' + nameController.text;
-                      if (not1.keys.first != null) buildEventNotification(
-                          int.parse(not1.keys.first!),
-                          notificationTitle, not1.values.first!,
-                          newFullDateTime);
-                      if (not2.keys.first != null) buildEventNotification(
-                          int.parse(not2.keys.first!),
-                          notificationTitle, not2.values.first!,
-                          newFullDateTime);
-                      if (not3.keys.first != null) buildEventNotification(
-                          int.parse(not3.keys.first!),
-                          notificationTitle, not3.values.first!,
-                          newFullDateTime);
-                      if (not4.keys.first != null) buildEventNotification(
-                          int.parse(not4.keys.first!),
-                          notificationTitle, not4.values.first!,
-                          newFullDateTime);
-                      if (not5.keys.first != null) buildEventNotification(
-                          int.parse(not5.keys.first!),
-                          notificationTitle, not5.values.first!,
-                          newFullDateTime);
-
-                      Navigator.of(context).popUntil((route) => route.isFirst);
-                      showInfoSnackBar(context, 'Evento actualizado.');
-                    } on Exception catch (e) {
-                      debugPrint('[ERR] Could not edit event: $e');
-                      showErrorSnackBar(context, 'Ha ocurrido un error');
                     }
                   }
-                }
-        ),
-        SizedBox(height: deviceHeight * 0.025),
-        MainButton(
-            Icons.close_rounded,
-            Colors.red,
-            ' Cancelar ',
-            () => Navigator.pop(context),
-        ),
-      ]),
+                },
+              ),
+            ]),
+            FormSeparator(),
+            MainButton(
+                Icons.check_rounded,
+                colorSpecialItem,
+                ' Confirmar cambios ',
+                    () async {
+                      if (nameController.text.trim().isEmpty) {
+                        showErrorSnackBar(context, 'Debes indicar un nombre');
+                        nameFocusNode.requestFocus();
+                      } else {
+                        DateTime newFullDateTime = DateTime(
+                            date.year, date.month, date.day, time.hour,
+                            time.minute);
+                        try {
+                          Event newEvent = Event(id: selectedEvent!.id,
+                            name: nameController.text.trim(),
+                            description: descriptionController.text.trim(),
+                            dateTime: newFullDateTime,
+                            color: selectedColor,
+                            notificationsList: notificationsList,
+                            routinesList: [],
+                          );
+
+                          await updateEvent(newEvent);
+                          await cancelAllEventNotifications(selectedEvent!.id);
+                          String notificationTitle = 'Evento: ' + nameController.text;
+                          if (not1.keys.first != null) buildEventNotification(
+                              int.parse(not1.keys.first!),
+                              notificationTitle, not1.values.first!,
+                              newFullDateTime);
+                          if (not2.keys.first != null) buildEventNotification(
+                              int.parse(not2.keys.first!),
+                              notificationTitle, not2.values.first!,
+                              newFullDateTime);
+                          if (not3.keys.first != null) buildEventNotification(
+                              int.parse(not3.keys.first!),
+                              notificationTitle, not3.values.first!,
+                              newFullDateTime);
+                          if (not4.keys.first != null) buildEventNotification(
+                              int.parse(not4.keys.first!),
+                              notificationTitle, not4.values.first!,
+                              newFullDateTime);
+                          if (not5.keys.first != null) buildEventNotification(
+                              int.parse(not5.keys.first!),
+                              notificationTitle, not5.values.first!,
+                              newFullDateTime);
+
+                          Navigator.of(context).popUntil((route) => route.isFirst);
+                          showInfoSnackBar(context, 'Evento actualizado.');
+                        } on Exception catch (e) {
+                          debugPrint('[ERR] Could not edit event: $e');
+                          showErrorSnackBar(context, 'Ha ocurrido un error');
+                        }
+                      }
+                    }
+            ),
+            FormSeparator(),
+            MainButton(
+                Icons.close_rounded,
+                Colors.red,
+                ' Cancelar ',
+                () => Navigator.pop(context),
+            ),
+          ]
+      ),
     );
   }
 

@@ -97,7 +97,7 @@ class _NoteDetailsState extends State<NoteDetails> {
               style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.04,),),
           ),
         ]),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         FormContainer([
           Text(
             'En el calendario: ',
@@ -127,7 +127,7 @@ class _NoteDetailsState extends State<NoteDetails> {
             ),
 
           ],),
-          SizedBox(height: deviceHeight * 0.025),
+          FormSeparator(),
           Text(
             'Última edición: ',
             style: TextStyle(
@@ -149,11 +149,11 @@ class _NoteDetailsState extends State<NoteDetails> {
           ],),
         ]),
 
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         MainButton(Icons.edit, colorSpecialItem, ' Editar nota ', (){
           Navigator.pushNamed(context, '/notes/edit_note');
         }),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         MainButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar nota ', (){
           showDialog(
               context: context,

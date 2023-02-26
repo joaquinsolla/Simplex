@@ -33,38 +33,8 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
             Text('Restablecer contraseña', style: TextStyle(color: colorMainText,
                 fontSize: deviceWidth * 0.075,
                 fontWeight: FontWeight.bold),),
-            SizedBox(height: deviceHeight * 0.025),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Email de recuperación:', style: TextStyle(color: colorMainText,
-                    fontSize: deviceWidth * 0.045,
-                    fontWeight: FontWeight.bold),),
-                SizedBox(height: deviceHeight * 0.005),
-                TextField(
-                  keyboardType: TextInputType.emailAddress,
-                  autocorrect: false,
-                  textInputAction: TextInputAction.next,
-                  focusNode: emailFocusNode,
-                  style: TextStyle(color: colorMainText),
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    fillColor: colorThirdBackground,
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: colorThirdBackground, width: 1),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                      BorderSide(color: colorSpecialItem, width: 2),
-                    ),
-                    hintText: 'ejemplo@email.es',
-                    hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
-                  ),
-                ),
-              ],
-            ),
+            FormSeparator(),
+            FormTextFieldEmail(emailController, 'Email de recuperación', 'ejemplo@email.es', emailFocusNode, true),
           ]),
           SizedBox(height: deviceHeight * 0.025),
           MainButton(

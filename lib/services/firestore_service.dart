@@ -53,6 +53,7 @@ Future createEvent(Event event) async{
     'dateTime': event.dateTime,
     'color': event.color,
     'notificationsList': event.notificationsList,
+    'routinesList': event.routinesList,
   };
 
   await doc.set(json);
@@ -319,7 +320,6 @@ Future createAllRoutines() async{
     final json = {
       'id': i,
       'eventsList': [],
-      'todosList': [],
       'notesList': [],
     };
 
@@ -336,7 +336,6 @@ updateRoutine(Routine routine) async {
 
   await doc.update({
     'eventsList': routine.eventsList,
-    'todosList': routine.todosList,
     'notesList': routine.notesList,
   });
 

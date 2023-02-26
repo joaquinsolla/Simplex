@@ -161,8 +161,8 @@ class _NotesMainPageState extends State<NotesMainPage> {
                             return notes.map(buildNoteCard).toList()[index];
                           }),
 
-                      if (notes != 0) SizedBox(height: deviceHeight*0.01,),
-                      if (notes != 0) Container(
+                      if (notes.length != 0) SizedBox(height: deviceHeight*0.01,),
+                      if (notes.length != 0) Container(
                         alignment: Alignment.center,
                         child: IconButton(
                           icon: Icon(Icons.arrow_circle_up_rounded,

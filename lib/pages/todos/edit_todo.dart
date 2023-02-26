@@ -56,42 +56,14 @@ class _EditTodoState extends State<EditTodo> {
           [
         FormContainer([
           FormTextField(
-              nameController, 'Nombre', '(Obligatorio)', nameFocusNode),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Descripción', style: TextStyle(color: colorMainText,fontSize: deviceWidth * fontSize *0.045, fontWeight: FontWeight.bold),),
-              SizedBox(height: deviceHeight*0.005),
-              TextField(
-                keyboardType: TextInputType.text,
-                textCapitalization: TextCapitalization.sentences,
-                textInputAction: TextInputAction.done,
-                maxLines: null,
-                focusNode: descriptionFocusNode,
-                style: TextStyle(color: colorMainText),
-                controller: descriptionController,
-                decoration: InputDecoration(
-                  fillColor: colorThirdBackground,
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: colorThirdBackground, width: 1),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide:
-                    BorderSide(color: colorSpecialItem, width: 2),
-                  ),
-
-                  hintText: '(Opcional)',
-                  hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
-                ),
-              ),
-            ],
-          )
+              nameController, 'Nombre:', '(Obligatorio)', nameFocusNode, false),
+          FormTextField(
+              descriptionController, 'Descripción:', '(Opcional)', descriptionFocusNode, true),
         ]),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         FormContainer([
           Text(
-            'Prioridad',
+            'Prioridad:',
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * fontSize * 0.045,
@@ -162,23 +134,11 @@ class _EditTodoState extends State<EditTodo> {
                     fontWeight: FontWeight.bold),
               ),
             ],),
-
-          SizedBox(height: deviceHeight * 0.005),
-
-          Text(
-            'Las tareas de mayor prioridad aparecerán sobre las que tengan una prioridad inferior.',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.03,
-                fontWeight: FontWeight.normal,
-                fontStyle: FontStyle.italic),
-          ),
-
         ]),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         FormContainer([
           Text(
-            'Fecha límite',
+            'Fecha límite:',
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * fontSize * 0.045,
@@ -227,7 +187,7 @@ class _EditTodoState extends State<EditTodo> {
             onTap: () => _dateSelector(context),
           ),
         ]),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         MainButton(
             Icons.check_rounded,
             colorSpecialItem,
@@ -260,7 +220,7 @@ class _EditTodoState extends State<EditTodo> {
               }
             }
         ),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         MainButton(
           Icons.close_rounded,
           Colors.red,

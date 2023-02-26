@@ -137,7 +137,7 @@ class _TodoDetailsState extends State<TodoDetails> {
               style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.04,),),
           ),
         ]),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         FormContainer([
           Text(
             'Estado: ',
@@ -158,7 +158,7 @@ class _TodoDetailsState extends State<TodoDetails> {
                   fontWeight: FontWeight.normal),
             ),
           ],),
-          SizedBox(height: deviceHeight * 0.025),
+          FormSeparator(),
           Text(
             'Prioridad: ',
             style: TextStyle(
@@ -179,7 +179,7 @@ class _TodoDetailsState extends State<TodoDetails> {
             ),
           ],),
         ]),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         FormContainer([
           Text(
             'Fecha límite: ',
@@ -206,11 +206,11 @@ class _TodoDetailsState extends State<TodoDetails> {
           ),
         ]),
 
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         MainButton(Icons.edit, colorSpecialItem, ' Editar tarea ', (){
           Navigator.pushNamed(context, '/todos/edit_todo');
         }),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         MainButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar tarea ', (){
           showDialog(
               context: context,

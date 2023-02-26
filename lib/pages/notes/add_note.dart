@@ -49,42 +49,14 @@ class _AddNoteState extends State<AddNote> {
           [
         FormContainer([
           FormTextField(
-              nameController, 'Título', '(Opcional)', nameFocusNode),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Contenido', style: TextStyle(color: colorMainText,fontSize: deviceWidth * fontSize *0.045, fontWeight: FontWeight.bold),),
-              SizedBox(height: deviceHeight*0.005),
-              TextField(
-                keyboardType: TextInputType.multiline,
-                textCapitalization: TextCapitalization.sentences,
-                textInputAction: TextInputAction.newline,
-                maxLines: null,
-                focusNode: contentFocusNode,
-                style: TextStyle(color: colorMainText),
-                controller: contentController,
-                decoration: InputDecoration(
-                  fillColor: colorThirdBackground,
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: colorThirdBackground, width: 1),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide:
-                    BorderSide(color: colorSpecialItem, width: 2),
-                  ),
-
-                  hintText: '(Opcional)',
-                  hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
-                ),
-              ),
-            ],
-          )
+              nameController, 'Título:', '(Opcional)', nameFocusNode, false),
+          FormTextFieldMultiline(
+              contentController, 'Contenido:', '(Opcional)', contentFocusNode, true),
         ]),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         FormContainer([
           Text(
-            'En el calendario',
+            'En el calendario:',
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * fontSize * 0.045,
@@ -142,7 +114,7 @@ class _AddNoteState extends State<AddNote> {
                 fontStyle: FontStyle.italic),
           ),
         ]),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         MainButton(Icons.check_rounded, colorSpecialItem, ' Crear nota ',
                 () {
                   try {

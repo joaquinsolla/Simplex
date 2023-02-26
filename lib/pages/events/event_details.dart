@@ -105,7 +105,7 @@ class _EventDetailsState extends State<EventDetails> {
               style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.04,),),
           ),
         ]),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         FormContainer([
           Text(
             'Fecha: ',
@@ -126,7 +126,7 @@ class _EventDetailsState extends State<EventDetails> {
                   fontWeight: FontWeight.normal),
             ),
           ],),
-          SizedBox(height: deviceHeight * 0.025),
+          FormSeparator(),
           Text(
             'Hora: ',
             style: TextStyle(
@@ -147,7 +147,7 @@ class _EventDetailsState extends State<EventDetails> {
             ),
           ],),
         ]),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         FormContainer([
           Text(
             'Color: ',
@@ -172,7 +172,7 @@ class _EventDetailsState extends State<EventDetails> {
             ],
           ),
         ]),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
 
         FormContainer([
           Text(
@@ -229,11 +229,11 @@ class _EventDetailsState extends State<EventDetails> {
           ),
         ]),
         
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         MainButton(Icons.edit, colorSpecialItem, ' Editar evento ', (){
           Navigator.pushNamed(context, '/events/edit_event');
         }),
-        SizedBox(height: deviceHeight * 0.025),
+        FormSeparator(),
         MainButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){
           showDialog(
               context: context,
