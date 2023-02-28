@@ -370,7 +370,7 @@ class _HomeState extends State<Home> {
         _homeBottomNavigationBarItem('Calendario', const Icon(Icons.edit_calendar_rounded)),
         _homeBottomNavigationBarItem('Tareas', const Icon(Icons.check_circle_outline_rounded)),
         _homeBottomNavigationBarItem('Notas', const Icon(Icons.sticky_note_2_outlined)),
-        _homeBottomNavigationBarItem('Rutina', const Icon(Icons.timeline_rounded)),
+        _homeBottomNavigationBarItem('Rutina', const Icon(Icons.loop_rounded)),
         _homeBottomNavigationBarItem('Ajustes', const Icon(Icons.settings_outlined)),
       ],
     );
@@ -378,7 +378,12 @@ class _HomeState extends State<Home> {
 
   BottomNavyBarItem _homeBottomNavigationBarItem(String text, Icon icon) {
     return BottomNavyBarItem(
-        title: Text(text, style: TextStyle(fontSize: deviceWidth * fontSize * 0.036),),
+        title: Text(text,
+          style: TextStyle(
+            fontSize: deviceWidth * fontSize * 0.036,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
         icon: icon,
         activeColor: colorSpecialItem,
         inactiveColor: colorNavigationBarText,
