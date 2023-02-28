@@ -236,6 +236,21 @@ String formatEventNotificationDate(DateTime dateTime) {
   return formattedDate;
 }
 
+String dayIdToString(int day) {
+  List<String> strings = [
+    '[Index 0]',
+    'Lunes',
+    'Martes',
+    'Miércoles',
+    'Jueves',
+    'Viernes',
+    'Sábado',
+    'Domingo'
+  ];
+
+  return strings[day];
+}
+
 void tryLaunchUrl(Uri url) async {
   if (await canLaunchUrl(url)) {
     await launchUrl(url, mode: LaunchMode.externalApplication);

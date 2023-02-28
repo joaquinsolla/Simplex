@@ -401,8 +401,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
             ),
           ),
           onPressed: (){
-            // selectedTodo = todo;
-            // TODO: SHARE
+            showInfoSnackBar(context, 'En desarollo...');
           },
         ),
         FocusedMenuItem(
@@ -608,8 +607,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
             ),
           ),
           onPressed: (){
-            // selectedTodo = todo;
-            // TODO: SHARE
+            showInfoSnackBar(context, 'En desarollo...');
           },
         ),
         FocusedMenuItem(
@@ -792,8 +790,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
             ),
           ),
           onPressed: (){
-            // selectedTodo = todo;
-            // TODO: SHARE
+            showInfoSnackBar(context, 'En desarollo...');
           },
         ),
         FocusedMenuItem(

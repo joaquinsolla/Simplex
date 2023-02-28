@@ -17,14 +17,13 @@ Future createUserDoc() async{
 
   await doc.set(json);
   debugPrint('[OK] User doc created');
-
-  createAllRoutines();
 }
 
 /// EVENTS MANAGEMENT
 Stream<List<Event>> readAllEvents() {
   return FirebaseFirestore.instance.
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('events')
+      .where('routineEvent', isEqualTo: false)
       .snapshots().map((snapshot) =>
       snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
 }
@@ -35,6 +34,7 @@ Stream<List<Event>> readEventsOfDate(DateTime date) {
 
   return FirebaseFirestore.instance.
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('events')
+      .where('routineEvent', isEqualTo: false)
       .where('dateTime', isGreaterThanOrEqualTo: selectedDay)
       .where('dateTime', isLessThan: nextDay)
       .orderBy('dateTime', descending: false)
@@ -54,6 +54,7 @@ Future createEvent(Event event) async{
     'color': event.color,
     'notificationsList': event.notificationsList,
     'routinesList': event.routinesList,
+    'routineEvent': event.routineEvent,
   };
 
   await doc.set(json);
@@ -70,6 +71,8 @@ updateEvent(Event event) async {
     'dateTime': event.dateTime,
     'color': event.color,
     'notificationsList': event.notificationsList,
+    'routinesList': event.routinesList,
+    'routineEvent': event.routineEvent,
   });
   debugPrint('[OK] Event updated');
 }
@@ -294,52 +297,6 @@ deleteNoteById(int noteId) async {
 
   await doc.delete();
   debugPrint('[OK] Note deleted');
-}
-
-/// ROUTINES MANAGEMENT
-/** Routines ids:
- *    1 Monday
- *    2 Tuesday
- *    3 Wednesday
- *    4 Thursday
- *    5 Friday
- *    6 Saturday
- *    7 Sunday
- */
-
-Future createAllRoutines() async{
-
-  final user = FirebaseAuth.instance.currentUser!;
-  late dynamic doc;
-
-  debugPrint('[OK] Creating routines:');
-
-  for (int i=1; i<=7; i++){
-    doc = FirebaseFirestore.instance.collection('users').doc(user.uid).collection('routines').doc(i.toString());
-
-    final json = {
-      'id': i,
-      'eventsList': [],
-      'notesList': [],
-    };
-
-    await doc.set(json);
-    debugPrint('   - Routine $i created');
-  }
-
-  debugPrint('[OK] All routines created');
-}
-
-updateRoutine(Routine routine) async {
-  final doc = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid)
-      .collection('notes').doc(routine.id.toString());
-
-  await doc.update({
-    'eventsList': routine.eventsList,
-    'notesList': routine.notesList,
-  });
-
-  debugPrint('[OK] Routine ' + routine.id.toString() + ' updated');
 }
 
 /// REPORTS MANAGEMENT

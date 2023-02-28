@@ -78,7 +78,7 @@ Container VisibilityButton(String text, bool visibility, Function() actions){
   );
 }
 
-Container FormSwitchButton(String text1, String text2, bool firstPage, Function() actions){
+Container FormSwitchButton(String text1, String text2, bool secondPage, Function() actions){
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(10),
@@ -89,7 +89,7 @@ Container FormSwitchButton(String text1, String text2, bool firstPage, Function(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        if (firstPage) Expanded(child: TextButton(
+        if (!secondPage) Expanded(child: TextButton(
           child: Text(
             text1,
             style: TextStyle(
@@ -103,7 +103,7 @@ Container FormSwitchButton(String text1, String text2, bool firstPage, Function(
           ),
           onPressed: (){},
         )),
-        if (!firstPage) Expanded(child: TextButton(
+        if (secondPage) Expanded(child: TextButton(
           child: Text(
             text1,
             style: TextStyle(
@@ -118,7 +118,7 @@ Container FormSwitchButton(String text1, String text2, bool firstPage, Function(
           onPressed: actions,
         )),
 
-        if (firstPage) Expanded(child: TextButton(
+        if (!secondPage) Expanded(child: TextButton(
           child: Text(
             text2,
             style: TextStyle(
@@ -132,7 +132,7 @@ Container FormSwitchButton(String text1, String text2, bool firstPage, Function(
           ),
           onPressed: actions,
         )),
-        if (!firstPage) Expanded(child: TextButton(
+        if (secondPage) Expanded(child: TextButton(
           child: Text(
             text2,
             style: TextStyle(
@@ -147,6 +147,17 @@ Container FormSwitchButton(String text1, String text2, bool firstPage, Function(
           onPressed: (){},
         )),
         ],
+    ),
+  );
+}
+
+Container ShareButton(Function() actions){
+  return Container(
+    child: IconButton(
+      icon: Icon(Icons.share_rounded,
+          color: colorSpecialItem, size: deviceWidth * 0.05),
+      splashRadius: 0.001,
+      onPressed: actions,
     ),
   );
 }

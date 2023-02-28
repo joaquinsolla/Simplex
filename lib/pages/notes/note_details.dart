@@ -49,14 +49,9 @@ class _NoteDetailsState extends State<NoteDetails> {
               'Sin título',
               style: TextStyle(color: colorThirdText, fontSize: deviceWidth * fontSize * 0.065, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
             ),
-            IconButton(
-              icon: Icon(Icons.share_rounded,
-                  color: colorSpecialItem, size: deviceWidth * 0.05),
-              splashRadius: 0.001,
-              onPressed: (){
-                // TODO: SHARE
-              },
-            ),
+            ShareButton((){
+              showInfoSnackBar(context, 'En desarollo...');
+            }),
           ),
           if (selectedNote!.name != '') ExpandedRow(
             Text(
@@ -66,16 +61,10 @@ class _NoteDetailsState extends State<NoteDetails> {
                   fontSize: deviceWidth * fontSize * 0.065,
                   fontWeight: FontWeight.bold),
             ),
-            IconButton(
-              icon: Icon(Icons.share_rounded,
-                  color: colorSpecialItem, size: deviceWidth * 0.05),
-              splashRadius: 0.001,
-              onPressed: (){
-                // TODO: SHARE
-              },
-            ),
+            ShareButton((){
+              showInfoSnackBar(context, 'En desarollo...');
+            }),
           ),
-          SizedBox(height: deviceHeight * 0.01),
           if (selectedNote!.content == '') Container(
             width: deviceHeight,
             padding: EdgeInsets.all(deviceWidth * 0.025),

@@ -8,6 +8,7 @@ class Event{
   final int color;
   final List<dynamic> notificationsList;
   final List<dynamic> routinesList;
+  final bool routineEvent;
 
   Event({
     required this.id,
@@ -17,6 +18,7 @@ class Event{
     required this.color,
     required this.notificationsList,
     required this.routinesList,
+    required this.routineEvent,
   });
 
   Map<String, dynamic> toJson() => {
@@ -27,6 +29,7 @@ class Event{
     'color': color,
     'notificationsList': notificationsList,
     'routinesList': routinesList,
+    'routineEvent': routineEvent,
   };
 
   static Event fromJson(Map<String, dynamic> json) => Event(
@@ -37,6 +40,7 @@ class Event{
     color: json['color'],
     notificationsList: json['notificationsList'],
     routinesList: json['routinesList'],
+    routineEvent: json['routineEvent'],
   );
 
 }

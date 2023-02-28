@@ -350,6 +350,26 @@ class _TodosMainPageState extends State<TodosMainPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Icon(Icons.share_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
+                    SizedBox(width: deviceWidth*0.025,),
+                    Text('Compartir', style: TextStyle(
+                        color: colorSpecialItem,
+                        fontSize: deviceWidth * fontSize * 0.04,
+                        fontWeight: FontWeight.normal),),
+                  ],
+                ),
+              ),
+              onPressed: (){
+                showInfoSnackBar(context, 'En desarollo...');
+              },
+            ),
+            FocusedMenuItem(
+              backgroundColor: backgroundColor,
+              title: Container(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     Icon(
                         Icons.delete_outline_rounded, color: Colors.red,
                         size: deviceWidth * 0.06),
@@ -553,8 +573,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                 ),
               ),
               onPressed: (){
-                // selectedTodo = todo;
-                // TODO: SHARE
+                showInfoSnackBar(context, 'En desarollo...');
               },
             ),
             FocusedMenuItem(

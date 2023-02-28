@@ -5,7 +5,6 @@ import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
-
 class EventDetails extends StatefulWidget {
   const EventDetails({Key? key}) : super(key: key);
 
@@ -15,6 +14,11 @@ class EventDetails extends StatefulWidget {
 
 class _EventDetailsState extends State<EventDetails> {
 
+  String eventDate = DateFormat('dd/MM/yyyy').format(selectedEvent!.dateTime);
+  String eventTime = DateFormat('HH:mm').format(selectedEvent!.dateTime);
+  String colorName = 'Por defecto';
+  int colorCode = selectedEvent!.color;
+
   @override
   void dispose() {
     super.dispose();
@@ -23,17 +27,8 @@ class _EventDetailsState extends State<EventDetails> {
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    String eventDate = DateFormat('dd/MM/yyyy').format(selectedEvent!.dateTime);
     if (formatDates == false) eventDate = DateFormat('MM/dd/yyyy').format(selectedEvent!.dateTime);
-    String eventTime = DateFormat('HH:mm').format(selectedEvent!.dateTime);
     if (format24Hours==false) eventTime = DateFormat('h:mm aa').format(selectedEvent!.dateTime);
-    String colorName = 'Por defecto';
-    int colorCode = selectedEvent!.color;
 
     if(colorCode == -1 && darkMode == false) colorCode = 0xffe3e3e9;
     else if(colorCode == -1 && darkMode == true) colorCode = 0xff706e74;
@@ -57,209 +52,259 @@ class _EventDetailsState extends State<EventDetails> {
       default:
         break;
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
-      body: HomeArea(null,
+      body: HomeArea(
+          null,
           PageHeader(context, 'Evento'),
           FooterEmpty(),
           [
-        FormContainer([
-
-          ExpandedRow(
-            Text(
-            selectedEvent!.name,
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.065,
-                fontWeight: FontWeight.bold),
-          ),
-            IconButton(
-              icon: Icon(Icons.share_rounded,
-                  color: colorSpecialItem, size: deviceWidth * 0.05),
-              splashRadius: 0.001,
-              onPressed: (){
-                // TODO: SHARE
-              },
-            ),
-          ),
-          SizedBox(height: deviceHeight * 0.01),
-          if (selectedEvent!.description == '') Container(
-            width: deviceHeight,
-            padding: EdgeInsets.all(deviceWidth * 0.025),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: colorThirdBackground,
-            ),
-            child: Text('Sin descripción',
-              style: TextStyle(color: colorThirdText, fontSize: deviceWidth * fontSize * 0.04, fontStyle: FontStyle.italic),),
-          ),
-          if (selectedEvent!.description != '') Container(
-            width: deviceHeight,
-            padding: EdgeInsets.all(deviceWidth * 0.025),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: colorThirdBackground,
-            ),
-            child: Text(selectedEvent!.description,
-              style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.04,),),
-          ),
-        ]),
-        FormSeparator(),
-        FormContainer([
-          Text(
-            'Fecha: ',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.0475,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: deviceHeight * 0.005),
-          Row(children: [
-            Icon(Icons.today_rounded, color: colorSpecialItem, size: deviceWidth*0.05,),
-            SizedBox(width: deviceWidth*0.025,),
-            Text(
-              eventDate,
-              style: TextStyle(
-                  color: colorMainText,
-                  fontSize: deviceWidth * fontSize * 0.04,
-                  fontWeight: FontWeight.normal),
-            ),
-          ],),
-          FormSeparator(),
-          Text(
-            'Hora: ',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.0475,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: deviceHeight * 0.005),
-          Row(children: [
-            Icon(Icons.watch_later_outlined, color: colorSpecialItem, size: deviceWidth*0.05,),
-            SizedBox(width: deviceWidth*0.025,),
-            Text(
-              eventTime,
-              style: TextStyle(
-                  color: colorMainText,
-                  fontSize: deviceWidth * fontSize * 0.04,
-                  fontWeight: FontWeight.normal),
-            ),
-          ],),
-        ]),
-        FormSeparator(),
-        FormContainer([
-          Text(
-            'Color: ',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.0475,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: deviceHeight * 0.005),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Icon(Icons.radio_button_checked_rounded, color: Color(colorCode), size: deviceWidth*0.05,),
-              SizedBox(width: deviceWidth*0.025,),
-              Text(
-                colorName,
+            FormContainer([
+              ExpandedRow(
+                Text(
+                selectedEvent!.name,
                 style: TextStyle(
                     color: colorMainText,
-                    fontSize: deviceWidth * fontSize * 0.04,
-                    fontWeight: FontWeight.normal),
+                    fontSize: deviceWidth * fontSize * 0.065,
+                    fontWeight: FontWeight.bold),
               ),
-            ],
-          ),
-        ]),
-        FormSeparator(),
-
-        FormContainer([
-          Text(
-            'Notificaciones: ',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.0475,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: deviceHeight * 0.005),
-          if (selectedEvent!.notificationsList.length == 0) Container(
-            height: deviceHeight*0.035,
-            alignment: Alignment.centerLeft,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Icon(Icons.notifications_off_outlined, color: Colors.red, size: deviceWidth*0.05,),
-                SizedBox(width: deviceWidth*0.025,),
-                Text('Sin notificaciones',
-                    style: TextStyle(
-                        color: colorMainText,
-                        fontSize: deviceWidth * fontSize * 0.04,
-                        fontWeight: FontWeight.normal)),
-              ],
-            ),
-          ),
-          if (selectedEvent!.notificationsList.length > 0) Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(selectedEvent!.notificationsList.length,(index){
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    height: deviceHeight*0.035,
-                    alignment: Alignment.centerLeft,
-                    child: Row(
+                ShareButton((){
+                  showInfoSnackBar(context, 'En desarollo...');
+                }),
+              ),
+              if (selectedEvent!.description == '') Container(
+                width: deviceHeight,
+                padding: EdgeInsets.all(deviceWidth * 0.025),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: colorThirdBackground,
+                ),
+                child: Text('Sin descripción',
+                  style: TextStyle(color: colorThirdText, fontSize: deviceWidth * fontSize * 0.04, fontStyle: FontStyle.italic),),
+              ),
+              if (selectedEvent!.description != '') Container(
+                width: deviceHeight,
+                padding: EdgeInsets.all(deviceWidth * 0.025),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: colorThirdBackground,
+                ),
+                child: Text(selectedEvent!.description,
+                  style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.04,),),
+              ),
+            ]),
+            FormSeparator(),
+            FormContainer([
+              FormCustomField(
+                  'Tipo de evento:',
+                  [
+                    if (selectedEvent!.routineEvent==false)Row(children: [
+                      Icon(Icons.event_rounded, color: colorSpecialItem, size: deviceWidth*0.05,),
+                      SizedBox(width: deviceWidth*0.025,),
+                      Text(
+                        'Una vez',
+                        style: TextStyle(
+                            color: colorMainText,
+                            fontSize: deviceWidth * fontSize * 0.04,
+                            fontWeight: FontWeight.normal),
+                      ),
+                    ],),
+                    if (selectedEvent!.routineEvent==true)Row(children: [
+                      Icon(Icons.event_repeat_rounded, color: colorSpecialItem, size: deviceWidth*0.05,),
+                      SizedBox(width: deviceWidth*0.025,),
+                      Text(
+                        'Rutina',
+                        style: TextStyle(
+                            color: colorMainText,
+                            fontSize: deviceWidth * fontSize * 0.04,
+                            fontWeight: FontWeight.normal),
+                      ),
+                    ],),
+                  ],
+                  false
+              ),
+              if (selectedEvent!.routineEvent==false) FormCustomField(
+                  'Fecha:',
+                  [
+                    Row(children: [
+                      Icon(Icons.calendar_month_rounded, color: colorSpecialItem, size: deviceWidth*0.05,),
+                      SizedBox(width: deviceWidth*0.025,),
+                      Text(
+                        eventDate,
+                        style: TextStyle(
+                            color: colorMainText,
+                            fontSize: deviceWidth * fontSize * 0.04,
+                            fontWeight: FontWeight.normal),
+                      ),
+                    ]),
+                  ],
+                  false
+              ),
+              FormCustomField(
+                  'Hora:',
+                  [
+                    Row(children: [
+                      Icon(Icons.watch_later_outlined, color: colorSpecialItem, size: deviceWidth*0.05,),
+                      SizedBox(width: deviceWidth*0.025,),
+                      Text(
+                        eventTime,
+                        style: TextStyle(
+                            color: colorMainText,
+                            fontSize: deviceWidth * fontSize * 0.04,
+                            fontWeight: FontWeight.normal),
+                      ),
+                    ],)
+                  ],
+                  true
+              ),
+            ]),
+            if (selectedEvent!.routineEvent==true)FormSeparator(),
+            if (selectedEvent!.routineEvent==true)FormContainer([
+              FormCustomField(
+                  'Días de la rutina: ',
+                  [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(selectedEvent!.routinesList.length,(index){
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: deviceHeight*0.035,
+                              alignment: Alignment.centerLeft,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
+                                  SizedBox(width: deviceWidth*0.025,),
+                                  Text(dayIdToString(selectedEvent!.routinesList[index]),
+                                      style: TextStyle(
+                                          color: colorMainText,
+                                          fontSize: deviceWidth * fontSize * 0.04,
+                                          fontWeight: FontWeight.normal)),
+                                ],
+                              ),
+                            ),
+                            if (index < selectedEvent!.notificationsList.length-1) Divider(color: colorSecondText,),
+                          ],
+                        );
+                      }),
+                    ),
+                  ],
+                  true
+              ),
+            ]),
+            FormSeparator(),
+            FormContainer([
+              FormCustomField(
+                  'Color:',
+                  [
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        if (selectedEvent!.notificationsList[index].values.first.toDate().isBefore(selectedEvent!.dateTime)) Icon(Icons.notifications_active_outlined, color: colorSpecialItem, size: deviceWidth*0.05,),
-                        if (selectedEvent!.notificationsList[index].values.first.toDate().isAfter(selectedEvent!.dateTime)) Icon(Icons.notification_important_outlined, color: Colors.red, size: deviceWidth*0.05,),
+                        Icon(Icons.radio_button_checked_rounded, color: Color(colorCode), size: deviceWidth*0.05,),
                         SizedBox(width: deviceWidth*0.025,),
-                        Text(formatEventNotificationDate(selectedEvent!.notificationsList[index].values.first.toDate()),
-                            style: TextStyle(
-                                color: colorMainText,
-                                fontSize: deviceWidth * fontSize * 0.04,
-                                fontWeight: FontWeight.normal)),
+                        Text(
+                          colorName,
+                          style: TextStyle(
+                              color: colorMainText,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal),
+                        ),
                       ],
                     ),
-                  ),
-                  if (index < selectedEvent!.notificationsList.length-1) Divider(color: colorSecondText,),
-                ],
-              );
-            }),
-          ),
-        ]),
-        
-        FormSeparator(),
-        MainButton(Icons.edit, colorSpecialItem, ' Editar evento ', (){
-          Navigator.pushNamed(context, '/events/edit_event');
-        }),
-        FormSeparator(),
-        MainButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){
-          showDialog(
-              context: context,
-              builder: (context) {
-                return CupertinoAlertDialog(
-                  title: Text('Eliminar evento'),
-                  content: Text('Una vez eliminado no podrás restaurarlo.'),
-                  actions: <Widget>[
-                    TextButton(
-                        onPressed: () async {
-                          await cancelAllEventNotifications(selectedEvent!.id);
-                          await deleteEventById(selectedEvent!.id);
-                          Navigator.of(context).popUntil((route) => route.isFirst);
-                          showInfoSnackBar(context, 'Evento eliminado.');
-                        },
-                        child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('Cancelar', style: TextStyle(color: Colors.red),),
-                    )
                   ],
-                );
-              });
-        }),
+                  true
+              ),
+            ]),
+            if (selectedEvent!.routineEvent==false)FormSeparator(),
+            if (selectedEvent!.routineEvent==false)FormContainer([
+              FormCustomField('Notificaciones:',
+                  [
+                    if (selectedEvent!.notificationsList.length == 0) Container(
+                      height: deviceHeight*0.035,
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.notifications_off_outlined, color: Colors.red, size: deviceWidth*0.05,),
+                          SizedBox(width: deviceWidth*0.025,),
+                          Text('Sin notificaciones',
+                              style: TextStyle(
+                                  color: colorMainText,
+                                  fontSize: deviceWidth * fontSize * 0.04,
+                                  fontWeight: FontWeight.normal)),
+                        ],
+                      ),
+                    ),
+                    if (selectedEvent!.notificationsList.length > 0) Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(selectedEvent!.notificationsList.length,(index){
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: deviceHeight*0.035,
+                              alignment: Alignment.centerLeft,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  if (selectedEvent!.notificationsList[index].values.first.toDate().isBefore(selectedEvent!.dateTime)) Icon(Icons.notifications_active_outlined, color: colorSpecialItem, size: deviceWidth*0.05,),
+                                  if (selectedEvent!.notificationsList[index].values.first.toDate().isAfter(selectedEvent!.dateTime)) Icon(Icons.notification_important_outlined, color: Colors.red, size: deviceWidth*0.05,),
+                                  SizedBox(width: deviceWidth*0.025,),
+                                  Text(formatEventNotificationDate(selectedEvent!.notificationsList[index].values.first.toDate()),
+                                      style: TextStyle(
+                                          color: colorMainText,
+                                          fontSize: deviceWidth * fontSize * 0.04,
+                                          fontWeight: FontWeight.normal)),
+                                ],
+                              ),
+                            ),
+                            if (index < selectedEvent!.notificationsList.length-1) Divider(color: colorSecondText,),
+                          ],
+                        );
+                      }),
+                    ),
+                  ],
+                  true
+              ),
+            ]),
+            FormSeparator(),
+            MainButton(Icons.edit, colorSpecialItem, ' Editar evento ', (){
+              Navigator.pushNamed(context, '/events/edit_event');
+            }),
+            FormSeparator(),
+            MainButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return CupertinoAlertDialog(
+                      title: Text('Eliminar evento'),
+                      content: Text('Una vez eliminado no podrás restaurarlo.'),
+                      actions: <Widget>[
+                        TextButton(
+                            onPressed: () async {
+                              await cancelAllEventNotifications(selectedEvent!.id);
+                              await deleteEventById(selectedEvent!.id);
+                              Navigator.of(context).popUntil((route) => route.isFirst);
+                              showInfoSnackBar(context, 'Evento eliminado.');
+                            },
+                            child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text('Cancelar', style: TextStyle(color: Colors.red),),
+                        )
+                      ],
+                    );
+                  });
+            }),
       ]
       ),
     );

@@ -106,16 +106,10 @@ class _TodoDetailsState extends State<TodoDetails> {
                   fontSize: deviceWidth * fontSize * 0.065,
                   fontWeight: FontWeight.bold),
             ),
-            IconButton(
-              icon: Icon(Icons.share_rounded,
-                  color: colorSpecialItem, size: deviceWidth * 0.05),
-              splashRadius: 0.001,
-              onPressed: (){
-                // TODO: SHARE
-              },
-            ),
+            ShareButton((){
+              showInfoSnackBar(context, 'En desarollo...');
+            }),
           ),
-          SizedBox(height: deviceHeight * 0.01),
           if (selectedTodo!.description == '') Container(
             width: deviceHeight,
             padding: EdgeInsets.all(deviceWidth * 0.025),
