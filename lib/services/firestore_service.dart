@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:simplex/classes/all_classes.dart';
 import 'package:simplex/common/all_common.dart';
 
-/// USER DOC
+//#region User doc
 Future createUserDoc() async{
   final user = FirebaseAuth.instance.currentUser!;
   final doc = FirebaseFirestore.instance.collection('users').doc(user.uid);
@@ -18,8 +18,9 @@ Future createUserDoc() async{
   await doc.set(json);
   debugPrint('[OK] User doc created');
 }
+//#endregion
 
-/// EVENTS MANAGEMENT
+//#region Events
 Stream<List<Event>> readAllEvents() {
   return FirebaseFirestore.instance.
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('events')
@@ -84,8 +85,9 @@ deleteEventById(int eventId) async {
   await doc.delete();
   debugPrint('[OK] Event deleted');
 }
+//#endregion
 
-/// TODOS MANAGEMENT
+//#region Todos
 Stream<List<Todo>> readPendingLimitedTodos() {
   return FirebaseFirestore.instance.
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('todos')
@@ -222,8 +224,9 @@ deleteDoneTodos() async {
 
   debugPrint('[OK] All done todos deleted');
 }
+//#endregion
 
-/// NOTES MANAGEMENT
+//#region Notes
 Stream<List<Note>> readCalendarNotes() {
   return FirebaseFirestore.instance.
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('notes')
@@ -270,7 +273,9 @@ Future createNote(Note note) async{
     'content': note.content,
     'onCalendar': note.onCalendar,
     'calendarDate': note.calendarDate,
-    'modificationDate': note.modificationDate
+    'modificationDate': note.modificationDate,
+    'routinesList': note.routinesList,
+    'routineNote': note.routineNote,
   };
 
   await doc.set(json);
@@ -287,6 +292,8 @@ updateNote(Note note) async {
     'onCalendar': note.onCalendar,
     'calendarDate': note.calendarDate,
     'modificationDate': note.modificationDate,
+    'routinesList': note.routinesList,
+    'routineNote': note.routineNote,
   });
   debugPrint('[OK] Note updated');
 }
@@ -298,8 +305,9 @@ deleteNoteById(int noteId) async {
   await doc.delete();
   debugPrint('[OK] Note deleted');
 }
+//#endregion
 
-/// REPORTS MANAGEMENT
+//#region Reports
 Future sendReport(Report report, bool sendAccountData) async{
   final user = FirebaseAuth.instance.currentUser!;
   final doc = FirebaseFirestore.instance.collection('reports').doc(report.id);
@@ -320,3 +328,4 @@ Future sendReport(Report report, bool sendAccountData) async{
   await doc.set(json);
   debugPrint('[OK] Report sent');
 }
+//#endregion

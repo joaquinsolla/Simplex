@@ -190,7 +190,7 @@ class _EventDetailsState extends State<EventDetails> {
                                 ],
                               ),
                             ),
-                            if (index < selectedEvent!.notificationsList.length-1) Divider(color: colorSecondText,),
+                            if (index < selectedEvent!.routinesList.length-1) Divider(color: colorSecondText,),
                           ],
                         );
                       }),

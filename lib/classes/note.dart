@@ -7,6 +7,8 @@ class Note{
   final bool onCalendar;
   final DateTime calendarDate;
   final DateTime modificationDate;
+  final List<dynamic> routinesList;
+  final bool routineNote;
 
   Note({
     required this.id,
@@ -15,6 +17,8 @@ class Note{
     required this.onCalendar,
     required this.calendarDate,
     required this.modificationDate,
+    required this.routinesList,
+    required this.routineNote,
   });
 
   Map<String, dynamic> toJson() => {
@@ -24,6 +28,8 @@ class Note{
     'onCalendar': onCalendar,
     'calendarDate': calendarDate,
     'modificationDate': modificationDate,
+    'routinesList': routinesList,
+    'routineNote': routineNote,
   };
 
   static Note fromJson(Map<String, dynamic> json) => Note(
@@ -33,6 +39,8 @@ class Note{
     onCalendar: json['onCalendar'],
     calendarDate: (json['calendarDate'] as Timestamp).toDate(),
     modificationDate: (json['modificationDate'] as Timestamp).toDate(),
+    routinesList: json['routinesList'],
+    routineNote: json['routineNote'],
   );
 
 }

@@ -13,6 +13,7 @@ class AddNote extends StatefulWidget {
 }
 
 class _AddNoteState extends State<AddNote> {
+
   final nameController = TextEditingController();
   final contentController = TextEditingController();
   final calendarDateController = TextEditingController();
@@ -21,8 +22,17 @@ class _AddNoteState extends State<AddNote> {
   FocusNode contentFocusNode = FocusNode();
 
   int id = int.parse((DateTime.now().millisecondsSinceEpoch).toString().substring(6));
+
   bool onCalendar = false;
   DateTime calendarDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+  List<dynamic> routinesList = [];
+  List<bool> weekValues = [false, false, false, false, false, false, false];
+  bool routineNote = false;
+
+  String dateHintText = 'Hoy (Por defecto)';
+  Color errorUnderline = colorSecondBackground;
+  bool daysSelected = false;
 
   @override
   void dispose() {
@@ -39,7 +49,6 @@ class _AddNoteState extends State<AddNote> {
 
   @override
   Widget build(BuildContext context) {
-    String dateHintText = 'Hoy (Por defecto)';
 
     return Scaffold(
       backgroundColor: colorMainBackground,
@@ -47,96 +56,335 @@ class _AddNoteState extends State<AddNote> {
           PageHeader(context, 'Nueva Nota'),
           FooterEmpty(),
           [
-        FormContainer([
-          FormTextField(
-              nameController, 'Título:', '(Opcional)', nameFocusNode, false),
-          FormTextFieldMultiline(
-              contentController, 'Contenido:', '(Opcional)', contentFocusNode, true),
-        ]),
-        FormSeparator(),
-        FormContainer([
-          Text(
-            'En el calendario:',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.045,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: deviceHeight * 0.005),
-          CheckboxListTile(
-            activeColor: colorSpecialItem,
-            title: Text(
-              'Mostrar nota en el calendario',
-              style: TextStyle(
-                  color: colorMainText,
-                  fontSize: deviceWidth * fontSize * 0.04,
-                  fontWeight: FontWeight.normal),
-            ),
-            value: onCalendar,
-            onChanged: (val) {
-              setState(() {
-                onCalendar = val!;
-                calendarDateController.clear();
-                calendarDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-              });
-            },
-            controlAffinity: ListTileControlAffinity.leading,
-          ),
-          if (onCalendar) SizedBox(height: deviceHeight * 0.005),
-          if (onCalendar) TextField(
-            controller: calendarDateController,
-            style: TextStyle(color: colorMainText),
-            readOnly: true,
-            decoration: InputDecoration(
-              fillColor: colorThirdBackground,
-              filled: true,
-              enabledBorder: OutlineInputBorder(
-                borderSide:
-                BorderSide(color: colorThirdBackground, width: 1),
+            FormContainer([
+              FormTextField(
+                  nameController, 'Título:', '(Opcional)', nameFocusNode, false),
+              FormTextFieldMultiline(
+                  contentController, 'Contenido:', '(Opcional)', contentFocusNode, true),
+            ]),
+            FormSeparator(),
+            FormContainer([
+              FormCustomField(
+                  'En el calendario:',
+                  [
+                    CheckboxListTile(
+                      activeColor: colorSpecialItem,
+                      title: Text(
+                        'Mostrar nota en el calendario',
+                        style: TextStyle(
+                            color: colorMainText,
+                            fontSize: deviceWidth * fontSize * 0.04,
+                            fontWeight: FontWeight.normal),
+                      ),
+                      value: onCalendar,
+                      onChanged: (val) {
+                        setState(() {
+                          onCalendar = val!;
+                          calendarDateController.clear();
+                          calendarDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+                        });
+                      },
+                      controlAffinity: ListTileControlAffinity.leading,
+                    ),
+                    if (onCalendar) SizedBox(height: deviceHeight * 0.005),
+                    if (onCalendar) TextField(
+                      controller: calendarDateController,
+                      style: TextStyle(color: colorMainText),
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        fillColor: colorThirdBackground,
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                          BorderSide(color: colorThirdBackground, width: 1),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: colorSpecialItem, width: 2),
+                        ),
+                        hintText: dateHintText,
+                        hintStyle: TextStyle(
+                            color: colorThirdText, fontStyle: FontStyle.italic),
+                      ),
+                      onTap: () => _dateSelector(context),
+                    ),
+                    SizedBox(height: deviceHeight * 0.01),
+                    Text(
+                      'Las notas aparecerán en el calendario de Simplex en el día indicado.'
+                          ' También recibirás una notificación en esa fecha.',
+                      style: TextStyle(
+                          color: colorMainText,
+                          fontSize: deviceWidth * fontSize * 0.03,
+                          fontWeight: FontWeight.normal,
+                          fontStyle: FontStyle.italic),
+                    ),
+                  ],
+                  false
               ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: colorSpecialItem, width: 2),
+              FormCustomField(
+                  'En tus rutinas:',
+                  [
+                    CheckboxListTile(
+                      activeColor: colorSpecialItem,
+                      title: Text(
+                        'Mostrar nota en las rutinas:',
+                        style: TextStyle(
+                            color: colorMainText,
+                            fontSize: deviceWidth * fontSize * 0.04,
+                            fontWeight: FontWeight.normal),
+                      ),
+                      value: routineNote,
+                      onChanged: (val) {
+                        setState(() {
+                          routineNote = val!;
+                        });
+                      },
+                      controlAffinity: ListTileControlAffinity.leading,
+                    ),
+                    if(routineNote) Container(
+                      padding: EdgeInsets.fromLTRB(deviceWidth*0.115, 0, 0, 0),
+                      child: Column(children: [
+                        CheckboxListTile(
+                          activeColor: colorSpecialItem,
+                          title: Text(
+                            'Lunes',
+                            style: TextStyle(
+                              color: Colors.transparent,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.underline,
+                              decorationColor: errorUnderline,
+                              decorationStyle: TextDecorationStyle.dashed,
+                              decorationThickness: 2,
+                              shadows: [
+                                Shadow(
+                                    color: colorMainText,
+                                    offset: Offset(0, -1.5))
+                              ],
+                            ),
+                          ),
+                          value: weekValues[0],
+                          onChanged: (val) {
+                            setState(() {
+                              weekValues[0] = val!;
+                              errorUnderline = colorSecondBackground;
+                            });
+                          },
+                          controlAffinity: ListTileControlAffinity.leading,
+                        ),
+                        CheckboxListTile(
+                          activeColor: colorSpecialItem,
+                          title: Text(
+                            'Martes',
+                            style: TextStyle(
+                              color: Colors.transparent,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.underline,
+                              decorationColor: errorUnderline,
+                              decorationStyle: TextDecorationStyle.dashed,
+                              decorationThickness: 2,
+                              shadows: [
+                                Shadow(
+                                    color: colorMainText,
+                                    offset: Offset(0, -1.5))
+                              ],
+                            ),
+                          ),
+                          value: weekValues[1],
+                          onChanged: (val) {
+                            setState(() {
+                              weekValues[1] = val!;
+                              errorUnderline = colorSecondBackground;
+                            });
+                          },
+                          controlAffinity: ListTileControlAffinity.leading,
+                        ),
+                        CheckboxListTile(
+                          activeColor: colorSpecialItem,
+                          title: Text(
+                            'Miércoles',
+                            style: TextStyle(
+                              color: Colors.transparent,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.underline,
+                              decorationColor: errorUnderline,
+                              decorationStyle: TextDecorationStyle.dashed,
+                              decorationThickness: 2,
+                              shadows: [
+                                Shadow(
+                                    color: colorMainText,
+                                    offset: Offset(0, -1.5))
+                              ],
+                            ),
+                          ),
+                          value: weekValues[2],
+                          onChanged: (val) {
+                            setState(() {
+                              weekValues[2] = val!;
+                              errorUnderline = colorSecondBackground;
+                            });
+                          },
+                          controlAffinity: ListTileControlAffinity.leading,
+                        ),
+                        CheckboxListTile(
+                          activeColor: colorSpecialItem,
+                          title: Text(
+                            'Jueves',
+                            style: TextStyle(
+                              color: Colors.transparent,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.underline,
+                              decorationColor: errorUnderline,
+                              decorationStyle: TextDecorationStyle.dashed,
+                              decorationThickness: 2,
+                              shadows: [
+                                Shadow(
+                                    color: colorMainText,
+                                    offset: Offset(0, -1.5))
+                              ],
+                            ),
+                          ),
+                          value: weekValues[3],
+                          onChanged: (val) {
+                            setState(() {
+                              weekValues[3] = val!;
+                              errorUnderline = colorSecondBackground;
+                            });
+                          },
+                          controlAffinity: ListTileControlAffinity.leading,
+                        ),
+                        CheckboxListTile(
+                          activeColor: colorSpecialItem,
+                          title: Text(
+                            'Viernes',
+                            style: TextStyle(
+                              color: Colors.transparent,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.underline,
+                              decorationColor: errorUnderline,
+                              decorationStyle: TextDecorationStyle.dashed,
+                              decorationThickness: 2,
+                              shadows: [
+                                Shadow(
+                                    color: colorMainText,
+                                    offset: Offset(0, -1.5))
+                              ],
+                            ),
+                          ),
+                          value: weekValues[4],
+                          onChanged: (val) {
+                            setState(() {
+                              weekValues[4] = val!;
+                              errorUnderline = colorSecondBackground;
+                            });
+                          },
+                          controlAffinity: ListTileControlAffinity.leading,
+                        ),
+                        CheckboxListTile(
+                          activeColor: colorSpecialItem,
+                          title: Text(
+                            'Sábado',
+                            style: TextStyle(
+                              color: Colors.transparent,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.underline,
+                              decorationColor: errorUnderline,
+                              decorationStyle: TextDecorationStyle.dashed,
+                              decorationThickness: 2,
+                              shadows: [
+                                Shadow(
+                                    color: colorMainText,
+                                    offset: Offset(0, -1.5))
+                              ],
+                            ),
+                          ),
+                          value: weekValues[5],
+                          onChanged: (val) {
+                            setState(() {
+                              weekValues[5] = val!;
+                              errorUnderline = colorSecondBackground;
+                            });
+                          },
+                          controlAffinity: ListTileControlAffinity.leading,
+                        ),
+                        CheckboxListTile(
+                          activeColor: colorSpecialItem,
+                          title: Text(
+                            'Domingo',
+                            style: TextStyle(
+                              color: Colors.transparent,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.underline,
+                              decorationColor: errorUnderline,
+                              decorationStyle: TextDecorationStyle.dashed,
+                              decorationThickness: 2,
+                              shadows: [
+                                Shadow(
+                                    color: colorMainText,
+                                    offset: Offset(0, -1.5))
+                              ],
+                            ),
+                          ),
+                          value: weekValues[6],
+                          onChanged: (val) {
+                            setState(() {
+                              weekValues[6] = val!;
+                              errorUnderline = colorSecondBackground;
+                            });
+                          },
+                          controlAffinity: ListTileControlAffinity.leading,
+                        ),
+                      ],),
+                    ),
+                  ],
+                  true
               ),
-              hintText: dateHintText,
-              hintStyle: TextStyle(
-                  color: colorThirdText, fontStyle: FontStyle.italic),
-            ),
-            onTap: () => _dateSelector(context),
-          ),
-          SizedBox(height: deviceHeight * 0.01),
-          Text(
-            'Las notas aparecerán en el calendario de Simplex en el día indicado.'
-                ' También recibirás una notificación en esa fecha.',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.03,
-                fontWeight: FontWeight.normal,
-                fontStyle: FontStyle.italic),
-          ),
-        ]),
-        FormSeparator(),
-        MainButton(Icons.check_rounded, colorSpecialItem, ' Crear nota ',
-                () {
-                  try {
-                    Note newNote = Note(
-                      id: id,
-                      name: nameController.text.trim(),
-                      content: contentController.text.trim(),
-                      onCalendar: onCalendar,
-                      calendarDate: calendarDate,
-                      modificationDate: DateTime.now(),
-                    );
-                    createNote(newNote);
-                    if (onCalendar) buildNoteNotification(id, nameController.text, calendarDate);
-                    Navigator.pop(context);
-                    showInfoSnackBar(context, 'Nota creada.');
-                  } on Exception catch (e) {
-                    debugPrint('[ERR] Could not create note: $e');
-                    showErrorSnackBar(context, 'Ha ocurrido un error');
-                  }
-                }),
-
-      ]
+            ]),
+            FormSeparator(),
+            MainButton(
+                Icons.check_rounded,
+                colorSpecialItem,
+                ' Crear nota ',
+                    () {
+                      weekValues.forEach((value) {
+                        if (value == true) daysSelected = true;
+                      });
+                      if (routineNote && daysSelected == false) {
+                        showErrorSnackBar(context,
+                            'Debes seleccionar al menos un día para la rutina');
+                        setState(() {
+                          errorUnderline = Colors.red;
+                        });
+                      } else {
+                        if(routineNote) _addNoteRoutines();
+                        try {
+                          Note newNote = Note(
+                            id: id,
+                            name: nameController.text.trim(),
+                            content: contentController.text.trim(),
+                            onCalendar: onCalendar,
+                            calendarDate: calendarDate,
+                            modificationDate: DateTime.now(),
+                            routinesList: routinesList,
+                            routineNote: routineNote,
+                          );
+                          createNote(newNote);
+                          if (onCalendar) buildNoteNotification(
+                              id, nameController.text, calendarDate);
+                          Navigator.pop(context);
+                          showInfoSnackBar(context, 'Nota creada.');
+                        } on Exception catch (e) {
+                          debugPrint('[ERR] Could not create note: $e');
+                          showErrorSnackBar(context, 'Ha ocurrido un error');
+                        }
+                      }
+                    }),
+          ]
       ),
     );
   }
@@ -187,6 +435,12 @@ class _AddNoteState extends State<AddNote> {
         calendarDate=selected;
         calendarDateController.text = dateFormat.format(selected);
       });
+    }
+  }
+
+  _addNoteRoutines(){
+    for(int i=0; i<7; i++){
+      if (weekValues[i]==true) routinesList.add(i+1);
     }
   }
 
