@@ -367,7 +367,7 @@ class _HomeState extends State<Home> {
       iconSize: deviceHeight*0.0325,
       curve: Curves.easeInOutQuart,
       items: <BottomNavyBarItem>[
-        _homeBottomNavigationBarItem('Calendario', const Icon(Icons.edit_calendar_rounded)),
+        _homeBottomNavigationBarItem('Calendario', const Icon(Icons.calendar_month_rounded)),
         _homeBottomNavigationBarItem('Tareas', const Icon(Icons.check_circle_outline_rounded)),
         _homeBottomNavigationBarItem('Notas', const Icon(Icons.sticky_note_2_outlined)),
         _homeBottomNavigationBarItem('Rutina', const Icon(Icons.loop_rounded)),

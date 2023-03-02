@@ -29,7 +29,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
         HomeHeader('Rutina', [
             IconButton(
               icon: Icon(Icons.add_rounded,
-                  color: colorSpecialItem, size: deviceWidth * 0.085),
+                  color: colorSpecialItem, size: deviceWidth*fontSize*0.085),
               splashRadius: 0.001,
               onPressed: () {
                 showInfoSnackBar(context, '[Beta] En desarrollo.');

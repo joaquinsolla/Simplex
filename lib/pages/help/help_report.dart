@@ -52,22 +52,25 @@ class _HelpReportState extends State<HelpReport> {
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
-          CheckboxListTile(
-            activeColor: colorSpecialItem,
-            title: Text(
-              'Enviar información de mi cuenta',
-              style: TextStyle(
-                  color: colorMainText,
-                  fontSize: deviceWidth * fontSize * 0.04,
-                  fontWeight: FontWeight.normal),
+          Theme(
+            data: ThemeData(unselectedWidgetColor: colorMainText),
+            child: CheckboxListTile(
+              activeColor: colorSpecialItem,
+              title: Text(
+                'Enviar información de mi cuenta',
+                style: TextStyle(
+                    color: colorMainText,
+                    fontSize: deviceWidth * fontSize * 0.04,
+                    fontWeight: FontWeight.normal),
+              ),
+              value: sendAccountData,
+              onChanged: (val) {
+                setState(() {
+                  sendAccountData = val!;
+                });
+              },
+              controlAffinity: ListTileControlAffinity.leading,
             ),
-            value: sendAccountData,
-            onChanged: (val) {
-              setState(() {
-                sendAccountData = val!;
-              });
-            },
-            controlAffinity: ListTileControlAffinity.leading,
           ),
         ]),
         FormSeparator(),

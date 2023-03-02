@@ -4,6 +4,7 @@ import 'package:simplex/common/all_common.dart';
 /// HOME AREAS
 Container HomeArea(ScrollController? scrollController,
     Widget header, Widget footer, List<Widget> body) {
+
   List<Widget> widgets = [SizedBox(height: deviceHeight*0.0325,)];
   widgets += body;
   widgets += [footer];

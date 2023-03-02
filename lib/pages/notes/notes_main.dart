@@ -44,7 +44,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
         HomeHeader('Notas', [
           IconButton(
             icon: Icon(searcherIcon,
-                color: colorSpecialItem, size: deviceWidth * 0.085),
+                color: colorSpecialItem, size: deviceWidth*fontSize*0.085),
             splashRadius: 0.001,
             onPressed: () {
               setState(() {
@@ -57,7 +57,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
           ),
           IconButton(
             icon: Icon(Icons.add_rounded,
-                color: colorSpecialItem, size: deviceWidth * 0.085),
+                color: colorSpecialItem, size: deviceWidth*fontSize*0.085),
             splashRadius: 0.001,
             onPressed: () {
               Navigator.pushNamed(context, '/notes/add_note');
@@ -319,7 +319,6 @@ class _NotesMainPageState extends State<NotesMainPage> {
           borderRadius: BorderRadius.circular(10.0),
         ),
         color: Color(color),
-
         child: Container(
           padding: EdgeInsets.all(deviceWidth*0.02),
           width: deviceWidth*0.4,
@@ -327,14 +326,19 @@ class _NotesMainPageState extends State<NotesMainPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-              if (note.name != '') Text(note.name,
+              if (note.name != '') ExpandedRow(
+                  Text(note.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       color: colorMainText,
                       fontSize: deviceWidth * fontSize * 0.04,
                       fontWeight: FontWeight.bold)
+              ),
+                  Row(children: [
+                    if(note.onCalendar) Icon(Icons.calendar_month_rounded, color: iconColor, size: deviceWidth*fontSize*0.04,),
+                    if(note.routineNote) Icon(Icons.loop_rounded, color: iconColor, size: deviceWidth*fontSize*0.04,),
+                  ],)
               ),
               if (note.name == '') Text('Sin título',
                   maxLines: 1,
@@ -345,7 +349,6 @@ class _NotesMainPageState extends State<NotesMainPage> {
                       fontWeight: FontWeight.bold,
                       fontStyle: FontStyle.italic)
               ),
-
               SizedBox(height: deviceHeight*0.01,),
               if (note.content != '') Text(note.content,
                   maxLines: 8,
@@ -366,7 +369,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.end,
                 children: [
-                  Icon(Icons.edit_note_rounded, color: iconColor, size: deviceWidth*0.04,),
+                  Icon(Icons.edit_note_rounded, color: iconColor, size: deviceWidth*fontSize*0.04,),
                   SizedBox(width: deviceWidth*0.01,),
                   Text('Editado: ' + dateToString(note.modificationDate),
                       maxLines: 1,

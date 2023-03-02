@@ -73,24 +73,27 @@ class _EditNoteState extends State<EditNote> {
               FormCustomField(
                   'En el calendario:',
                   [
-                    CheckboxListTile(
-                      activeColor: colorSpecialItem,
-                      title: Text(
-                        'Mostrar nota en el calendario',
-                        style: TextStyle(
-                            color: colorMainText,
-                            fontSize: deviceWidth * fontSize * 0.04,
-                            fontWeight: FontWeight.normal),
+                    Theme(
+                      data: ThemeData(unselectedWidgetColor: colorMainText),
+                      child: CheckboxListTile(
+                        activeColor: colorSpecialItem,
+                        title: Text(
+                          'Mostrar nota en el calendario',
+                          style: TextStyle(
+                              color: colorMainText,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        value: onCalendar,
+                        onChanged: (val) {
+                          setState(() {
+                            onCalendar = val!;
+                            calendarDateController.clear();
+                            calendarDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity.leading,
                       ),
-                      value: onCalendar,
-                      onChanged: (val) {
-                        setState(() {
-                          onCalendar = val!;
-                          calendarDateController.clear();
-                          calendarDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-                        });
-                      },
-                      controlAffinity: ListTileControlAffinity.leading,
                     ),
                     if (onCalendar) SizedBox(height: deviceHeight * 0.005),
                     if (onCalendar) TextField(
@@ -129,221 +132,226 @@ class _EditNoteState extends State<EditNote> {
               FormCustomField(
                   'En tus rutinas:',
                   [
-                    CheckboxListTile(
-                      activeColor: colorSpecialItem,
-                      title: Text(
-                        'Mostrar nota en las rutinas:',
-                        style: TextStyle(
-                            color: colorMainText,
-                            fontSize: deviceWidth * fontSize * 0.04,
-                            fontWeight: FontWeight.normal),
-                      ),
-                      value: routineNote,
-                      onChanged: (val) {
-                        setState(() {
-                          routineNote = val!;
-                        });
-                      },
-                      controlAffinity: ListTileControlAffinity.leading,
-                    ),
-                    if(routineNote) Container(
-                      padding: EdgeInsets.fromLTRB(deviceWidth*0.115, 0, 0, 0),
+                    Theme(
+                      data: ThemeData(unselectedWidgetColor: colorMainText),
                       child: Column(children: [
                         CheckboxListTile(
                           activeColor: colorSpecialItem,
                           title: Text(
-                            'Lunes',
+                            'Mostrar nota en las rutinas:',
                             style: TextStyle(
-                              color: Colors.transparent,
-                              fontSize: deviceWidth * fontSize * 0.04,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationColor: errorUnderline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
-                            ),
+                                color: colorMainText,
+                                fontSize: deviceWidth * fontSize * 0.04,
+                                fontWeight: FontWeight.normal),
                           ),
-                          value: weekValues[0],
+                          value: routineNote,
                           onChanged: (val) {
                             setState(() {
-                              weekValues[0] = val!;
-                              errorUnderline = colorSecondBackground;
+                              routineNote = val!;
                             });
                           },
                           controlAffinity: ListTileControlAffinity.leading,
                         ),
-                        CheckboxListTile(
-                          activeColor: colorSpecialItem,
-                          title: Text(
-                            'Martes',
-                            style: TextStyle(
-                              color: Colors.transparent,
-                              fontSize: deviceWidth * fontSize * 0.04,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationColor: errorUnderline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
+                        if(routineNote) Container(
+                          padding: EdgeInsets.fromLTRB(deviceWidth*0.115, 0, 0, 0),
+                          child: Column(children: [
+                            CheckboxListTile(
+                              activeColor: colorSpecialItem,
+                              title: Text(
+                                'Lunes',
+                                style: TextStyle(
+                                  color: Colors.transparent,
+                                  fontSize: deviceWidth * fontSize * 0.04,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: errorUnderline,
+                                  decorationStyle: TextDecorationStyle.dashed,
+                                  decorationThickness: 2,
+                                  shadows: [
+                                    Shadow(
+                                        color: colorMainText,
+                                        offset: Offset(0, -1.5))
+                                  ],
+                                ),
+                              ),
+                              value: weekValues[0],
+                              onChanged: (val) {
+                                setState(() {
+                                  weekValues[0] = val!;
+                                  errorUnderline = colorSecondBackground;
+                                });
+                              },
+                              controlAffinity: ListTileControlAffinity.leading,
                             ),
-                          ),
-                          value: weekValues[1],
-                          onChanged: (val) {
-                            setState(() {
-                              weekValues[1] = val!;
-                              errorUnderline = colorSecondBackground;
-                            });
-                          },
-                          controlAffinity: ListTileControlAffinity.leading,
-                        ),
-                        CheckboxListTile(
-                          activeColor: colorSpecialItem,
-                          title: Text(
-                            'Miércoles',
-                            style: TextStyle(
-                              color: Colors.transparent,
-                              fontSize: deviceWidth * fontSize * 0.04,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationColor: errorUnderline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
+                            CheckboxListTile(
+                              activeColor: colorSpecialItem,
+                              title: Text(
+                                'Martes',
+                                style: TextStyle(
+                                  color: Colors.transparent,
+                                  fontSize: deviceWidth * fontSize * 0.04,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: errorUnderline,
+                                  decorationStyle: TextDecorationStyle.dashed,
+                                  decorationThickness: 2,
+                                  shadows: [
+                                    Shadow(
+                                        color: colorMainText,
+                                        offset: Offset(0, -1.5))
+                                  ],
+                                ),
+                              ),
+                              value: weekValues[1],
+                              onChanged: (val) {
+                                setState(() {
+                                  weekValues[1] = val!;
+                                  errorUnderline = colorSecondBackground;
+                                });
+                              },
+                              controlAffinity: ListTileControlAffinity.leading,
                             ),
-                          ),
-                          value: weekValues[2],
-                          onChanged: (val) {
-                            setState(() {
-                              weekValues[2] = val!;
-                              errorUnderline = colorSecondBackground;
-                            });
-                          },
-                          controlAffinity: ListTileControlAffinity.leading,
-                        ),
-                        CheckboxListTile(
-                          activeColor: colorSpecialItem,
-                          title: Text(
-                            'Jueves',
-                            style: TextStyle(
-                              color: Colors.transparent,
-                              fontSize: deviceWidth * fontSize * 0.04,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationColor: errorUnderline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
+                            CheckboxListTile(
+                              activeColor: colorSpecialItem,
+                              title: Text(
+                                'Miércoles',
+                                style: TextStyle(
+                                  color: Colors.transparent,
+                                  fontSize: deviceWidth * fontSize * 0.04,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: errorUnderline,
+                                  decorationStyle: TextDecorationStyle.dashed,
+                                  decorationThickness: 2,
+                                  shadows: [
+                                    Shadow(
+                                        color: colorMainText,
+                                        offset: Offset(0, -1.5))
+                                  ],
+                                ),
+                              ),
+                              value: weekValues[2],
+                              onChanged: (val) {
+                                setState(() {
+                                  weekValues[2] = val!;
+                                  errorUnderline = colorSecondBackground;
+                                });
+                              },
+                              controlAffinity: ListTileControlAffinity.leading,
                             ),
-                          ),
-                          value: weekValues[3],
-                          onChanged: (val) {
-                            setState(() {
-                              weekValues[3] = val!;
-                              errorUnderline = colorSecondBackground;
-                            });
-                          },
-                          controlAffinity: ListTileControlAffinity.leading,
-                        ),
-                        CheckboxListTile(
-                          activeColor: colorSpecialItem,
-                          title: Text(
-                            'Viernes',
-                            style: TextStyle(
-                              color: Colors.transparent,
-                              fontSize: deviceWidth * fontSize * 0.04,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationColor: errorUnderline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
+                            CheckboxListTile(
+                              activeColor: colorSpecialItem,
+                              title: Text(
+                                'Jueves',
+                                style: TextStyle(
+                                  color: Colors.transparent,
+                                  fontSize: deviceWidth * fontSize * 0.04,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: errorUnderline,
+                                  decorationStyle: TextDecorationStyle.dashed,
+                                  decorationThickness: 2,
+                                  shadows: [
+                                    Shadow(
+                                        color: colorMainText,
+                                        offset: Offset(0, -1.5))
+                                  ],
+                                ),
+                              ),
+                              value: weekValues[3],
+                              onChanged: (val) {
+                                setState(() {
+                                  weekValues[3] = val!;
+                                  errorUnderline = colorSecondBackground;
+                                });
+                              },
+                              controlAffinity: ListTileControlAffinity.leading,
                             ),
-                          ),
-                          value: weekValues[4],
-                          onChanged: (val) {
-                            setState(() {
-                              weekValues[4] = val!;
-                              errorUnderline = colorSecondBackground;
-                            });
-                          },
-                          controlAffinity: ListTileControlAffinity.leading,
-                        ),
-                        CheckboxListTile(
-                          activeColor: colorSpecialItem,
-                          title: Text(
-                            'Sábado',
-                            style: TextStyle(
-                              color: Colors.transparent,
-                              fontSize: deviceWidth * fontSize * 0.04,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationColor: errorUnderline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
+                            CheckboxListTile(
+                              activeColor: colorSpecialItem,
+                              title: Text(
+                                'Viernes',
+                                style: TextStyle(
+                                  color: Colors.transparent,
+                                  fontSize: deviceWidth * fontSize * 0.04,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: errorUnderline,
+                                  decorationStyle: TextDecorationStyle.dashed,
+                                  decorationThickness: 2,
+                                  shadows: [
+                                    Shadow(
+                                        color: colorMainText,
+                                        offset: Offset(0, -1.5))
+                                  ],
+                                ),
+                              ),
+                              value: weekValues[4],
+                              onChanged: (val) {
+                                setState(() {
+                                  weekValues[4] = val!;
+                                  errorUnderline = colorSecondBackground;
+                                });
+                              },
+                              controlAffinity: ListTileControlAffinity.leading,
                             ),
-                          ),
-                          value: weekValues[5],
-                          onChanged: (val) {
-                            setState(() {
-                              weekValues[5] = val!;
-                              errorUnderline = colorSecondBackground;
-                            });
-                          },
-                          controlAffinity: ListTileControlAffinity.leading,
-                        ),
-                        CheckboxListTile(
-                          activeColor: colorSpecialItem,
-                          title: Text(
-                            'Domingo',
-                            style: TextStyle(
-                              color: Colors.transparent,
-                              fontSize: deviceWidth * fontSize * 0.04,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationColor: errorUnderline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
+                            CheckboxListTile(
+                              activeColor: colorSpecialItem,
+                              title: Text(
+                                'Sábado',
+                                style: TextStyle(
+                                  color: Colors.transparent,
+                                  fontSize: deviceWidth * fontSize * 0.04,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: errorUnderline,
+                                  decorationStyle: TextDecorationStyle.dashed,
+                                  decorationThickness: 2,
+                                  shadows: [
+                                    Shadow(
+                                        color: colorMainText,
+                                        offset: Offset(0, -1.5))
+                                  ],
+                                ),
+                              ),
+                              value: weekValues[5],
+                              onChanged: (val) {
+                                setState(() {
+                                  weekValues[5] = val!;
+                                  errorUnderline = colorSecondBackground;
+                                });
+                              },
+                              controlAffinity: ListTileControlAffinity.leading,
                             ),
-                          ),
-                          value: weekValues[6],
-                          onChanged: (val) {
-                            setState(() {
-                              weekValues[6] = val!;
-                              errorUnderline = colorSecondBackground;
-                            });
-                          },
-                          controlAffinity: ListTileControlAffinity.leading,
+                            CheckboxListTile(
+                              activeColor: colorSpecialItem,
+                              title: Text(
+                                'Domingo',
+                                style: TextStyle(
+                                  color: Colors.transparent,
+                                  fontSize: deviceWidth * fontSize * 0.04,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: errorUnderline,
+                                  decorationStyle: TextDecorationStyle.dashed,
+                                  decorationThickness: 2,
+                                  shadows: [
+                                    Shadow(
+                                        color: colorMainText,
+                                        offset: Offset(0, -1.5))
+                                  ],
+                                ),
+                              ),
+                              value: weekValues[6],
+                              onChanged: (val) {
+                                setState(() {
+                                  weekValues[6] = val!;
+                                  errorUnderline = colorSecondBackground;
+                                });
+                              },
+                              controlAffinity: ListTileControlAffinity.leading,
+                            ),
+                          ],),
                         ),
                       ],),
                     ),

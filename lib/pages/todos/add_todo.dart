@@ -152,24 +152,27 @@ class _AddTodoState extends State<AddTodo> {
                 fontWeight: FontWeight.bold),
           ),
           SizedBox(height: deviceHeight * 0.005),
-          CheckboxListTile(
-            activeColor: colorSpecialItem,
-            title: Text(
-              'Tarea con fecha límite',
-              style: TextStyle(
-                  color: colorMainText,
-                  fontSize: deviceWidth * fontSize * 0.04,
-                  fontWeight: FontWeight.normal),
+          Theme(
+            data: ThemeData(unselectedWidgetColor: colorMainText),
+            child: CheckboxListTile(
+              activeColor: colorSpecialItem,
+              title: Text(
+                'Tarea con fecha límite',
+                style: TextStyle(
+                    color: colorMainText,
+                    fontSize: deviceWidth * fontSize * 0.04,
+                    fontWeight: FontWeight.normal),
+              ),
+              value: limited,
+              onChanged: (val) {
+                setState(() {
+                  limited = val!;
+                  limitDateController.clear();
+                  limitDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+                });
+              },
+              controlAffinity: ListTileControlAffinity.leading,
             ),
-            value: limited,
-            onChanged: (val) {
-              setState(() {
-                limited = val!;
-                limitDateController.clear();
-                limitDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-              });
-            },
-            controlAffinity: ListTileControlAffinity.leading,
           ),
           if (limited) SizedBox(height: deviceHeight * 0.005),
           if (limited) TextField(

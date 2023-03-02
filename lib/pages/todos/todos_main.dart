@@ -56,13 +56,13 @@ class _TodosMainPageState extends State<TodosMainPage> {
       HomeHeader('Tareas', [
         IconButton(
         icon: Icon(Icons.clear_all_rounded,
-            color: colorSpecialItem, size: deviceWidth * 0.085),
+            color: colorSpecialItem, size: deviceWidth*fontSize*0.085),
         splashRadius: 0.001,
         onPressed: () => _showDeleteAllDoneDialog(),
       ),
       IconButton(
         icon: Icon(searcherIcon,
-            color: colorSpecialItem, size: deviceWidth * 0.085),
+            color: colorSpecialItem, size: deviceWidth*fontSize*0.085),
         splashRadius: 0.001,
         onPressed: () {
           setState(() {
@@ -75,7 +75,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
       ),
       IconButton(
         icon: Icon(Icons.add_rounded,
-            color: colorSpecialItem, size: deviceWidth * 0.085),
+            color: colorSpecialItem, size: deviceWidth*fontSize*0.085),
         splashRadius: 0.001,
         onPressed: () {
           Navigator.pushNamed(context, '/todos/add_todo');
@@ -400,15 +400,20 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(todo.name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: colorMainText,
-                                fontSize: deviceWidth * fontSize * 0.06,
-                                fontWeight: FontWeight.bold))),
-
+                    ExpandedRow(
+                        Container(
+                            alignment: Alignment.centerLeft,
+                            child: Text(todo.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(color: colorMainText,
+                                    fontSize: deviceWidth * fontSize * 0.06,
+                                    fontWeight: FontWeight.bold))),
+                        Row(children: [
+                          if(todo.limited) Icon(Icons.calendar_month_rounded,
+                            color: colorSpecialItem, size: deviceWidth*fontSize*0.05,),
+                        ],)
+                    ),
                     if (hasDescription) SizedBox(
                         height: deviceHeight * 0.00375),
                     if (hasDescription) Container(
@@ -613,16 +618,21 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(todo.name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: colorThirdText,
-                                fontSize: deviceWidth * fontSize * 0.06,
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.lineThrough))),
-
+                    ExpandedRow(
+                        Container(
+                            alignment: Alignment.centerLeft,
+                            child: Text(todo.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(color: colorThirdText,
+                                    fontSize: deviceWidth * fontSize * 0.06,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.lineThrough))),
+                        Row(children: [
+                          if(todo.limited) Icon(Icons.calendar_month_rounded,
+                            color: colorThirdText, size: deviceWidth*fontSize*0.05,),
+                        ],)
+                    ),
                     if (hasDescription) SizedBox(
                         height: deviceHeight * 0.00375),
                     if (hasDescription) Container(

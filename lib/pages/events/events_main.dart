@@ -96,7 +96,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
     return HomeArea(_scrollController,
         HomeHeader('Calendario', [IconButton(
             icon: Icon(Icons.add_rounded,
-                color: colorSpecialItem, size: deviceWidth * 0.085),
+                color: colorSpecialItem, size: deviceWidth*fontSize*0.085),
             splashRadius: 0.001,
             onPressed: () {
               Navigator.pushNamed(context, '/events/add_event');

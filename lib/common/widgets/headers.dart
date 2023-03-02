@@ -55,11 +55,11 @@ Column PageHeader(BuildContext context, String text) {
     children: [
       SizedBox(height: deviceHeight * 0.01),
       Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           IconButton(
             icon: Icon(Icons.arrow_circle_left_outlined,
-                color: colorSpecialItem, size: deviceWidth * 0.08),
+                color: colorSpecialItem, size: deviceWidth*fontSize*0.08),
             splashRadius: 0.001,
             onPressed: (){
               Navigator.pop(context);
