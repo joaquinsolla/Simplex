@@ -340,14 +340,20 @@ class _NotesMainPageState extends State<NotesMainPage> {
                     if(note.routineNote) Icon(Icons.loop_rounded, color: iconColor, size: deviceWidth*fontSize*0.04,),
                   ],)
               ),
-              if (note.name == '') Text('Sin título',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: colorSecondText,
-                      fontSize: deviceWidth * fontSize * 0.04,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic)
+              if (note.name == '') ExpandedRow(
+                  Text('Sin título',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: colorSecondText,
+                          fontSize: deviceWidth * fontSize * 0.04,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic)
+                  ),
+                  Row(children: [
+                    if(note.onCalendar) Icon(Icons.calendar_month_rounded, color: iconColor, size: deviceWidth*fontSize*0.04,),
+                    if(note.routineNote) Icon(Icons.loop_rounded, color: iconColor, size: deviceWidth*fontSize*0.04,),
+                  ],)
               ),
               SizedBox(height: deviceHeight*0.01,),
               if (note.content != '') Text(note.content,

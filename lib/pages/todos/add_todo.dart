@@ -167,8 +167,6 @@ class _AddTodoState extends State<AddTodo> {
               onChanged: (val) {
                 setState(() {
                   limited = val!;
-                  limitDateController.clear();
-                  limitDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
                 });
               },
               controlAffinity: ListTileControlAffinity.leading,

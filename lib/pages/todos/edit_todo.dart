@@ -160,8 +160,6 @@ class _EditTodoState extends State<EditTodo> {
               onChanged: (val) {
                 setState(() {
                   limited = val!;
-                  limitDateController.clear();
-                  limitDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
                 });
               },
               controlAffinity: ListTileControlAffinity.leading,
