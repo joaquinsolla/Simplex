@@ -9,6 +9,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 void showErrorSnackBar(BuildContext context, String content) {
 
+  ScaffoldMessenger.of(context).clearSnackBars();
+
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text(content),
     backgroundColor: Colors.red,
@@ -25,11 +27,12 @@ void showInfoSnackBar(BuildContext context, String content) {
   late double sideMarginProportion;
 
   if (content.length<35){
-    sideMarginProportion = 0.425 - (content.length * 0.00975 * fontSize);
+    sideMarginProportion = 0.425 - (content.length * 0.0098 * fontSize);
   } else {
     sideMarginProportion = 0.1;
   }
 
+  ScaffoldMessenger.of(context).clearSnackBars();
 
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
