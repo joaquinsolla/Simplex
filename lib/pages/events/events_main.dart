@@ -330,11 +330,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
     Color backgroundColor = colorThirdBackground;
     if (darkMode) backgroundColor = colorSecondBackground;
     Color secondColor = colorSecondText;
-    Color iconColor = colorSpecialItem;
-    if(event.color != -1) {
-      secondColor = colorMainText;
-      iconColor = colorMainText;
-    }
+    if(event.color != -1) secondColor = colorMainText;
 
     return FocusedMenuHolder(
       onPressed: (){
@@ -477,7 +473,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                          width: deviceWidth*0.515,
+                          width: deviceWidth*0.585,
                           alignment: Alignment.centerLeft,
                           child: Text(event.name,
                               maxLines: 2,
@@ -485,7 +481,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                               style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.06, fontWeight: FontWeight.bold))),
                       if (event.description!='') SizedBox(height: deviceHeight*0.00375,),
                       if (event.description!='') Container(
-                          width: deviceWidth*0.515,
+                          width: deviceWidth*0.585,
                           alignment: Alignment.centerLeft,
                           child: Text(event.description,
                               maxLines: 5,
@@ -493,8 +489,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                               style: TextStyle(color: secondColor, fontSize: deviceWidth * fontSize * 0.03, fontWeight: FontWeight.normal))),
                     ],
                   ),
-                  Expanded(child: Text(''),),
-                  Icon(Icons.input_rounded, color: iconColor, size: deviceWidth * 0.06),
+                  /*Icon(Icons.input_rounded, color: iconColor, size: deviceWidth * 0.06),*/
                   SizedBox(width: deviceWidth*0.01,),
                 ],
               ),
@@ -517,8 +512,6 @@ class _EventsMainPageState extends State<EventsMainPage> {
 
     Color backgroundColor = colorThirdBackground;
     if (darkMode) backgroundColor = colorSecondBackground;
-    Color secondColor = colorSecondText;
-    Color iconColor = colorSpecialItem;
 
     return FocusedMenuHolder(
       onPressed: (){
@@ -676,13 +669,13 @@ class _EventsMainPageState extends State<EventsMainPage> {
                       ],
                     ),
                   ),
-                  VerticalDivider(color: secondColor,),
+                  VerticalDivider(color: colorSecondText,),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                          width: deviceWidth*0.515,
+                          width: deviceWidth*0.585,
                           alignment: Alignment.centerLeft,
                           child: Text(todo.name,
                               maxLines: 2,
@@ -690,16 +683,15 @@ class _EventsMainPageState extends State<EventsMainPage> {
                               style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.06, fontWeight: FontWeight.bold))),
                       if (todo.description!='') SizedBox(height: deviceHeight*0.00375,),
                       if (todo.description!='') Container(
-                          width: deviceWidth*0.515,
+                          width: deviceWidth*0.585,
                           alignment: Alignment.centerLeft,
                           child: Text(todo.description,
                               maxLines: 5,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: secondColor, fontSize: deviceWidth * fontSize * 0.03, fontWeight: FontWeight.normal))),
+                              style: TextStyle(color: colorSecondText, fontSize: deviceWidth * fontSize * 0.03, fontWeight: FontWeight.normal))),
                     ],
                   ),
-                  Expanded(child: Text(''),),
-                  Icon(Icons.input_rounded, color: iconColor, size: deviceWidth * 0.06),
+                  /*Icon(Icons.input_rounded, color: iconColor, size: deviceWidth * 0.06),*/
                   SizedBox(width: deviceWidth*0.01,),
                 ],
               ),
@@ -722,8 +714,6 @@ class _EventsMainPageState extends State<EventsMainPage> {
 
     Color backgroundColor = colorThirdBackground;
     if (darkMode) backgroundColor = colorSecondBackground;
-    Color secondColor = colorSecondText;
-    Color iconColor = colorSpecialItem;
 
     return FocusedMenuHolder(
       onPressed: (){
@@ -859,20 +849,20 @@ class _EventsMainPageState extends State<EventsMainPage> {
                       ],
                     ),
                   ),
-                  VerticalDivider(color: secondColor,),
+                  VerticalDivider(color: colorSecondText,),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (note.name!='') Container(
-                          width: deviceWidth*0.515,
+                          width: deviceWidth*0.585,
                           alignment: Alignment.centerLeft,
                           child: Text(note.name,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.06, fontWeight: FontWeight.bold))),
                       if (note.name=='') Container(
-                          width: deviceWidth*0.515,
+                          width: deviceWidth*0.585,
                           alignment: Alignment.centerLeft,
                           child: Text('Sin título',
                               maxLines: 2,
@@ -884,16 +874,15 @@ class _EventsMainPageState extends State<EventsMainPage> {
                               ))),
                       if (note.content!='') SizedBox(height: deviceHeight*0.00375,),
                       if (note.content!='') Container(
-                          width: deviceWidth*0.515,
+                          width: deviceWidth*0.585,
                           alignment: Alignment.centerLeft,
                           child: Text(note.content,
                               maxLines: 5,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: secondColor, fontSize: deviceWidth * fontSize * 0.03, fontWeight: FontWeight.normal))),
+                              style: TextStyle(color: colorSecondText, fontSize: deviceWidth * fontSize * 0.03, fontWeight: FontWeight.normal))),
                     ],
                   ),
-                  Expanded(child: Text(''),),
-                  Icon(Icons.input_rounded, color: iconColor, size: deviceWidth * 0.06),
+                  /*Icon(Icons.input_rounded, color: iconColor, size: deviceWidth * 0.06),*/
                   SizedBox(width: deviceWidth*0.01,),
                 ],
               ),

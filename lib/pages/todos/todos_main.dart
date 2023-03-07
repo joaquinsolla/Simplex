@@ -411,7 +411,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                                     fontWeight: FontWeight.bold))),
                         Row(children: [
                           if(todo.limited) Icon(Icons.calendar_month_rounded,
-                            color: colorSpecialItem, size: deviceWidth*fontSize*0.05,),
+                            color: colorSpecialItem, size: deviceWidth*fontSize*0.04,),
                         ],)
                     ),
                     if (hasDescription) SizedBox(
@@ -630,7 +630,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                                     decoration: TextDecoration.lineThrough))),
                         Row(children: [
                           if(todo.limited) Icon(Icons.calendar_month_rounded,
-                            color: colorThirdText, size: deviceWidth*fontSize*0.05,),
+                            color: colorThirdText, size: deviceWidth*fontSize*0.04,),
                         ],)
                     ),
                     if (hasDescription) SizedBox(

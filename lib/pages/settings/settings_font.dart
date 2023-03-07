@@ -35,8 +35,6 @@ class _SettingsFontState extends State<SettingsFont> {
     String dateFormat = 'H:mm';
     if (format24Hours == false) dateFormat = 'K:mm';
     DateTime eventDate = DateTime.now();
-    Color secondColor = colorSecondText;
-    Color iconColor = colorSpecialItem;
 
     return Scaffold(
       backgroundColor: colorMainBackground,
@@ -193,17 +191,17 @@ class _SettingsFontState extends State<SettingsFont> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(DateFormat(dateFormat).format(eventDate), style: TextStyle(color: colorMainText, fontSize: deviceWidth * previewFontSize * 0.055, fontWeight: FontWeight.bold)),
-                              if (format24Hours==false) Text(DateFormat('aa').format(eventDate), style: TextStyle(color: secondColor, fontSize: deviceWidth * previewFontSize * 0.034, fontWeight: FontWeight.normal)),
+                              if (format24Hours==false) Text(DateFormat('aa').format(eventDate), style: TextStyle(color: colorSecondText, fontSize: deviceWidth * previewFontSize * 0.034, fontWeight: FontWeight.normal)),
                             ],
                           ),
                         ),
-                        VerticalDivider(color: secondColor,),
+                        VerticalDivider(color: colorSecondText,),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                                width: deviceWidth*0.515,
+                                width: deviceWidth*0.585,
                                 alignment: Alignment.centerLeft,
                                 child: Text('Evento',
                                     maxLines: 2,
@@ -211,16 +209,14 @@ class _SettingsFontState extends State<SettingsFont> {
                                     style: TextStyle(color: colorMainText, fontSize: deviceWidth * previewFontSize * 0.06, fontWeight: FontWeight.bold))),
                             SizedBox(height: deviceHeight*0.00375,),
                             Container(
-                                width: deviceWidth*0.515,
+                                width: deviceWidth*0.585,
                                 alignment: Alignment.centerLeft,
                                 child: Text('Descripción del evento',
                                     maxLines: 5,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(color: secondColor, fontSize: deviceWidth * previewFontSize * 0.03, fontWeight: FontWeight.normal))),
+                                    style: TextStyle(color: colorSecondText, fontSize: deviceWidth * previewFontSize * 0.03, fontWeight: FontWeight.normal))),
                           ],
                         ),
-                        Expanded(child: Text(''),),
-                        Icon(Icons.input_rounded, color: iconColor, size: deviceWidth * 0.06),
                         SizedBox(width: deviceWidth*0.01,),
                       ],
                     ),
@@ -251,13 +247,13 @@ class _SettingsFontState extends State<SettingsFont> {
                             ],
                           ),
                         ),
-                        VerticalDivider(color: secondColor,),
+                        VerticalDivider(color: colorSecondText,),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                                width: deviceWidth*0.515,
+                                width: deviceWidth*0.585,
                                 alignment: Alignment.centerLeft,
                                 child: Text('Tarea',
                                     maxLines: 2,
@@ -265,16 +261,14 @@ class _SettingsFontState extends State<SettingsFont> {
                                     style: TextStyle(color: colorMainText, fontSize: deviceWidth * previewFontSize * 0.06, fontWeight: FontWeight.bold))),
                             SizedBox(height: deviceHeight*0.00375,),
                             Container(
-                                width: deviceWidth*0.515,
+                                width: deviceWidth*0.585,
                                 alignment: Alignment.centerLeft,
                                 child: Text('Descripción de la tarea',
                                     maxLines: 5,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(color: secondColor, fontSize: deviceWidth * previewFontSize * 0.03, fontWeight: FontWeight.normal))),
+                                    style: TextStyle(color: colorSecondText, fontSize: deviceWidth * previewFontSize * 0.03, fontWeight: FontWeight.normal))),
                           ],
                         ),
-                        Expanded(child: Text(''),),
-                        Icon(Icons.input_rounded, color: iconColor, size: deviceWidth * 0.06),
                         SizedBox(width: deviceWidth*0.01,),
                       ],
                     ),
@@ -305,13 +299,13 @@ class _SettingsFontState extends State<SettingsFont> {
                             ],
                           ),
                         ),
-                        VerticalDivider(color: secondColor,),
+                        VerticalDivider(color: colorSecondText,),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                                width: deviceWidth*0.515,
+                                width: deviceWidth*0.585,
                                 alignment: Alignment.centerLeft,
                                 child: Text('Nota',
                                     maxLines: 2,
@@ -319,16 +313,14 @@ class _SettingsFontState extends State<SettingsFont> {
                                     style: TextStyle(color: colorMainText, fontSize: deviceWidth * previewFontSize * 0.06, fontWeight: FontWeight.bold))),
                             SizedBox(height: deviceHeight*0.00375,),
                             Container(
-                                width: deviceWidth*0.515,
+                                width: deviceWidth*0.585,
                                 alignment: Alignment.centerLeft,
                                 child: Text('Contenido de la nota',
                                     maxLines: 5,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(color: secondColor, fontSize: deviceWidth * previewFontSize * 0.03, fontWeight: FontWeight.normal))),
+                                    style: TextStyle(color: colorSecondText, fontSize: deviceWidth * previewFontSize * 0.03, fontWeight: FontWeight.normal))),
                           ],
                         ),
-                        Expanded(child: Text(''),),
-                        Icon(Icons.input_rounded, color: iconColor, size: deviceWidth * 0.06),
                         SizedBox(width: deviceWidth*0.01,),
                       ],
                     ),
