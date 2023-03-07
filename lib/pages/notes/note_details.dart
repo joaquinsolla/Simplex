@@ -132,7 +132,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                   false
               ),
               FormCustomField(
-                  'En tus rutinas:',
+                  'En mis rutinas:',
                   [
                     if (selectedNote!.routineNote==false) Row(children: [
                       Icon(Icons.sync_disabled_rounded, color: colorSecondText, size: deviceWidth*0.05,),

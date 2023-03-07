@@ -20,8 +20,8 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
   @override
   void initState() {
     super.initState();
+    _setRoutineDay(weekDay);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +37,28 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
             ),
           ]),
         FooterEmpty(),
-        []
+        [
+          RoutineWeekDaysButton(
+              routineDay,
+              [
+                (){_setRoutineDay(1);},
+                (){_setRoutineDay(2);},
+                (){_setRoutineDay(3);},
+                (){_setRoutineDay(4);},
+                (){_setRoutineDay(5);},
+                (){_setRoutineDay(6);},
+                (){_setRoutineDay(7);},
+              ]
+          )
+        ]
     );
+  }
+
+  void _setRoutineDay(int index){
+    setState(() {
+      routineDay = index;
+    });
+    debugPrint('[OK] routineDay set to: $routineDay');
   }
 
 }

@@ -40,6 +40,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
 
     if (deviceChecked == false) _check_device();
+    if (routineDay == 0) _calculateDayOfWeek();
 
     List<Widget> homeViews = [
       EventsMainPage(),
@@ -352,6 +353,13 @@ class _HomeState extends State<Home> {
         deviceChecked = true;
       } else _check_device();
     });
+  }
+
+  void _calculateDayOfWeek(){
+    weekDay = DateTime.now().weekday;
+    debugPrint('[OK] weekDay set to: $weekDay');
+    routineDay = weekDay;
+    debugPrint('[OK] routineDay set to: $routineDay');
   }
 
   /// AUX WIDGETS

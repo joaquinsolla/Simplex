@@ -128,7 +128,7 @@ class _EditNoteState extends State<EditNote> {
                   false
               ),
               FormCustomField(
-                  'En tus rutinas:',
+                  'En mis rutinas:',
                   [
                     Theme(
                       data: ThemeData(unselectedWidgetColor: colorMainText),

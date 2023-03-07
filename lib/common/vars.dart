@@ -4,6 +4,8 @@ import 'package:simplex/classes/all_classes.dart';
 /// COMMON VARIABLES
 int loginIndex = 0;
 int homeIndex = 0;
+int weekDay = 0;
+int routineDay = 0;
 
 double deviceHeight = 0;
 double deviceWidth = 0;
