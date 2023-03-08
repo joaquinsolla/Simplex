@@ -18,7 +18,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final _pageController = PageController();
 
   @override
   void initState() {
@@ -54,7 +53,7 @@ class _HomeState extends State<Home> {
       backgroundColor: colorMainBackground,
       body: PageView(
           children: homeViews,
-          controller: _pageController,
+          controller: pageController,
           physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
           onPageChanged: (index) {
             setState(() {
@@ -369,7 +368,7 @@ class _HomeState extends State<Home> {
       selectedIndex: homeIndex,
       onItemSelected: (index) {
         setState(() => homeIndex = index);
-        _pageController.jumpToPage(index);
+        pageController.jumpToPage(index);
       },
       containerHeight: deviceHeight*0.08,
       iconSize: deviceHeight*0.0325,

@@ -33,3 +33,6 @@ Note? selectedNote;
 
 /// MATERIAL APP KEY
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+/// PAGE CONTROLLER
+PageController pageController = PageController();

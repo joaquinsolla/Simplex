@@ -26,6 +26,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   DateTime _selectedDay = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  late String dayText;
 
   @override
   void dispose() {
@@ -92,6 +93,15 @@ class _EventsMainPageState extends State<EventsMainPage> {
     else if (_selectedDayFormatted == tomorrow) dateText = 'Mañana';
     else if (formatDates==true) dateText = DateFormat('dd/MM/yyyy').format(_selectedDay);
     else dateText = DateFormat('MM/dd/yyyy').format(_selectedDay);
+
+    if(weekDay == routineDay) dayText = 'hoy';
+    else if(weekDay != routineDay && routineDay == 1) dayText = 'lunes';
+    else if(weekDay != routineDay && routineDay == 2) dayText = 'martes';
+    else if(weekDay != routineDay && routineDay == 3) dayText = 'miércoles';
+    else if(weekDay != routineDay && routineDay == 4) dayText = 'jueves';
+    else if(weekDay != routineDay && routineDay == 5) dayText = 'viernes';
+    else if(weekDay != routineDay && routineDay == 6) dayText = 'sábado';
+    else if(weekDay != routineDay && routineDay == 7) dayText = 'domingo';
 
     return HomeArea(_scrollController,
         HomeHeader('Calendario', [IconButton(
@@ -224,8 +234,10 @@ class _EventsMainPageState extends State<EventsMainPage> {
           ]),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              debugPrint('[ERR] Cannot load day events: ' + snapshot.error.toString());
-              return ErrorContainer('No se pueden cargar los eventos de este día.', 0.35);
+              debugPrint(
+                  '[ERR] Cannot load day events: ' + snapshot.error.toString());
+              return ErrorContainer(
+                  'No se pueden cargar los eventos de este día.', 0.35);
             }
             else if (snapshot.hasData) {
               final events = snapshot.data![0];
@@ -234,7 +246,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: deviceHeight*0.0125,),
+                  SizedBox(height: deviceHeight * 0.0125,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -244,30 +256,49 @@ class _EventsMainPageState extends State<EventsMainPage> {
                         splashRadius: 0.001,
                         onPressed: () {
                           setState(() {
-                            _selectedDay=_selectedDay.subtract(Duration(days: 1));
+                            _selectedDay =
+                                _selectedDay.subtract(Duration(days: 1));
                             selectedDateTime = _selectedDay;
                           });
                         },
                       ),
-                      SizedBox(width: deviceWidth*0.01),
-                      Container(
-                        width: deviceWidth*0.275,
-                        alignment: Alignment.center,
-                        child: Text(dateText,
-                            style: TextStyle(
-                                color: colorMainText,
-                                fontSize: deviceWidth * fontSize * 0.05,
-                                fontWeight: FontWeight.bold)
-                        ),
+                      SizedBox(width: deviceWidth * 0.03),
+                      Expanded(
+                        child: TextButton(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Icons.loop_rounded, color: colorSpecialItem, size: deviceWidth * fontSize * 0.04,),
+                              Text(
+                                ' ' + dateText,
+                                style: TextStyle(
+                                    color: colorSpecialItem,
+                                    fontSize: deviceWidth * fontSize * 0.04,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                            ],
+                          ),
+                          onPressed: (){
+                            setState(() {
+                              homeIndex = 3;
+                              routineDay = _selectedDay.weekday;
+                            });
+                            pageController.jumpToPage(3);
+                          },
+                          style: ButtonStyle(
+                            overlayColor: MaterialStateProperty.all(colorSpecialItem.withOpacity(0.1)),
+                          ),
+                        )
                       ),
-                      SizedBox(width: deviceWidth*0.01),
+                      SizedBox(width: deviceWidth * 0.03),
                       IconButton(
                         icon: Icon(Icons.keyboard_arrow_right_rounded,
                             color: colorSpecialItem, size: deviceWidth * 0.06),
                         splashRadius: 0.001,
                         onPressed: () {
                           setState(() {
-                            _selectedDay=_selectedDay.add(Duration(days: 1));
+                            _selectedDay = _selectedDay.add(Duration(days: 1));
                             selectedDateTime = _selectedDay;
                           });
                         },
@@ -283,8 +314,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
 
                   Column(children: events.map(buildEventBox).toList(),),
 
-                  // TODO: Update when routines implemented
-                  if (events.length != 0 || todos.length != 0 || notes.length != 0) SizedBox(height: deviceHeight*0.01,),
+                  if (events.length != 0 || todos.length != 0 || notes.length != 0) SizedBox(height: deviceHeight * 0.01,),
                   if (events.length != 0 || todos.length != 0 || notes.length != 0) Container(
                     alignment: Alignment.center,
                     child: IconButton(
@@ -304,10 +334,9 @@ class _EventsMainPageState extends State<EventsMainPage> {
 
                 ],);
             }
-            else return LoadingContainer('Cargando eventos...', 0.35);
+            else
+              return LoadingContainer('Cargando eventos...', 0.35);
           }),
-
-          FooterEmpty(),
         ]
     );
   }

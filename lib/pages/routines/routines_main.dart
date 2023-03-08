@@ -29,7 +29,6 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
   @override
   void initState() {
     super.initState();
-    _setRoutineDay(weekDay);
   }
 
   @override
