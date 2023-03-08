@@ -630,8 +630,7 @@ class _EditEventState extends State<EditEvent> {
                           });
                         } else {
                           try {
-                            if(!routineEvent) dateTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
-                            else dateTime = DateTime.now();
+                            dateTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
                             if(routineEvent) _addEventRoutines();
                             Event newEvent = Event(
                               id: selectedEvent!.id,

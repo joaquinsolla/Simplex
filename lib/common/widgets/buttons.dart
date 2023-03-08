@@ -164,14 +164,17 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
 
-        if(index == 1) Expanded(
-            child: TextButton(
+        if(index == 1) Wrap(
+          children: [
+            TextButton(
               child: Text(
-                'L',
+                'LUNES',
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(colorMainBackground),
@@ -180,6 +183,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
               ),
               onPressed: () {},
             )
+          ],
         ),
         if(index != 1 && weekDay != 1) Expanded(
             child: OutlinedButton(
@@ -219,15 +223,18 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
               ),
               onPressed: actions[0],
             )),
-        SizedBox(width: deviceWidth * 0.035,),
-        if(index == 2) Expanded(
-            child: TextButton(
+        SizedBox(width: deviceWidth * 0.025,),
+        if(index == 2) Wrap(
+          children: [
+            TextButton(
               child: Text(
-                'M',
+                'MARTES',
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(colorMainBackground),
@@ -236,6 +243,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
               ),
               onPressed: () {},
             )
+          ],
         ),
         if(index != 2 && weekDay != 2) Expanded(
             child: OutlinedButton(
@@ -275,15 +283,18 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
               ),
               onPressed: actions[1],
             )),
-        SizedBox(width: deviceWidth * 0.035,),
-        if(index == 3) Expanded(
-            child: TextButton(
+        SizedBox(width: deviceWidth * 0.025,),
+        if(index == 3) Wrap(
+          children: [
+            TextButton(
               child: Text(
-                'X',
+                'MIÉRCOLES',
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(colorMainBackground),
@@ -292,6 +303,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
               ),
               onPressed: () {},
             )
+          ],
         ),
         if(index != 3 && weekDay != 3) Expanded(
             child: OutlinedButton(
@@ -331,15 +343,18 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
               ),
               onPressed: actions[2],
             )),
-        SizedBox(width: deviceWidth * 0.035,),
-        if(index == 4) Expanded(
-            child: TextButton(
+        SizedBox(width: deviceWidth * 0.025,),
+        if(index == 4) Wrap(
+          children: [
+            TextButton(
               child: Text(
-                'J',
+                'JUEVES',
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(colorMainBackground),
@@ -348,6 +363,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
               ),
               onPressed: () {},
             )
+          ],
         ),
         if(index != 4 && weekDay != 4) Expanded(
             child: OutlinedButton(
@@ -387,15 +403,18 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
               ),
               onPressed: actions[3],
             )),
-        SizedBox(width: deviceWidth * 0.035,),
-        if(index == 5) Expanded(
-            child: TextButton(
+        SizedBox(width: deviceWidth * 0.025,),
+        if(index == 5) Wrap(
+          children: [
+            TextButton(
               child: Text(
-                'V',
+                'VIERNES',
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(colorMainBackground),
@@ -404,6 +423,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
               ),
               onPressed: () {},
             )
+          ],
         ),
         if(index != 5 && weekDay != 5) Expanded(
             child: OutlinedButton(
@@ -443,15 +463,18 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
               ),
               onPressed: actions[4],
             )),
-        SizedBox(width: deviceWidth * 0.035,),
-        if(index == 6) Expanded(
-            child: TextButton(
+        SizedBox(width: deviceWidth * 0.025,),
+        if(index == 6) Wrap(
+          children: [
+            TextButton(
               child: Text(
-                'S',
+                'SÁBADO',
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(colorMainBackground),
@@ -460,6 +483,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
               ),
               onPressed: () {},
             )
+          ],
         ),
         if(index != 6 && weekDay != 6) Expanded(
             child: OutlinedButton(
@@ -499,15 +523,18 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
               ),
               onPressed: actions[5],
             )),
-        SizedBox(width: deviceWidth * 0.035,),
-        if(index == 7) Expanded(
-            child: TextButton(
+        SizedBox(width: deviceWidth * 0.025,),
+        if(index == 7) Wrap(
+          children: [
+            TextButton(
               child: Text(
-                'D',
+                'DOMINGO',
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(colorMainBackground),
@@ -516,6 +543,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
               ),
               onPressed: () {},
             )
+          ],
         ),
         if(index != 7 && weekDay != 7) Expanded(
             child: OutlinedButton(

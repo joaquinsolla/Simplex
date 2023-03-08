@@ -234,6 +234,7 @@ Container NoItemsContainer(String items, double heightProportion){
     height: deviceHeight*heightProportion,
     alignment: Alignment.center,
     child: Text('Sin ' + items,
+        textAlign: TextAlign.center,
         style: TextStyle(
             color: colorSecondText,
             fontSize: deviceWidth * fontSize * 0.05,
@@ -246,6 +247,7 @@ Container NoResultsContainer(double heightProportion){
     height: deviceHeight*heightProportion,
     alignment: Alignment.center,
     child: Text("Sin resultados...",
+        textAlign: TextAlign.center,
         style: TextStyle(
             color: colorSecondText,
             fontSize: deviceWidth * fontSize * 0.05,

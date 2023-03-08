@@ -39,8 +39,9 @@ Stream<List<Event>> readEventsOfDate(DateTime date) {
       .where('dateTime', isGreaterThanOrEqualTo: selectedDay)
       .where('dateTime', isLessThan: nextDay)
       .orderBy('dateTime', descending: false)
-      .orderBy('color', descending: true).orderBy('id', descending: false).snapshots().map((snapshot) =>
-      snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
+      .orderBy('color', descending: true)
+      .orderBy('id', descending: false)
+      .snapshots().map((snapshot) => snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
 }
 
 Future createEvent(Event event) async{
@@ -304,6 +305,31 @@ deleteNoteById(int noteId) async {
 
   await doc.delete();
   debugPrint('[OK] Note deleted');
+}
+//#endregion
+
+//#region Routines
+Stream<List<Note>> readNotesOfRoutine(int day) {
+  return FirebaseFirestore.instance.
+  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('notes')
+      .where('routineNote', isEqualTo: true)
+      .where('routinesList', arrayContains: day)
+      .orderBy('modificationDate', descending: true)
+      .orderBy('name', descending: false)
+      .snapshots().map((snapshot) =>
+      snapshot.docs.map((doc) => Note.fromJson(doc.data())).toList());
+}
+
+Stream<List<Event>> readEventsOfRoutine(int day) {
+  return FirebaseFirestore.instance.
+  collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('events')
+      .where('routineEvent', isEqualTo: true)
+      .where('routinesList', arrayContains: day)
+      .orderBy('dateTime', descending: false)
+      .orderBy('color', descending: true)
+      .orderBy('id', descending: false)
+      .snapshots().map((snapshot) =>
+      snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
 }
 //#endregion
 
