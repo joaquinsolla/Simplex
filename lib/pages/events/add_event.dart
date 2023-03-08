@@ -100,9 +100,13 @@ class _AddEventState extends State<AddEvent> {
                   timeHintText,
                   timeFocusNode,
                     () => _timeSelector(context),
-                  !routineEvent,
+                  true,
               ),
-              if(routineEvent) FormCustomField(
+            ]),
+            FormSeparator(),
+
+            if(routineEvent) FormContainer([
+              FormCustomField(
                   'Días de la rutina:',
                   [
                     Theme(
@@ -310,7 +314,8 @@ class _AddEventState extends State<AddEvent> {
                   true
               ),
             ]),
-            FormSeparator(),
+            if(routineEvent) FormSeparator(),
+
             FormContainer(
               [FormCustomField(
                   'Color',

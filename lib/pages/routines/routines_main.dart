@@ -50,7 +50,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
                   color: colorSpecialItem, size: deviceWidth*fontSize*0.085),
               splashRadius: 0.001,
               onPressed: () {
-                showInfoSnackBar(context, 'En desarrollo...');
+                Navigator.pushNamed(context, '/routines/add_routine_element');
               },
             ),
           ]),
@@ -90,7 +90,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
 
                       if(notes.length > 0) FormSeparator(),
                       if(notes.length > 0) FormCustomField(
-                          'Tus notas para $dayText',
+                          'Tus notas para $dayText:',
                           [
                             Container(
                           height: deviceHeight*0.175,
@@ -106,7 +106,8 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
                             blendMode: BlendMode.dstOut,
                             child: ListView(
                                 shrinkWrap: true,
-                                physics: ClampingScrollPhysics(),
+                                addAutomaticKeepAlives: true,
+                                physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
                                 scrollDirection: Axis.horizontal,
                                 children: notes.map<Widget>(buildNoteCard).toList()
                             ),
@@ -118,7 +119,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
 
                       if(events.length > 0) FormSeparator(),
                       if(events.length > 0) FormCustomField(
-                          'Tus eventos de $dayText:',
+                          'Tu rutina de $dayText:',
                           [
                             Column(children: events.map<Widget>(buildEventBox).toList(),),
                           ],

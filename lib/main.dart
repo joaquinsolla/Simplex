@@ -41,6 +41,8 @@ Future main() async {
       '/events/event_details': (context) => const EventDetails(),
       '/events/edit_event': (context) => const EditEvent(),
 
+      '/routines/add_routine_element': (context) => const AddRoutineElement(),
+
       '/todos/add_todo': (context) => const AddTodo(),
       '/todos/todo_details': (context) => const TodoDetails(),
       '/todos/edit_todo': (context) => const EditTodo(),

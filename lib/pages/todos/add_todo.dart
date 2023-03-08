@@ -49,195 +49,179 @@ class _AddTodoState extends State<AddTodo> {
           PageHeader(context, 'Nueva Tarea'),
           FooterEmpty(),
           [
-        FormContainer([
-          FormTextField(
-              nameController, 'Nombre:', '(Obligatorio)', nameFocusNode, false),
-          FormTextField(
-              descriptionController, 'Descripción:', '(Opcional)', descriptionFocusNode, true),
-        ]),
-        FormSeparator(),
-        FormContainer([
-          Text(
-            'Prioridad:',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.045,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: deviceHeight * 0.015),
-
-          Row(mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '-',
-              style: TextStyle(
-                  color: colorMainText,
-                  fontSize: deviceWidth * fontSize * 0.03,
-                  fontWeight: FontWeight.bold),
-            ),
-            if (priority == 1) Container(
-              width: deviceWidth*0.675,
-              child: Slider(
-              value: priority,
-              max: 3,
-              min: 1,
-              divisions: 2,
-              activeColor: colorSpecialItem,
-              label: 'Baja',
-              onChanged: (val) {
-                setState(() {
-                  priority = val;
-                });
-              },
-            ),
-            ),
-            if (priority == 2) Container(
-                width: deviceWidth*0.675,
-                child: Slider(
-              value: priority,
-              max: 3,
-              min: 1,
-              divisions: 2,
-              activeColor: Color(0xff2164f3),
-              label: 'Media',
-              onChanged: (val) {
-                setState(() {
-                  priority = val;
-                });
-              },
-            )),
-            if (priority == 3) Container(
-              width: deviceWidth*0.675,
-              child: Slider(
-              value: priority,
-              max: 3,
-              min: 1,
-              divisions: 2,
-              activeColor: Color(0xff1828d7),
-              label: 'Alta',
-              onChanged: (val) {
-                setState(() {
-                  priority = val;
-                });
-              },
-            )),
-            Text(
-              '+',
-              style: TextStyle(
-                  color: colorMainText,
-                  fontSize: deviceWidth * fontSize * 0.03,
-                  fontWeight: FontWeight.bold),
-            ),
-          ],),
-
-          SizedBox(height: deviceHeight * 0.005),
-
-          Text(
-            'Las tareas de mayor prioridad aparecerán sobre las que tengan una prioridad inferior.',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.03,
-                fontWeight: FontWeight.normal,
-                fontStyle: FontStyle.italic),
-          ),
-
-        ]),
-        FormSeparator(),
-        FormContainer([
-          Text(
-            'Fecha límite:',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.045,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: deviceHeight * 0.005),
-          Theme(
-            data: ThemeData(unselectedWidgetColor: colorMainText),
-            child: CheckboxListTile(
-              activeColor: colorSpecialItem,
-              title: Text(
-                'Tarea con fecha límite',
-                style: TextStyle(
-                    color: colorMainText,
-                    fontSize: deviceWidth * fontSize * 0.04,
-                    fontWeight: FontWeight.normal),
+            FormContainer([
+              FormTextField(
+                  nameController, 'Nombre:', '(Obligatorio)', nameFocusNode, false),
+              FormTextField(
+                  descriptionController, 'Descripción:', '(Opcional)', descriptionFocusNode, true),
+            ]),
+            FormSeparator(),
+            FormContainer([
+              FormCustomField(
+                  'Prioridad:',
+                  [
+                    Row(mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '-',
+                          style: TextStyle(
+                              color: colorMainText,
+                              fontSize: deviceWidth * fontSize * 0.03,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        if (priority == 1) Container(
+                          width: deviceWidth*0.675,
+                          child: Slider(
+                            value: priority,
+                            max: 3,
+                            min: 1,
+                            divisions: 2,
+                            activeColor: colorSpecialItem,
+                            label: 'Baja',
+                            onChanged: (val) {
+                              setState(() {
+                                priority = val;
+                              });
+                            },
+                          ),
+                        ),
+                        if (priority == 2) Container(
+                            width: deviceWidth*0.675,
+                            child: Slider(
+                              value: priority,
+                              max: 3,
+                              min: 1,
+                              divisions: 2,
+                              activeColor: Color(0xff2164f3),
+                              label: 'Media',
+                              onChanged: (val) {
+                                setState(() {
+                                  priority = val;
+                                });
+                              },
+                            )),
+                        if (priority == 3) Container(
+                            width: deviceWidth*0.675,
+                            child: Slider(
+                              value: priority,
+                              max: 3,
+                              min: 1,
+                              divisions: 2,
+                              activeColor: Color(0xff1828d7),
+                              label: 'Alta',
+                              onChanged: (val) {
+                                setState(() {
+                                  priority = val;
+                                });
+                              },
+                            )),
+                        Text(
+                          '+',
+                          style: TextStyle(
+                              color: colorMainText,
+                              fontSize: deviceWidth * fontSize * 0.03,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],),
+                  ],
+                  true
               ),
-              value: limited,
-              onChanged: (val) {
-                setState(() {
-                  limited = val!;
-                });
-              },
-              controlAffinity: ListTileControlAffinity.leading,
-            ),
-          ),
-          if (limited) SizedBox(height: deviceHeight * 0.005),
-          if (limited) TextField(
-            focusNode: limitDateFocusNode,
-            controller: limitDateController,
-            style: TextStyle(color: colorMainText),
-            readOnly: true,
-            decoration: InputDecoration(
-              fillColor: colorThirdBackground,
-              filled: true,
-              enabledBorder: OutlineInputBorder(
-                borderSide:
-                BorderSide(color: colorThirdBackground, width: 1),
+            ]),
+            FormSeparator(),
+            FormContainer([
+              FormCustomField(
+                  'Fecha límite:',
+                  [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'La tarea aparecerá en el calendario y recibirás notificaciones '
+                            'cuando se acerque la fecha límite.',
+                        style: TextStyle(
+                            color: colorMainText,
+                            fontSize: deviceWidth * fontSize * 0.03,
+                            fontWeight: FontWeight.normal,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                    Theme(
+                      data: ThemeData(unselectedWidgetColor: colorMainText),
+                      child: CheckboxListTile(
+                        activeColor: colorSpecialItem,
+                        title: Text(
+                          'Tarea con fecha límite',
+                          style: TextStyle(
+                              color: colorMainText,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        value: limited,
+                        onChanged: (val) {
+                          setState(() {
+                            limited = val!;
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity.leading,
+                      ),
+                    ),
+                    if (limited) SizedBox(height: deviceHeight * 0.005),
+                    if (limited) TextField(
+                      focusNode: limitDateFocusNode,
+                      controller: limitDateController,
+                      style: TextStyle(color: colorMainText),
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        fillColor: colorThirdBackground,
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                          BorderSide(color: colorThirdBackground, width: 1),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: colorSpecialItem, width: 2),
+                        ),
+                        hintText: dateHintText,
+                        hintStyle: TextStyle(
+                            color: colorThirdText, fontStyle: FontStyle.italic),
+                      ),
+                      onTap: () => _dateSelector(context),
+                    ),
+                  ],
+                  true
               ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: colorSpecialItem, width: 2),
-              ),
-              hintText: dateHintText,
-              hintStyle: TextStyle(
-                  color: colorThirdText, fontStyle: FontStyle.italic),
-            ),
-            onTap: () => _dateSelector(context),
-          ),
-          SizedBox(height: deviceHeight * 0.01),
-          Text(
-            'Las tareas con fecha límite aparecerán en el calenario y se te '
-                'notificará cuando alcancen dicha fecha si todavía no se han '
-                'completado.',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.03,
-                fontWeight: FontWeight.normal,
-                fontStyle: FontStyle.italic),
-          ),
-        ]),
-        FormSeparator(),
-        MainButton(
-            Icons.check_rounded,
-            colorSpecialItem,
-            ' Crear tarea ',
-                () {
-              if (nameController.text.trim().isEmpty) {
-                showErrorSnackBar(context, 'Debes indicar un nombre');
-                nameFocusNode.requestFocus();
-              } else {
-                try {
-                  Todo newTodo = Todo(
-                    id: id,
-                    name: nameController.text.trim(),
-                    description: descriptionController.text.trim(),
-                    priority: priority,
-                    limited: limited,
-                    limitDate: limitDate,
-                    done: false,
-                  );
-                  createTodo(newTodo);
-                  if (limited) buildTodoNotifications(id, 'Tarea pendiente: ' + nameController.text, limitDate);
-                  Navigator.pop(context);
-                  showInfoSnackBar(context, 'Tarea creada.');
-                } on Exception catch (e) {
-                  debugPrint('[ERR] Could not create todo: $e');
-                  showErrorSnackBar(context, 'Ha ocurrido un error');
+            ]),
+            FormSeparator(),
+            MainButton(
+                Icons.check_rounded,
+                colorSpecialItem,
+                ' Crear tarea ',
+                    () {
+                  if (nameController.text.trim().isEmpty) {
+                    showErrorSnackBar(context, 'Debes indicar un nombre');
+                    nameFocusNode.requestFocus();
+                  } else {
+                    try {
+                      Todo newTodo = Todo(
+                        id: id,
+                        name: nameController.text.trim(),
+                        description: descriptionController.text.trim(),
+                        priority: priority,
+                        limited: limited,
+                        limitDate: limitDate,
+                        done: false,
+                      );
+                      createTodo(newTodo);
+                      if (limited) buildTodoNotifications(id, 'Tarea pendiente: ' + nameController.text, limitDate);
+                      Navigator.pop(context);
+                      showInfoSnackBar(context, 'Tarea creada.');
+                    } on Exception catch (e) {
+                      debugPrint('[ERR] Could not create todo: $e');
+                      showErrorSnackBar(context, 'Ha ocurrido un error');
+                    }
+                  }
                 }
-              }
-            }
-        ),
-      ]
+            ),
+          ]
       ),
     );
   }

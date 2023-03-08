@@ -67,6 +67,17 @@ class _AddNoteState extends State<AddNote> {
               FormCustomField(
                   'En el calendario:',
                   [
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'También recibirás una notificación en esa fecha.',
+                        style: TextStyle(
+                            color: colorMainText,
+                            fontSize: deviceWidth * fontSize * 0.03,
+                            fontWeight: FontWeight.normal,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ),
                     Theme(
                       data: ThemeData(unselectedWidgetColor: colorMainText),
                       child: CheckboxListTile(
@@ -108,19 +119,12 @@ class _AddNoteState extends State<AddNote> {
                       ),
                       onTap: () => _dateSelector(context),
                     ),
-                    SizedBox(height: deviceHeight * 0.01),
-                    Text(
-                      'Las notas aparecerán en el calendario de Simplex en el día indicado.'
-                          ' También recibirás una notificación en esa fecha.',
-                      style: TextStyle(
-                          color: colorMainText,
-                          fontSize: deviceWidth * fontSize * 0.03,
-                          fontWeight: FontWeight.normal,
-                          fontStyle: FontStyle.italic),
-                    ),
                   ],
-                  false
+                  true
               ),
+            ]),
+            FormSeparator(),
+            FormContainer([
               FormCustomField(
                   'En mis rutinas:',
                   [

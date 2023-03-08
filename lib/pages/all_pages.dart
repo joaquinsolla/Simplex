@@ -14,6 +14,7 @@ export 'notes/note_details.dart';
 export 'notes/edit_note.dart';
 
 export 'routines/routines_main.dart';
+export 'routines/add_routine_element.dart';
 
 export 'todos/todos_main.dart';
 export 'todos/add_todo.dart';
