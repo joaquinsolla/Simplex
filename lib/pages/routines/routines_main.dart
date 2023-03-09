@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
@@ -373,7 +373,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
     else if (event.color == -1 && darkMode == true) color = 0xff1c1c1f;
     else color = event.color;
 
-    TimeOfDay eventTime = millisecondsToTimeOfDay(event.timeMillis);
+    DateTime eventTime = event.time;
     if (format24Hours==true) timeFormat = 'H:mm';
     else timeFormat = 'K:mm';
     Color backgroundColor = colorThirdBackground;
@@ -504,8 +504,8 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(timeOfDayToSpecificString(eventTime, timeFormat), style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.055, fontWeight: FontWeight.bold)),
-                        if (format24Hours==false) Text(timeOfDayToSpecificString(eventTime, 'aa'), style: TextStyle(color: secondColor, fontSize: deviceWidth * fontSize * 0.034, fontWeight: FontWeight.normal)),
+                        Text(DateFormat(timeFormat).format(eventTime), style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.055, fontWeight: FontWeight.bold)),
+                        if (format24Hours==false) Text(DateFormat('aa').format(eventTime), style: TextStyle(color: secondColor, fontSize: deviceWidth * fontSize * 0.034, fontWeight: FontWeight.normal)),
                       ],
                     ),
                   ),

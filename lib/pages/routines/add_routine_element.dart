@@ -33,7 +33,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
   FocusNode noteContentFocusNode = FocusNode();
 
   int id = int.parse((DateTime.now().millisecondsSinceEpoch).toString().substring(6));
-  TimeOfDay eventTime = TimeOfDay(hour: 00, minute: 00);
+  DateTime eventTime = DateTime(1900, 1, 1, 0, 0);
   int eventColor = -1;
 
   List<dynamic> routinesList = [];
@@ -547,7 +547,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                           name: eventNameController.text.trim(),
                           description: eventDescriptionController.text.trim(),
                           date: date,
-                          timeMillis: timeOfDayToMilliseconds(eventTime),
+                          time: eventTime,
                           color: eventColor,
                           notificationsList: [],
                           routinesList: routinesList,
@@ -645,9 +645,8 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
     );
     if (selected != null) {
       setState(() {
-        eventTime=selected;
-        DateTime auxDateTime = DateTime(2000, 1, 1, selected.hour, selected.minute);
-        eventTimeController.text = timeFormat.format(auxDateTime);
+        eventTime = DateTime(1900, 01, 01, selected.hour, selected.minute);
+        eventTimeController.text = timeFormat.format(eventTime);
       });
     }
   }

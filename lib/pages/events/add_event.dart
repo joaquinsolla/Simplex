@@ -26,7 +26,7 @@ class _AddEventState extends State<AddEvent> {
 
   int id = int.parse((DateTime.now().millisecondsSinceEpoch).toString().substring(6));
   DateTime date = selectedDateTime;
-  TimeOfDay time = TimeOfDay(hour: 00, minute: 00);
+  DateTime time = DateTime(1900, 1, 1, 0, 0);
   int color = -1;
 
   List<dynamic> notificationsList = [];
@@ -659,7 +659,7 @@ class _AddEventState extends State<AddEvent> {
                           name: nameController.text.trim(),
                           description: descriptionController.text.trim(),
                           date: date,
-                          timeMillis: timeOfDayToMilliseconds(time),
+                          time: time,
                           color: color,
                           notificationsList: notificationsList,
                           routinesList: routinesList,
@@ -769,9 +769,8 @@ class _AddEventState extends State<AddEvent> {
     );
     if (selected != null) {
       setState(() {
-        time=selected;
-        DateTime auxDateTime = DateTime(2000, 1, 1, selected.hour, selected.minute);
-        timeController.text = timeFormat.format(auxDateTime);
+        time = DateTime(1900, 01, 01, selected.hour, selected.minute);
+        timeController.text = timeFormat.format(time);
       });
     }
   }

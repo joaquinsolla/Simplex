@@ -143,14 +143,11 @@ String dateToString(DateTime dateTime) {
 }
 
 // TODO: review UTC
-String timeOfDayToString(TimeOfDay time) {
-  final now = new DateTime.now();
-  final dt = DateTime(now.year, now.month, now.day, time.hour, time.minute).toUtc();
-
+String timeToString(DateTime time) {
   if (format24Hours == true)
-    return DateFormat('HH:mm').format(dt);
+    return DateFormat('HH:mm').format(time);
   else
-    return DateFormat('h:mm aa').format(dt);
+    return DateFormat('h:mm aa').format(time);
 }
 
 String timeOfDayToSpecificString(TimeOfDay time, String timeFormat) {
@@ -161,7 +158,7 @@ String timeOfDayToSpecificString(TimeOfDay time, String timeFormat) {
 }
 
 void buildEventNotification(int id, String title, DateTime notificationDateTime,
-    DateTime eventDate, TimeOfDay eventTime) {
+    DateTime eventDate, DateTime eventTime) {
   final dt = DateTime(eventDate.year, eventDate.month, eventDate.day, eventTime.hour, eventTime.minute);
 
   String body = 'Es el ';
@@ -236,18 +233,17 @@ void buildNoteNotification(int id, String noteName, DateTime calendarDate) {
 void buildNotificationNow() {
   /// TESTING METHOD
 
-  DateTime date = DateTime.now().add(const Duration(seconds: 5));
-  TimeOfDay time = TimeOfDay(hour: date.hour, minute: date.minute);
-  int id = date.millisecondsSinceEpoch;
+  DateTime dateTime = DateTime.now().add(const Duration(seconds: 5));
+  int id = dateTime.millisecondsSinceEpoch;
   String title = '[TEST] Notificación';
-  String body = 'Mostrada el ' + dateToString(date) +
-      ' a las ' + timeOfDayToString(time);
+  String body = 'Mostrada el ' + dateToString(dateTime) +
+      ' a las ' + timeToString(dateTime);
 
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
   tz.initializeTimeZones();
 
-  NotificationService().showNotification(id, title, body, date);
+  NotificationService().showNotification(id, title, body, dateTime);
   debugPrint('[OK] Testing notification ready: $id');
 
 }

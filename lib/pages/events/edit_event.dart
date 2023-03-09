@@ -25,7 +25,7 @@ class _EditEventState extends State<EditEvent> {
   FocusNode timeFocusNode = FocusNode();
 
   late DateTime date;
-  late TimeOfDay time;
+  late DateTime time;
   int color = selectedEvent!.color;
 
   List<dynamic> notificationsList = [];
@@ -58,8 +58,8 @@ class _EditEventState extends State<EditEvent> {
     descriptionController.text = selectedEvent!.description;
     date = selectedEvent!.date;
     dateController.text = dateToString(selectedEvent!.date);
-    time = millisecondsToTimeOfDay(selectedEvent!.timeMillis);
-    timeController.text = timeOfDayToString(time);
+    time = selectedEvent!.time;
+    timeController.text = timeToString(time);
     for (int i=0; i<selectedEvent!.notificationsList.length; i++) {
       if (not1.keys.first == null) {
         not1 = {selectedEvent!.notificationsList[i].keys.first: selectedEvent!.notificationsList[i].values.first.toDate()};
@@ -669,7 +669,7 @@ class _EditEventState extends State<EditEvent> {
                               name: nameController.text.trim(),
                               description: descriptionController.text.trim(),
                               date: date,
-                              timeMillis: timeOfDayToMilliseconds(time),
+                              time: time,
                               color: color,
                               notificationsList: notificationsList,
                               routinesList: routinesList,
@@ -787,9 +787,8 @@ class _EditEventState extends State<EditEvent> {
     );
     if (selected != null) {
       setState(() {
-        time=selected;
-        DateTime auxDateTime = DateTime(2000, 1, 1, selected.hour, selected.minute);
-        timeController.text = timeFormat.format(auxDateTime);
+        time = DateTime(1900, 01, 01, selected.hour, selected.minute);
+        timeController.text = timeFormat.format(time);
       });
     }
   }

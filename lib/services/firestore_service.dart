@@ -39,7 +39,7 @@ Stream<List<Event>> readEventsOfDate(DateTime date) {
       .where('date', isGreaterThanOrEqualTo: selectedDay)
       .where('date', isLessThan: nextDay)
       .orderBy('date', descending: false)
-      .orderBy('timeMillis', descending: false)
+      .orderBy('time', descending: false)
       .orderBy('color', descending: true)
       .orderBy('id', descending: false)
       .snapshots().map((snapshot) => snapshot.docs.map((doc) => Event.fromJson(doc.data())).toList());
@@ -54,7 +54,7 @@ Future createEvent(Event event) async{
     'name': event.name,
     'description': event.description,
     'date': event.date,
-    'timeMillis': event.timeMillis,
+    'time': event.time,
     'color': event.color,
     'notificationsList': event.notificationsList,
     'routinesList': event.routinesList,
@@ -73,7 +73,7 @@ updateEvent(Event event) async {
     'name': event.name,
     'description': event.description,
     'date': event.date,
-    'timeMillis': event.timeMillis,
+    'time': event.time,
     'color': event.color,
     'notificationsList': event.notificationsList,
     'routinesList': event.routinesList,
@@ -328,7 +328,7 @@ Stream<List<Event>> readEventsOfRoutine(int day) {
   collection('users').doc(FirebaseAuth.instance.currentUser!.uid).collection('events')
       .where('routineEvent', isEqualTo: true)
       .where('routinesList', arrayContains: day)
-      .orderBy('timeMillis', descending: false)
+      .orderBy('time', descending: false)
       .orderBy('color', descending: true)
       .orderBy('id', descending: false)
       .snapshots().map((snapshot) =>

@@ -349,7 +349,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
     else if (event.color == -1 && darkMode == true) color = 0xff1c1c1f;
     else color = event.color;
 
-    TimeOfDay eventTime = millisecondsToTimeOfDay(event.timeMillis);
+    DateTime eventTime = event.time;
     if (format24Hours==true) timeFormat = 'H:mm';
     else timeFormat = 'K:mm';
     Color backgroundColor = colorThirdBackground;
@@ -480,8 +480,8 @@ class _EventsMainPageState extends State<EventsMainPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(timeOfDayToSpecificString(eventTime, timeFormat), style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.055, fontWeight: FontWeight.bold)),
-                        if (format24Hours==false) Text(timeOfDayToSpecificString(eventTime, 'aa'), style: TextStyle(color: secondColor, fontSize: deviceWidth * fontSize * 0.034, fontWeight: FontWeight.normal)),
+                        Text(DateFormat(timeFormat).format(eventTime), style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.055, fontWeight: FontWeight.bold)),
+                        if (format24Hours==false) Text(DateFormat('aa').format(eventTime), style: TextStyle(color: secondColor, fontSize: deviceWidth * fontSize * 0.034, fontWeight: FontWeight.normal)),
                       ],
                     ),
                   ),

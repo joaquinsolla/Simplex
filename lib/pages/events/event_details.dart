@@ -14,10 +14,10 @@ class EventDetails extends StatefulWidget {
 class _EventDetailsState extends State<EventDetails> {
 
   DateTime eventDate = selectedEvent!.date;
-  TimeOfDay eventTime = millisecondsToTimeOfDay(selectedEvent!.timeMillis);
+  DateTime eventTime = selectedEvent!.time;
   late DateTime eventDateTime;
   String eventDateString = DateFormat('dd/MM/yyyy').format(selectedEvent!.date);
-  String eventTimeString = timeOfDayToString(millisecondsToTimeOfDay(selectedEvent!.timeMillis));
+  String eventTimeString = timeToString(selectedEvent!.time);
   String colorName = 'Por defecto';
   int colorCode = selectedEvent!.color;
 
