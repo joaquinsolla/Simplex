@@ -68,6 +68,225 @@ void showWidgetDialog(BuildContext context, String title, List<Widget> content,
       });
 }
 
+void showRoutinePickerDialog(BuildContext context, String title, List<bool> weekValues,
+    String textAccept, Function() actionsAccept) {
+  showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: colorSecondBackground,
+          title: Text(title, style: TextStyle(color: colorMainText)),
+          content: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setDialogState) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Theme(
+                      data: ThemeData(unselectedWidgetColor: colorMainText),
+                      child: Column(children: [
+                        CheckboxListTile(
+                          activeColor: colorSpecialItem,
+                          title: Text(
+                            'Lunes',
+                            style: TextStyle(
+                              color: Colors.transparent,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.underline,
+                              decorationStyle: TextDecorationStyle.dashed,
+                              decorationThickness: 2,
+                              shadows: [
+                                Shadow(
+                                    color: colorMainText,
+                                    offset: Offset(0, -1.5))
+                              ],
+                            ),
+                          ),
+                          value: weekValues[0],
+                          onChanged: (val) {
+                            setDialogState(() {
+                              weekValues[0] = val!;
+                            });
+                          },
+                          controlAffinity: ListTileControlAffinity.leading,
+                        ),
+                        CheckboxListTile(
+                          activeColor: colorSpecialItem,
+                          title: Text(
+                            'Martes',
+                            style: TextStyle(
+                              color: Colors.transparent,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.underline,
+                              decorationStyle: TextDecorationStyle.dashed,
+                              decorationThickness: 2,
+                              shadows: [
+                                Shadow(
+                                    color: colorMainText,
+                                    offset: Offset(0, -1.5))
+                              ],
+                            ),
+                          ),
+                          value: weekValues[1],
+                          onChanged: (val) {
+                            setDialogState(() {
+                              weekValues[1] = val!;
+                            });
+                          },
+                          controlAffinity: ListTileControlAffinity.leading,
+                        ),
+                        CheckboxListTile(
+                          activeColor: colorSpecialItem,
+                          title: Text(
+                            'Miércoles',
+                            style: TextStyle(
+                              color: Colors.transparent,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.underline,
+                              decorationStyle: TextDecorationStyle.dashed,
+                              decorationThickness: 2,
+                              shadows: [
+                                Shadow(
+                                    color: colorMainText,
+                                    offset: Offset(0, -1.5))
+                              ],
+                            ),
+                          ),
+                          value: weekValues[2],
+                          onChanged: (val) {
+                            setDialogState(() {
+                              weekValues[2] = val!;
+                            });
+                          },
+                          controlAffinity: ListTileControlAffinity.leading,
+                        ),
+                        CheckboxListTile(
+                          activeColor: colorSpecialItem,
+                          title: Text(
+                            'Jueves',
+                            style: TextStyle(
+                              color: Colors.transparent,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.underline,
+                              decorationStyle: TextDecorationStyle.dashed,
+                              decorationThickness: 2,
+                              shadows: [
+                                Shadow(
+                                    color: colorMainText,
+                                    offset: Offset(0, -1.5))
+                              ],
+                            ),
+                          ),
+                          value: weekValues[3],
+                          onChanged: (val) {
+                            setDialogState(() {
+                              weekValues[3] = val!;
+                            });
+                          },
+                          controlAffinity: ListTileControlAffinity.leading,
+                        ),
+                        CheckboxListTile(
+                          activeColor: colorSpecialItem,
+                          title: Text(
+                            'Viernes',
+                            style: TextStyle(
+                              color: Colors.transparent,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.underline,
+                              decorationStyle: TextDecorationStyle.dashed,
+                              decorationThickness: 2,
+                              shadows: [
+                                Shadow(
+                                    color: colorMainText,
+                                    offset: Offset(0, -1.5))
+                              ],
+                            ),
+                          ),
+                          value: weekValues[4],
+                          onChanged: (val) {
+                            setDialogState(() {
+                              weekValues[4] = val!;
+                            });
+                          },
+                          controlAffinity: ListTileControlAffinity.leading,
+                        ),
+                        CheckboxListTile(
+                          activeColor: colorSpecialItem,
+                          title: Text(
+                            'Sábado',
+                            style: TextStyle(
+                              color: Colors.transparent,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.underline,
+                              decorationStyle: TextDecorationStyle.dashed,
+                              decorationThickness: 2,
+                              shadows: [
+                                Shadow(
+                                    color: colorMainText,
+                                    offset: Offset(0, -1.5))
+                              ],
+                            ),
+                          ),
+                          value: weekValues[5],
+                          onChanged: (val) {
+                            setDialogState(() {
+                              weekValues[5] = val!;
+                            });
+                          },
+                          controlAffinity: ListTileControlAffinity.leading,
+                        ),
+                        CheckboxListTile(
+                          activeColor: colorSpecialItem,
+                          title: Text(
+                            'Domingo',
+                            style: TextStyle(
+                              color: Colors.transparent,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.underline,
+                              decorationStyle: TextDecorationStyle.dashed,
+                              decorationThickness: 2,
+                              shadows: [
+                                Shadow(
+                                    color: colorMainText,
+                                    offset: Offset(0, -1.5))
+                              ],
+                            ),
+                          ),
+                          value: weekValues[6],
+                          onChanged: (val) {
+                            setDialogState(() {
+                              weekValues[6] = val!;
+                            });
+                          },
+                          controlAffinity: ListTileControlAffinity.leading,
+                        ),
+                      ],),
+                    ),
+                  ],
+                );
+              }
+          ),
+          actions: [
+            TextButton(
+              style: ButtonStyle(
+                overlayColor: MaterialStateProperty.all(
+                    colorMainText.withOpacity(0.1)),
+              ),
+              onPressed: actionsAccept,
+              child: Text(textAccept, style: TextStyle(color: colorMainText),),
+            ),
+          ],
+        );
+      });
+}
+
 void showErrorSnackBar(BuildContext context, String content) {
 
   ScaffoldMessenger.of(context).clearSnackBars();

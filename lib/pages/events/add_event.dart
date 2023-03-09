@@ -42,7 +42,7 @@ class _AddEventState extends State<AddEvent> {
 
   String timeHintText = '00:00 (Por defecto)';
   String dateHintText = 'Hoy (Por defecto)';
-  Color errorUnderline = colorSecondBackground;
+  Color errorColor = colorSecondBackground;
   bool daysSelected = false;
 
   @override
@@ -103,216 +103,173 @@ class _AddEventState extends State<AddEvent> {
               ),
             ]),
             FormSeparator(),
-
-            if(routineEvent) FormContainer([
-              FormCustomField(
-                  'Días de la rutina:',
-                  [
-                    Theme(
-                      data: ThemeData(unselectedWidgetColor: colorMainText),
-                      child: Column(children: [
-                        CheckboxListTile(
-                          activeColor: colorSpecialItem,
-                          title: Text(
-                            'Lunes',
-                            style: TextStyle(
-                              color: Colors.transparent,
-                              fontSize: deviceWidth * fontSize * 0.04,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationColor: errorUnderline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
-                            ),
-                          ),
-                          value: weekValues[0],
-                          onChanged: (val) {
-                            setState(() {
-                              weekValues[0] = val!;
-                              errorUnderline = colorSecondBackground;
-                            });
-                          },
-                          controlAffinity: ListTileControlAffinity.leading,
-                        ),
-                        CheckboxListTile(
-                          activeColor: colorSpecialItem,
-                          title: Text(
-                            'Martes',
-                            style: TextStyle(
-                              color: Colors.transparent,
-                              fontSize: deviceWidth * fontSize * 0.04,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationColor: errorUnderline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
-                            ),
-                          ),
-                          value: weekValues[1],
-                          onChanged: (val) {
-                            setState(() {
-                              weekValues[1] = val!;
-                              errorUnderline = colorSecondBackground;
-                            });
-                          },
-                          controlAffinity: ListTileControlAffinity.leading,
-                        ),
-                        CheckboxListTile(
-                          activeColor: colorSpecialItem,
-                          title: Text(
-                            'Miércoles',
-                            style: TextStyle(
-                              color: Colors.transparent,
-                              fontSize: deviceWidth * fontSize * 0.04,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationColor: errorUnderline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
-                            ),
-                          ),
-                          value: weekValues[2],
-                          onChanged: (val) {
-                            setState(() {
-                              weekValues[2] = val!;
-                              errorUnderline = colorSecondBackground;
-                            });
-                          },
-                          controlAffinity: ListTileControlAffinity.leading,
-                        ),
-                        CheckboxListTile(
-                          activeColor: colorSpecialItem,
-                          title: Text(
-                            'Jueves',
-                            style: TextStyle(
-                              color: Colors.transparent,
-                              fontSize: deviceWidth * fontSize * 0.04,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationColor: errorUnderline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
-                            ),
-                          ),
-                          value: weekValues[3],
-                          onChanged: (val) {
-                            setState(() {
-                              weekValues[3] = val!;
-                              errorUnderline = colorSecondBackground;
-                            });
-                          },
-                          controlAffinity: ListTileControlAffinity.leading,
-                        ),
-                        CheckboxListTile(
-                          activeColor: colorSpecialItem,
-                          title: Text(
-                            'Viernes',
-                            style: TextStyle(
-                              color: Colors.transparent,
-                              fontSize: deviceWidth * fontSize * 0.04,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationColor: errorUnderline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
-                            ),
-                          ),
-                          value: weekValues[4],
-                          onChanged: (val) {
-                            setState(() {
-                              weekValues[4] = val!;
-                              errorUnderline = colorSecondBackground;
-                            });
-                          },
-                          controlAffinity: ListTileControlAffinity.leading,
-                        ),
-                        CheckboxListTile(
-                          activeColor: colorSpecialItem,
-                          title: Text(
-                            'Sábado',
-                            style: TextStyle(
-                              color: Colors.transparent,
-                              fontSize: deviceWidth * fontSize * 0.04,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationColor: errorUnderline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
-                            ),
-                          ),
-                          value: weekValues[5],
-                          onChanged: (val) {
-                            setState(() {
-                              weekValues[5] = val!;
-                              errorUnderline = colorSecondBackground;
-                            });
-                          },
-                          controlAffinity: ListTileControlAffinity.leading,
-                        ),
-                        CheckboxListTile(
-                          activeColor: colorSpecialItem,
-                          title: Text(
-                            'Domingo',
-                            style: TextStyle(
-                              color: Colors.transparent,
-                              fontSize: deviceWidth * fontSize * 0.04,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationColor: errorUnderline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
-                            ),
-                          ),
-                          value: weekValues[6],
-                          onChanged: (val) {
-                            setState(() {
-                              weekValues[6] = val!;
-                              errorUnderline = colorSecondBackground;
-                            });
-                          },
-                          controlAffinity: ListTileControlAffinity.leading,
-                        ),
-                      ],),
+            if(routineEvent) FormContainerWithBorder(
+                errorColor,
+                [
+                  FormCustomField(
+                      'Días de la rutina:',
+                      [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(children: [
+                              if(weekValues[0]==true) Container(
+                                height: deviceHeight*0.035,
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
+                                    SizedBox(width: deviceWidth*0.025,),
+                                    Text('Lunes',
+                                        style: TextStyle(
+                                            color: colorMainText,
+                                            fontSize: deviceWidth * fontSize * 0.04,
+                                            fontWeight: FontWeight.normal)),
+                                  ],
+                                ),
+                              ),
+                              if(weekValues[0]==true) Divider(color: colorSecondText,),
+                              if(weekValues[1]==true) Container(
+                                height: deviceHeight*0.035,
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
+                                    SizedBox(width: deviceWidth*0.025,),
+                                    Text('Martes',
+                                        style: TextStyle(
+                                            color: colorMainText,
+                                            fontSize: deviceWidth * fontSize * 0.04,
+                                            fontWeight: FontWeight.normal)),
+                                  ],
+                                ),
+                              ),
+                              if(weekValues[1]==true) Divider(color: colorSecondText,),
+                              if(weekValues[2]==true) Container(
+                                height: deviceHeight*0.035,
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
+                                    SizedBox(width: deviceWidth*0.025,),
+                                    Text('Miércoles',
+                                        style: TextStyle(
+                                            color: colorMainText,
+                                            fontSize: deviceWidth * fontSize * 0.04,
+                                            fontWeight: FontWeight.normal)),
+                                  ],
+                                ),
+                              ),
+                              if(weekValues[2]==true) Divider(color: colorSecondText,),
+                              if(weekValues[3]==true) Container(
+                                height: deviceHeight*0.035,
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
+                                    SizedBox(width: deviceWidth*0.025,),
+                                    Text('Jueves',
+                                        style: TextStyle(
+                                            color: colorMainText,
+                                            fontSize: deviceWidth * fontSize * 0.04,
+                                            fontWeight: FontWeight.normal)),
+                                  ],
+                                ),
+                              ),
+                              if(weekValues[3]==true) Divider(color: colorSecondText,),
+                              if(weekValues[4]==true) Container(
+                                height: deviceHeight*0.035,
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
+                                    SizedBox(width: deviceWidth*0.025,),
+                                    Text('Viernes',
+                                        style: TextStyle(
+                                            color: colorMainText,
+                                            fontSize: deviceWidth * fontSize * 0.04,
+                                            fontWeight: FontWeight.normal)),
+                                  ],
+                                ),
+                              ),
+                              if(weekValues[4]==true) Divider(color: colorSecondText,),
+                              if(weekValues[5]==true) Container(
+                                height: deviceHeight*0.035,
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
+                                    SizedBox(width: deviceWidth*0.025,),
+                                    Text('Sábado',
+                                        style: TextStyle(
+                                            color: colorMainText,
+                                            fontSize: deviceWidth * fontSize * 0.04,
+                                            fontWeight: FontWeight.normal)),
+                                  ],
+                                ),
+                              ),
+                              if(weekValues[5]==true) Divider(color: colorSecondText,),
+                              if(weekValues[6]==true) Container(
+                                height: deviceHeight*0.035,
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
+                                    SizedBox(width: deviceWidth*0.025,),
+                                    Text('Domingo',
+                                        style: TextStyle(
+                                            color: colorMainText,
+                                            fontSize: deviceWidth * fontSize * 0.04,
+                                            fontWeight: FontWeight.normal)),
+                                  ],
+                                ),
+                              ),
+                              if(weekValues[6]==true) Divider(color: colorSecondText,),
+                            ],),
+                            TextButton(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.loop_rounded, color: colorSpecialItem,
+                                    size: deviceWidth * 0.055,),
+                                  Text(' Gestionar días ', style: TextStyle(
+                                      color: colorSpecialItem,
+                                      fontSize: deviceWidth * fontSize * 0.04,
+                                      fontWeight: FontWeight.normal),),
+                                  Icon(Icons.loop_rounded, color: Colors.transparent,
+                                    size: deviceWidth * 0.055,),
+                                ],
+                              ),
+                              onPressed: () {
+                                showRoutinePickerDialog(
+                                    context,
+                                    'Días de la rutina:',
+                                    weekValues,
+                                    'Listo',
+                                        () {
+                                          setState(() {
+                                            // Updates the weekDays list
+                                            errorColor = colorSecondBackground;
+                                          });
+                                          Navigator.pop(context);
+                                        }
+                                );
+                              },
+                            )
+                      ],
                     ),
                   ],
-                  true
-              ),
-            ]),
+                      true
+                  ),
+                ]
+            ),
             if(routineEvent) FormSeparator(),
             FormContainer([
               FormColorPicker(
@@ -649,7 +606,7 @@ class _AddEventState extends State<AddEvent> {
                     if (routineEvent && daysSelected==false){
                       showErrorSnackBar(context, 'Debes seleccionar al menos un día para la rutina');
                       setState(() {
-                        errorUnderline = Colors.red;
+                        errorColor = Colors.red;
                       });
                     } else {
                       try {

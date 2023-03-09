@@ -134,6 +134,22 @@ Container FormContainer (List<Widget> formWidgets){
   );
 }
 
+Container FormContainerWithBorder (Color borderColor, List<Widget> formWidgets){
+  return Container(
+    padding: EdgeInsets.all(deviceWidth * 0.025),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(10),
+      color: colorSecondBackground,
+      border: Border.all(color: borderColor, width: 1.0),
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: formWidgets,
+    ),
+  );
+}
+
 Container ButtonExplanationContainer(Widget buttonImg, String title, String body){
   return FormContainer([
     IntrinsicHeight(child: Row(
