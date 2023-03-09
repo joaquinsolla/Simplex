@@ -452,7 +452,7 @@ class _AddEventState extends State<AddEvent> {
                   true
               ),
             ]),
-            if(!routineEvent) FormSeparator(),
+            FormSeparator(),
             if(!routineEvent) FormContainer([
               FormCustomField(
                   'Notificaciones',
@@ -634,7 +634,7 @@ class _AddEventState extends State<AddEvent> {
                   ],
                   true),
             ]),
-            FormSeparator(),
+            if(!routineEvent) FormSeparator(),
             MainButton(
                 Icons.check_rounded,
                 colorSpecialItem,
