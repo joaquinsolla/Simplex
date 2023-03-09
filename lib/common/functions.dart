@@ -90,17 +90,9 @@ void showRoutinePickerDialog(BuildContext context, String title, List<bool> week
                           title: Text(
                             'Lunes',
                             style: TextStyle(
-                              color: Colors.transparent,
+                              color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
                               fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
                             ),
                           ),
                           value: weekValues[0],
@@ -116,17 +108,9 @@ void showRoutinePickerDialog(BuildContext context, String title, List<bool> week
                           title: Text(
                             'Martes',
                             style: TextStyle(
-                              color: Colors.transparent,
+                              color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
                               fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
                             ),
                           ),
                           value: weekValues[1],
@@ -142,17 +126,9 @@ void showRoutinePickerDialog(BuildContext context, String title, List<bool> week
                           title: Text(
                             'Miércoles',
                             style: TextStyle(
-                              color: Colors.transparent,
+                              color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
                               fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
                             ),
                           ),
                           value: weekValues[2],
@@ -168,17 +144,9 @@ void showRoutinePickerDialog(BuildContext context, String title, List<bool> week
                           title: Text(
                             'Jueves',
                             style: TextStyle(
-                              color: Colors.transparent,
+                              color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
                               fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
                             ),
                           ),
                           value: weekValues[3],
@@ -194,17 +162,9 @@ void showRoutinePickerDialog(BuildContext context, String title, List<bool> week
                           title: Text(
                             'Viernes',
                             style: TextStyle(
-                              color: Colors.transparent,
+                              color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
                               fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
                             ),
                           ),
                           value: weekValues[4],
@@ -220,17 +180,9 @@ void showRoutinePickerDialog(BuildContext context, String title, List<bool> week
                           title: Text(
                             'Sábado',
                             style: TextStyle(
-                              color: Colors.transparent,
+                              color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
                               fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
                             ),
                           ),
                           value: weekValues[5],
@@ -246,17 +198,9 @@ void showRoutinePickerDialog(BuildContext context, String title, List<bool> week
                           title: Text(
                             'Domingo',
                             style: TextStyle(
-                              color: Colors.transparent,
+                              color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
                               fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.underline,
-                              decorationStyle: TextDecorationStyle.dashed,
-                              decorationThickness: 2,
-                              shadows: [
-                                Shadow(
-                                    color: colorMainText,
-                                    offset: Offset(0, -1.5))
-                              ],
                             ),
                           ),
                           value: weekValues[6],
