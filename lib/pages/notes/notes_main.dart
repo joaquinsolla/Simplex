@@ -287,30 +287,23 @@ class _NotesMainPageState extends State<NotesMainPage> {
             ),
           ),
           onPressed: (){
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return CupertinoAlertDialog(
-                    title: Text('Eliminar nota'),
-                    content: Text('Una vez eliminada no podrás restaurarla.'),
-                    actions: <Widget>[
-                      TextButton(
-                          onPressed: () async {
-                            await cancelNoteNotification(note.id);
-                            await deleteNoteById(note.id);
-                            Navigator.pop(context);
-                            showInfoSnackBar(context, 'Nota eliminada.');
-                          },
-                          child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text('Cancelar', style: TextStyle(color: Colors.red),),
-                      )
-                    ],
-                  );
-                });
+            showTextDialog(
+                context,
+                Icon(Icons.delete_outline_outlined),
+                'Eliminar nota',
+                'Una vez eliminada no podrás restaurarla.',
+                'Eliminar',
+                'Cancelar',
+                    () async {
+                  await cancelNoteNotification(note.id);
+                  await deleteNoteById(note.id);
+                  Navigator.pop(context);
+                  showInfoSnackBar(context, 'Nota eliminada.');
+                },
+                    () {
+                  Navigator.pop(context);
+                }
+            );
           },
         ),
       ],

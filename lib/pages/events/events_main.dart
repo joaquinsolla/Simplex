@@ -446,30 +446,23 @@ class _EventsMainPageState extends State<EventsMainPage> {
             ),
           ),
           onPressed: (){
-            showDialog(
-              context: context,
-              builder: (context) {
-                return CupertinoAlertDialog(
-                  title: Text('Eliminar evento'),
-                  content: Text('Una vez eliminado no podrás restaurarlo.'),
-                  actions: <Widget>[
-                    TextButton(
-                        onPressed: () async {
-                          await cancelAllEventNotifications(event.id);
-                          await deleteEventById(event.id);
-                          Navigator.pop(context);
-                          showInfoSnackBar(context, 'Evento eliminado.');
-                        },
-                        child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('Cancelar', style: TextStyle(color: Colors.red),),
-                    )
-                  ],
-                );
-              });
+            showTextDialog(
+                context,
+                Icon(Icons.delete_outline_outlined),
+                'Eliminar evento',
+                'Una vez eliminado no podrás restaurarlo.',
+                'Eliminar',
+                'Cancelar',
+                    () async {
+                  await cancelAllEventNotifications(event.id);
+                  await deleteEventById(event.id);
+                  Navigator.pop(context);
+                  showInfoSnackBar(context, 'Evento eliminado.');
+                },
+                    () {
+                  Navigator.pop(context);
+                }
+            );
           },
         ),
       ],
@@ -649,30 +642,23 @@ class _EventsMainPageState extends State<EventsMainPage> {
             ),
           ),
           onPressed: (){
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return CupertinoAlertDialog(
-                    title: Text('Eliminar tarea'),
-                    content: Text('Una vez eliminada no podrás restaurarla.'),
-                    actions: <Widget>[
-                      TextButton(
-                          onPressed: () async {
-                            await cancelAllTodoNotifications(todo.id);
-                            await deleteTodoById(todo.id);
-                            Navigator.pop(context);
-                            showInfoSnackBar(context, 'Tarea eliminada.');
-                          },
-                          child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text('Cancelar', style: TextStyle(color: Colors.red),),
-                      )
-                    ],
-                  );
-                });
+            showTextDialog(
+                context,
+                Icon(Icons.delete_outline_outlined),
+                'Eliminar tarea',
+                'Una vez eliminada no podrás restaurarla.',
+                'Eliminar',
+                'Cancelar',
+                    () async {
+                  await cancelAllTodoNotifications(todo.id);
+                  await deleteTodoById(todo.id);
+                  Navigator.pop(context);
+                  showInfoSnackBar(context, 'Tarea eliminada.');
+                },
+                    () {
+                  Navigator.pop(context);
+                }
+            );
           },
         ),
       ],
@@ -829,30 +815,23 @@ class _EventsMainPageState extends State<EventsMainPage> {
             ),
           ),
           onPressed: (){
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return CupertinoAlertDialog(
-                    title: Text('Eliminar nota'),
-                    content: Text('Una vez eliminada no podrás restaurarla.'),
-                    actions: <Widget>[
-                      TextButton(
-                          onPressed: () async {
-                            await cancelNoteNotification(note.id);
-                            await deleteNoteById(note.id);
-                            Navigator.pop(context);
-                            showInfoSnackBar(context, 'Nota eliminada.');
-                          },
-                          child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text('Cancelar', style: TextStyle(color: Colors.red),),
-                      )
-                    ],
-                  );
-                });
+            showTextDialog(
+                context,
+                Icon(Icons.delete_outline_outlined),
+                'Eliminar nota',
+                'Una vez eliminada no podrás restaurarla.',
+                'Eliminar',
+                'Cancelar',
+                    () async {
+                  await cancelNoteNotification(note.id);
+                  await deleteNoteById(note.id);
+                  Navigator.pop(context);
+                  showInfoSnackBar(context, 'Nota eliminada.');
+                },
+                    () {
+                  Navigator.pop(context);
+                }
+            );
           },
         ),
       ],

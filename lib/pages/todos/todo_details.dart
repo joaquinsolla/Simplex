@@ -206,30 +206,23 @@ class _TodoDetailsState extends State<TodoDetails> {
         }),
         FormSeparator(),
         MainButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar tarea ', (){
-          showDialog(
-              context: context,
-              builder: (context) {
-                return CupertinoAlertDialog(
-                  title: Text('Eliminar tarea'),
-                  content: Text('Una vez eliminada no podrás restaurarla.'),
-                  actions: <Widget>[
-                    TextButton(
-                        onPressed: () async {
-                          await cancelAllTodoNotifications(selectedTodo!.id);
-                          await deleteTodoById(selectedTodo!.id);
-                          Navigator.of(context).popUntil((route) => route.isFirst);
-                          showInfoSnackBar(context, 'Tarea eliminada.');
-                        },
-                        child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('Cancelar', style: TextStyle(color: Colors.red),),
-                    )
-                  ],
-                );
-              });
+          showTextDialog(
+              context,
+              Icon(Icons.delete_outline_outlined),
+              'Eliminar tarea',
+              'Una vez eliminada no podrás restaurarla.',
+              'Eliminar',
+              'Cancelar',
+                  () async {
+                await cancelAllTodoNotifications(selectedTodo!.id);
+                await deleteTodoById(selectedTodo!.id);
+                Navigator.of(context).popUntil((route) => route.isFirst);
+                showInfoSnackBar(context, 'Tarea eliminada.');
+              },
+                  () {
+                Navigator.pop(context);
+              }
+          );
         }),
           ]
       ),

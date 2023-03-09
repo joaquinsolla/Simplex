@@ -280,30 +280,23 @@ class _EventDetailsState extends State<EventDetails> {
             }),
             FormSeparator(),
             MainButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return CupertinoAlertDialog(
-                      title: Text('Eliminar evento'),
-                      content: Text('Una vez eliminado no podrás restaurarlo.'),
-                      actions: <Widget>[
-                        TextButton(
-                            onPressed: () async {
-                              await cancelAllEventNotifications(selectedEvent!.id);
-                              await deleteEventById(selectedEvent!.id);
-                              Navigator.of(context).popUntil((route) => route.isFirst);
-                              showInfoSnackBar(context, 'Evento eliminado.');
-                            },
-                            child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text('Cancelar', style: TextStyle(color: Colors.red),),
-                        )
-                      ],
-                    );
-                  });
+              showTextDialog(
+                  context,
+                  Icon(Icons.delete_outline_outlined),
+                  'Eliminar evento',
+                  'Una vez eliminado no podrás restaurarlo.',
+                  'Eliminar',
+                  'Cancelar',
+                      () async {
+                    await cancelAllEventNotifications(selectedEvent!.id);
+                    await deleteEventById(selectedEvent!.id);
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                    showInfoSnackBar(context, 'Evento eliminado.');
+                  },
+                      () {
+                    Navigator.pop(context);
+                  }
+              );
             }),
       ]
       ),

@@ -183,30 +183,23 @@ class _NoteDetailsState extends State<NoteDetails> {
             }),
             FormSeparator(),
             MainButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar nota ', (){
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return CupertinoAlertDialog(
-                      title: Text('Eliminar nota'),
-                      content: Text('Una vez eliminada no podrás restaurarla.'),
-                      actions: <Widget>[
-                        TextButton(
-                            onPressed: () async {
-                              await cancelNoteNotification(selectedNote!.id);
-                              await deleteNoteById(selectedNote!.id);
-                              Navigator.of(context).popUntil((route) => route.isFirst);
-                              showInfoSnackBar(context, 'Nota eliminada.');
-                            },
-                            child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text('Cancelar', style: TextStyle(color: Colors.red),),
-                        )
-                      ],
-                    );
-                  });
+              showTextDialog(
+                  context,
+                  Icon(Icons.delete_outline_outlined),
+                  'Eliminar nota',
+                  'Una vez eliminada no podrás restaurarla.',
+                  'Eliminar',
+                  'Cancelar',
+                      () async {
+                    await cancelNoteNotification(selectedNote!.id);
+                    await deleteNoteById(selectedNote!.id);
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                    showInfoSnackBar(context, 'Nota eliminada.');
+                  },
+                      () {
+                    Navigator.pop(context);
+                  }
+              );
             }),
           ]
       ),

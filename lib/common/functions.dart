@@ -7,6 +7,41 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
+void showTextDialog(BuildContext context, Widget icon, String title, String content,
+    String textAccept, String textCancel, Function() actionsAccept,
+    Function() actionsCancel) {
+  showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: colorSecondBackground,
+          title: Wrap(children: [
+            icon,
+            Text(' '+title, style: TextStyle(color: colorMainText))
+          ],),
+          content: Text(content, style: TextStyle(color: colorMainText)),
+          actions: [
+            TextButton(
+              style: ButtonStyle(
+                overlayColor: MaterialStateProperty.all(
+                    colorMainText.withOpacity(0.1)),
+              ),
+              onPressed: actionsAccept,
+              child: Text(textAccept, style: TextStyle(color: colorMainText),),
+            ),
+            TextButton(
+              style: ButtonStyle(
+                overlayColor: MaterialStateProperty.all(
+                    Colors.red.withOpacity(0.1)),
+              ),
+              onPressed: actionsCancel,
+              child: Text(textCancel, style: TextStyle(color: Colors.red),),
+            )
+          ],
+        );
+      });
+}
+
 void showErrorSnackBar(BuildContext context, String content) {
 
   ScaffoldMessenger.of(context).clearSnackBars();

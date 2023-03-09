@@ -686,56 +686,42 @@ class _TodosMainPageState extends State<TodosMainPage> {
   }
   
   void _showDeleteTodoDialog(int id){
-    showDialog(
-        context: context,
-        builder: (context) {
-          return CupertinoAlertDialog(
-            title: Text('Eliminar tarea'),
-            content: Text('Una vez eliminada no podrás restaurarla.'),
-            actions: <Widget>[
-              TextButton(
-                  onPressed: () async {
-                    await cancelAllTodoNotifications(id);
-                    await deleteTodoById(id);
-                    Navigator.pop(context);
-                    showInfoSnackBar(context, 'Tarea eliminada.');
-                  },
-                  child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('Cancelar', style: TextStyle(color: Colors.red),),
-              )
-            ],
-          );
-        });
+    showTextDialog(
+        context,
+        Icon(Icons.delete_outline_outlined),
+        'Eliminar tarea',
+        'Una vez eliminada no podrás restaurarla.',
+        'Eliminar',
+        'Cancelar',
+            () async {
+          await cancelAllTodoNotifications(id);
+          await deleteTodoById(id);
+          Navigator.pop(context);
+          showInfoSnackBar(context, 'Tarea eliminada.');
+        },
+            () {
+          Navigator.pop(context);
+        }
+    );
   }
 
   void _showDeleteAllDoneDialog() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return CupertinoAlertDialog(
-            title: Text('Eliminar tareas completadas'),
-            content: Text('Una vez eliminadas, no podrás restaurarlas.'),
-            actions: <Widget>[
-              TextButton(
-                  onPressed: () async {
-                    await deleteDoneTodos();
-                    Navigator.pop(context);
-                    showInfoSnackBar(context, 'Tareas completadas eliminadas.');
-                  },
-                  child: Text('Eliminar', style: TextStyle(color: colorSpecialItem),)),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('Cancelar', style: TextStyle(color: Colors.red),),
-              )
-            ],
-          );
-        });
+    showTextDialog(
+        context,
+        Icon(Icons.delete_outline_outlined),
+        'Eliminar tareas completadas',
+        'Una vez eliminadas no podrás restaurarlas.',
+        'Eliminar',
+        'Cancelar',
+            () async {
+          await deleteDoneTodos();
+          Navigator.pop(context);
+          showInfoSnackBar(context, 'Tareas completadas eliminadas.');
+        },
+            () {
+          Navigator.pop(context);
+        }
+    );
   }
 
 }

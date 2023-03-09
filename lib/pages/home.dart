@@ -300,38 +300,30 @@ class _HomeState extends State<Home> {
           Colors.red,
           ' Cerrar sesión ',
           () {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return CupertinoAlertDialog(
-                    title: Text('Cerrar sesión'),
-                    content: Text('Para volver a acceder a tu cuenta deberás '
-                        'proporcionar tu email y contraseña.'),
-                    actions: <Widget>[
-                      TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            try{
-                              loginIndex = 0;
-                              homeIndex = 0;
-                              FirebaseAuth.instance.signOut();
-                              debugPrint('[OK] Signed out');
-                            } on Exception catch (e) {
-                              debugPrint('[ERR] Cannot sign out: $e');
-                              showErrorSnackBar(context, 'Ha ocurrido un error, '
-                                  'inténtalo de nuevo');
-                            }
-                          },
-                          child: Text('Aceptar', style: TextStyle(color: colorSpecialItem),)),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text('Cancelar', style: TextStyle(color: Colors.red),),
-                      )
-                    ],
-                  );
-                });
+            showTextDialog(
+                context,
+                Icon(Icons.logout_rounded),
+                'Cerrar sesión',
+                'Para volver a acceder a tu cuenta deberás proporcionar tu email y contraseña.',
+                'Aceptar',
+                'Cancelar',
+                    () {
+                  Navigator.pop(context);
+                  try{
+                    loginIndex = 0;
+                    homeIndex = 0;
+                    FirebaseAuth.instance.signOut();
+                    debugPrint('[OK] Signed out');
+                  } on Exception catch (e) {
+                    debugPrint('[ERR] Cannot sign out: $e');
+                    showErrorSnackBar(context, 'Ha ocurrido un error, '
+                        'inténtalo de nuevo');
+                  }
+                },
+                    () {
+                  Navigator.pop(context);
+                }
+            );
           }
       ),
     ]
