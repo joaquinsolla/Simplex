@@ -209,3 +209,76 @@ Column FormCustomField(String fieldName, List<Widget> widgets, bool isLast){
     ],
   );
 }
+
+Column FormColorPicker(BuildContext context, String fieldName, String dialogTitle, int colorCode, List<Widget> widgets, bool isLast) {
+  String colorName = 'Por defecto';
+
+  if(colorCode == -1 && darkMode == false) colorCode = 0xffe3e3e9;
+  else if(colorCode == -1 && darkMode == true) colorCode = 0xff706e74;
+
+  switch (colorCode) {
+    case 0xffF44336:
+      colorName = 'Rojo';
+      break;
+    case 0xffFF9800:
+      colorName = 'Naranja';
+      break;
+    case 0xffFFCC00:
+      colorName = 'Amarillo';
+      break;
+    case 0xff4CAF50:
+      colorName = 'Verde';
+      break;
+    case 0xff448AFF:
+      colorName = 'Azul';
+      break;
+    case 0xff7C4DFF:
+      colorName = 'Violeta';
+      break;
+    default:
+      colorName = 'Por defecto';
+      break;
+  }
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(fieldName, style: TextStyle(color: colorMainText,
+          fontSize: deviceWidth * fontSize * 0.045,
+          fontWeight: FontWeight.bold),),
+      SizedBox(height: deviceHeight * 0.005),
+
+      TextButton(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.radio_button_checked_rounded, color: Color(colorCode),
+              size: deviceWidth * 0.055,),
+            Text(' $colorName ', style: TextStyle(
+                color: colorMainText,
+                fontSize: deviceWidth * fontSize * 0.04,
+                fontWeight: FontWeight.normal),),
+            Icon(Icons.radio_button_checked_rounded, color: Colors.transparent,
+              size: deviceWidth * 0.055,),
+          ],
+        ),
+        onPressed: (){
+          showWidgetDialog(
+              context,
+              dialogTitle,
+              widgets,
+              'Listo',
+                  () {
+                Navigator.pop(context);
+              },
+          );
+        },
+        style: ButtonStyle(
+          overlayColor: MaterialStateProperty.all(colorMainText.withOpacity(0.1)),
+        ),
+      ),
+
+      if(!isLast) SizedBox(height: deviceHeight * 0.025),
+    ],
+  );
+}

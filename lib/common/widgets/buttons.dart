@@ -41,7 +41,7 @@ Container MainButton(IconData icon, Color color, String text, Function() actions
 
 Container SecondaryButton(Color color, String text, Function() actions){
   return Container(
-    width: deviceHeight,
+    width: deviceWidth,
     height: deviceHeight * 0.05,
     child: TextButton(
       child: Text(

@@ -42,6 +42,32 @@ void showTextDialog(BuildContext context, Widget icon, String title, String cont
       });
 }
 
+void showWidgetDialog(BuildContext context, String title, List<Widget> content,
+    String textAccept, Function() actionsAccept) {
+  showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: colorSecondBackground,
+          title: Text(title, style: TextStyle(color: colorMainText)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: content,
+          ),
+          actions: [
+            TextButton(
+              style: ButtonStyle(
+                overlayColor: MaterialStateProperty.all(
+                    colorMainText.withOpacity(0.1)),
+              ),
+              onPressed: actionsAccept,
+              child: Text(textAccept, style: TextStyle(color: colorMainText),),
+            ),
+          ],
+        );
+      });
+}
+
 void showErrorSnackBar(BuildContext context, String content) {
 
   ScaffoldMessenger.of(context).clearSnackBars();

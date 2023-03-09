@@ -40,6 +40,9 @@ class _EventDetailsState extends State<EventDetails> {
       case 0xffFF9800:
         colorName = 'Naranja';
         break;
+      case 0xffFFCC00:
+        colorName = 'Amarillo';
+        break;
       case 0xff4CAF50:
         colorName = 'Verde';
         break;
