@@ -26,7 +26,6 @@ class _EditEventState extends State<EditEvent> {
 
   late DateTime date;
   late TimeOfDay time;
-  DateTime dateTime = selectedEvent!.dateTime;
   int color = selectedEvent!.color;
 
   List<dynamic> notificationsList = [];
@@ -57,10 +56,10 @@ class _EditEventState extends State<EditEvent> {
     super.initState();
     nameController.text = selectedEvent!.name;
     descriptionController.text = selectedEvent!.description;
-    date = DateTime(dateTime.year, dateTime.month, dateTime.day);
-    dateController.text = dateToString(selectedEvent!.dateTime);
-    time = TimeOfDay(hour: dateTime.hour, minute: dateTime.minute);
-    timeController.text = timeToString(selectedEvent!.dateTime);
+    date = selectedEvent!.date;
+    dateController.text = dateToString(selectedEvent!.date);
+    time = millisecondsToTimeOfDay(selectedEvent!.timeMillis);
+    timeController.text = timeOfDayToString(time);
     for (int i=0; i<selectedEvent!.notificationsList.length; i++) {
       if (not1.keys.first == null) {
         not1 = {selectedEvent!.notificationsList[i].keys.first: selectedEvent!.notificationsList[i].values.first.toDate()};
@@ -664,13 +663,13 @@ class _EditEventState extends State<EditEvent> {
                           });
                         } else {
                           try {
-                            dateTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
                             if(routineEvent) _addEventRoutines();
                             Event newEvent = Event(
                               id: selectedEvent!.id,
                               name: nameController.text.trim(),
                               description: descriptionController.text.trim(),
-                              dateTime: dateTime,
+                              date: date,
+                              timeMillis: timeOfDayToMilliseconds(time),
                               color: color,
                               notificationsList: notificationsList,
                               routinesList: routinesList,
@@ -708,7 +707,7 @@ class _EditEventState extends State<EditEvent> {
     final DateTime? selected = await showDatePicker(
         context: context,
         locale: appLocale,
-        initialDate: selectedEvent!.dateTime,
+        initialDate: selectedEvent!.date,
         firstDate: DateTime(2000, 1, 1),
         lastDate: DateTime(2099, 12, 31),
         helpText: "SELECCIONA LA FECHA DEL EVENTO",
@@ -759,7 +758,7 @@ class _EditEventState extends State<EditEvent> {
       helpText: "SELECCIONA LA HORA DEL EVENTO",
       cancelText: "CANCELAR",
       confirmText: "CONFIRMAR",
-      initialTime: TimeOfDay(hour: selectedEvent!.dateTime.hour, minute: selectedEvent!.dateTime.minute),
+      initialTime: TimeOfDay(hour: time.hour, minute: time.minute),
       initialEntryMode: TimePickerEntryMode.dial,
       builder: (context, child) {
         if (darkMode) return Theme(
@@ -800,23 +799,23 @@ class _EditEventState extends State<EditEvent> {
     if (not1.keys.first != null) buildEventNotification(
         int.parse(not1.keys.first!),
         notificationTitle, not1.values.first!,
-        dateTime);
+        date, time);
     if (not2.keys.first != null) buildEventNotification(
         int.parse(not2.keys.first!),
         notificationTitle, not2.values.first!,
-        dateTime);
+        date, time);
     if (not3.keys.first != null) buildEventNotification(
         int.parse(not3.keys.first!),
         notificationTitle, not3.values.first!,
-        dateTime);
+        date, time);
     if (not4.keys.first != null) buildEventNotification(
         int.parse(not4.keys.first!),
         notificationTitle, not4.values.first!,
-        dateTime);
+        date, time);
     if (not5.keys.first != null) buildEventNotification(
         int.parse(not5.keys.first!),
         notificationTitle, not5.values.first!,
-        dateTime);
+        date, time);
   }
 
   _addEventRoutines(){

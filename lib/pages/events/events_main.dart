@@ -41,7 +41,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
   loadEventsToCalendar(List<Event> events, List<Todo> todos, List<Note> notes) {
     daysWithEvents = {};
     events.forEach((event) {
-      DateTime date = DateTime(event.dateTime.year, event.dateTime.month, event.dateTime.day);
+      DateTime date = DateTime(event.date.year, event.date.month, event.date.day);
         if (daysWithEvents[date] != null){
           daysWithEvents[date]?.add(event);
         } else {
@@ -344,18 +344,14 @@ class _EventsMainPageState extends State<EventsMainPage> {
   Widget buildEventBox(dynamic event){
 
     late int color;
-    late String dateFormat;
-    if (event.color == -1 && darkMode == false) {
-      color = 0xFFFFFFFF;
-    } else if (event.color == -1 && darkMode == true) {
-      color = 0xff1c1c1f;
-    } else {
-      color = event.color;
-    }
+    late String timeFormat;
+    if (event.color == -1 && darkMode == false) color = 0xFFFFFFFF;
+    else if (event.color == -1 && darkMode == true) color = 0xff1c1c1f;
+    else color = event.color;
 
-    DateTime eventDate = event.dateTime;
-    if (format24Hours==true) dateFormat = 'H:mm';
-    else dateFormat = 'K:mm';
+    TimeOfDay eventTime = millisecondsToTimeOfDay(event.timeMillis);
+    if (format24Hours==true) timeFormat = 'H:mm';
+    else timeFormat = 'K:mm';
     Color backgroundColor = colorThirdBackground;
     if (darkMode) backgroundColor = colorSecondBackground;
     Color secondColor = colorSecondText;
@@ -484,8 +480,8 @@ class _EventsMainPageState extends State<EventsMainPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(DateFormat(dateFormat).format(eventDate), style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.055, fontWeight: FontWeight.bold)),
-                        if (format24Hours==false) Text(DateFormat('aa').format(eventDate), style: TextStyle(color: secondColor, fontSize: deviceWidth * fontSize * 0.034, fontWeight: FontWeight.normal)),
+                        Text(timeOfDayToSpecificString(eventTime, timeFormat), style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.055, fontWeight: FontWeight.bold)),
+                        if (format24Hours==false) Text(timeOfDayToSpecificString(eventTime, 'aa'), style: TextStyle(color: secondColor, fontSize: deviceWidth * fontSize * 0.034, fontWeight: FontWeight.normal)),
                       ],
                     ),
                   ),

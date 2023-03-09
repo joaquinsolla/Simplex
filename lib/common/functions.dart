@@ -142,33 +142,40 @@ String dateToString(DateTime dateTime) {
     return DateFormat('MM/dd/yyyy').format(dateTime);
 }
 
-String timeToString(DateTime dateTime) {
+// TODO: review UTC
+String timeOfDayToString(TimeOfDay time) {
+  final now = new DateTime.now();
+  final dt = DateTime(now.year, now.month, now.day, time.hour, time.minute).toUtc();
+
   if (format24Hours == true)
-    return DateFormat('HH:mm').format(dateTime);
+    return DateFormat('HH:mm').format(dt);
   else
-    return DateFormat('h:mm aa').format(dateTime);
+    return DateFormat('h:mm aa').format(dt);
 }
 
-String millisecondsTimeToString(int millis) {
-  DateTime date = DateTime.fromMicrosecondsSinceEpoch(millis * 1000);
+String timeOfDayToSpecificString(TimeOfDay time, String timeFormat) {
+  final now = new DateTime.now();
+  final dt = DateTime(now.year, now.month, now.day, time.hour, time.minute).toUtc();
 
-  return timeToString(date);
+  return DateFormat(timeFormat).format(dt);
 }
 
 void buildEventNotification(int id, String title, DateTime notificationDateTime,
-    DateTime eventDateTime) {
+    DateTime eventDate, TimeOfDay eventTime) {
+  final dt = DateTime(eventDate.year, eventDate.month, eventDate.day, eventTime.hour, eventTime.minute);
+
   String body = 'Es el ';
   if (formatDates == true)
-    body = body + DateFormat('dd/MM/yyyy').format(eventDateTime);
+    body = body + DateFormat('dd/MM/yyyy').format(dt);
   else
-    body = body + DateFormat('MM/dd/yyyy').format(eventDateTime);
+    body = body + DateFormat('MM/dd/yyyy').format(dt);
   body = body + ' a las ';
   if (format24Hours == true)
-    body = body + DateFormat('H:mm').format(eventDateTime);
+    body = body + DateFormat('H:mm').format(dt);
   else
-    body = body + DateFormat('K:mm aa').format(eventDateTime);
+    body = body + DateFormat('K:mm aa').format(dt);
 
-  if (notificationDateTime.isBefore(eventDateTime) &&
+  if (notificationDateTime.isBefore(dt) &&
       notificationDateTime.isAfter(DateTime.now())) {
     WidgetsFlutterBinding.ensureInitialized();
     NotificationService().initNotification();
@@ -230,10 +237,11 @@ void buildNotificationNow() {
   /// TESTING METHOD
 
   DateTime date = DateTime.now().add(const Duration(seconds: 5));
+  TimeOfDay time = TimeOfDay(hour: date.hour, minute: date.minute);
   int id = date.millisecondsSinceEpoch;
   String title = '[TEST] Notificación';
   String body = 'Mostrada el ' + dateToString(date) +
-      ' a las ' + timeToString(date);
+      ' a las ' + timeOfDayToString(time);
 
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
@@ -313,6 +321,14 @@ String dayIdToString(int day) {
   ];
 
   return strings[day];
+}
+
+int timeOfDayToMilliseconds(TimeOfDay time) {
+  return time.hour * 3600000 + time.minute * 60000;
+}
+
+TimeOfDay millisecondsToTimeOfDay(int milliseconds) {
+  return TimeOfDay.fromDateTime(DateTime.fromMillisecondsSinceEpoch(milliseconds));
 }
 
 void tryLaunchUrl(Uri url) async {

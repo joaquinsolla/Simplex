@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:focused_menu/focused_menu.dart';
 import 'package:focused_menu/modals.dart';
-import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
@@ -369,18 +368,14 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
   Widget buildEventBox(dynamic event){
 
     late int color;
-    late String dateFormat;
-    if (event.color == -1 && darkMode == false) {
-      color = 0xFFFFFFFF;
-    } else if (event.color == -1 && darkMode == true) {
-      color = 0xff1c1c1f;
-    } else {
-      color = event.color;
-    }
+    late String timeFormat;
+    if (event.color == -1 && darkMode == false) color = 0xFFFFFFFF;
+    else if (event.color == -1 && darkMode == true) color = 0xff1c1c1f;
+    else color = event.color;
 
-    DateTime eventDate = event.dateTime;
-    if (format24Hours==true) dateFormat = 'H:mm';
-    else dateFormat = 'K:mm';
+    TimeOfDay eventTime = millisecondsToTimeOfDay(event.timeMillis);
+    if (format24Hours==true) timeFormat = 'H:mm';
+    else timeFormat = 'K:mm';
     Color backgroundColor = colorThirdBackground;
     if (darkMode) backgroundColor = colorSecondBackground;
     Color secondColor = colorSecondText;
@@ -509,8 +504,8 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(DateFormat(dateFormat).format(eventDate), style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.055, fontWeight: FontWeight.bold)),
-                        if (format24Hours==false) Text(DateFormat('aa').format(eventDate), style: TextStyle(color: secondColor, fontSize: deviceWidth * fontSize * 0.034, fontWeight: FontWeight.normal)),
+                        Text(timeOfDayToSpecificString(eventTime, timeFormat), style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.055, fontWeight: FontWeight.bold)),
+                        if (format24Hours==false) Text(timeOfDayToSpecificString(eventTime, 'aa'), style: TextStyle(color: secondColor, fontSize: deviceWidth * fontSize * 0.034, fontWeight: FontWeight.normal)),
                       ],
                     ),
                   ),

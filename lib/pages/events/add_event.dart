@@ -27,7 +27,6 @@ class _AddEventState extends State<AddEvent> {
   int id = int.parse((DateTime.now().millisecondsSinceEpoch).toString().substring(6));
   DateTime date = selectedDateTime;
   TimeOfDay time = TimeOfDay(hour: 00, minute: 00);
-  late DateTime dateTime;
   int color = -1;
 
   List<dynamic> notificationsList = [];
@@ -654,13 +653,13 @@ class _AddEventState extends State<AddEvent> {
                       });
                     } else {
                       try {
-                        dateTime = DateTime(date.year, date.month, date.day, time.hour, time.minute);
                         if(routineEvent) _addEventRoutines();
                         Event newEvent = Event(
                           id: id,
                           name: nameController.text.trim(),
                           description: descriptionController.text.trim(),
-                          dateTime: dateTime,
+                          date: date,
+                          timeMillis: timeOfDayToMilliseconds(time),
                           color: color,
                           notificationsList: notificationsList,
                           routinesList: routinesList,
@@ -782,23 +781,23 @@ class _AddEventState extends State<AddEvent> {
     if (not1.keys.first != null) buildEventNotification(
         int.parse(not1.keys.first!),
         notificationTitle, not1.values.first!,
-        dateTime);
+        date, time);
     if (not2.keys.first != null) buildEventNotification(
         int.parse(not2.keys.first!),
         notificationTitle, not2.values.first!,
-        dateTime);
+        date, time);
     if (not3.keys.first != null) buildEventNotification(
         int.parse(not3.keys.first!),
         notificationTitle, not3.values.first!,
-        dateTime);
+        date, time);
     if (not4.keys.first != null) buildEventNotification(
         int.parse(not4.keys.first!),
         notificationTitle, not4.values.first!,
-        dateTime);
+        date, time);
     if (not5.keys.first != null) buildEventNotification(
         int.parse(not5.keys.first!),
         notificationTitle, not5.values.first!,
-        dateTime);
+        date, time);
   }
 
   _addEventRoutines(){

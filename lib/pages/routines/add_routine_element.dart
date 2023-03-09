@@ -541,13 +541,13 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                     } else {
                       try {
                         DateTime date = DateTime.now();
-                        DateTime dateTime = DateTime(date.year, date.month, date.day, eventTime.hour, eventTime.minute);
                         _addRoutines();
                         Event newEvent = Event(
                           id: id,
                           name: eventNameController.text.trim(),
                           description: eventDescriptionController.text.trim(),
-                          dateTime: dateTime,
+                          date: date,
+                          timeMillis: timeOfDayToMilliseconds(eventTime),
                           color: eventColor,
                           notificationsList: [],
                           routinesList: routinesList,

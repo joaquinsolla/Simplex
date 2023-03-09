@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/common/all_common.dart';
@@ -14,8 +13,11 @@ class EventDetails extends StatefulWidget {
 
 class _EventDetailsState extends State<EventDetails> {
 
-  String eventDate = DateFormat('dd/MM/yyyy').format(selectedEvent!.dateTime);
-  String eventTime = DateFormat('HH:mm').format(selectedEvent!.dateTime);
+  DateTime eventDate = selectedEvent!.date;
+  TimeOfDay eventTime = millisecondsToTimeOfDay(selectedEvent!.timeMillis);
+  late DateTime eventDateTime;
+  String eventDateString = DateFormat('dd/MM/yyyy').format(selectedEvent!.date);
+  String eventTimeString = timeOfDayToString(millisecondsToTimeOfDay(selectedEvent!.timeMillis));
   String colorName = 'Por defecto';
   int colorCode = selectedEvent!.color;
 
@@ -27,8 +29,9 @@ class _EventDetailsState extends State<EventDetails> {
   @override
   void initState() {
     super.initState();
-    if (formatDates == false) eventDate = DateFormat('MM/dd/yyyy').format(selectedEvent!.dateTime);
-    if (format24Hours==false) eventTime = DateFormat('h:mm aa').format(selectedEvent!.dateTime);
+    eventDateTime = DateTime(eventDate.year, eventDate.month, eventDate.day, eventTime.hour, eventTime.minute);
+
+    if (formatDates == false) eventDateString = DateFormat('MM/dd/yyyy').format(selectedEvent!.date);
 
     if(colorCode == -1 && darkMode == false) colorCode = 0xffe3e3e9;
     else if(colorCode == -1 && darkMode == true) colorCode = 0xff706e74;
@@ -138,7 +141,7 @@ class _EventDetailsState extends State<EventDetails> {
                       Icon(Icons.calendar_month_rounded, color: colorSpecialItem, size: deviceWidth*0.05,),
                       SizedBox(width: deviceWidth*0.025,),
                       Text(
-                        eventDate,
+                        eventDateString,
                         style: TextStyle(
                             color: colorMainText,
                             fontSize: deviceWidth * fontSize * 0.04,
@@ -155,7 +158,7 @@ class _EventDetailsState extends State<EventDetails> {
                       Icon(Icons.watch_later_outlined, color: colorSpecialItem, size: deviceWidth*0.05,),
                       SizedBox(width: deviceWidth*0.025,),
                       Text(
-                        eventTime,
+                        eventTimeString,
                         style: TextStyle(
                             color: colorMainText,
                             fontSize: deviceWidth * fontSize * 0.04,
@@ -257,8 +260,8 @@ class _EventDetailsState extends State<EventDetails> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  if (selectedEvent!.notificationsList[index].values.first.toDate().isBefore(selectedEvent!.dateTime)) Icon(Icons.notifications_active_outlined, color: colorSpecialItem, size: deviceWidth*0.05,),
-                                  if (selectedEvent!.notificationsList[index].values.first.toDate().isAfter(selectedEvent!.dateTime)) Icon(Icons.notification_important_outlined, color: Colors.red, size: deviceWidth*0.05,),
+                                  if (selectedEvent!.notificationsList[index].values.first.toDate().isBefore(eventDateTime)) Icon(Icons.notifications_active_outlined, color: colorSpecialItem, size: deviceWidth*0.05,),
+                                  if (selectedEvent!.notificationsList[index].values.first.toDate().isAfter(eventDateTime)) Icon(Icons.notification_important_outlined, color: Colors.red, size: deviceWidth*0.05,),
                                   SizedBox(width: deviceWidth*0.025,),
                                   Text(formatEventNotificationDate(selectedEvent!.notificationsList[index].values.first.toDate()),
                                       style: TextStyle(

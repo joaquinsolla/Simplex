@@ -4,7 +4,8 @@ class Event{
   final int id;
   final String name;
   final String description;
-  final DateTime dateTime;
+  final DateTime date;
+  final int timeMillis;
   final int color;
   final List<dynamic> notificationsList;
   final List<dynamic> routinesList;
@@ -14,7 +15,8 @@ class Event{
     required this.id,
     required this.name,
     required this.description,
-    required this.dateTime,
+    required this.date,
+    required this.timeMillis,
     required this.color,
     required this.notificationsList,
     required this.routinesList,
@@ -25,7 +27,8 @@ class Event{
     'id': id,
     'name': name,
     'description': description,
-    'dateTime': dateTime,
+    'date': date,
+    'timeMillis': timeMillis,
     'color': color,
     'notificationsList': notificationsList,
     'routinesList': routinesList,
@@ -36,7 +39,8 @@ class Event{
     id: json['id'],
     name: json['name'],
     description: json['description'],
-    dateTime: (json['dateTime'] as Timestamp).toDate(),
+    date: (json['date'] as Timestamp).toDate(),
+    timeMillis: json['timeMillis'],
     color: json['color'],
     notificationsList: json['notificationsList'],
     routinesList: json['routinesList'],
