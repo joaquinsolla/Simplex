@@ -302,7 +302,7 @@ class _HomeState extends State<Home> {
           () {
             showTextDialog(
                 context,
-                Icon(Icons.logout_rounded),
+                Icons.logout_rounded,
                 'Cerrar sesión',
                 'Para volver a acceder a tu cuenta deberás proporcionar tu email y contraseña.',
                 'Aceptar',

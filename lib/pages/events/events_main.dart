@@ -444,7 +444,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
           onPressed: (){
             showTextDialog(
                 context,
-                Icon(Icons.delete_outline_outlined),
+                Icons.delete_outline_outlined,
                 'Eliminar evento',
                 'Una vez eliminado no podrás restaurarlo.',
                 'Eliminar',
@@ -640,7 +640,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
           onPressed: (){
             showTextDialog(
                 context,
-                Icon(Icons.delete_outline_outlined),
+                Icons.delete_outline_outlined,
                 'Eliminar tarea',
                 'Una vez eliminada no podrás restaurarla.',
                 'Eliminar',
@@ -813,7 +813,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
           onPressed: (){
             showTextDialog(
                 context,
-                Icon(Icons.delete_outline_outlined),
+                Icons.delete_outline_outlined,
                 'Eliminar nota',
                 'Una vez eliminada no podrás restaurarla.',
                 'Eliminar',

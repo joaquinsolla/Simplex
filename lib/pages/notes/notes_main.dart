@@ -289,7 +289,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
           onPressed: (){
             showTextDialog(
                 context,
-                Icon(Icons.delete_outline_outlined),
+                Icons.delete_outline_outlined,
                 'Eliminar nota',
                 'Una vez eliminada no podrás restaurarla.',
                 'Eliminar',

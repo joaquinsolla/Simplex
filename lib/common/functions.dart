@@ -7,7 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
-void showTextDialog(BuildContext context, Widget icon, String title, String content,
+void showTextDialog(BuildContext context, IconData icon, String title, String content,
     String textAccept, String textCancel, Function() actionsAccept,
     Function() actionsCancel) {
   showDialog(
@@ -16,7 +16,7 @@ void showTextDialog(BuildContext context, Widget icon, String title, String cont
         return AlertDialog(
           backgroundColor: colorSecondBackground,
           title: Wrap(children: [
-            icon,
+            Icon(icon, color: colorMainText),
             Text(' '+title, style: TextStyle(color: colorMainText))
           ],),
           content: Text(content, style: TextStyle(color: colorMainText)),

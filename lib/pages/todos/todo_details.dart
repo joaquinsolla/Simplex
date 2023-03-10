@@ -208,7 +208,7 @@ class _TodoDetailsState extends State<TodoDetails> {
         MainButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar tarea ', (){
           showTextDialog(
               context,
-              Icon(Icons.delete_outline_outlined),
+              Icons.delete_outline_outlined,
               'Eliminar tarea',
               'Una vez eliminada no podrás restaurarla.',
               'Eliminar',

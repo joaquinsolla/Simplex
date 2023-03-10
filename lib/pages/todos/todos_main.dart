@@ -688,7 +688,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
   void _showDeleteTodoDialog(int id){
     showTextDialog(
         context,
-        Icon(Icons.delete_outline_outlined),
+        Icons.delete_outline_outlined,
         'Eliminar tarea',
         'Una vez eliminada no podrás restaurarla.',
         'Eliminar',
@@ -708,7 +708,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
   void _showDeleteAllDoneDialog() {
     showTextDialog(
         context,
-        Icon(Icons.delete_outline_outlined),
+        Icons.delete_outline_outlined,
         'Eliminar tareas completadas',
         'Una vez eliminadas no podrás restaurarlas.',
         'Eliminar',

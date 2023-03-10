@@ -185,7 +185,7 @@ class _NoteDetailsState extends State<NoteDetails> {
             MainButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar nota ', (){
               showTextDialog(
                   context,
-                  Icon(Icons.delete_outline_outlined),
+                  Icons.delete_outline_outlined,
                   'Eliminar nota',
                   'Una vez eliminada no podrás restaurarla.',
                   'Eliminar',

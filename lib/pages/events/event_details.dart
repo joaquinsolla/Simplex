@@ -288,7 +288,7 @@ class _EventDetailsState extends State<EventDetails> {
             MainButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){
               showTextDialog(
                   context,
-                  Icon(Icons.delete_outline_outlined),
+                  Icons.delete_outline_outlined,
                   'Eliminar evento',
                   'Una vez eliminado no podrás restaurarlo.',
                   'Eliminar',
