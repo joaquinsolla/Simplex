@@ -97,6 +97,16 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
             ]),
             FormSeparator(),
 
+            if(!isNote) FormContainer([
+              FormDateTimeSelector(
+                eventTimeController,
+                'Hora:',
+                eventTimeHintText,
+                eventTimeFocusNode,
+                    () => _eventTimeSelector(context),
+                true,
+              ),
+            ]),
             if(isNote) FormContainer([
               FormCustomField(
                   'En el calendario:',
@@ -157,20 +167,146 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                   true
               ),
             ]),
-            if(isNote) FormSeparator(),
+            FormSeparator(),
 
             if(!isNote) FormContainer([
-              FormDateTimeSelector(
-                eventTimeController,
-                'Hora:',
-                eventTimeHintText,
-                eventTimeFocusNode,
-                    () => _eventTimeSelector(context),
-                true,
+              FormColorPicker(
+                  context,
+                  'Color:',
+                  'Color del evento:',
+                  eventColor,
+                  [
+                    Theme(
+                      data: Theme.of(context).copyWith(
+                        unselectedWidgetColor: colorThirdBackground,
+                        disabledColor: colorThirdBackground,
+                      ),
+                      child: RadioListTile(
+                        title: Text('Por defecto', style: TextStyle(color: colorMainText),),
+                        value: -1,
+                        groupValue: eventColor,
+                        activeColor: colorThirdBackground,
+                        onChanged: (val) {
+                          setState(() {
+                            eventColor = val as int;
+                          });
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    Theme(
+                      data: Theme.of(context).copyWith(
+                        unselectedWidgetColor: const Color(0xffF44336),
+                        disabledColor: const Color(0xffF44336),
+                      ),
+                      child: RadioListTile(
+                        title: Text('Rojo', style: TextStyle(color: colorMainText)),
+                        value: 0xffF44336,
+                        groupValue: eventColor,
+                        activeColor: const Color(0xffF44336),
+                        onChanged: (val) {
+                          setState(() {
+                            eventColor = val as int;
+                          });
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    Theme(
+                      data: Theme.of(context).copyWith(
+                        unselectedWidgetColor: const Color(0xffFF9800),
+                        disabledColor: const Color(0xffFF9800),
+                      ),
+                      child: RadioListTile(
+                        title: Text('Naranja', style: TextStyle(color: colorMainText)),
+                        value: 0xffFF9800,
+                        groupValue: eventColor,
+                        activeColor: const Color(0xffFF9800),
+                        onChanged: (val) {
+                          setState(() {
+                            eventColor = val as int;
+                          });
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    Theme(
+                      data: Theme.of(context).copyWith(
+                        unselectedWidgetColor: const Color(0xffFFCC00),
+                        disabledColor: const Color(0xffFFCC00),
+                      ),
+                      child: RadioListTile(
+                        title: Text('Amarillo', style: TextStyle(color: colorMainText)),
+                        value: 0xffFFCC00,
+                        groupValue: eventColor,
+                        activeColor: const Color(0xffFFCC00),
+                        onChanged: (val) {
+                          setState(() {
+                            eventColor = val as int;
+                          });
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    Theme(
+                      data: Theme.of(context).copyWith(
+                        unselectedWidgetColor: const Color(0xff4CAF50),
+                        disabledColor: const Color(0xff4CAF50),
+                      ),
+                      child: RadioListTile(
+                        title: Text('Verde', style: TextStyle(color: colorMainText)),
+                        value: 0xff4CAF50,
+                        groupValue: eventColor,
+                        activeColor: const Color(0xff4CAF50),
+                        onChanged: (val) {
+                          setState(() {
+                            eventColor = val as int;
+                          });
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    Theme(
+                      data: Theme.of(context).copyWith(
+                        unselectedWidgetColor: const Color(0xff448AFF),
+                        disabledColor: const Color(0xff448AFF),
+                      ),
+                      child: RadioListTile(
+                        title: Text('Azul', style: TextStyle(color: colorMainText)),
+                        value: 0xff448AFF,
+                        groupValue: eventColor,
+                        activeColor: const Color(0xff448AFF),
+                        onChanged: (val) {
+                          setState(() {
+                            eventColor = val as int;
+                          });
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    Theme(
+                      data: Theme.of(context).copyWith(
+                        unselectedWidgetColor: const Color(0xff7C4DFF),
+                        disabledColor: const Color(0xff7C4DFF),
+                      ),
+                      child: RadioListTile(
+                        title: Text('Violeta', style: TextStyle(color: colorMainText)),
+                        value: 0xff7C4DFF,
+                        groupValue: eventColor,
+                        activeColor: const Color(0xff7C4DFF),
+                        onChanged: (val) {
+                          setState(() {
+                            eventColor = val as int;
+                          });
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  ],
+                  true
               ),
             ]),
             if(!isNote) FormSeparator(),
-
             FormContainerWithBorder(
                 errorColor,
                 [
@@ -339,146 +475,6 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                 ]
             ),
             FormSeparator(),
-
-            if(!isNote) FormContainer([
-              FormColorPicker(
-                  context,
-                  'Color:',
-                  'Color del evento:',
-                  eventColor,
-                  [
-                    Theme(
-                      data: Theme.of(context).copyWith(
-                        unselectedWidgetColor: colorThirdBackground,
-                        disabledColor: colorThirdBackground,
-                      ),
-                      child: RadioListTile(
-                        title: Text('Por defecto', style: TextStyle(color: colorMainText),),
-                        value: -1,
-                        groupValue: eventColor,
-                        activeColor: colorThirdBackground,
-                        onChanged: (val) {
-                          setState(() {
-                            eventColor = val as int;
-                          });
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                    Theme(
-                      data: Theme.of(context).copyWith(
-                        unselectedWidgetColor: const Color(0xffF44336),
-                        disabledColor: const Color(0xffF44336),
-                      ),
-                      child: RadioListTile(
-                        title: Text('Rojo', style: TextStyle(color: colorMainText)),
-                        value: 0xffF44336,
-                        groupValue: eventColor,
-                        activeColor: const Color(0xffF44336),
-                        onChanged: (val) {
-                          setState(() {
-                            eventColor = val as int;
-                          });
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                    Theme(
-                      data: Theme.of(context).copyWith(
-                        unselectedWidgetColor: const Color(0xffFF9800),
-                        disabledColor: const Color(0xffFF9800),
-                      ),
-                      child: RadioListTile(
-                        title: Text('Naranja', style: TextStyle(color: colorMainText)),
-                        value: 0xffFF9800,
-                        groupValue: eventColor,
-                        activeColor: const Color(0xffFF9800),
-                        onChanged: (val) {
-                          setState(() {
-                            eventColor = val as int;
-                          });
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                    Theme(
-                      data: Theme.of(context).copyWith(
-                        unselectedWidgetColor: const Color(0xffFFCC00),
-                        disabledColor: const Color(0xffFFCC00),
-                      ),
-                      child: RadioListTile(
-                        title: Text('Amarillo', style: TextStyle(color: colorMainText)),
-                        value: 0xffFFCC00,
-                        groupValue: eventColor,
-                        activeColor: const Color(0xffFFCC00),
-                        onChanged: (val) {
-                          setState(() {
-                            eventColor = val as int;
-                          });
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                    Theme(
-                      data: Theme.of(context).copyWith(
-                        unselectedWidgetColor: const Color(0xff4CAF50),
-                        disabledColor: const Color(0xff4CAF50),
-                      ),
-                      child: RadioListTile(
-                        title: Text('Verde', style: TextStyle(color: colorMainText)),
-                        value: 0xff4CAF50,
-                        groupValue: eventColor,
-                        activeColor: const Color(0xff4CAF50),
-                        onChanged: (val) {
-                          setState(() {
-                            eventColor = val as int;
-                          });
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                    Theme(
-                      data: Theme.of(context).copyWith(
-                        unselectedWidgetColor: const Color(0xff448AFF),
-                        disabledColor: const Color(0xff448AFF),
-                      ),
-                      child: RadioListTile(
-                        title: Text('Azul', style: TextStyle(color: colorMainText)),
-                        value: 0xff448AFF,
-                        groupValue: eventColor,
-                        activeColor: const Color(0xff448AFF),
-                        onChanged: (val) {
-                          setState(() {
-                            eventColor = val as int;
-                          });
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                    Theme(
-                      data: Theme.of(context).copyWith(
-                        unselectedWidgetColor: const Color(0xff7C4DFF),
-                        disabledColor: const Color(0xff7C4DFF),
-                      ),
-                      child: RadioListTile(
-                        title: Text('Violeta', style: TextStyle(color: colorMainText)),
-                        value: 0xff7C4DFF,
-                        groupValue: eventColor,
-                        activeColor: const Color(0xff7C4DFF),
-                        onChanged: (val) {
-                          setState(() {
-                            eventColor = val as int;
-                          });
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                  ],
-                  true
-              ),
-            ]),
-            if(!isNote) FormSeparator(),
-
             if(!isNote) MainButton(
                 Icons.check_rounded,
                 colorSpecialItem,
