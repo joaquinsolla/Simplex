@@ -464,6 +464,22 @@ class _AddEventState extends State<AddEvent> {
                         );
                       }),
                     ),
+                    if (notificationsList.length == 0) TextButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('Sin notificaciones',
+                            style: TextStyle(
+                              color: colorSecondText,
+                              fontSize: deviceWidth * fontSize * 0.04,
+                              fontWeight: FontWeight.normal,
+                              fontStyle: FontStyle.italic,
+                            ),),
+                        ],
+                      ),
+                      onPressed: (){},
+                    ),
+                    if (notificationsList.length == 0) Divider(color: colorSecondText,),
                     if (notificationsList.length < 5) TextButton(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
