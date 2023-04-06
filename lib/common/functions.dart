@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/notification_service.dart';
+import 'package:social_share/social_share.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../classes/all_classes.dart';
 
 
 void showTextDialog(BuildContext context, IconData icon, String title, String content,
@@ -305,7 +308,6 @@ String dateToString(DateTime dateTime) {
     return DateFormat('MM/dd/yyyy').format(dateTime);
 }
 
-// TODO: review UTC
 String timeToString(DateTime time) {
   if (format24Hours == true)
     return DateFormat('HH:mm').format(time);
@@ -496,4 +498,45 @@ void tryLaunchUrl(Uri url) async {
   } else {
     throw "[ERR] Cannot launch URL: $url";
   }
+}
+
+String buildEventShareText(Event event) {
+  String text = "Evento: ";
+  text += (event.name + "\n");
+  if (event.description != "") text += (event.description + "\n");
+  text += "\n";
+  if (!event.routineEvent) text += ("El día " + dateToString(event.date) + "\n");
+  text += ("A las " + timeToString(event.time));
+
+  if (event.routineEvent){
+    text += "\nRutina: ";
+    if (event.routinesList.contains(0)) text += "\n - Lunes";
+    if (event.routinesList.contains(1)) text += "\n - Martes";
+    if (event.routinesList.contains(2)) text += "\n - Miércoles";
+    if (event.routinesList.contains(3)) text += "\n - Jueves";
+    if (event.routinesList.contains(4)) text += "\n - Viernes";
+    if (event.routinesList.contains(5)) text += "\n - Sábado";
+    if (event.routinesList.contains(6)) text += "\n - Domingo";
+  }
+
+  return text;
+}
+
+String buildTodoShareText(Todo todo) {
+  return "todo";
+}
+
+String buildNoteShareText(Note note) {
+  return "note";
+}
+
+void socialShare(dynamic element) {
+  String text = "";
+
+  if (element is Event) text = buildEventShareText(element);
+  else if (element is Todo) text = buildTodoShareText(element);
+  else if (element is Note) text = buildNoteShareText(element);
+  else debugPrint("[ERR] Routines share not implemented yet.");
+
+  SocialShare.shareOptions(text);
 }

@@ -422,7 +422,8 @@ class _EventsMainPageState extends State<EventsMainPage> {
             ),
           ),
           onPressed: (){
-            showInfoSnackBar(context, 'En desarollo...');
+            selectedEvent = event;
+            socialShare(selectedEvent);
           },
         ),
         FocusedMenuItem(

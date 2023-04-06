@@ -80,7 +80,7 @@ class _EventDetailsState extends State<EventDetails> {
                     fontWeight: FontWeight.bold),
               ),
                 ShareButton((){
-                  showInfoSnackBar(context, 'En desarollo...');
+                  socialShare(selectedEvent);
                 }),
               ),
               if (selectedEvent!.description == '') Container(
