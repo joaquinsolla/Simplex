@@ -267,7 +267,8 @@ class _NotesMainPageState extends State<NotesMainPage> {
             ),
           ),
           onPressed: (){
-            showInfoSnackBar(context, 'En desarollo...');
+            selectedNote = note;
+            socialShare(selectedNote);
           },
         ),
         FocusedMenuItem(

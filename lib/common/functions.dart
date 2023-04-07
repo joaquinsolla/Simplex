@@ -523,14 +523,32 @@ String buildEventShareText(Event event) {
 }
 
 String buildTodoShareText(Todo todo) {
-  return "todo";
+  String text = "Tarea: ";
+  text += (todo.name + "\n");
+  if (todo.description != "") text += (todo.description + "\n");
+  if (todo.limited) text += ("Fecha límite: " + dateToString(todo.limitDate) + "\n");
+  text += "Prioridad: ";
+  if (todo.priority == 1) text+= "Baja\n";
+  else if (todo.priority == 2) text+= "Media\n";
+  else text += "Alta\n";
+  text += "\n";
+  text += "Estado: ";
+  if (todo.done) text += "Completado";
+  else text += "Pendiente";
+
+  return text;
 }
 
 String buildNoteShareText(Note note) {
-  return "note";
+  String text = "Nota";
+  if (note.name != "") text += (": " + note.name + "\n\n");
+  if (note.content != "") text += note.content;
+  else text += "Sin contenido.";
+
+  return text;
 }
 
-void socialShare(dynamic element) {
+Future<void> socialShare(dynamic element) async {
   String text = "";
 
   if (element is Event) text = buildEventShareText(element);
@@ -538,5 +556,8 @@ void socialShare(dynamic element) {
   else if (element is Note) text = buildNoteShareText(element);
   else debugPrint("[ERR] Routines share not implemented yet.");
 
-  SocialShare.shareOptions(text);
+  debugPrint("[OK] Generated text:\n" + text + "\n");
+
+  // TODO: REVIEW
+  await SocialShare.shareOptions(text);
 }

@@ -46,7 +46,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                   style: TextStyle(color: colorThirdText, fontSize: deviceWidth * fontSize * 0.065, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
                 ),
                 ShareButton((){
-                  showInfoSnackBar(context, 'En desarollo...');
+                  socialShare(selectedNote);
                 }),
               ),
               if (selectedNote!.name != '') ExpandedRow(
@@ -58,7 +58,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                       fontWeight: FontWeight.bold),
                 ),
                 ShareButton((){
-                  showInfoSnackBar(context, 'En desarollo...');
+                  socialShare(selectedNote);
                 }),
               ),
               if (selectedNote!.content == '') Container(

@@ -619,7 +619,8 @@ class _EventsMainPageState extends State<EventsMainPage> {
             ),
           ),
           onPressed: (){
-            showInfoSnackBar(context, 'En desarollo...');
+            selectedTodo = todo;
+            socialShare(selectedTodo);
           },
         ),
         FocusedMenuItem(
@@ -792,7 +793,8 @@ class _EventsMainPageState extends State<EventsMainPage> {
             ),
           ),
           onPressed: (){
-            showInfoSnackBar(context, 'En desarollo...');
+            selectedNote = note;
+            socialShare(selectedNote);
           },
         ),
         FocusedMenuItem(

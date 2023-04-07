@@ -360,7 +360,8 @@ class _TodosMainPageState extends State<TodosMainPage> {
                 ),
               ),
               onPressed: (){
-                showInfoSnackBar(context, 'En desarollo...');
+                selectedTodo = todo;
+                socialShare(selectedTodo);
               },
             ),
             FocusedMenuItem(
@@ -578,8 +579,9 @@ class _TodosMainPageState extends State<TodosMainPage> {
                 ),
               ),
               onPressed: (){
-                showInfoSnackBar(context, 'En desarollo...');
-              },
+                  selectedTodo = todo;
+                  socialShare(selectedTodo);
+                },
             ),
             FocusedMenuItem(
               backgroundColor: backgroundColor,

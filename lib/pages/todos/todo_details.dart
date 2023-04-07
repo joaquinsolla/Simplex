@@ -107,7 +107,7 @@ class _TodoDetailsState extends State<TodoDetails> {
                   fontWeight: FontWeight.bold),
             ),
             ShareButton((){
-              showInfoSnackBar(context, 'En desarollo...');
+              socialShare(selectedTodo);
             }),
           ),
           if (selectedTodo!.description == '') Container(
