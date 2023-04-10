@@ -34,13 +34,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
   Widget build(BuildContext context) {
 
     if(weekDay == routineDay) dayText = 'hoy';
-    else if(weekDay != routineDay && routineDay == 1) dayText = 'lunes';
-    else if(weekDay != routineDay && routineDay == 2) dayText = 'martes';
-    else if(weekDay != routineDay && routineDay == 3) dayText = 'miércoles';
-    else if(weekDay != routineDay && routineDay == 4) dayText = 'jueves';
-    else if(weekDay != routineDay && routineDay == 5) dayText = 'viernes';
-    else if(weekDay != routineDay && routineDay == 6) dayText = 'sábado';
-    else if(weekDay != routineDay && routineDay == 7) dayText = 'domingo';
+    else dayText = dayToString(routineDay).toLowerCase();
 
     return HomeArea(_scrollController,
         HomeHeader('Rutina', [
@@ -82,48 +76,65 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
 
                   final notes = snapshot.data![0];
                   final events = snapshot.data![1];
+                  selectedRoutineEvents = events;
 
                   if(notes.length>0 || events.length>0) return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
 
                       if(notes.length > 0) FormSeparator(),
-                      if(notes.length > 0) FormCustomField(
-                          'Tus notas para $dayText:',
-                          [
-                            Container(
-                          height: deviceHeight*0.175,
-                          child: ShaderMask(
-                            shaderCallback: (Rect rect) {
-                              return LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [colorMainBackground, Colors.transparent, Colors.transparent, colorMainBackground],
-                                stops: [0.0, 0.035, 0.965, 1.0],
-                              ).createShader(rect);
-                            },
-                            blendMode: BlendMode.dstOut,
-                            child: ListView(
-                                shrinkWrap: true,
-                                addAutomaticKeepAlives: true,
-                                physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
-                                scrollDirection: Axis.horizontal,
-                                children: notes.map<Widget>(buildNoteCard).toList()
-                            ),
+                      if(notes.length > 0) ExpandedRow(
+                        Text('Tus notas para $dayText',
+                          style: TextStyle(color: colorMainText,
+                              fontSize: deviceWidth * fontSize * 0.045,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Container(
+                          child: IconButton(
+                            icon: Icon(Icons.share_rounded,
+                                color: Colors.transparent, size: deviceWidth * 0.05),
+                            splashRadius: 0.001,
+                            onPressed: (){},
                           ),
                         ),
-                          ],
-                          true
+                      ),
+                      if(notes.length > 0) Container(
+                        height: deviceHeight*0.175,
+                        child: ShaderMask(
+                          shaderCallback: (Rect rect) {
+                            return LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [colorMainBackground, Colors.transparent, Colors.transparent, colorMainBackground],
+                              stops: [0.0, 0.035, 0.965, 1.0],
+                            ).createShader(rect);
+                          },
+                          blendMode: BlendMode.dstOut,
+                          child: ListView(
+                              shrinkWrap: true,
+                              addAutomaticKeepAlives: true,
+                              physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
+                              scrollDirection: Axis.horizontal,
+                              children: notes.map<Widget>(buildNoteCard).toList()
+                          ),
+                        ),
                       ),
 
                       if(events.length > 0) FormSeparator(),
-                      if(events.length > 0) FormCustomField(
-                          'Tu rutina de $dayText:',
-                          [
-                            Column(children: events.map<Widget>(buildEventBox).toList(),),
-                          ],
-                          true
-                      ),
+                      if(events.length > 0) Column(children: [
+                        ExpandedRow(
+                          Text('Tu rutina de $dayText',
+                            style: TextStyle(color: colorMainText,
+                                fontSize: deviceWidth * fontSize * 0.045,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          ShareButton((){
+                            socialShare(routineDay);
+                          }),
+                        ),
+                        Column(children: events.map<Widget>(buildEventBox).toList(),),
+                        SizedBox(height: deviceHeight*0.025),
+                      ],),
 
                       if (events.length > 0) SizedBox(height: deviceHeight*0.01,),
                       if (events.length > 0) Container(

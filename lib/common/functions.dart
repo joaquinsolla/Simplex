@@ -506,17 +506,17 @@ String buildEventShareText(Event event) {
   if (event.description != "") text += (event.description + "\n");
   text += "\n";
   if (!event.routineEvent) text += ("El día " + dateToString(event.date) + "\n");
-  text += ("A las " + timeToString(event.time));
+  text += ("A las " + timeToString(event.time) + "\n");
 
   if (event.routineEvent){
-    text += "\nRutina: ";
-    if (event.routinesList.contains(0)) text += "\n - Lunes";
-    if (event.routinesList.contains(1)) text += "\n - Martes";
-    if (event.routinesList.contains(2)) text += "\n - Miércoles";
-    if (event.routinesList.contains(3)) text += "\n - Jueves";
-    if (event.routinesList.contains(4)) text += "\n - Viernes";
-    if (event.routinesList.contains(5)) text += "\n - Sábado";
-    if (event.routinesList.contains(6)) text += "\n - Domingo";
+    text += "\nDías de la rutina: ";
+    if (event.routinesList.contains(1)) text += "\n • " + dayToString(1);
+    if (event.routinesList.contains(2)) text += "\n • " + dayToString(2);
+    if (event.routinesList.contains(3)) text += "\n • " + dayToString(3);
+    if (event.routinesList.contains(4)) text += "\n • " + dayToString(4);
+    if (event.routinesList.contains(5)) text += "\n • " + dayToString(5);
+    if (event.routinesList.contains(6)) text += "\n • " + dayToString(6);
+    if (event.routinesList.contains(7)) text += "\n • " + dayToString(7);
   }
 
   return text;
@@ -526,6 +526,7 @@ String buildTodoShareText(Todo todo) {
   String text = "Tarea: ";
   text += (todo.name + "\n");
   if (todo.description != "") text += (todo.description + "\n");
+  text += "\n";
   if (todo.limited) text += ("Fecha límite: " + dateToString(todo.limitDate) + "\n");
   text += "Prioridad: ";
   if (todo.priority == 1) text+= "Baja\n";
@@ -542,22 +543,66 @@ String buildTodoShareText(Todo todo) {
 String buildNoteShareText(Note note) {
   String text = "Nota";
   if (note.name != "") text += (": " + note.name + "\n\n");
+  else text += (": Sin título.\n\n");
+
   if (note.content != "") text += note.content;
   else text += "Sin contenido.";
 
   return text;
 }
 
+String buildRoutineShareText(int day) {
+
+  String dayText = dayToString(day);
+  String text = "Rutina: $dayText\n";
+
+  if (selectedRoutineEvents.length > 0){
+    for(int i=0; i<selectedRoutineEvents.length; i++){
+      text += ("\n" + timeToString(selectedRoutineEvents[i].time) + " - "
+          + selectedRoutineEvents[i].name);
+    }
+  } else text += "Sin eventos.";
+
+  return text;
+}
+
 Future<void> socialShare(dynamic element) async {
-  String text = "";
+  late String text;
 
   if (element is Event) text = buildEventShareText(element);
   else if (element is Todo) text = buildTodoShareText(element);
   else if (element is Note) text = buildNoteShareText(element);
-  else debugPrint("[ERR] Routines share not implemented yet.");
+  else if (element is int) text = buildRoutineShareText(element);
+  else debugPrint("[ERR] 'element' type didn't match.");
+
+  text += "\n\nCreado con \u00a9Simplex.";
 
   debugPrint("[OK] Generated text:\n" + text + "\n");
 
   // TODO: REVIEW
   await SocialShare.shareOptions(text);
+}
+
+String dayToString(int day){
+
+  if (day == 1) return "Lunes";
+  else if (day == 2) return "Martes";
+  else if (day == 3) return "Miércoles";
+  else if (day == 4) return "Jueves";
+  else if (day == 5) return "Viernes";
+  else if (day == 6) return "Sábado";
+  else return "Domingo";
+
+}
+
+String dayToChar(int day){
+
+  if (day == 1) return "L";
+  else if (day == 2) return "M";
+  else if (day == 3) return "X";
+  else if (day == 4) return "J";
+  else if (day == 5) return "V";
+  else if (day == 6) return "S";
+  else return "D";
+
 }

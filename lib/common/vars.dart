@@ -30,6 +30,7 @@ double fontSize = 1;
 Event? selectedEvent;
 Todo? selectedTodo;
 Note? selectedNote;
+List<Event> selectedRoutineEvents = [];
 
 /// MATERIAL APP KEY
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

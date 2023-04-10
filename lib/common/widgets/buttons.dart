@@ -168,7 +168,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
           children: [
             TextButton(
               child: Text(
-                'LUNES',
+                dayToString(index).toUpperCase(),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -188,7 +188,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
         if(index != 1 && weekDay != 1) Expanded(
             child: OutlinedButton(
               child: Text(
-                'L',
+                dayToChar(1),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -207,7 +207,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
         if(index != 1 && weekDay == 1) Expanded(
             child: OutlinedButton(
               child: Text(
-                'L',
+                dayToChar(1),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -228,7 +228,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
           children: [
             TextButton(
               child: Text(
-                'MARTES',
+                dayToString(index).toUpperCase(),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -248,7 +248,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
         if(index != 2 && weekDay != 2) Expanded(
             child: OutlinedButton(
               child: Text(
-                'M',
+                dayToChar(2),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -267,7 +267,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
         if(index != 2 && weekDay == 2) Expanded(
             child: OutlinedButton(
               child: Text(
-                'M',
+                dayToChar(2),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -288,7 +288,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
           children: [
             TextButton(
               child: Text(
-                'MIÉRCOLES',
+                dayToString(index).toUpperCase(),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -308,7 +308,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
         if(index != 3 && weekDay != 3) Expanded(
             child: OutlinedButton(
               child: Text(
-                'X',
+                dayToChar(3),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -327,7 +327,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
         if(index != 3 && weekDay == 3) Expanded(
             child: OutlinedButton(
               child: Text(
-                'X',
+                dayToChar(3),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -348,7 +348,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
           children: [
             TextButton(
               child: Text(
-                'JUEVES',
+                dayToString(index).toUpperCase(),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -368,7 +368,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
         if(index != 4 && weekDay != 4) Expanded(
             child: OutlinedButton(
               child: Text(
-                'J',
+                dayToChar(4),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -387,7 +387,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
         if(index != 4 && weekDay == 4) Expanded(
             child: OutlinedButton(
               child: Text(
-                'J',
+                dayToChar(4),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -408,7 +408,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
           children: [
             TextButton(
               child: Text(
-                'VIERNES',
+                dayToString(index).toUpperCase(),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -428,7 +428,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
         if(index != 5 && weekDay != 5) Expanded(
             child: OutlinedButton(
               child: Text(
-                'V',
+                dayToChar(5),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -447,7 +447,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
         if(index != 5 && weekDay == 5) Expanded(
             child: OutlinedButton(
               child: Text(
-                'V',
+                dayToChar(5),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -468,7 +468,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
           children: [
             TextButton(
               child: Text(
-                'SÁBADO',
+                dayToString(index).toUpperCase(),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -488,7 +488,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
         if(index != 6 && weekDay != 6) Expanded(
             child: OutlinedButton(
               child: Text(
-                'S',
+                dayToChar(6),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -507,7 +507,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
         if(index != 6 && weekDay == 6) Expanded(
             child: OutlinedButton(
               child: Text(
-                'S',
+                dayToChar(6),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -528,7 +528,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
           children: [
             TextButton(
               child: Text(
-                'DOMINGO',
+                dayToString(index).toUpperCase(),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -548,7 +548,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
         if(index != 7 && weekDay != 7) Expanded(
             child: OutlinedButton(
               child: Text(
-                'D',
+                dayToChar(7),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -567,7 +567,7 @@ Container RoutineWeekDaysButton(int index, List<dynamic> actions) {
         if(index != 7 && weekDay == 7) Expanded(
             child: OutlinedButton(
               child: Text(
-                'D',
+                dayToChar(7),
                 style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
