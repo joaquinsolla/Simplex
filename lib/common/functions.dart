@@ -506,10 +506,10 @@ String buildEventShareText(Event event) {
   if (event.description != "") text += (event.description + "\n");
   text += "\n";
   if (!event.routineEvent) text += ("El día " + dateToString(event.date) + "\n");
-  text += ("A las " + timeToString(event.time) + "\n");
+  text += ("A las " + timeToString(event.time));
 
   if (event.routineEvent){
-    text += "\nDías de la rutina: ";
+    text += "\n\nDías de la rutina: ";
     if (event.routinesList.contains(1)) text += "\n • " + dayToString(1);
     if (event.routinesList.contains(2)) text += "\n • " + dayToString(2);
     if (event.routinesList.contains(3)) text += "\n • " + dayToString(3);
