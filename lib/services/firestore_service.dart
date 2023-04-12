@@ -20,6 +20,46 @@ Future createUserDoc() async{
 }
 //#endregion
 
+//#region Stats
+addElement(String element) async {
+  /** ELEMENTS:
+   *  - events
+   *  - todos
+   *  - notes
+   *  - routines
+   * */
+
+  final doc = FirebaseFirestore.instance.collection('stats').doc(element);
+  final total = (await doc.get())['total'];
+  final active = (await doc.get())['active'];
+
+  await doc.update({
+    'total': (total+1),
+    'active': (active+1),
+  });
+  debugPrint('[OK] $element stats updated');
+}
+
+subtractElement(String element) async {
+  /** ELEMENTS:
+   *  - events
+   *  - todos
+   *  - notes
+   *  - routines
+   * */
+
+  final doc = FirebaseFirestore.instance.collection('stats').doc(element);
+  final active = (await doc.get())['active'];
+  final deleted = (await doc.get())['deleted'];
+
+  await doc.update({
+    'active': (active-1),
+    'deleted': (deleted+1),
+  });
+  debugPrint('[OK] $element stats updated');
+}
+//#endregion
+
 //#region Events
 Stream<List<Event>> readAllEvents() {
   return FirebaseFirestore.instance.
@@ -63,6 +103,7 @@ Future createEvent(Event event) async{
 
   await doc.set(json);
   debugPrint('[OK] Event created');
+  await addElement("events");
 }
 
 updateEvent(Event event) async {
@@ -88,6 +129,7 @@ deleteEventById(int eventId) async {
 
   await doc.delete();
   debugPrint('[OK] Event deleted');
+  await subtractElement("events");
 }
 //#endregion
 
@@ -175,6 +217,7 @@ Future createTodo(Todo todo) async{
 
   await doc.set(json);
   debugPrint('[OK] Todo created');
+  await addElement("todos");
 }
 
 toggleTodo(int id, String name, bool limited, DateTime limitDate, bool newDone) async{
@@ -212,6 +255,7 @@ deleteTodoById(int todoId) async {
 
   await doc.delete();
   debugPrint('[OK] Todo deleted');
+  await subtractElement("todos");
 }
 
 deleteDoneTodos() async {
@@ -220,9 +264,10 @@ deleteDoneTodos() async {
       .collection('todos')
       .where('done', isEqualTo: true)
       .get()
-      .then((snapshot) {
+      .then((snapshot) async {
     for (DocumentSnapshot ds in snapshot.docs) {
       ds.reference.delete();
+      await subtractElement("todos");
     }
   });
 
@@ -284,6 +329,7 @@ Future createNote(Note note) async{
 
   await doc.set(json);
   debugPrint('[OK] Note created');
+  await addElement("notes");
 }
 
 updateNote(Note note) async {
@@ -308,6 +354,7 @@ deleteNoteById(int noteId) async {
 
   await doc.delete();
   debugPrint('[OK] Note deleted');
+  await subtractElement("notes");
 }
 //#endregion
 
