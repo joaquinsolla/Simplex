@@ -352,6 +352,7 @@ Future sendReport(Report report, bool sendAccountData) async{
     'date': report.date,
     'userId': report.userId,
     'userEmail': report.userEmail,
+    'active': report.active,
   };
 
   await doc.set(json);

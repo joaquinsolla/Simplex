@@ -88,6 +88,7 @@ class _HelpReportState extends State<HelpReport> {
                         date: DateTime.now(),
                         userId: null,
                         userEmail: null,
+                        active: true,
                       );
 
                       sendReport(newReport, sendAccountData);

@@ -6,6 +6,7 @@ class Report{
   final DateTime date;
   late String? userId;
   late String? userEmail;
+  late bool active;
 
   Report({
     required this.id,
@@ -13,6 +14,7 @@ class Report{
     required this.date,
     required this.userId,
     required this.userEmail,
+    required this.active,
   });
 
   Map<String, dynamic> toJson() => {
@@ -21,6 +23,7 @@ class Report{
     'date': date,
     'userId': userId,
     'userEmail': userEmail,
+    'active': active,
   };
 
   static Report fromJson(Map<String, dynamic> json) => Report(
@@ -29,6 +32,7 @@ class Report{
     date: (json['date'] as Timestamp).toDate(),
     userId: json['userId'],
     userEmail: json['userEmail'],
+    active: json['active'],
   );
 
 }
