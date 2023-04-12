@@ -18,7 +18,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   @override
   void initState() {
     super.initState();
@@ -37,7 +36,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-
     if (deviceChecked == false) _check_device();
     if (routineDay == 0) _calculateDayOfWeek();
 
@@ -65,13 +63,69 @@ class _HomeState extends State<Home> {
   }
 
   /// SETTINGS VIEW
-  Container SettingsView(){
+  Container SettingsView() {
     final user = FirebaseAuth.instance.currentUser!;
 
-    return HomeArea(null,
-        HomeHeader('Ajustes', []),
-        FooterCredits(),
-        [
+    return HomeArea(null, HomeHeader('Ajustes', []), FooterCredits(), [
+      if (isTester)
+        Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Icon(
+              Icons.science_rounded,
+              color: colorMainText,
+              size: deviceWidth * fontSize * 0.05,
+            ),
+            SizedBox(
+              width: deviceWidth * 0.01,
+            ),
+            Text('Espacio para testers',
+                style: TextStyle(
+                    color: colorMainText,
+                    fontSize: deviceWidth * fontSize * 0.05,
+                    fontWeight: FontWeight.bold)),
+          ],
+        ),
+      if (isTester)
+        SizedBox(
+          height: deviceHeight * 0.0125,
+        ),
+      if (isTester)
+        FormContainer([
+          Text(
+            'Tester:',
+            style: TextStyle(
+                color: colorMainText,
+                fontSize: deviceWidth * fontSize * 0.0475,
+                fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: deviceHeight * 0.0025,
+          ),
+          Text(
+            'Formas parte del programa de testers de Simplex.',
+            style: TextStyle(
+                color: colorSecondText,
+                fontSize: deviceWidth * fontSize * 0.04,
+                fontWeight: FontWeight.normal),
+          ),
+
+          SizedBox(
+            height: deviceHeight * 0.005,
+          ),
+          Divider(color: colorThirdText),
+          SecondaryButton(colorMainText, 'Estadísticas de uso', () {
+            Navigator.pushNamed(context, '/stats/usage');
+          }),
+          Divider(color: colorThirdText),
+          SecondaryButton(colorMainText, 'Estadísticas de reportes', () {
+            Navigator.pushNamed(context, '/stats/reports');
+          }),
+        ]),
+      if (isTester)
+        SizedBox(
+          height: deviceHeight * 0.03,
+        ),
       Text('Globalización',
           style: TextStyle(
               color: colorMainText,
@@ -202,7 +256,7 @@ class _HomeState extends State<Home> {
           height: deviceHeight * 0.005,
         ),
         Divider(color: colorThirdText),
-        SecondaryButton(colorSpecialItem, 'Ajusta el tamaño del texto', (){
+        SecondaryButton(colorSpecialItem, 'Ajusta el tamaño del texto', () {
           Navigator.pushNamed(context, '/settings/settings_font');
         }),
       ]),
@@ -230,123 +284,88 @@ class _HomeState extends State<Home> {
         ),
         Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              Text(
-                user.email!,
-                style: TextStyle(
-                    color: colorSecondText,
-                    fontSize: deviceWidth * fontSize * 0.04,
-                    fontWeight: FontWeight.normal),
-              ),
-              SizedBox(
-                width: deviceWidth * 0.005,
-              ),
-              Icon(
-                Icons.verified_rounded,
-                color: colorSecondText,
-                size: deviceWidth * 0.04,
-              ),
-            ],
-          ),
-        if (isTester)
-          SizedBox(
-            height: deviceHeight * 0.005,
-          ),
-        if (isTester) Divider(color: colorThirdText),
-        if (isTester)
-          SizedBox(
-            height: deviceHeight * 0.005,
-          ),
-        if (isTester)
-          Text(
-            'Tester:',
-            style: TextStyle(
-                color: colorMainText,
-                fontSize: deviceWidth * fontSize * 0.0475,
-                fontWeight: FontWeight.bold),
-          ),
-        if (isTester)
-          SizedBox(
-            height: deviceHeight * 0.0025,
-          ),
-        if (isTester)
-          Text(
-            'Formas parte del programa de testers.',
-            style: TextStyle(
-                color: colorSecondText,
-                fontSize: deviceWidth * fontSize * 0.04,
-                fontWeight: FontWeight.normal),
-          ),
+          children: [
+            Text(
+              user.email!,
+              style: TextStyle(
+                  color: colorSecondText,
+                  fontSize: deviceWidth * fontSize * 0.04,
+                  fontWeight: FontWeight.normal),
+            ),
+            SizedBox(
+              width: deviceWidth * 0.005,
+            ),
+            Icon(
+              Icons.verified_rounded,
+              color: colorSecondText,
+              size: deviceWidth * fontSize * 0.04,
+            ),
+          ],
+        ),
         SizedBox(
           height: deviceHeight * 0.005,
         ),
         Divider(color: colorThirdText),
-        SecondaryButton(colorSpecialItem, 'Cambia tu contraseña', (){
+        SecondaryButton(colorSpecialItem, 'Cambia tu contraseña', () {
           Navigator.pushNamed(context, '/services/change_password_service');
         }),
       ]),
       SizedBox(height: deviceHeight * 0.025),
-      MainButton(
-          Icons.help_outline_rounded,
-          colorSpecialItem,
-          ' Ayuda ',
-              () {
-                Navigator.pushNamed(context, '/help/help_main');
-              }
-      ),
+      MainButton(Icons.help_outline_rounded, colorSpecialItem, ' Ayuda ', () {
+        Navigator.pushNamed(context, '/help/help_main');
+      }),
       SizedBox(height: deviceHeight * 0.025),
-      MainButton(
-          Icons.logout_rounded,
-          Colors.red,
-          ' Cerrar sesión ',
-          () {
-            showTextDialog(
+      MainButton(Icons.logout_rounded, Colors.red, ' Cerrar sesión ', () {
+        showTextDialog(
+            context,
+            Icons.logout_rounded,
+            'Cerrar sesión',
+            'Para volver a acceder a tu cuenta deberás proporcionar tu email y contraseña.',
+            'Aceptar',
+            'Cancelar', () {
+          Navigator.pop(context);
+          try {
+            loginIndex = 0;
+            homeIndex = 0;
+            FirebaseAuth.instance.signOut();
+            debugPrint('[OK] Signed out');
+          } on Exception catch (e) {
+            debugPrint('[ERR] Cannot sign out: $e');
+            showErrorSnackBar(
                 context,
-                Icons.logout_rounded,
-                'Cerrar sesión',
-                'Para volver a acceder a tu cuenta deberás proporcionar tu email y contraseña.',
-                'Aceptar',
-                'Cancelar',
-                    () {
-                  Navigator.pop(context);
-                  try{
-                    loginIndex = 0;
-                    homeIndex = 0;
-                    FirebaseAuth.instance.signOut();
-                    debugPrint('[OK] Signed out');
-                  } on Exception catch (e) {
-                    debugPrint('[ERR] Cannot sign out: $e');
-                    showErrorSnackBar(context, 'Ha ocurrido un error, '
-                        'inténtalo de nuevo');
-                  }
-                },
-                    () {
-                  Navigator.pop(context);
-                }
-            );
+                'Ha ocurrido un error, '
+                'inténtalo de nuevo');
           }
-      ),
-    ]
-    );
+        }, () {
+          Navigator.pop(context);
+        });
+      }),
+    ]);
   }
 
   /// AUX FUNCTIONS
-  void _check_device(){
+  void _check_device() {
     setState(() {
       var padding = MediaQuery.of(context).padding;
-      verticalDevice = MediaQuery.of(context).orientation == Orientation.portrait;
+      verticalDevice =
+          MediaQuery.of(context).orientation == Orientation.portrait;
 
-      deviceHeight = max(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width) - padding.top - padding.bottom;
-      deviceWidth = min(MediaQuery.of(context).size.height, MediaQuery.of(context).size.width);
+      deviceHeight = max(MediaQuery.of(context).size.height,
+              MediaQuery.of(context).size.width) -
+          padding.top -
+          padding.bottom;
+      deviceWidth = min(MediaQuery.of(context).size.height,
+          MediaQuery.of(context).size.width);
 
-      if (deviceHeight!=0 || deviceWidth!=0){
+      if (deviceHeight != 0 || deviceWidth != 0) {
         debugPrint('[OK] Device checked.');
         deviceChecked = true;
-      } else _check_device();
+      } else
+        _check_device();
     });
   }
 
-  void _calculateDayOfWeek(){
+  void _calculateDayOfWeek() {
     weekDay = DateTime.now().weekday;
     debugPrint('[OK] weekDay set to: $weekDay');
     routineDay = weekDay;
@@ -362,22 +381,27 @@ class _HomeState extends State<Home> {
         setState(() => homeIndex = index);
         pageController.jumpToPage(index);
       },
-      containerHeight: deviceHeight*0.08,
-      iconSize: deviceHeight*0.0325,
+      containerHeight: deviceHeight * 0.08,
+      iconSize: deviceHeight * 0.0325,
       curve: Curves.easeInOutQuart,
       items: <BottomNavyBarItem>[
-        _homeBottomNavigationBarItem('Calendario', const Icon(Icons.calendar_month_rounded)),
-        _homeBottomNavigationBarItem('Tareas', const Icon(Icons.check_circle_outline_rounded)),
-        _homeBottomNavigationBarItem('Notas', const Icon(Icons.sticky_note_2_outlined)),
+        _homeBottomNavigationBarItem(
+            'Calendario', const Icon(Icons.calendar_month_rounded)),
+        _homeBottomNavigationBarItem(
+            'Tareas', const Icon(Icons.check_circle_outline_rounded)),
+        _homeBottomNavigationBarItem(
+            'Notas', const Icon(Icons.sticky_note_2_outlined)),
         _homeBottomNavigationBarItem('Rutina', const Icon(Icons.loop_rounded)),
-        _homeBottomNavigationBarItem('Ajustes', const Icon(Icons.settings_outlined)),
+        _homeBottomNavigationBarItem(
+            'Ajustes', const Icon(Icons.settings_outlined)),
       ],
     );
   }
 
   BottomNavyBarItem _homeBottomNavigationBarItem(String text, Icon icon) {
     return BottomNavyBarItem(
-        title: Text(text,
+        title: Text(
+          text,
           style: TextStyle(
             fontSize: deviceWidth * fontSize * 0.036,
             fontWeight: FontWeight.w400,
@@ -388,5 +412,4 @@ class _HomeState extends State<Home> {
         inactiveColor: colorNavigationBarText,
         textAlign: TextAlign.center);
   }
-
 }

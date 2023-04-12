@@ -26,7 +26,6 @@ addElement(String element) async {
    *  - events
    *  - todos
    *  - notes
-   *  - routines
    * */
 
   final doc = FirebaseFirestore.instance.collection('stats').doc(element);
@@ -45,7 +44,6 @@ subtractElement(String element) async {
    *  - events
    *  - todos
    *  - notes
-   *  - routines
    * */
 
   final doc = FirebaseFirestore.instance.collection('stats').doc(element);
