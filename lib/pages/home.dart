@@ -114,11 +114,11 @@ class _HomeState extends State<Home> {
             height: deviceHeight * 0.005,
           ),
           Divider(color: colorThirdText),
-          SecondaryButton(colorMainText, 'Estadísticas de uso', () {
+          SecondaryButton(colorSpecialItem, 'Estadísticas de uso', () {
             Navigator.pushNamed(context, '/stats/usage');
           }),
           Divider(color: colorThirdText),
-          SecondaryButton(colorMainText, 'Estadísticas de reportes', () {
+          SecondaryButton(colorSpecialItem, 'Estadísticas de reportes', () {
             Navigator.pushNamed(context, '/stats/reports');
           }),
         ]),
