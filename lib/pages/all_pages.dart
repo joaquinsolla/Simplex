@@ -3,6 +3,9 @@ export 'auth.dart';
 
 export 'settings/settings_font.dart';
 
+export 'stats/usage.dart';
+export 'stats/reports.dart';
+
 export 'events/events_main.dart';
 export 'events/add_event.dart';
 export 'events/event_details.dart';

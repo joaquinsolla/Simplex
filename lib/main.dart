@@ -37,6 +37,9 @@ Future main() async {
 
       '/settings/settings_font': (context) => const SettingsFont(),
 
+      '/stats/usage': (context) => const StatsUsage(),
+      '/stats/reports': (context) => const StatsReports(),
+
       '/events/add_event': (context) => const AddEvent(),
       '/events/event_details': (context) => const EventDetails(),
       '/events/edit_event': (context) => const EditEvent(),
