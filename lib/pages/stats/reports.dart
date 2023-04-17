@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 
+import 'package:syncfusion_flutter_charts/charts.dart';
+
 class StatsReports extends StatefulWidget {
   const StatsReports({Key? key}) : super(key: key);
 
