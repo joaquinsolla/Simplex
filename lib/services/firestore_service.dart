@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:simplex/classes/all_classes.dart';
+import 'package:simplex/classes/stats/users_stat.dart';
 import 'package:simplex/common/all_common.dart';
 
 //#region User doc
@@ -56,6 +60,46 @@ subtractElement(String element) async {
   });
   debugPrint('[OK] $element stats updated');
 }
+
+Stream<UsersStat> readUsersStats() {
+  final _controller = BehaviorSubject<UsersStat>();
+
+  int total = 0;
+  int verified = 0;
+  int tester = 0;
+
+  void updateUsersStat() {
+    final usersStat = UsersStat(
+        total: total,
+        verified: verified,
+        tester: tester,
+    );
+
+    _controller.add(usersStat);
+  }
+
+  FirebaseFirestore.instance.collection('users').get().then((querySnapshot) {
+    total = querySnapshot.size -1;
+    updateUsersStat();
+  });
+
+  FirebaseFirestore.instance.collection('users')
+      .where('emailVerified', isEqualTo: true)
+      .get().then((querySnapshot) {
+    verified = querySnapshot.size;
+    updateUsersStat();
+  });
+
+  FirebaseFirestore.instance.collection('users')
+      .where('tester', isEqualTo: true)
+      .get().then((querySnapshot) {
+    tester = querySnapshot.size;
+    updateUsersStat();
+  });
+
+  return _controller.stream;
+}
+
 //#endregion
 
 //#region Events
