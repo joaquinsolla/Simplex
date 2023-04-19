@@ -9,6 +9,8 @@ import 'package:simplex/classes/stats/usage_stat.dart';
 import 'package:simplex/classes/stats/users_stat.dart';
 import 'package:simplex/common/all_common.dart';
 
+import '../classes/stats/reports_stat.dart';
+
 //#region User doc
 Future createUserDoc() async{
   final user = FirebaseAuth.instance.currentUser!;
@@ -132,6 +134,33 @@ Stream<UsageStat> readUsageStats(String name) {
     } else {
       debugPrint('[ERR] Usage stats for $name do not exist.');
     }
+  });
+
+  return _controller.stream;
+}
+
+Stream<ReportsStat> readReportsStats(bool active) {
+  final _controller = BehaviorSubject<ReportsStat>();
+
+  int quantity = 0;
+
+  String status = 'active';
+  if (active == false) status = 'closed';
+
+  void updateReportsStat() {
+    final reportsStat = ReportsStat(
+      status: status,
+      quantity: quantity,
+    );
+
+    _controller.add(reportsStat);
+  }
+
+  FirebaseFirestore.instance.collection('reports')
+      .where('active', isEqualTo: active)
+      .get().then((querySnapshot) {
+    quantity = querySnapshot.size;
+    updateReportsStat();
   });
 
   return _controller.stream;
@@ -463,6 +492,14 @@ Stream<List<Event>> readEventsOfRoutine(int day) {
 //#endregion
 
 //#region Reports
+Stream<List<Report>> readReports() {
+  return FirebaseFirestore.instance.
+  collection('reports')
+      .orderBy('date', descending: false)
+      .snapshots().map((snapshot) =>
+      snapshot.docs.map((doc) => Report.fromJson(doc.data())).toList());
+}
+
 Future sendReport(Report report, bool sendAccountData) async{
   final user = FirebaseAuth.instance.currentUser!;
   final doc = FirebaseFirestore.instance.collection('reports').doc(report.id);

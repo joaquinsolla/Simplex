@@ -677,8 +677,21 @@ class _StatsUsageState extends State<StatsUsage> {
                                 alignment: ChartAlignment.center,
                                 overflowMode: LegendItemOverflowMode.wrap,
                               ),
+                              annotations: <CircularChartAnnotation>[
+                                CircularChartAnnotation(
+                                  widget:
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child: Text('Total:\n' + eventsStat.total.toString(),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: colorMainText,
+                                            fontSize: deviceWidth * fontSize * 0.035,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                )
+                              ],
                               series: <CircularSeries>[
-                                // Renders doughnut chart
                                 DoughnutSeries<ElementStat, String>(
                                     dataSource: [activeEventsStat, deletedEventsStat],
                                     xValueMapper: (ElementStat stat, _) => stat.status,
@@ -706,8 +719,21 @@ class _StatsUsageState extends State<StatsUsage> {
                                 alignment: ChartAlignment.center,
                                 overflowMode: LegendItemOverflowMode.wrap,
                               ),
+                              annotations: <CircularChartAnnotation>[
+                                CircularChartAnnotation(
+                                  widget:
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child: Text('Total:\n' + todosStat.total.toString(),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: colorMainText,
+                                            fontSize: deviceWidth * fontSize * 0.035,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                )
+                              ],
                               series: <CircularSeries>[
-                                // Renders doughnut chart
                                 DoughnutSeries<ElementStat, String>(
                                     dataSource: [activeTodosStat, deletedTodosStat],
                                     xValueMapper: (ElementStat stat, _) => stat.status,
@@ -735,8 +761,21 @@ class _StatsUsageState extends State<StatsUsage> {
                                 alignment: ChartAlignment.center,
                                 overflowMode: LegendItemOverflowMode.wrap,
                               ),
+                              annotations: <CircularChartAnnotation>[
+                                CircularChartAnnotation(
+                                  widget:
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child: Text('Total:\n' + notesStat.total.toString(),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: colorMainText,
+                                            fontSize: deviceWidth * fontSize * 0.035,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                )
+                              ],
                               series: <CircularSeries>[
-                                // Renders doughnut chart
                                 DoughnutSeries<ElementStat, String>(
                                     dataSource: [activeNotesStat, deletedNotesStat],
                                     xValueMapper: (ElementStat stat, _) => stat.status,

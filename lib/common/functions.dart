@@ -308,6 +308,10 @@ String dateToString(DateTime dateTime) {
     return DateFormat('MM/dd/yyyy').format(dateTime);
 }
 
+int yearToInt(DateTime dateTime) {
+  return int.parse(DateFormat('yyyy').format(dateTime));
+}
+
 String timeToString(DateTime time) {
   if (format24Hours == true)
     return DateFormat('HH:mm').format(time);
