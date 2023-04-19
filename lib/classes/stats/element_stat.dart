@@ -1,10 +1,10 @@
 class ElementStat {
   final String status;
-  final int quantity;
+  double percentage;
 
   ElementStat({
     required this.status,
-    required this.quantity,
+    required this.percentage,
   });
 
 }
