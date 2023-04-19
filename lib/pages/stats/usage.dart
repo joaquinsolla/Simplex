@@ -32,25 +32,12 @@ class _StatsUsageState extends State<StatsUsage> {
   @override
   Widget build(BuildContext context) {
 
-    UsageStat eventsStat = UsageStat(elementName: "Eventos", total: 10, active: 7, deleted: 3);
-    UsageStat todosStat = UsageStat(elementName: "Tareas", total: 20, active: 5, deleted: 15);
-    UsageStat notesStat = UsageStat(elementName: "Notas", total: 6, active: 6, deleted: 0);
-
     ElementStat activeEventsStat = ElementStat(status: "Activos", quantity: 7);
     ElementStat deletedEventsStat = ElementStat(status: "Eliminados", quantity: 3);
-
     ElementStat activeTodosStat = ElementStat(status: "Activos", quantity: 5);
     ElementStat deletedTodosStat = ElementStat(status: "Eliminados", quantity: 15);
-
     ElementStat activeNotesStat = ElementStat(status: "Activos", quantity: 6);
     ElementStat deletedNotesStat = ElementStat(status: "Eliminados", quantity: 0);
-
-
-    List<UsageStat> usageData = [
-      eventsStat,
-      todosStat,
-      notesStat
-    ];
 
     return Scaffold(
       backgroundColor: colorMainBackground,
@@ -61,14 +48,13 @@ class _StatsUsageState extends State<StatsUsage> {
             StreamBuilder<List<dynamic>>(
                 stream: CombineLatestStream.list([
                   readUsersStats(),
-
                 ]),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     debugPrint(
-                        '[ERR] Cannot usage stats: ' + snapshot.error.toString());
+                        '[ERR] Cannot read usage stats: ' + snapshot.error.toString());
                     return ErrorContainer(
-                        'No se pueden cargar las estadísticas de uso.', 0.9);
+                        'No se pueden cargar las estadísticas de usuarios.', 0.3);
                   }
                   else if (snapshot.hasData) {
                     final userStats = snapshot.data![0];
@@ -198,9 +184,38 @@ class _StatsUsageState extends State<StatsUsage> {
                             ],
                           ),
                         ]),
-                        SizedBox(
-                          height: deviceHeight * 0.025,
-                        ),
+                      ],);
+                  }
+                  else return LoadingContainer('Cargando estadísticas de usuarios...', 0.3);
+                }
+            ),
+            SizedBox(
+              height: deviceHeight * 0.025,
+            ),
+
+            StreamBuilder<List<dynamic>>(
+                stream: CombineLatestStream.list([
+                  readUsageStats('events'),
+                  readUsageStats('todos'),
+                  readUsageStats('notes'),
+                ]),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    debugPrint(
+                        '[ERR] Cannot read usage stats: ' + snapshot.error.toString());
+                    return ErrorContainer(
+                        'No se pueden cargar las estadísticas de uso.', 0.3);
+                  }
+                  else if (snapshot.hasData) {
+                    List<UsageStat> usageData = [
+                      snapshot.data![0],
+                      snapshot.data![1],
+                      snapshot.data![2]
+                    ];
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         FormContainer([
                           Text('Uso de la aplicación',
                               style: TextStyle(
@@ -228,7 +243,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                   ),
                                   dataSource: usageData,
                                   name: 'Activo',
-                                  xValueMapper: (UsageStat stat, _) => stat.elementName,
+                                  xValueMapper: (UsageStat stat, _) => stat.name,
                                   yValueMapper: (UsageStat stat, _) => stat.active,
                                   animationDuration: 1000,
                                 ),
@@ -239,16 +254,24 @@ class _StatsUsageState extends State<StatsUsage> {
                                   ),
                                   dataSource: usageData,
                                   name: 'Eliminado',
-                                  xValueMapper: (UsageStat stat, _) => stat.elementName,
+                                  xValueMapper: (UsageStat stat, _) => stat.name,
                                   yValueMapper: (UsageStat stat, _) => stat.deleted,
                                   animationDuration: 1000,
                                 ),
                               ]
                           ),
                         ]),
-                        SizedBox(
-                          height: deviceHeight * 0.025,
-                        ),
+                      ],
+                    );
+                  }
+                  else return LoadingContainer('Cargando estadísticas de uso...', 0.3);
+                }
+            ),
+            SizedBox(
+              height: deviceHeight * 0.025,
+            ),
+
+            /*
                         FormContainer([
                           Text('Recuento de elementos',
                               style: TextStyle(
@@ -487,257 +510,254 @@ class _StatsUsageState extends State<StatsUsage> {
                             ],
                           ),
                         ]),
-                        SizedBox(
-                          height: deviceHeight * 0.025,
-                        ),
-                        FormContainer([
-                          Text('Proporciones de actividad',
-                              style: TextStyle(
-                                  color: colorMainText,
-                                  fontSize: deviceWidth * fontSize * 0.05,
-                                  fontWeight: FontWeight.bold)),
-                          SizedBox(
-                            height: deviceHeight * 0.0125,
+                        */
+            SizedBox(
+              height: deviceHeight * 0.025,
+            ),
+            FormContainer([
+              Text('Proporciones de actividad',
+                  style: TextStyle(
+                      color: colorMainText,
+                      fontSize: deviceWidth * fontSize * 0.05,
+                      fontWeight: FontWeight.bold)),
+              SizedBox(
+                height: deviceHeight * 0.0125,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: colorThirdBackground,
+                ),
+                padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    if(proportionsIndex == 0) Wrap(
+                      children: [
+                        TextButton(
+                          child: Text(
+                            'Eventos',
+                            style: TextStyle(
+                                color: colorSpecialItem,
+                                fontSize: deviceWidth * fontSize * 0.04,
+                                fontWeight: FontWeight.normal),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: colorThirdBackground,
-                            ),
-                            padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                if(proportionsIndex == 0) Wrap(
-                                  children: [
-                                    TextButton(
-                                      child: Text(
-                                        'Eventos',
-                                        style: TextStyle(
-                                            color: colorSpecialItem,
-                                            fontSize: deviceWidth * fontSize * 0.04,
-                                            fontWeight: FontWeight.normal),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      style: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all(colorMainBackground),
-                                        overlayColor: MaterialStateProperty.all(
-                                            colorSpecialItem.withOpacity(0.1)),
-                                      ),
-                                      onPressed: () {},
-                                    )
-                                  ],
-                                ),
-                                if(proportionsIndex != 0) Expanded(
-                                    child: OutlinedButton(
-                                      child: Text(
-                                        'Eventos',
-                                        style: TextStyle(
-                                            color: colorSpecialItem,
-                                            fontSize: deviceWidth * fontSize * 0.04,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                      style: ButtonStyle(
-                                        padding: MaterialStateProperty.all(EdgeInsets.zero),
-                                        side: MaterialStateProperty.all(BorderSide(color: Colors.transparent)),
-                                        backgroundColor: MaterialStateProperty.all(
-                                            colorThirdBackground),
-                                        overlayColor: MaterialStateProperty.all(
-                                            colorSpecialItem.withOpacity(0.1)),
-                                      ),
-                                      onPressed: (){
-                                        setState(() {
-                                          proportionsIndex = 0;
-                                        });
-                                      },
-                                    )),
-                                SizedBox(width: deviceWidth * 0.025,),
-                                if(proportionsIndex == 1) Wrap(
-                                  children: [
-                                    TextButton(
-                                      child: Text(
-                                        'Tareas',
-                                        style: TextStyle(
-                                            color: colorSpecialItem,
-                                            fontSize: deviceWidth * fontSize * 0.04,
-                                            fontWeight: FontWeight.normal),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      style: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all(colorMainBackground),
-                                        overlayColor: MaterialStateProperty.all(
-                                            colorSpecialItem.withOpacity(0.1)),
-                                      ),
-                                      onPressed: () {},
-                                    )
-                                  ],
-                                ),
-                                if(proportionsIndex != 1) Expanded(
-                                    child: OutlinedButton(
-                                      child: Text(
-                                        'Tareas',
-                                        style: TextStyle(
-                                            color: colorSpecialItem,
-                                            fontSize: deviceWidth * fontSize * 0.04,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                      style: ButtonStyle(
-                                        padding: MaterialStateProperty.all(EdgeInsets.zero),
-                                        side: MaterialStateProperty.all(BorderSide(color: Colors.transparent)),
-                                        backgroundColor: MaterialStateProperty.all(
-                                            colorThirdBackground),
-                                        overlayColor: MaterialStateProperty.all(
-                                            colorSpecialItem.withOpacity(0.1)),
-                                      ),
-                                      onPressed: (){
-                                        setState(() {
-                                          proportionsIndex = 1;
-                                        });
-                                      },
-                                    )),
-                                SizedBox(width: deviceWidth * 0.025,),
-                                if(proportionsIndex == 2) Wrap(
-                                  children: [
-                                    TextButton(
-                                      child: Text(
-                                        'Notas',
-                                        style: TextStyle(
-                                            color: colorSpecialItem,
-                                            fontSize: deviceWidth * fontSize * 0.04,
-                                            fontWeight: FontWeight.normal),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      style: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all(colorMainBackground),
-                                        overlayColor: MaterialStateProperty.all(
-                                            colorSpecialItem.withOpacity(0.1)),
-                                      ),
-                                      onPressed: () {},
-                                    )
-                                  ],
-                                ),
-                                if(proportionsIndex != 2) Expanded(
-                                    child: OutlinedButton(
-                                      child: Text(
-                                        'Notas',
-                                        style: TextStyle(
-                                            color: colorSpecialItem,
-                                            fontSize: deviceWidth * fontSize * 0.04,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                      style: ButtonStyle(
-                                        padding: MaterialStateProperty.all(EdgeInsets.zero),
-                                        side: MaterialStateProperty.all(BorderSide(color: Colors.transparent)),
-                                        backgroundColor: MaterialStateProperty.all(
-                                            colorThirdBackground),
-                                        overlayColor: MaterialStateProperty.all(
-                                            colorSpecialItem.withOpacity(0.1)),
-                                      ),
-                                      onPressed: (){
-                                        setState(() {
-                                          proportionsIndex = 2;
-                                        });
-                                      },
-                                    )),
-                              ],
-                            ),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(colorMainBackground),
+                            overlayColor: MaterialStateProperty.all(
+                                colorSpecialItem.withOpacity(0.1)),
                           ),
-                          if(proportionsIndex==0) SfCircularChart(
-                              margin: EdgeInsets.all(0),
-                              palette: <Color>[
-                                colorSpecialItem,
-                                Colors.redAccent,
-                              ],
-                              legend: Legend(
-                                isVisible: true,
-                                position: LegendPosition.bottom,
-                                alignment: ChartAlignment.center,
-                                overflowMode: LegendItemOverflowMode.wrap,
-                              ),
-                              series: <CircularSeries>[
-                                // Renders doughnut chart
-                                DoughnutSeries<ElementStat, String>(
-                                    dataSource: [activeEventsStat, deletedEventsStat],
-                                    xValueMapper: (ElementStat stat, _) => stat.status,
-                                    yValueMapper: (ElementStat stat, _) => stat.quantity,
-                                    innerRadius: '60%',
-                                    radius: '75%',
-                                    explode: true,
-                                    explodeIndex: null,
-                                    animationDuration: 1000,
-                                    dataLabelSettings: DataLabelSettings(
-                                        isVisible: true
-                                    )
-                                )
-                              ]
+                          onPressed: () {},
+                        )
+                      ],
+                    ),
+                    if(proportionsIndex != 0) Expanded(
+                        child: OutlinedButton(
+                          child: Text(
+                            'Eventos',
+                            style: TextStyle(
+                                color: colorSpecialItem,
+                                fontSize: deviceWidth * fontSize * 0.04,
+                                fontWeight: FontWeight.normal),
                           ),
-                          if(proportionsIndex==1) SfCircularChart(
-                              margin: EdgeInsets.all(0),
-                              palette: <Color>[
-                                colorSpecialItem,
-                                Colors.redAccent,
-                              ],
-                              legend: Legend(
-                                isVisible: true,
-                                position: LegendPosition.bottom,
-                                alignment: ChartAlignment.center,
-                                overflowMode: LegendItemOverflowMode.wrap,
-                              ),
-                              series: <CircularSeries>[
-                                // Renders doughnut chart
-                                DoughnutSeries<ElementStat, String>(
-                                    dataSource: [activeTodosStat, deletedTodosStat],
-                                    xValueMapper: (ElementStat stat, _) => stat.status,
-                                    yValueMapper: (ElementStat stat, _) => stat.quantity,
-                                    innerRadius: '60%',
-                                    radius: '75%',
-                                    explode: true,
-                                    explodeIndex: null,
-                                    animationDuration: 1000,
-                                    dataLabelSettings: DataLabelSettings(
-                                        isVisible: true
-                                    )
-                                )
-                              ]
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all(EdgeInsets.zero),
+                            side: MaterialStateProperty.all(BorderSide(color: Colors.transparent)),
+                            backgroundColor: MaterialStateProperty.all(
+                                colorThirdBackground),
+                            overlayColor: MaterialStateProperty.all(
+                                colorSpecialItem.withOpacity(0.1)),
                           ),
-                          if(proportionsIndex==2) SfCircularChart(
-                              margin: EdgeInsets.all(0),
-                              palette: <Color>[
-                                colorSpecialItem,
-                                Colors.redAccent,
-                              ],
-                              legend: Legend(
-                                isVisible: true,
-                                position: LegendPosition.bottom,
-                                alignment: ChartAlignment.center,
-                                overflowMode: LegendItemOverflowMode.wrap,
-                              ),
-                              series: <CircularSeries>[
-                                // Renders doughnut chart
-                                DoughnutSeries<ElementStat, String>(
-                                    dataSource: [activeNotesStat, deletedNotesStat],
-                                    xValueMapper: (ElementStat stat, _) => stat.status,
-                                    yValueMapper: (ElementStat stat, _) => stat.quantity,
-                                    innerRadius: '60%',
-                                    radius: '75%',
-                                    explode: true,
-                                    explodeIndex: null,
-                                    animationDuration: 1000,
-                                    dataLabelSettings: DataLabelSettings(
-                                        isVisible: true
-                                    )
-                                )
-                              ]
+                          onPressed: (){
+                            setState(() {
+                              proportionsIndex = 0;
+                            });
+                          },
+                        )),
+                    SizedBox(width: deviceWidth * 0.025,),
+                    if(proportionsIndex == 1) Wrap(
+                      children: [
+                        TextButton(
+                          child: Text(
+                            'Tareas',
+                            style: TextStyle(
+                                color: colorSpecialItem,
+                                fontSize: deviceWidth * fontSize * 0.04,
+                                fontWeight: FontWeight.normal),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        ]),
-                      ],);
-                  }
-                  else return LoadingContainer('Cargando estadísticas...', 0.9);
-                }),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(colorMainBackground),
+                            overlayColor: MaterialStateProperty.all(
+                                colorSpecialItem.withOpacity(0.1)),
+                          ),
+                          onPressed: () {},
+                        )
+                      ],
+                    ),
+                    if(proportionsIndex != 1) Expanded(
+                        child: OutlinedButton(
+                          child: Text(
+                            'Tareas',
+                            style: TextStyle(
+                                color: colorSpecialItem,
+                                fontSize: deviceWidth * fontSize * 0.04,
+                                fontWeight: FontWeight.normal),
+                          ),
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all(EdgeInsets.zero),
+                            side: MaterialStateProperty.all(BorderSide(color: Colors.transparent)),
+                            backgroundColor: MaterialStateProperty.all(
+                                colorThirdBackground),
+                            overlayColor: MaterialStateProperty.all(
+                                colorSpecialItem.withOpacity(0.1)),
+                          ),
+                          onPressed: (){
+                            setState(() {
+                              proportionsIndex = 1;
+                            });
+                          },
+                        )),
+                    SizedBox(width: deviceWidth * 0.025,),
+                    if(proportionsIndex == 2) Wrap(
+                      children: [
+                        TextButton(
+                          child: Text(
+                            'Notas',
+                            style: TextStyle(
+                                color: colorSpecialItem,
+                                fontSize: deviceWidth * fontSize * 0.04,
+                                fontWeight: FontWeight.normal),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(colorMainBackground),
+                            overlayColor: MaterialStateProperty.all(
+                                colorSpecialItem.withOpacity(0.1)),
+                          ),
+                          onPressed: () {},
+                        )
+                      ],
+                    ),
+                    if(proportionsIndex != 2) Expanded(
+                        child: OutlinedButton(
+                          child: Text(
+                            'Notas',
+                            style: TextStyle(
+                                color: colorSpecialItem,
+                                fontSize: deviceWidth * fontSize * 0.04,
+                                fontWeight: FontWeight.normal),
+                          ),
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all(EdgeInsets.zero),
+                            side: MaterialStateProperty.all(BorderSide(color: Colors.transparent)),
+                            backgroundColor: MaterialStateProperty.all(
+                                colorThirdBackground),
+                            overlayColor: MaterialStateProperty.all(
+                                colorSpecialItem.withOpacity(0.1)),
+                          ),
+                          onPressed: (){
+                            setState(() {
+                              proportionsIndex = 2;
+                            });
+                          },
+                        )),
+                  ],
+                ),
+              ),
+              if(proportionsIndex==0) SfCircularChart(
+                  margin: EdgeInsets.all(0),
+                  palette: <Color>[
+                    colorSpecialItem,
+                    Colors.redAccent,
+                  ],
+                  legend: Legend(
+                    isVisible: true,
+                    position: LegendPosition.bottom,
+                    alignment: ChartAlignment.center,
+                    overflowMode: LegendItemOverflowMode.wrap,
+                  ),
+                  series: <CircularSeries>[
+                    // Renders doughnut chart
+                    DoughnutSeries<ElementStat, String>(
+                        dataSource: [activeEventsStat, deletedEventsStat],
+                        xValueMapper: (ElementStat stat, _) => stat.status,
+                        yValueMapper: (ElementStat stat, _) => stat.quantity,
+                        innerRadius: '60%',
+                        radius: '75%',
+                        explode: true,
+                        explodeIndex: null,
+                        animationDuration: 1000,
+                        dataLabelSettings: DataLabelSettings(
+                            isVisible: true
+                        )
+                    )
+                  ]
+              ),
+              if(proportionsIndex==1) SfCircularChart(
+                  margin: EdgeInsets.all(0),
+                  palette: <Color>[
+                    colorSpecialItem,
+                    Colors.redAccent,
+                  ],
+                  legend: Legend(
+                    isVisible: true,
+                    position: LegendPosition.bottom,
+                    alignment: ChartAlignment.center,
+                    overflowMode: LegendItemOverflowMode.wrap,
+                  ),
+                  series: <CircularSeries>[
+                    // Renders doughnut chart
+                    DoughnutSeries<ElementStat, String>(
+                        dataSource: [activeTodosStat, deletedTodosStat],
+                        xValueMapper: (ElementStat stat, _) => stat.status,
+                        yValueMapper: (ElementStat stat, _) => stat.quantity,
+                        innerRadius: '60%',
+                        radius: '75%',
+                        explode: true,
+                        explodeIndex: null,
+                        animationDuration: 1000,
+                        dataLabelSettings: DataLabelSettings(
+                            isVisible: true
+                        )
+                    )
+                  ]
+              ),
+              if(proportionsIndex==2) SfCircularChart(
+                  margin: EdgeInsets.all(0),
+                  palette: <Color>[
+                    colorSpecialItem,
+                    Colors.redAccent,
+                  ],
+                  legend: Legend(
+                    isVisible: true,
+                    position: LegendPosition.bottom,
+                    alignment: ChartAlignment.center,
+                    overflowMode: LegendItemOverflowMode.wrap,
+                  ),
+                  series: <CircularSeries>[
+                    // Renders doughnut chart
+                    DoughnutSeries<ElementStat, String>(
+                        dataSource: [activeNotesStat, deletedNotesStat],
+                        xValueMapper: (ElementStat stat, _) => stat.status,
+                        yValueMapper: (ElementStat stat, _) => stat.quantity,
+                        innerRadius: '60%',
+                        radius: '75%',
+                        explode: true,
+                        explodeIndex: null,
+                        animationDuration: 1000,
+                        dataLabelSettings: DataLabelSettings(
+                            isVisible: true
+                        )
+                    )
+                  ]
+              ),
+            ]),
           ]
       ),
     );

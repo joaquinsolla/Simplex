@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:simplex/classes/all_classes.dart';
+import 'package:simplex/classes/stats/usage_stat.dart';
 import 'package:simplex/classes/stats/users_stat.dart';
 import 'package:simplex/common/all_common.dart';
 
@@ -95,6 +96,42 @@ Stream<UsersStat> readUsersStats() {
       .get().then((querySnapshot) {
     tester = querySnapshot.size;
     updateUsersStat();
+  });
+
+  return _controller.stream;
+}
+
+Stream<UsageStat> readUsageStats(String name) {
+  final _controller = BehaviorSubject<UsageStat>();
+
+  int total = 0;
+  int active = 0;
+  int deleted = 0;
+
+  void updateUsageStat() {
+    final usageStat = UsageStat(
+      name: name,
+      total: total,
+      active: active,
+      deleted: deleted,
+    );
+
+    _controller.add(usageStat);
+  }
+
+  FirebaseFirestore.instance
+      .collection('stats')
+      .doc(name)
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+    if (documentSnapshot.exists) {
+      total = documentSnapshot.get('total');
+      active = documentSnapshot.get('active');
+      deleted = documentSnapshot.get('deleted');
+      updateUsageStat();
+    } else {
+      debugPrint('[ERR] Usage stats for $name do not exist.');
+    }
   });
 
   return _controller.stream;
