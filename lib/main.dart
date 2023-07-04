@@ -9,6 +9,7 @@ import 'package:simplex/pages/all_pages.dart';
 import 'package:simplex/common/vars.dart';
 import 'package:simplex/services/shared_preferences_service.dart';
 import 'package:simplex/services/auth/change_password_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 Future main() async {
@@ -21,12 +22,14 @@ Future main() async {
     debugShowCheckedModeBanner: true,
     title: "Simplex",
     localizationsDelegates: [
+      AppLocalizations.delegate,
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,
       GlobalCupertinoLocalizations.delegate,
     ],
     supportedLocales: [
       Locale('es', ''), // Spanish, no country code
+      Locale('gl', ''), // Galician, no country code
       Locale('en', ''), // English, no country code
     ],
     initialRoute: '/auth',

@@ -1,7 +1,6 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -9,6 +8,8 @@ import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/shared_preferences_service.dart';
 import 'all_pages.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -66,7 +67,7 @@ class _HomeState extends State<Home> {
   Container SettingsView() {
     final user = FirebaseAuth.instance.currentUser!;
 
-    return HomeArea(null, HomeHeader('Ajustes', []), FooterCredits(), [
+    return HomeArea(null, HomeHeader(AppLocalizations.of(context)!.helloWorld, []), FooterCredits(), [
       if (isTester)
         Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
