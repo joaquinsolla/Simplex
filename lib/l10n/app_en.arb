@@ -1,6 +1,38 @@
 {
-  "helloWorld": "Hello World!",
-  "@helloWorld": {
-    "description": "The conventional newborn programmer greeting"
-  }
+  "comment1": "GENERAL",
+  "accept": "Accept",
+  "cancel": "Cancel",
+  "calendar": "Calendar",
+  "todos": "To-Do",
+  "notes": "Notes",
+  "routine": "Routine",
+  "settings": "Settings",
+
+  "comment2": "MENSAJES DE ERROR",
+  "errorTryAgain": "An error has occurred, please try again.",
+
+  "comment3": "HOME + SETTINGS",
+  "testersSpace": "Testers' space",
+  "tester": "Tester",
+  "testerExplanation": "You are part of the Simplex testing program.",
+  "usageStats": "Usage statistics",
+  "reportsStats": "Reports statistics",
+  "globalization": "Globalization",
+  "hours24Format": "24 hours format",
+  "hours24FormatExplanation": "Enabled: 24 hours.\nDisabled: 12 hours + AM/PM.",
+  "dateFormat": "Date format",
+  "dateFormatExplanation": "Enabled: dd/mm/yyyy (Europe).\nDisabled: mm/dd/yyyy (US).",
+  "europeanCalendar": "European calendar",
+  "europeanCalendarExplanation": "Determine what day the week starts on.\nEnabled: Monday (Europe).\nDisabled: Sunday (US).",
+  "appearance": "Appearance",
+  "darkTheme": "Dark theme",
+  "darkThemeExplanation": "Enabled: Dark theme.\nDisabled: Light theme.",
+  "adjustFontSize": "Adjust the text size",
+  "account": "Account",
+  "email": "Email",
+  "changePassword": "Change your password",
+  "help": "Help",
+  "logOut": "Log out",
+  "logOutExplanation": "To access your account again you will have to provide your email and password."
+
 }

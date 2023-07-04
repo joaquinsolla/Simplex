@@ -1,3 +1,38 @@
 {
-  "helloWorld": "¡Hola Mundo en galego!"
+  "comment1": "GENERAL",
+  "accept": "Aceptar",
+  "cancel": "Cancelar",
+  "calendar": "Calendario",
+  "todos": "Tarefas",
+  "notes": "Notas",
+  "routine": "Rutina",
+  "settings": "Axustes",
+
+  "comment2": "MENSAJES DE ERROR",
+  "errorTryAgain": "Ocorreu un erro, téntao de novo.",
+
+  "comment3": "HOME + SETTINGS",
+  "testersSpace": "Espazo para testers",
+  "tester": "Tester",
+  "testerExplanation": "Formas parte do programa de testers de Simplex.",
+  "usageStats": "Estadísticas de uso",
+  "reportsStats": "Estadísticas de reportes",
+  "globalization": "Globalización",
+  "hours24Format": "Formato 24 horas",
+  "hours24FormatExplanation": "Activado: 24 horas.\nDesactivado: 12 horas + AM/PM.",
+  "dateFormat": "Formato de datas",
+  "dateFormatExplanation": "Activado: dd/mm/aaaa (Europa).\nDesactivado: mm/dd/aaaa (US).",
+  "europeanCalendar": "Calendario Europeo",
+  "europeanCalendarExplanation": "Decide en que día comeza a semana.\nActivado: Luns (Europa).\nDesactivado: Domingo (US).",
+  "appearance": "Apariencia",
+  "darkTheme": "Tema oscuro",
+  "darkThemeExplanation": "Activado: Tema oscuro.\nDesactivado: Tema claro.",
+  "adjustFontSize": "Axusta o tamaño do texto",
+  "account": "Conta",
+  "email": "Email",
+  "changePassword": "Cambia o teu contrasinal",
+  "help": "Axuda",
+  "logOut": "Pechar sesión",
+  "logOutExplanation": "Para volver a acceder á túa conta deberás proporcionar o teu email e contrasinal."
+
 }

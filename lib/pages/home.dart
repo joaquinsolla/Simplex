@@ -67,7 +67,7 @@ class _HomeState extends State<Home> {
   Container SettingsView() {
     final user = FirebaseAuth.instance.currentUser!;
 
-    return HomeArea(null, HomeHeader(AppLocalizations.of(context)!.helloWorld, []), FooterCredits(), [
+    return HomeArea(null, HomeHeader(AppLocalizations.of(context)!.settings, []), FooterCredits(), [
       if (isTester)
         Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
@@ -80,7 +80,7 @@ class _HomeState extends State<Home> {
             SizedBox(
               width: deviceWidth * 0.01,
             ),
-            Text('Espacio para testers',
+            Text(AppLocalizations.of(context)!.testersSpace,
                 style: TextStyle(
                     color: colorMainText,
                     fontSize: deviceWidth * fontSize * 0.05,
@@ -94,7 +94,7 @@ class _HomeState extends State<Home> {
       if (isTester)
         FormContainer([
           Text(
-            'Tester:',
+            AppLocalizations.of(context)!.tester,
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * fontSize * 0.0475,
@@ -104,7 +104,7 @@ class _HomeState extends State<Home> {
             height: deviceHeight * 0.0025,
           ),
           Text(
-            'Formas parte del programa de testers de Simplex.',
+            AppLocalizations.of(context)!.testerExplanation,
             style: TextStyle(
                 color: colorSecondText,
                 fontSize: deviceWidth * fontSize * 0.04,
@@ -115,11 +115,11 @@ class _HomeState extends State<Home> {
             height: deviceHeight * 0.005,
           ),
           Divider(color: colorThirdText),
-          SecondaryButton(colorSpecialItem, 'Estadísticas de uso', () {
+          SecondaryButton(colorSpecialItem, AppLocalizations.of(context)!.usageStats, () {
             Navigator.pushNamed(context, '/stats/usage');
           }),
           Divider(color: colorThirdText),
-          SecondaryButton(colorSpecialItem, 'Estadísticas de reportes', () {
+          SecondaryButton(colorSpecialItem, AppLocalizations.of(context)!.reportsStats, () {
             Navigator.pushNamed(context, '/stats/reports');
           }),
         ]),
@@ -127,7 +127,7 @@ class _HomeState extends State<Home> {
         SizedBox(
           height: deviceHeight * 0.03,
         ),
-      Text('Globalización',
+      Text(AppLocalizations.of(context)!.globalization,
           style: TextStyle(
               color: colorMainText,
               fontSize: deviceWidth * fontSize * 0.05,
@@ -137,9 +137,8 @@ class _HomeState extends State<Home> {
       ),
       FormContainer([
         SettingsRow(
-          'Formato 24 horas',
-          'Activado: 24 horas.\n'
-              'Desactivado: 12 horas + AM/PM.',
+          AppLocalizations.of(context)!.hours24Format,
+          AppLocalizations.of(context)!.hours24FormatExplanation,
           Switch(
             value: format24Hours,
             onChanged: (val) {
@@ -159,9 +158,8 @@ class _HomeState extends State<Home> {
           height: deviceHeight * 0.005,
         ),
         SettingsRow(
-          'Formato de fechas',
-          'Activado: dd/mm/aaaa (Europa).\n'
-              'Desactivado: mm/dd/aaaa (US).',
+          AppLocalizations.of(context)!.dateFormat,
+          AppLocalizations.of(context)!.dateFormatExplanation,
           Switch(
             value: formatDates,
             onChanged: (val) {
@@ -181,10 +179,8 @@ class _HomeState extends State<Home> {
           height: deviceHeight * 0.005,
         ),
         SettingsRow(
-          'Calendario Europeo',
-          'Decide en qué día comienza la semana.'
-              '\nActivado: Lunes (Europa).\n'
-              'Desactivado: Domingo (US).',
+          AppLocalizations.of(context)!.europeanCalendar,
+          AppLocalizations.of(context)!.europeanCalendarExplanation,
           Switch(
             value: (appLocale == Locale('es', '')),
             onChanged: (val) {
@@ -206,7 +202,7 @@ class _HomeState extends State<Home> {
       SizedBox(
         height: deviceHeight * 0.03,
       ),
-      Text('Apariencia',
+      Text(AppLocalizations.of(context)!.appearance,
           style: TextStyle(
               color: colorMainText,
               fontSize: deviceWidth * fontSize * 0.05,
@@ -216,9 +212,8 @@ class _HomeState extends State<Home> {
       ),
       FormContainer([
         SettingsRow(
-          'Tema oscuro',
-          'Activado: Tema oscuro.\n'
-              'Desactivado: Tema claro.',
+          AppLocalizations.of(context)!.darkTheme,
+          AppLocalizations.of(context)!.darkThemeExplanation,
           Switch(
             value: darkMode,
             onChanged: (val) {
@@ -257,14 +252,14 @@ class _HomeState extends State<Home> {
           height: deviceHeight * 0.005,
         ),
         Divider(color: colorThirdText),
-        SecondaryButton(colorSpecialItem, 'Ajusta el tamaño del texto', () {
+        SecondaryButton(colorSpecialItem, AppLocalizations.of(context)!.adjustFontSize, () {
           Navigator.pushNamed(context, '/settings/settings_font');
         }),
       ]),
       SizedBox(
         height: deviceHeight * 0.03,
       ),
-      Text('Cuenta',
+      Text(AppLocalizations.of(context)!.account,
           style: TextStyle(
               color: colorMainText,
               fontSize: deviceWidth * fontSize * 0.05,
@@ -274,7 +269,7 @@ class _HomeState extends State<Home> {
       ),
       FormContainer([
         Text(
-          'Email:',
+          AppLocalizations.of(context)!.email + ':',
           style: TextStyle(
               color: colorMainText,
               fontSize: deviceWidth * fontSize * 0.0475,
@@ -307,23 +302,23 @@ class _HomeState extends State<Home> {
           height: deviceHeight * 0.005,
         ),
         Divider(color: colorThirdText),
-        SecondaryButton(colorSpecialItem, 'Cambia tu contraseña', () {
+        SecondaryButton(colorSpecialItem, AppLocalizations.of(context)!.changePassword, () {
           Navigator.pushNamed(context, '/services/change_password_service');
         }),
       ]),
       SizedBox(height: deviceHeight * 0.025),
-      MainButton(Icons.help_outline_rounded, colorSpecialItem, ' Ayuda ', () {
+      MainButton(Icons.help_outline_rounded, colorSpecialItem, ' ' + AppLocalizations.of(context)!.help + ' ', () {
         Navigator.pushNamed(context, '/help/help_main');
       }),
       SizedBox(height: deviceHeight * 0.025),
-      MainButton(Icons.logout_rounded, Colors.red, ' Cerrar sesión ', () {
+      MainButton(Icons.logout_rounded, Colors.red, ' ' + AppLocalizations.of(context)!.logOut + ' ', () {
         showTextDialog(
             context,
             Icons.logout_rounded,
-            'Cerrar sesión',
-            'Para volver a acceder a tu cuenta deberás proporcionar tu email y contraseña.',
-            'Aceptar',
-            'Cancelar', () {
+            AppLocalizations.of(context)!.logOut,
+            AppLocalizations.of(context)!.logOutExplanation,
+            AppLocalizations.of(context)!.accept,
+            AppLocalizations.of(context)!.cancel, () {
           Navigator.pop(context);
           try {
             loginIndex = 0;
@@ -334,8 +329,7 @@ class _HomeState extends State<Home> {
             debugPrint('[ERR] Cannot sign out: $e');
             showErrorSnackBar(
                 context,
-                'Ha ocurrido un error, '
-                'inténtalo de nuevo');
+                AppLocalizations.of(context)!.errorTryAgain);
           }
         }, () {
           Navigator.pop(context);
@@ -392,7 +386,8 @@ class _HomeState extends State<Home> {
             'Tareas', const Icon(Icons.check_circle_outline_rounded)),
         _homeBottomNavigationBarItem(
             'Notas', const Icon(Icons.sticky_note_2_outlined)),
-        _homeBottomNavigationBarItem('Rutina', const Icon(Icons.loop_rounded)),
+        _homeBottomNavigationBarItem(
+            'Rutina', const Icon(Icons.loop_rounded)),
         _homeBottomNavigationBarItem(
             'Ajustes', const Icon(Icons.settings_outlined)),
       ],
