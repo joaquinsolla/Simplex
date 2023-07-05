@@ -51,7 +51,7 @@ class _HelpEventsState extends State<HelpEvents> {
           SizedBox(height: deviceHeight * 0.0125),
           TextExplanationContainer('Otros elementos en el calendario',
               'Además de eventos, el calendario también puede mostrar: tareas '
-                  'con fecha límite, notas de calendario y rutinas. '
+                  'con fecha límite, notas de calendario y un acceso a tus rutinas. '
                   'Todos estos elementos aparecerán representados como puntos '
                   'en su día correspondiente.'),
         ],),

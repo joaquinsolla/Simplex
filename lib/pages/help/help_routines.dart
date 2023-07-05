@@ -32,7 +32,21 @@ class _HelpRoutinesState extends State<HelpRoutines> {
           [
         Column(children: [
           SizedBox(height: deviceHeight * 0.0125),
-
+          TextExplanationContainer('Las rutinas',
+              'Las rutinas consisten en elementos que se repiten ciertos días'
+                  ' de la semana a una hora en particular (por ejemplo una'
+                  ' asignatura del colegio todos los lunes a las 9:00).'),
+          SizedBox(height: deviceHeight * 0.0125),
+          TextExplanationContainer('Elementos de las rutinas',
+              'Pueden definirse dos tipos de elementos para las rutinas: '
+                  'Eventos y notas. Para definirlos como rutina debes '
+                  'seleccionar dicha opción cuando vayas a crearlos, también '
+                  'puedes hacer esto editándolos. Los elementos rutinarios no '
+                  'tienen notificaciones.'),
+          SizedBox(height: deviceHeight * 0.0125),
+          TextExplanationContainer('Visualización de rutinas',
+              'En la sección de rutinas, podrás ver los diferentes días de la '
+                  'semana con sus respectivos elementos.'),
         ],),
       ]
       ),
