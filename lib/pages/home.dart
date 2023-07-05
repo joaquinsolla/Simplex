@@ -381,15 +381,15 @@ class _HomeState extends State<Home> {
       curve: Curves.easeInOutQuart,
       items: <BottomNavyBarItem>[
         _homeBottomNavigationBarItem(
-            'Calendario', const Icon(Icons.calendar_month_rounded)),
+            AppLocalizations.of(context)!.calendar, const Icon(Icons.calendar_month_rounded)),
         _homeBottomNavigationBarItem(
-            'Tareas', const Icon(Icons.check_circle_outline_rounded)),
+            AppLocalizations.of(context)!.todos, const Icon(Icons.check_circle_outline_rounded)),
         _homeBottomNavigationBarItem(
-            'Notas', const Icon(Icons.sticky_note_2_outlined)),
+            AppLocalizations.of(context)!.notes, const Icon(Icons.sticky_note_2_outlined)),
         _homeBottomNavigationBarItem(
-            'Rutina', const Icon(Icons.loop_rounded)),
+            AppLocalizations.of(context)!.routine, const Icon(Icons.loop_rounded)),
         _homeBottomNavigationBarItem(
-            'Ajustes', const Icon(Icons.settings_outlined)),
+            AppLocalizations.of(context)!.settings, const Icon(Icons.settings_outlined)),
       ],
     );
   }

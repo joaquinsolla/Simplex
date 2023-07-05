@@ -4,6 +4,8 @@ import 'package:simplex/common/all_common.dart';
 import 'package:simplex/services/firestore_service.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class SignUpService extends StatefulWidget{
   const SignUpService({Key? key}) : super(key: key);
@@ -37,24 +39,24 @@ class _SignUpServiceState extends State<SignUpService> {
             FooterPrivacyPolicy(),
             [
           FormContainer([
-            Text('Registrarse', style: TextStyle(color: colorMainText,
+            Text(AppLocalizations.of(context)!.signUp, style: TextStyle(color: colorMainText,
                 fontSize: deviceWidth * 0.075,
                 fontWeight: FontWeight.bold),),
             FormSeparator(),
-            FormTextFieldEmail(emailController, 'Email:', 'ejemplo@email.com', emailFocusNode, false),
-            FormTextFieldPassword(passwordController, 'Contraseña:', 'Mínimo 6 caracteres', passwordFocusNode, false),
-            FormTextFieldPassword(confirmPasswordController, 'Confirmar contraseña:', 'Repite la contraseña', confirmPasswordFocusNode, true),
+            FormTextFieldEmail(emailController, AppLocalizations.of(context)!.email + ':', AppLocalizations.of(context)!.emailExample, emailFocusNode, false),
+            FormTextFieldPassword(passwordController, AppLocalizations.of(context)!.password + ':', AppLocalizations.of(context)!.min6Chars, passwordFocusNode, false),
+            FormTextFieldPassword(confirmPasswordController, AppLocalizations.of(context)!.confirmPassword + ':', AppLocalizations.of(context)!.repeatPassword, confirmPasswordFocusNode, true),
           ]),
           SizedBox(height: deviceHeight * 0.025),
           MainButton(
               Icons.person_add_alt_rounded,
               colorSpecialItem,
-              ' Registrarme ',
+              ' ' + AppLocalizations.of(context)!.getSignedUp + ' ',
               () {
                 if (emailController.text.trim().isEmpty ||
                     passwordController.text.trim().isEmpty ||
                     confirmPasswordController.text.trim().isEmpty) {
-                  showErrorSnackBar(context, 'Debes cubrir todos los campos');
+                  showErrorSnackBar(context, AppLocalizations.of(context)!.errorTypeAllFields);
                   if (emailController.text.trim().isEmpty)
                     emailFocusNode.requestFocus();
                   else if (passwordController.text.trim().isEmpty)
@@ -69,19 +71,19 @@ class _SignUpServiceState extends State<SignUpService> {
                         .trim()
                         .length < 6) {
                       passwordFocusNode.requestFocus();
-                      showErrorSnackBar(context, 'La contraseña debe contener al menos 6 caracteres');
+                      showErrorSnackBar(context, AppLocalizations.of(context)!.errorPasswordMinChars);
                     } else {
                       if (passwordController.text.trim() !=
                           confirmPasswordController.text.trim()) {
                         passwordFocusNode.requestFocus();
-                        showErrorSnackBar(context, 'Las contraseñas no coinciden');
+                        showErrorSnackBar(context, AppLocalizations.of(context)!.errorPasswordsNotEqual);
                       } else
                         signUp();
                     }
                   }
                   else {
                     emailFocusNode.requestFocus();
-                    showErrorSnackBar(context, 'Formato de email inválido');
+                    showErrorSnackBar(context, AppLocalizations.of(context)!.errorInvalidEmailFormat);
                   }
                 }
               }
@@ -93,8 +95,8 @@ class _SignUpServiceState extends State<SignUpService> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('¿Ya tienes una cuenta?  ', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal),),
-                  Text('Iniciar sesión', style: TextStyle(color: colorSpecialItem, fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal, decoration: TextDecoration.underline),),
+                  Text(AppLocalizations.of(context)!.alreadyRegistered + ' ', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal),),
+                  Text(AppLocalizations.of(context)!.toLogIn, style: TextStyle(color: colorSpecialItem, fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal, decoration: TextDecoration.underline),),
                 ],
               ),
             ),
@@ -122,8 +124,8 @@ class _SignUpServiceState extends State<SignUpService> {
       debugPrint('[OK] Signed up, waiting for email verification');
     } on FirebaseAuthException catch (e){
       if (e.message!.contains('The email address is already in use by another account.'))
-        showErrorSnackBar(context, 'Ya existe una cuenta con este email');
-      else showErrorSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo');
+        showErrorSnackBar(context, AppLocalizations.of(context)!.errorEmailAlreadyUsed);
+      else showErrorSnackBar(context, AppLocalizations.of(context)!.errorTryAgain);
       debugPrint('[ERR] ' + e.message.toString());
     }
     createUserDoc();

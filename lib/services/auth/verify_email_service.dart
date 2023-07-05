@@ -7,6 +7,8 @@ import 'package:simplex/common/all_common.dart';
 import 'package:simplex/pages/home.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class VerifyEmailService extends StatefulWidget {
   const VerifyEmailService({Key? key}) : super(key: key);
@@ -52,17 +54,16 @@ class _VerifyEmailServiceState extends State<VerifyEmailService> {
               [
             FormContainer([
               Text(
-                'Verifica tu email',
+                AppLocalizations.of(context)!.verifyEmail,
                 style: TextStyle(
                     color: colorMainText,
                     fontSize: deviceWidth * 0.075,
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(height: deviceHeight * 0.01),
-              Text('Se ha enviado un email de verificación a tu dirección de correo: '
+              Text(AppLocalizations.of(context)!.verificationEmailSent
                 + FirebaseAuth.instance.currentUser!.email.toString()
-                + '\n\nComprueba tu bandeja de entrada. Si no ves el email, revisa tu bandeja de spam.'
-                      ' También puedes enviar el email de nuevo.',
+                + '\n\n' + AppLocalizations.of(context)!.verificationEmailCheckInbox,
                 style: TextStyle(color: colorSecondText,
                     fontSize: deviceWidth * 0.0375,
                     fontWeight: FontWeight.normal), textAlign: TextAlign.center,),
@@ -71,7 +72,7 @@ class _VerifyEmailServiceState extends State<VerifyEmailService> {
             MainButton(
                 Icons.mark_email_read_rounded,
                 colorSpecialItem,
-                ' Enviar email de nuevo ',
+                ' ' + AppLocalizations.of(context)!.resendEmail + ' ',
                 () {
                   if (canResendEmail) {
                     sendVerificationEmail();
@@ -82,7 +83,7 @@ class _VerifyEmailServiceState extends State<VerifyEmailService> {
             MainButton(
                 Icons.close_rounded,
                 Colors.red,
-                ' Cancelar ',
+                ' ' + AppLocalizations.of(context)!.cancel + ' ',
                 () => FirebaseAuth.instance.signOut()
             ),
           ]));
@@ -114,14 +115,14 @@ class _VerifyEmailServiceState extends State<VerifyEmailService> {
 
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
-      showInfoSnackBar(context, 'Se ha enviado un email de verificación a ' + user.email.toString());
+      showInfoSnackBar(context, AppLocalizations.of(context)!.verificationEmailSentShort + user.email.toString());
       debugPrint('[OK] Verification email sent');
 
       setState(() => canResendEmail = false);
       await Future.delayed(Duration(seconds: 5));
       setState(() => canResendEmail = true);
     } on Exception catch (e) {
-      showErrorSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo');
+      showErrorSnackBar(context, AppLocalizations.of(context)!.errorTryAgain);
       debugPrint('[ERR] ' + e.toString());
     }
   }

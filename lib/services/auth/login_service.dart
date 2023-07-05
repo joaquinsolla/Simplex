@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LogInService extends StatefulWidget{
   const LogInService({Key? key}) : super(key: key);
@@ -38,20 +39,20 @@ class _LogInServiceState extends State<LogInService> {
             FooterPrivacyPolicy(),
             [
           FormContainer([
-            Text('Iniciar sesión', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.075, fontWeight: FontWeight.bold),),
+            Text(AppLocalizations.of(context)!.toLogIn, style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.075, fontWeight: FontWeight.bold),),
             FormSeparator(),
-            FormTextFieldEmail(emailController, 'Email:', 'ejemplo@email.es', emailFocusNode, false),
-            FormTextFieldPassword(passwordController, 'Contraseña:', 'Contraseña', passwordFocusNode, true),
+            FormTextFieldEmail(emailController, AppLocalizations.of(context)!.email + ':', AppLocalizations.of(context)!.emailExample, emailFocusNode, false),
+            FormTextFieldPassword(passwordController, AppLocalizations.of(context)!.password + ':', AppLocalizations.of(context)!.password, passwordFocusNode, true),
           ]),
           SizedBox(height: deviceHeight * 0.025),
           MainButton(
               Icons.lock_open_rounded,
               colorSpecialItem,
-              ' Entrar ',
+              ' ' + AppLocalizations.of(context)!.logInto + ' ',
               () {
                 if (emailController.text.trim().isEmpty ||
                     passwordController.text.trim().isEmpty) {
-                  showErrorSnackBar(context, 'Debes cubrir todos los campos');
+                  showErrorSnackBar(context, AppLocalizations.of(context)!.errorTypeAllFields);
                   if (emailController.text.trim().isEmpty)
                     emailFocusNode.requestFocus();
                   else
@@ -63,7 +64,7 @@ class _LogInServiceState extends State<LogInService> {
                     signIn();
                   else {
                     emailFocusNode.requestFocus();
-                    showErrorSnackBar(context, 'Formato de email inválido');
+                    showErrorSnackBar(context, AppLocalizations.of(context)!.errorInvalidEmailFormat);
                   }
                 }
               }
@@ -71,7 +72,7 @@ class _LogInServiceState extends State<LogInService> {
           SizedBox(height: deviceHeight * 0.025),
           TextButton(
             child: Container(
-              child: Text('¿Has olvidado tu contraseña?', style: TextStyle(color: colorSpecialItem, fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal, decoration: TextDecoration.underline),),
+              child: Text(AppLocalizations.of(context)!.forgotPassword, style: TextStyle(color: colorSpecialItem, fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal, decoration: TextDecoration.underline),),
             ),
             onPressed: (){
               loginIndex = 2;
@@ -87,8 +88,8 @@ class _LogInServiceState extends State<LogInService> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('¿No tienes una cuenta?  ', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal),),
-                  Text('Regístrate', style: TextStyle(color: colorSpecialItem, fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal, decoration: TextDecoration.underline),),
+                  Text(AppLocalizations.of(context)!.noAccount + '  ', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal),),
+                  Text(AppLocalizations.of(context)!.getSignedUp, style: TextStyle(color: colorSpecialItem, fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal, decoration: TextDecoration.underline),),
                 ],
               ),
             ),
@@ -119,10 +120,10 @@ class _LogInServiceState extends State<LogInService> {
       debugPrint('[OK] Logged in');
     } on FirebaseAuthException catch (e){
       if (e.message!.contains('The password is invalid or the user does not have a password.'))
-        showErrorSnackBar(context, 'Contraseña incorrecta');
+        showErrorSnackBar(context, AppLocalizations.of(context)!.errorWrongPassword);
       else if (e.message!.contains('There is no user record corresponding to this identifier. The user may have been deleted.'))
-        showErrorSnackBar(context, 'No existe ninguna cuenta con este email');
-      else showErrorSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo');
+        showErrorSnackBar(context, AppLocalizations.of(context)!.nonExistingEmail);
+      else showErrorSnackBar(context, AppLocalizations.of(context)!.errorTryAgain);
       debugPrint('[ERR] ' + e.message.toString());
     }
     navigatorKey.currentState!.pop();

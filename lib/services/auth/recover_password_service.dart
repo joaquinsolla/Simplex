@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RecoverPasswordService extends StatefulWidget{
   const RecoverPasswordService({Key? key}) : super(key: key);
@@ -30,32 +31,30 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
             FooterEmpty(),
             [
           FormContainer([
-            Text('Restablecer contraseña', style: TextStyle(color: colorMainText,
+            Text(AppLocalizations.of(context)!.recoverPassword, style: TextStyle(color: colorMainText,
                 fontSize: deviceWidth * 0.075,
                 fontWeight: FontWeight.bold),),
             FormSeparator(),
-            FormTextFieldEmail(emailController, 'Email de recuperación', 'ejemplo@email.es', emailFocusNode, true),
+            FormTextFieldEmail(emailController, AppLocalizations.of(context)!.recoveryEmail, AppLocalizations.of(context)!.emailExample, emailFocusNode, true),
           ]),
           SizedBox(height: deviceHeight * 0.025),
           MainButton(
               Icons.mark_email_read_rounded,
               colorSpecialItem,
-              ' Enviar email ',
+              ' ' + AppLocalizations.of(context)!.toSendEmail + ' ',
               () {
                 if (emailController.text.trim().isEmpty || RegExp(
                     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                     .hasMatch(emailController.text.trim()) == false) {
                   emailFocusNode.requestFocus();
-                  showErrorSnackBar(context, 'Debes indicar un email válido');
+                  showErrorSnackBar(context, AppLocalizations.of(context)!.errorInvalidEmailFormat);
                 } else {
                   resetPassword();
                 }
               }
           ),
           SizedBox(height: deviceHeight * 0.025),
-          Text('Se enviará un email de recuperación con las instrucciones para '
-              'que puedas restablecer la contraseña de tu cuenta de Simplex.\n'
-              'Si no ves el email comprueba tu bandeja de spam.',
+          Text(AppLocalizations.of(context)!.recoverPasswordExplanation,
             style: TextStyle(color: colorSecondText,
                 fontSize: deviceWidth * 0.0375,
                 fontWeight: FontWeight.normal), textAlign: TextAlign.center,),
@@ -68,8 +67,8 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Volver a  ', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal),),
-                  Text('Iniciar sesión', style: TextStyle(color: colorSpecialItem, fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal, decoration: TextDecoration.underline),),
+                  Text(AppLocalizations.of(context)!.returnTo + ' ', style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal),),
+                  Text(AppLocalizations.of(context)!.toLogIn, style: TextStyle(color: colorSpecialItem, fontSize: deviceWidth*0.0375, fontWeight: FontWeight.normal, decoration: TextDecoration.underline),),
                 ],
               ),
             ),
@@ -92,12 +91,12 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(
           email: emailController.text.trim());
-      showInfoSnackBar(context, 'Se ha enviado un email de recuperación, comprueba tu bandeja de entrada.');
+      showInfoSnackBar(context, AppLocalizations.of(context)!.emailSent);
       debugPrint('[OK] Password recovery email sent');
     } on FirebaseAuthException catch (e){
       if (e.message!.contains('There is no user record corresponding to this identifier. The user may have been deleted.'))
-        showErrorSnackBar(context, 'No existe ninguna cuenta con este email');
-      else showErrorSnackBar(context, 'Ha ocurrido un error, inténtalo de nuevo');
+        showErrorSnackBar(context, AppLocalizations.of(context)!.nonExistingEmail);
+      else showErrorSnackBar(context, AppLocalizations.of(context)!.errorTryAgain);
       debugPrint('[ERR] ' + e.message.toString());
     }
     navigatorKey.currentState!.pop();
