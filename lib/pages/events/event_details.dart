@@ -4,6 +4,9 @@ import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 class EventDetails extends StatefulWidget {
   const EventDetails({Key? key}) : super(key: key);
 
@@ -18,7 +21,6 @@ class _EventDetailsState extends State<EventDetails> {
   late DateTime eventDateTime;
   String eventDateString = DateFormat('dd/MM/yyyy').format(selectedEvent!.date);
   String eventTimeString = timeToString(selectedEvent!.time);
-  String colorName = 'Por defecto';
   int colorCode = selectedEvent!.color;
 
   @override
@@ -32,42 +34,43 @@ class _EventDetailsState extends State<EventDetails> {
     eventDateTime = DateTime(eventDate.year, eventDate.month, eventDate.day, eventTime.hour, eventTime.minute);
 
     if (formatDates == false) eventDateString = DateFormat('MM/dd/yyyy').format(selectedEvent!.date);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String colorName = AppLocalizations.of(context)!.byDefault;
 
     if(colorCode == -1 && darkMode == false) colorCode = 0xffe3e3e9;
     else if(colorCode == -1 && darkMode == true) colorCode = 0xff706e74;
 
     switch (colorCode) {
       case 0xffF44336:
-        colorName = 'Rojo';
+        colorName = AppLocalizations.of(context)!.colourRed;
         break;
       case 0xffFF9800:
-        colorName = 'Naranja';
+        colorName = AppLocalizations.of(context)!.colourOrange;
         break;
       case 0xffFFCC00:
-        colorName = 'Amarillo';
+        colorName = AppLocalizations.of(context)!.colourYellow;
         break;
       case 0xff4CAF50:
-        colorName = 'Verde';
+        colorName = AppLocalizations.of(context)!.colourGreen;
         break;
       case 0xff448AFF:
-        colorName = 'Azul';
+        colorName = AppLocalizations.of(context)!.colourBlue;
         break;
       case 0xff7C4DFF:
-        colorName = 'Violeta';
+        colorName = AppLocalizations.of(context)!.colourPurple;
         break;
       default:
         break;
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
 
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea(
           null,
-          PageHeader(context, 'Evento'),
+          PageHeader(context, AppLocalizations.of(context)!.event),
           FooterEmpty(),
           [
             FormContainer([
@@ -90,7 +93,7 @@ class _EventDetailsState extends State<EventDetails> {
                   borderRadius: BorderRadius.circular(10),
                   color: colorThirdBackground,
                 ),
-                child: Text('Sin descripción',
+                child: Text(AppLocalizations.of(context)!.noDescription,
                   style: TextStyle(color: colorThirdText, fontSize: deviceWidth * fontSize * 0.04, fontStyle: FontStyle.italic),),
               ),
               if (selectedEvent!.description != '') Container(
@@ -107,13 +110,13 @@ class _EventDetailsState extends State<EventDetails> {
             FormSeparator(),
             FormContainer([
               FormCustomField(
-                  'Tipo de evento:',
+                  AppLocalizations.of(context)!.eventType + ':',
                   [
                     if (selectedEvent!.routineEvent==false)Row(children: [
                       Icon(Icons.event_rounded, color: colorSpecialItem, size: deviceWidth*0.05,),
                       SizedBox(width: deviceWidth*0.025,),
                       Text(
-                        'Una vez',
+                        AppLocalizations.of(context)!.once,
                         style: TextStyle(
                             color: colorMainText,
                             fontSize: deviceWidth * fontSize * 0.04,
@@ -124,7 +127,7 @@ class _EventDetailsState extends State<EventDetails> {
                       Icon(Icons.event_repeat_rounded, color: colorSpecialItem, size: deviceWidth*0.05,),
                       SizedBox(width: deviceWidth*0.025,),
                       Text(
-                        'Rutina',
+                        AppLocalizations.of(context)!.routine,
                         style: TextStyle(
                             color: colorMainText,
                             fontSize: deviceWidth * fontSize * 0.04,
@@ -135,7 +138,7 @@ class _EventDetailsState extends State<EventDetails> {
                   false
               ),
               if (selectedEvent!.routineEvent==false) FormCustomField(
-                  'Fecha:',
+                  AppLocalizations.of(context)!.date + ':',
                   [
                     Row(children: [
                       Icon(Icons.calendar_month_rounded, color: colorSpecialItem, size: deviceWidth*0.05,),
@@ -152,7 +155,7 @@ class _EventDetailsState extends State<EventDetails> {
                   false
               ),
               FormCustomField(
-                  'Hora:',
+                  AppLocalizations.of(context)!.time + ':',
                   [
                     Row(children: [
                       Icon(Icons.watch_later_outlined, color: colorSpecialItem, size: deviceWidth*0.05,),
@@ -172,7 +175,7 @@ class _EventDetailsState extends State<EventDetails> {
             if (selectedEvent!.routineEvent==true)FormSeparator(),
             if (selectedEvent!.routineEvent==true)FormContainer([
               FormCustomField(
-                  'Días de la rutina: ',
+                  AppLocalizations.of(context)!.routineDays + ': ',
                   [
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -208,7 +211,7 @@ class _EventDetailsState extends State<EventDetails> {
             FormSeparator(),
             FormContainer([
               FormCustomField(
-                  'Color:',
+                  AppLocalizations.of(context)!.colour + ':',
                   [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -230,7 +233,7 @@ class _EventDetailsState extends State<EventDetails> {
             ]),
             if (selectedEvent!.routineEvent==false)FormSeparator(),
             if (selectedEvent!.routineEvent==false)FormContainer([
-              FormCustomField('Notificaciones:',
+              FormCustomField(AppLocalizations.of(context)!.notifications + ':',
                   [
                     if (selectedEvent!.notificationsList.length == 0) Container(
                       height: deviceHeight*0.035,
@@ -240,7 +243,7 @@ class _EventDetailsState extends State<EventDetails> {
                         children: [
                           Icon(Icons.notifications_off_outlined, color: Colors.red, size: deviceWidth*0.05,),
                           SizedBox(width: deviceWidth*0.025,),
-                          Text('Sin notificaciones',
+                          Text(AppLocalizations.of(context)!.noNotifications,
                               style: TextStyle(
                                   color: colorMainText,
                                   fontSize: deviceWidth * fontSize * 0.04,
@@ -281,23 +284,23 @@ class _EventDetailsState extends State<EventDetails> {
               ),
             ]),
             FormSeparator(),
-            MainButton(Icons.edit, colorSpecialItem, ' Editar evento ', (){
+            MainButton(Icons.edit, colorSpecialItem, ' ' + AppLocalizations.of(context)!.editEvent + ' ', (){
               Navigator.pushNamed(context, '/events/edit_event');
             }),
             FormSeparator(),
-            MainButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar evento ', (){
+            MainButton(Icons.delete_outline_rounded, Colors.red,' ' + AppLocalizations.of(context)!.deleteEvent + ' ', (){
               showTextDialog(
                   context,
                   Icons.delete_outline_outlined,
-                  'Eliminar evento',
-                  'Una vez eliminado no podrás restaurarlo.',
-                  'Eliminar',
-                  'Cancelar',
+                  AppLocalizations.of(context)!.deleteEvent,
+                  AppLocalizations.of(context)!.deleteEventExplanation,
+                  AppLocalizations.of(context)!.delete,
+                  AppLocalizations.of(context)!.cancel,
                       () async {
                     await cancelAllEventNotifications(selectedEvent!.id);
                     await deleteEventById(selectedEvent!.id);
                     Navigator.of(context).popUntil((route) => route.isFirst);
-                    showInfoSnackBar(context, 'Evento eliminado.');
+                    showInfoSnackBar(context, AppLocalizations.of(context)!.eventDeleted);
                   },
                       () {
                     Navigator.pop(context);

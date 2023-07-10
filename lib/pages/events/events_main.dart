@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:focused_menu/focused_menu.dart';
@@ -13,6 +12,9 @@ import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 class EventsMainPage extends StatefulWidget {
   const EventsMainPage({Key? key}) : super(key: key);
 
@@ -26,7 +28,6 @@ class _EventsMainPageState extends State<EventsMainPage> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   DateTime _selectedDay = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-  late String dayText;
 
   @override
   void dispose() {
@@ -88,23 +89,14 @@ class _EventsMainPageState extends State<EventsMainPage> {
     DateTime yesterday = today.subtract(Duration(days: 1));
     DateTime tomorrow = today.add(Duration(days: 1));
     late String dateText;
-    if (_selectedDayFormatted == today) dateText = 'Hoy';
-    else if (_selectedDayFormatted == yesterday) dateText = 'Ayer';
-    else if (_selectedDayFormatted == tomorrow) dateText = 'Mañana';
+    if (_selectedDayFormatted == today) dateText = AppLocalizations.of(context)!.today;
+    else if (_selectedDayFormatted == yesterday) dateText = AppLocalizations.of(context)!.yesterday;
+    else if (_selectedDayFormatted == tomorrow) dateText = AppLocalizations.of(context)!.tomorrow;
     else if (formatDates==true) dateText = DateFormat('dd/MM/yyyy').format(_selectedDay);
     else dateText = DateFormat('MM/dd/yyyy').format(_selectedDay);
 
-    if(weekDay == routineDay) dayText = 'hoy';
-    else if(weekDay != routineDay && routineDay == 1) dayText = 'lunes';
-    else if(weekDay != routineDay && routineDay == 2) dayText = 'martes';
-    else if(weekDay != routineDay && routineDay == 3) dayText = 'miércoles';
-    else if(weekDay != routineDay && routineDay == 4) dayText = 'jueves';
-    else if(weekDay != routineDay && routineDay == 5) dayText = 'viernes';
-    else if(weekDay != routineDay && routineDay == 6) dayText = 'sábado';
-    else if(weekDay != routineDay && routineDay == 7) dayText = 'domingo';
-
     return HomeArea(_scrollController,
-        HomeHeader('Calendario', [IconButton(
+        HomeHeader(AppLocalizations.of(context)!.calendar, [IconButton(
             icon: Icon(Icons.add_rounded,
                 color: colorSpecialItem, size: deviceWidth*fontSize*0.085),
             splashRadius: 0.001,
@@ -122,7 +114,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               debugPrint('[ERR] Cannot load calendar: ' + snapshot.error.toString());
-              return ErrorContainer('No se puede cargar el calendario.', 0.4);
+              return ErrorContainer(AppLocalizations.of(context)!.errorCannotLoadCalendar, 0.4);
             }
             else if (snapshot.hasData) {
 
@@ -152,7 +144,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                   startingDayOfWeek: startingDayOfWeek,
                   daysOfWeekVisible: true,
                   rowHeight: deviceHeight*0.06,
-                  availableCalendarFormats: {CalendarFormat.month : 'Mes', CalendarFormat.week : 'Semana'},
+                  availableCalendarFormats: {CalendarFormat.month : AppLocalizations.of(context)!.month, CalendarFormat.week : AppLocalizations.of(context)!.week},
 
                   ///CALENDAR FUNS
                   onFormatChanged: (format) {
@@ -223,7 +215,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                 ),
               );
             }
-            else return LoadingContainer('Cargando calendario...', 0.4);
+            else return LoadingContainer(AppLocalizations.of(context)!.loadingCalendar, 0.4);
           }),
 
           StreamBuilder<List<List<dynamic>>>(
@@ -237,7 +229,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               debugPrint(
                   '[ERR] Cannot load day events: ' + snapshot.error.toString());
               return ErrorContainer(
-                  'No se pueden cargar los eventos de este día.', 0.35);
+                  AppLocalizations.of(context)!.errorCannotLoadEvents, 0.35);
             }
             else if (snapshot.hasData) {
               final events = snapshot.data![0];
@@ -306,7 +298,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                     ],
                   ),
 
-                  if (events.length == 0 && todos.length == 0 && notes.length == 0) NoItemsContainer('eventos', 0.2),
+                  if (events.length == 0 && todos.length == 0 && notes.length == 0) NoItemsContainer(AppLocalizations.of(context)!.events, 0.2),
 
                   Column(children: todos.map(buildTodoBox).toList(),),
 
@@ -335,7 +327,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                 ],);
             }
             else
-              return LoadingContainer('Cargando eventos...', 0.35);
+              return LoadingContainer(AppLocalizations.of(context)!.loadingEvents, 0.35);
           }),
         ]
     );
@@ -372,7 +364,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               children: [
                 Icon(Icons.input_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Ver detalles', style: TextStyle(
+                Text(AppLocalizations.of(context)!.seeDetails, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -393,7 +385,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               children: [
                 Icon(Icons.edit, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Editar', style: TextStyle(
+                Text(AppLocalizations.of(context)!.edit, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -414,7 +406,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               children: [
                 Icon(Icons.share_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Compartir', style: TextStyle(
+                Text(AppLocalizations.of(context)!.share, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -435,7 +427,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               children: [
                 Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Eliminar', style: TextStyle(
+                Text(AppLocalizations.of(context)!.delete, style: TextStyle(
                     color: Colors.red,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -446,15 +438,15 @@ class _EventsMainPageState extends State<EventsMainPage> {
             showTextDialog(
                 context,
                 Icons.delete_outline_outlined,
-                'Eliminar evento',
-                'Una vez eliminado no podrás restaurarlo.',
-                'Eliminar',
-                'Cancelar',
+                AppLocalizations.of(context)!.deleteEvent,
+                AppLocalizations.of(context)!.deleteEventExplanation,
+                AppLocalizations.of(context)!.delete,
+                AppLocalizations.of(context)!.cancel,
                     () async {
                   await cancelAllEventNotifications(event.id);
                   await deleteEventById(event.id);
                   Navigator.pop(context);
-                  showInfoSnackBar(context, 'Evento eliminado.');
+                  showInfoSnackBar(context, AppLocalizations.of(context)!.eventDeleted);
                 },
                     () {
                   Navigator.pop(context);
@@ -547,7 +539,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               children: [
                 Icon(Icons.input_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Ver detalles', style: TextStyle(
+                Text(AppLocalizations.of(context)!.seeDetails, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -570,7 +562,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                     color: colorSpecialItem,
                     size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth * 0.025,),
-                Text('Marcar como completada', style: TextStyle(
+                Text(AppLocalizations.of(context)!.markAsCompleted, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -590,7 +582,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               children: [
                 Icon(Icons.edit, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Editar', style: TextStyle(
+                Text(AppLocalizations.of(context)!.edit, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -611,7 +603,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               children: [
                 Icon(Icons.share_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Compartir', style: TextStyle(
+                Text(AppLocalizations.of(context)!.share, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -632,7 +624,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               children: [
                 Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Eliminar', style: TextStyle(
+                Text(AppLocalizations.of(context)!.delete, style: TextStyle(
                     color: Colors.red,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -643,15 +635,15 @@ class _EventsMainPageState extends State<EventsMainPage> {
             showTextDialog(
                 context,
                 Icons.delete_outline_outlined,
-                'Eliminar tarea',
-                'Una vez eliminada no podrás restaurarla.',
-                'Eliminar',
-                'Cancelar',
+                AppLocalizations.of(context)!.deleteToDo,
+                AppLocalizations.of(context)!.deleteToDoExplanation,
+                AppLocalizations.of(context)!.delete,
+                AppLocalizations.of(context)!.cancel,
                     () async {
                   await cancelAllTodoNotifications(todo.id);
                   await deleteTodoById(todo.id);
                   Navigator.pop(context);
-                  showInfoSnackBar(context, 'Tarea eliminada.');
+                  showInfoSnackBar(context, AppLocalizations.of(context)!.toDoDeleted);
                 },
                     () {
                   Navigator.pop(context);
@@ -678,7 +670,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text('Tarea', style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.055, fontWeight: FontWeight.bold)),
+                        Text(AppLocalizations.of(context)!.toDo, style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.055, fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ),
@@ -743,7 +735,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               children: [
                 Icon(Icons.input_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Ver detalles', style: TextStyle(
+                Text(AppLocalizations.of(context)!.seeDetails, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -764,7 +756,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               children: [
                 Icon(Icons.edit, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Editar', style: TextStyle(
+                Text(AppLocalizations.of(context)!.edit, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -785,7 +777,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               children: [
                 Icon(Icons.share_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Compartir', style: TextStyle(
+                Text(AppLocalizations.of(context)!.share, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -806,7 +798,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               children: [
                 Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Eliminar', style: TextStyle(
+                Text(AppLocalizations.of(context)!.delete, style: TextStyle(
                     color: Colors.red,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -817,15 +809,15 @@ class _EventsMainPageState extends State<EventsMainPage> {
             showTextDialog(
                 context,
                 Icons.delete_outline_outlined,
-                'Eliminar nota',
-                'Una vez eliminada no podrás restaurarla.',
-                'Eliminar',
-                'Cancelar',
+                AppLocalizations.of(context)!.deleteNote,
+                AppLocalizations.of(context)!.deleteNoteExplanation,
+                AppLocalizations.of(context)!.delete,
+                AppLocalizations.of(context)!.cancel,
                     () async {
                   await cancelNoteNotification(note.id);
                   await deleteNoteById(note.id);
                   Navigator.pop(context);
-                  showInfoSnackBar(context, 'Nota eliminada.');
+                  showInfoSnackBar(context, AppLocalizations.of(context)!.noteDeleted);
                 },
                     () {
                   Navigator.pop(context);
@@ -852,7 +844,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text('Nota', style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.055, fontWeight: FontWeight.bold)),
+                        Text(AppLocalizations.of(context)!.note, style: TextStyle(color: colorMainText, fontSize: deviceWidth * fontSize * 0.055, fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ),
@@ -871,7 +863,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                       if (note.name=='') Container(
                           width: deviceWidth*0.585,
                           alignment: Alignment.centerLeft,
-                          child: Text('Sin título',
+                          child: Text(AppLocalizations.of(context)!.noTitle,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(color: colorSecondText,

@@ -5,6 +5,9 @@ import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 class AddEvent extends StatefulWidget {
   const AddEvent({Key? key}) : super(key: key);
 
@@ -40,8 +43,6 @@ class _AddEventState extends State<AddEvent> {
   List<bool> weekValues = [false, false, false, false, false, false, false];
   bool routineEvent = false;
 
-  String timeHintText = '00:00 (Por defecto)';
-  String dateHintText = 'Hoy (Por defecto)';
   Color errorColor = colorSecondBackground;
   bool daysSelected = false;
 
@@ -57,21 +58,24 @@ class _AddEventState extends State<AddEvent> {
   @override
   void initState() {
     super.initState();
-    if (format24Hours == false) timeHintText = '12:00 AM (Por defecto)';
     dateController.text = dateToString(selectedDateTime);
   }
 
   @override
   Widget build(BuildContext context) {
 
+    String timeHintText = AppLocalizations.of(context)!.timeHintDefault0000;
+    if (format24Hours == false) timeHintText = AppLocalizations.of(context)!.timeHintDefault1200AM;
+    String dateHintText = AppLocalizations.of(context)!.dateHintDefaultToday;
+
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea(
           null,
-          PageHeader(context, 'Nuevo evento'),
+          PageHeader(context, AppLocalizations.of(context)!.newEvent),
           FooterEmpty(),
           [
-            FormSwitchButton('Una vez', 'Rutina', routineEvent, (){
+            FormSwitchButton(AppLocalizations.of(context)!.once, AppLocalizations.of(context)!.routine, routineEvent, (){
               setState(() {
                 routineEvent = !routineEvent;
               });
@@ -79,15 +83,15 @@ class _AddEventState extends State<AddEvent> {
             FormSeparator(),
             FormContainer([
               FormTextField(
-                  nameController, 'Nombre:', '(Obligatorio)', nameFocusNode, false),
-              FormTextField(descriptionController, 'Descripción:', '(Opcional)',
+                  nameController, AppLocalizations.of(context)!.name + ':', AppLocalizations.of(context)!.mandatory, nameFocusNode, false),
+              FormTextField(descriptionController, AppLocalizations.of(context)!.description + ':', AppLocalizations.of(context)!.optional,
                   descriptionFocusNode, true),
             ]),
             FormSeparator(),
             FormContainer([
               if(!routineEvent) FormDateTimeSelector(
                   dateController,
-                  'Fecha:',
+                  AppLocalizations.of(context)!.date + ":",
                   dateHintText,
                   dateFocusNode,
                     () => _dateSelector(context),
@@ -95,7 +99,7 @@ class _AddEventState extends State<AddEvent> {
               ),
               FormDateTimeSelector(
                   timeController,
-                  'Hora:',
+                AppLocalizations.of(context)!.time + ":",
                   timeHintText,
                   timeFocusNode,
                     () => _timeSelector(context),
@@ -106,8 +110,8 @@ class _AddEventState extends State<AddEvent> {
             FormContainer([
               FormColorPicker(
                   context,
-                  'Color:',
-                  'Color del evento:',
+                  AppLocalizations.of(context)!.colour + ':',
+                  AppLocalizations.of(context)!.eventColour + ':',
                   color,
                   [
                     Theme(
@@ -116,7 +120,7 @@ class _AddEventState extends State<AddEvent> {
                           disabledColor: colorThirdBackground,
                         ),
                         child: RadioListTile(
-                          title: Text('Por defecto', style: TextStyle(color: colorMainText),),
+                          title: Text(AppLocalizations.of(context)!.byDefault, style: TextStyle(color: colorMainText),),
                           value: -1,
                           groupValue: color,
                           activeColor: colorThirdBackground,
@@ -134,7 +138,7 @@ class _AddEventState extends State<AddEvent> {
                         disabledColor: const Color(0xffF44336),
                       ),
                       child: RadioListTile(
-                        title: Text('Rojo', style: TextStyle(color: colorMainText)),
+                        title: Text(AppLocalizations.of(context)!.colourRed, style: TextStyle(color: colorMainText)),
                         value: 0xffF44336,
                         groupValue: color,
                         activeColor: const Color(0xffF44336),
@@ -152,7 +156,7 @@ class _AddEventState extends State<AddEvent> {
                         disabledColor: const Color(0xffFF9800),
                       ),
                       child: RadioListTile(
-                        title: Text('Naranja', style: TextStyle(color: colorMainText)),
+                        title: Text(AppLocalizations.of(context)!.colourOrange, style: TextStyle(color: colorMainText)),
                         value: 0xffFF9800,
                         groupValue: color,
                         activeColor: const Color(0xffFF9800),
@@ -170,7 +174,7 @@ class _AddEventState extends State<AddEvent> {
                         disabledColor: const Color(0xffFFCC00),
                       ),
                       child: RadioListTile(
-                        title: Text('Amarillo', style: TextStyle(color: colorMainText)),
+                        title: Text(AppLocalizations.of(context)!.colourYellow, style: TextStyle(color: colorMainText)),
                         value: 0xffFFCC00,
                         groupValue: color,
                         activeColor: const Color(0xffFFCC00),
@@ -188,7 +192,7 @@ class _AddEventState extends State<AddEvent> {
                         disabledColor: const Color(0xff4CAF50),
                       ),
                       child: RadioListTile(
-                        title: Text('Verde', style: TextStyle(color: colorMainText)),
+                        title: Text(AppLocalizations.of(context)!.colourGreen, style: TextStyle(color: colorMainText)),
                         value: 0xff4CAF50,
                         groupValue: color,
                         activeColor: const Color(0xff4CAF50),
@@ -206,7 +210,7 @@ class _AddEventState extends State<AddEvent> {
                         disabledColor: const Color(0xff448AFF),
                       ),
                       child: RadioListTile(
-                        title: Text('Azul', style: TextStyle(color: colorMainText)),
+                        title: Text(AppLocalizations.of(context)!.colourBlue, style: TextStyle(color: colorMainText)),
                         value: 0xff448AFF,
                         groupValue: color,
                         activeColor: const Color(0xff448AFF),
@@ -224,7 +228,7 @@ class _AddEventState extends State<AddEvent> {
                         disabledColor: const Color(0xff7C4DFF),
                       ),
                       child: RadioListTile(
-                        title: Text('Violeta', style: TextStyle(color: colorMainText)),
+                        title: Text(AppLocalizations.of(context)!.colourPurple, style: TextStyle(color: colorMainText)),
                         value: 0xff7C4DFF,
                         groupValue: color,
                         activeColor: const Color(0xff7C4DFF),
@@ -245,7 +249,7 @@ class _AddEventState extends State<AddEvent> {
                 errorColor,
                 [
                   FormCustomField(
-                      'Días de la rutina:',
+                      AppLocalizations.of(context)!.routineDays + ':',
                       [
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -259,7 +263,7 @@ class _AddEventState extends State<AddEvent> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Lunes',
+                                    Text(AppLocalizations.of(context)!.dayMonday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -276,7 +280,7 @@ class _AddEventState extends State<AddEvent> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Martes',
+                                    Text(AppLocalizations.of(context)!.dayTuesday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -293,7 +297,7 @@ class _AddEventState extends State<AddEvent> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Miércoles',
+                                    Text(AppLocalizations.of(context)!.dayWednesday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -310,7 +314,7 @@ class _AddEventState extends State<AddEvent> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Jueves',
+                                    Text(AppLocalizations.of(context)!.dayThursday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -327,7 +331,7 @@ class _AddEventState extends State<AddEvent> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Viernes',
+                                    Text(AppLocalizations.of(context)!.dayFriday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -344,7 +348,7 @@ class _AddEventState extends State<AddEvent> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Sábado',
+                                    Text(AppLocalizations.of(context)!.daySaturday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -361,7 +365,7 @@ class _AddEventState extends State<AddEvent> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Domingo',
+                                    Text(AppLocalizations.of(context)!.daySunday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -377,7 +381,7 @@ class _AddEventState extends State<AddEvent> {
                                 children: [
                                   Icon(Icons.loop_rounded, color: colorSpecialItem,
                                     size: deviceWidth * 0.055,),
-                                  Text(' Gestionar días ', style: TextStyle(
+                                  Text(' ' + AppLocalizations.of(context)!.manageDays + ' ', style: TextStyle(
                                       color: colorSpecialItem,
                                       fontSize: deviceWidth * fontSize * 0.04,
                                       fontWeight: FontWeight.normal),),
@@ -388,9 +392,9 @@ class _AddEventState extends State<AddEvent> {
                               onPressed: () {
                                 showRoutinePickerDialog(
                                     context,
-                                    'Días de la rutina:',
+                                    AppLocalizations.of(context)!.routineDays + ':',
                                     weekValues,
-                                    'Listo',
+                                    AppLocalizations.of(context)!.done,
                                         () {
                                       setState(() {
                                         // Updates the weekDays list
@@ -411,7 +415,7 @@ class _AddEventState extends State<AddEvent> {
             if(routineEvent) FormSeparator(),
             if(!routineEvent) FormContainer([
               FormCustomField(
-                  'Notificaciones',
+                  AppLocalizations.of(context)!.notifications,
                   [
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -468,7 +472,7 @@ class _AddEventState extends State<AddEvent> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Sin notificaciones',
+                          Text(AppLocalizations.of(context)!.noNotifications,
                             style: TextStyle(
                               color: colorSecondText,
                               fontSize: deviceWidth * fontSize * 0.04,
@@ -486,7 +490,7 @@ class _AddEventState extends State<AddEvent> {
                         children: [
                           Icon(Icons.add_rounded, color: colorSpecialItem,
                             size: deviceWidth * 0.055,),
-                          Text(' Añadir notificación ', style: TextStyle(
+                          Text(' ' + AppLocalizations.of(context)!.addNotification + ' ', style: TextStyle(
                               color: colorSpecialItem,
                               fontSize: deviceWidth * fontSize * 0.04,
                               fontWeight: FontWeight.normal),),
@@ -506,12 +510,12 @@ class _AddEventState extends State<AddEvent> {
                           initialDate: DateTime.now(),
                           firstDate: DateTime.now(),
                           lastDate: DateTime(2099, 12, 31),
-                          helpText: "SELECCIONA LA FECHA DE NOTIFICACIÓN",
-                          cancelText: "CANCELAR",
-                          confirmText: "CONFIRMAR",
-                          fieldHintText: "dd/mm/aaaa",
-                          fieldLabelText: "Fecha de notificación",
-                          errorFormatText: "Introduce una fecha válida",
+                          helpText: AppLocalizations.of(context)!.calendarSelectNotificationDate,
+                          cancelText: AppLocalizations.of(context)!.calendarCancel,
+                          confirmText: AppLocalizations.of(context)!.calendarConfirm,
+                          fieldHintText: AppLocalizations.of(context)!.calendarHintDDMMYYYY,
+                          fieldLabelText: AppLocalizations.of(context)!.calendarNotificationDate,
+                          errorFormatText: AppLocalizations.of(context)!.calendarErrorDate,
                           builder: (context, child) {
                             if (darkMode) return Theme(
                               data: ThemeData.dark().copyWith(
@@ -541,9 +545,9 @@ class _AddEventState extends State<AddEvent> {
                           notDate = dateSelected;
                           final TimeOfDay? timeSelected = await showTimePicker(
                             context: context,
-                            helpText: "SELECCIONA LA HORA DE NOTIFICACIÓN",
-                            cancelText: "CANCELAR",
-                            confirmText: "CONFIRMAR",
+                            helpText: AppLocalizations.of(context)!.timePickerSelectNotificationTime,
+                            cancelText: AppLocalizations.of(context)!.calendarCancel,
+                            confirmText: AppLocalizations.of(context)!.calendarConfirm,
                             initialTime: TimeOfDay(hour: 0, minute: 0),
                             initialEntryMode: TimePickerEntryMode.dial,
                             builder: (context, child) {
@@ -610,17 +614,17 @@ class _AddEventState extends State<AddEvent> {
             MainButton(
                 Icons.check_rounded,
                 colorSpecialItem,
-                ' Crear evento ',
+                ' ' + AppLocalizations.of(context)!.createEvent + ' ',
                     () {
                   if (nameController.text.trim().isEmpty) {
-                    showErrorSnackBar(context, 'Debes indicar un nombre');
+                    showErrorSnackBar(context, AppLocalizations.of(context)!.errorTypeName);
                     nameFocusNode.requestFocus();
                   } else {
                     weekValues.forEach((value) {
                       if (value==true) daysSelected=true;
                     });
                     if (routineEvent && daysSelected==false){
-                      showErrorSnackBar(context, 'Debes seleccionar al menos un día para la rutina');
+                      showErrorSnackBar(context, AppLocalizations.of(context)!.errorSelectRoutineDays);
                       setState(() {
                         errorColor = Colors.red;
                       });
@@ -641,10 +645,10 @@ class _AddEventState extends State<AddEvent> {
                         createEvent(newEvent);
                         if(!routineEvent) _buildAllEventNotifications();
                         Navigator.pop(context);
-                        showInfoSnackBar(context, 'Evento creado.');
+                        showInfoSnackBar(context, AppLocalizations.of(context)!.eventCreated);
                       } on Exception catch (e) {
                         debugPrint('[ERR] Could not create event: $e');
-                        showErrorSnackBar(context, 'Ha ocurrido un error');
+                        showErrorSnackBar(context, AppLocalizations.of(context)!.errorTryAgain);
                       }
                     }
                   }
@@ -665,12 +669,12 @@ class _AddEventState extends State<AddEvent> {
         initialDate: DateTime.now(),
         firstDate: DateTime(2000, 1, 1),
         lastDate: DateTime(2099, 12, 31),
-        helpText: "SELECCIONA LA FECHA DEL EVENTO",
-        cancelText: "CANCELAR",
-        confirmText: "CONFIRMAR",
-        fieldHintText: "dd/mm/aaaa",
-        fieldLabelText: "Fecha del evento",
-        errorFormatText: "Introduce una fecha válida",
+        helpText: AppLocalizations.of(context)!.calendarSelectEventDate,
+        cancelText: AppLocalizations.of(context)!.calendarCancel,
+        confirmText: AppLocalizations.of(context)!.calendarConfirm,
+        fieldHintText: AppLocalizations.of(context)!.calendarHintDDMMYYYY,
+        fieldLabelText: AppLocalizations.of(context)!.calendarEventDate,
+        errorFormatText: AppLocalizations.of(context)!.calendarErrorDate,
         builder: (context, child) {
           if (darkMode) return Theme(
             data: ThemeData.dark().copyWith(
@@ -710,9 +714,9 @@ class _AddEventState extends State<AddEvent> {
 
     final TimeOfDay? selected = await showTimePicker(
       context: context,
-      helpText: "SELECCIONA LA HORA DEL EVENTO",
-      cancelText: "CANCELAR",
-      confirmText: "CONFIRMAR",
+      helpText: AppLocalizations.of(context)!.timePickerSelectEventTime,
+      cancelText: AppLocalizations.of(context)!.calendarCancel,
+      confirmText: AppLocalizations.of(context)!.calendarConfirm,
       initialTime: TimeOfDay(hour: 0, minute: 0),
       initialEntryMode: TimePickerEntryMode.dial,
       builder: (context, child) {
@@ -749,7 +753,7 @@ class _AddEventState extends State<AddEvent> {
   }
 
   _buildAllEventNotifications(){
-    String notificationTitle = 'Evento: ' + nameController.text;
+    String notificationTitle = AppLocalizations.of(context)!.event + ': ' + nameController.text;
     if (not1.keys.first != null) buildEventNotification(
         int.parse(not1.keys.first!),
         notificationTitle, not1.values.first!,
