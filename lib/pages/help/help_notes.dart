@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 class HelpNotes extends StatefulWidget {
   const HelpNotes({Key? key}) : super(key: key);
 
@@ -27,21 +30,16 @@ class _HelpNotesState extends State<HelpNotes> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea(null,
-          PageHeader(context, 'Notas'),
+          PageHeader(context, AppLocalizations.of(context)!.notes),
           FooterCredits(),
           [
         Column(children: [
           SizedBox(height: deviceHeight * 0.0125),
-          TextExplanationContainer('Las notas',
-              'Las notas contienen el texto que tú decidas. Tienen: título, '
-                  'contenido, fecha de modificación y opcionalmente fecha en el'
-                  ' calendario.'),
+          TextExplanationContainer(AppLocalizations.of(context)!.theNotes,
+              AppLocalizations.of(context)!.theNotesExplanation),
           SizedBox(height: deviceHeight * 0.0125),
-          TextExplanationContainer('Notas en el calendario',
-              'Puedes decidir añadir una nota al calendario, de forma que '
-                  'tendrás que indicar una fecha. Una vez hecho esto, podrás '
-                  'ver tu nota en el calendario en la fecha indicada. También '
-                  'recibirás una notificación en esa fecha.'),
+          TextExplanationContainer(AppLocalizations.of(context)!.notesOnTheCalendar,
+              AppLocalizations.of(context)!.notesOnTheCalendarExplanation),
         ],),
       ]
       ),

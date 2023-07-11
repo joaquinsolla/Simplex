@@ -4,6 +4,9 @@ import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 class HelpReport extends StatefulWidget {
   const HelpReport({Key? key}) : super(key: key);
 
@@ -35,17 +38,17 @@ class _HelpReportState extends State<HelpReport> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea(null,
-          PageHeader(context, 'Reportar un problema'),
+          PageHeader(context, AppLocalizations.of(context)!.reportAProblem),
           FooterCredits(),
           [
         FormContainer([
-          FormTextField(problemController, 'Problema', 'Describe el problema', problemFocusNode, true),
+          FormTextField(problemController, AppLocalizations.of(context)!.problem, AppLocalizations.of(context)!.describeProblem, problemFocusNode, true),
 
         ]),
         FormSeparator(),
         FormContainer([
           Text(
-            'Información de la cuenta',
+            AppLocalizations.of(context)!.accountData,
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * fontSize * 0.045,
@@ -57,7 +60,7 @@ class _HelpReportState extends State<HelpReport> {
             child: CheckboxListTile(
               activeColor: colorSpecialItem,
               title: Text(
-                'Enviar información de mi cuenta',
+                AppLocalizations.of(context)!.sendAccountData,
                 style: TextStyle(
                     color: colorMainText,
                     fontSize: deviceWidth * fontSize * 0.04,
@@ -74,11 +77,10 @@ class _HelpReportState extends State<HelpReport> {
           ),
         ]),
         FormSeparator(),
-        MainButton(Icons.report_gmailerrorred_rounded, Colors.red, ' Reportar '
-            'problema ',
+        MainButton(Icons.report_gmailerrorred_rounded, Colors.red, ' ' + AppLocalizations.of(context)!.reportProblem + ' ',
                 () {
                   if (problemController.text.trim().isEmpty) {
-                    showErrorSnackBar(context, 'Debes describir el problema');
+                    showErrorSnackBar(context, AppLocalizations.of(context)!.errorDescribeProblem);
                     problemFocusNode.requestFocus();
                   } else {
                     try {
@@ -93,20 +95,16 @@ class _HelpReportState extends State<HelpReport> {
 
                       sendReport(newReport, sendAccountData);
                       Navigator.pop(context);
-                      showInfoSnackBar(context, 'Problema reportado, gracias.');
+                      showInfoSnackBar(context, AppLocalizations.of(context)!.reportSent);
 
                     } on Exception catch (e) {
                       debugPrint('[ERR] Could not send report: $e');
-                      showErrorSnackBar(context, 'Ha ocurrido un error');
+                      showErrorSnackBar(context, AppLocalizations.of(context)!.errorTryAgain);
                     }
                   }
             }),
         FormSeparator(),
-        Text('Es posible que el problema sea más fácil de resolver si se adjunta'
-            ' cierta información de la cuenta como el email o el id de '
-            'cuenta. También podremos informarte con un email cuando tu '
-            'problema se solucione. Nunca recopilaremos tu contraseña ni '
-            'información privada.',
+        Text(AppLocalizations.of(context)!.reportExplanation,
           style: TextStyle(color: colorSecondText,
               fontSize: deviceWidth * fontSize * 0.0375,
               fontWeight: FontWeight.normal), textAlign: TextAlign.center,),

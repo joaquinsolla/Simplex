@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 class HelpMainPage extends StatefulWidget {
   const HelpMainPage({Key? key}) : super(key: key);
 
@@ -27,11 +30,11 @@ class _HelpMainPageState extends State<HelpMainPage> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea(null,
-          PageHeader(context, 'Ayuda'),
+          PageHeader(context, AppLocalizations.of(context)!.help),
           FooterCredits(),
           [
 
-        Text('Uso de la aplicación',
+        Text(AppLocalizations.of(context)!.appUsage,
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * fontSize * 0.05,
@@ -40,30 +43,30 @@ class _HelpMainPageState extends State<HelpMainPage> {
           height: deviceHeight * 0.0125,
         ),
         FormContainer([
-          SecondaryButton(colorMainText, 'Botones', (){
+          SecondaryButton(colorMainText, AppLocalizations.of(context)!.buttons, (){
             Navigator.pushNamed(context, '/help/help_buttons');
           }),
           Divider(color: colorThirdText),
-          SecondaryButton(colorMainText, 'Calendario', (){
+          SecondaryButton(colorMainText, AppLocalizations.of(context)!.calendar, (){
             Navigator.pushNamed(context, '/help/help_events');
           }),
           Divider(color: colorThirdText),
-          SecondaryButton(colorMainText, 'Tareas', (){
+          SecondaryButton(colorMainText, AppLocalizations.of(context)!.todos, (){
             Navigator.pushNamed(context, '/help/help_todos');
           }),
           Divider(color: colorThirdText),
-          SecondaryButton(colorMainText, 'Notas', (){
+          SecondaryButton(colorMainText, AppLocalizations.of(context)!.notes, (){
             Navigator.pushNamed(context, '/help/help_notes');
           }),
           Divider(color: colorThirdText),
-          SecondaryButton(colorMainText, 'Rutinas', (){
+          SecondaryButton(colorMainText, AppLocalizations.of(context)!.routine, (){
             Navigator.pushNamed(context, '/help/help_routines');
           }),
 
         ]),
 
         SizedBox(height: deviceHeight * 0.03),
-        Text('Otros',
+        Text(AppLocalizations.of(context)!.others,
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * fontSize * 0.05,
@@ -72,11 +75,11 @@ class _HelpMainPageState extends State<HelpMainPage> {
           height: deviceHeight * 0.0125,
         ),
         FormContainer([
-          SecondaryButton(colorMainText, 'Política de privacidad', (){
+          SecondaryButton(colorMainText, AppLocalizations.of(context)!.privacyPolicy, (){
             tryLaunchUrl(privacyPolicyUrl);
           }),
           Divider(color: colorThirdText),
-          SecondaryButton(Colors.red, 'Reportar un problema', (){
+          SecondaryButton(Colors.red, AppLocalizations.of(context)!.reportAProblem, (){
             Navigator.pushNamed(context, '/help/help_report');
           }),
         ]),

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 class HelpTodos extends StatefulWidget {
   const HelpTodos({Key? key}) : super(key: key);
 
@@ -27,23 +30,16 @@ class _HelpTodosState extends State<HelpTodos> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea(null,
-          PageHeader(context, 'Tareas'),
+          PageHeader(context, AppLocalizations.of(context)!.toDo),
           FooterCredits(),
           [
         Column(children: [
           SizedBox(height: deviceHeight * 0.0125),
-          TextExplanationContainer('Las tareas',
-              'Las tareas representan objetivos o actividades que tienen dos '
-                  'posibldes estados: pendientes y completadas. Cada tarea cuenta '
-                  'con: título, descripción, una prioridad y una fecha límite '
-                  'opcional.'),
+          TextExplanationContainer(AppLocalizations.of(context)!.theToDos,
+              AppLocalizations.of(context)!.theToDosExplanation),
           SizedBox(height: deviceHeight * 0.0125),
-          TextExplanationContainer('Tareas limitadas y sus notificaciones',
-              'Puede definirse una fecha límite para las tareas. Las tareas '
-                  'limitadas y pendientes aparecerán en el calendario en la '
-                  'fecha límite. Además, se notificará cuando queden 24 horas '
-                  'para que se alcance la fecha límite y cuando la tarea ya '
-                  'haya caducado.'),
+          TextExplanationContainer(AppLocalizations.of(context)!.limitedToDos,
+              AppLocalizations.of(context)!.limitedToDosExplanation),
         ],),
       ]
       ),

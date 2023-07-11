@@ -11,6 +11,7 @@ import 'all_pages.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 

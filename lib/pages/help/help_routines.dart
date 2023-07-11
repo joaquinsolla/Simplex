@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 class HelpRoutines extends StatefulWidget {
   const HelpRoutines({Key? key}) : super(key: key);
 
@@ -27,26 +30,19 @@ class _HelpRoutinesState extends State<HelpRoutines> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea(null,
-          PageHeader(context, 'Rutinas'),
+          PageHeader(context, AppLocalizations.of(context)!.routine),
           FooterCredits(),
           [
         Column(children: [
           SizedBox(height: deviceHeight * 0.0125),
-          TextExplanationContainer('Las rutinas',
-              'Las rutinas consisten en elementos que se repiten ciertos días'
-                  ' de la semana a una hora en particular (por ejemplo una'
-                  ' asignatura del colegio todos los lunes a las 9:00).'),
+          TextExplanationContainer(AppLocalizations.of(context)!.theRoutines,
+              AppLocalizations.of(context)!.theRoutinesExplanation),
           SizedBox(height: deviceHeight * 0.0125),
-          TextExplanationContainer('Elementos de las rutinas',
-              'Pueden definirse dos tipos de elementos para las rutinas: '
-                  'Eventos y notas. Para definirlos como rutina debes '
-                  'seleccionar dicha opción cuando vayas a crearlos, también '
-                  'puedes hacer esto editándolos. Los elementos rutinarios no '
-                  'tienen notificaciones.'),
+          TextExplanationContainer(AppLocalizations.of(context)!.routinesElements,
+              AppLocalizations.of(context)!.routinesElementsExplanation),
           SizedBox(height: deviceHeight * 0.0125),
-          TextExplanationContainer('Visualización de rutinas',
-              'En la sección de rutinas, podrás ver los diferentes días de la '
-                  'semana con sus respectivos elementos.'),
+          TextExplanationContainer(AppLocalizations.of(context)!.routinesDisplay,
+              AppLocalizations.of(context)!.routinesDisplayExplanation),
         ],),
       ]
       ),

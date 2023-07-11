@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 class HelpButtons extends StatefulWidget {
   const HelpButtons({Key? key}) : super(key: key);
 
@@ -31,10 +34,10 @@ class _HelpButtonsState extends State<HelpButtons> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea(null,
-          PageHeader(context, 'Botones'),
+          PageHeader(context, AppLocalizations.of(context)!.buttons),
           FooterCredits(),
           [
-        Text('Botones comunes', style: TextStyle(
+        Text(AppLocalizations.of(context)!.commonButtons, style: TextStyle(
             color: colorMainText,
             fontSize: deviceWidth * fontSize * 0.05,
             fontWeight: FontWeight.bold)),
@@ -42,54 +45,45 @@ class _HelpButtonsState extends State<HelpButtons> {
           SizedBox(height: deviceHeight * 0.0125),
           ButtonExplanationContainer(
               Icon(Icons.add_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
-              'Nuevo',
-              'En cada apartado (calendario, tareas, notas...) tendrás disponible '
-                  'este botón para crear sus repectivos elementos. Serás dirigido '
-                  'a un formulario para rellenar los datos del elemento a crear.'),
+              AppLocalizations.of(context)!.create,
+              AppLocalizations.of(context)!.createExplanation),
           SizedBox(height: deviceHeight * 0.0125),
           ButtonExplanationContainer(
               Icon(Icons.search_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
-              'Buscar',
-              'Se despliega un buscador para poder filtrar los elementos por su '
-                  'título.'),
+              AppLocalizations.of(context)!.search,
+              AppLocalizations.of(context)!.searchExplanation),
           SizedBox(height: deviceHeight * 0.0125),
           ButtonExplanationContainer(
               Icon(Icons.input_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
-              'Ver detalles',
-              'Este botón te dirigirá a una ventana con los detalles del elemento '
-                  'seleccionado.'),
+              AppLocalizations.of(context)!.seeDetails,
+              AppLocalizations.of(context)!.seeDetailsExplanation),
           SizedBox(height: deviceHeight * 0.0125),
           ButtonExplanationContainer(
               Icon(Icons.edit, color: colorSpecialItem, size: deviceWidth * 0.075),
-              'Editar',
-              'Accederás a un formulario para editar los datos que desees del '
-                  'elemento que hayas seleccionado, después sólo tendrás que '
-                  'confirmar los cambios.'),
+              AppLocalizations.of(context)!.edit,
+              AppLocalizations.of(context)!.editExplanation),
           SizedBox(height: deviceHeight * 0.0125),
           ButtonExplanationContainer(
               Icon(Icons.share_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
-              'Compartir',
-              '[Beta] Podrás compartir los elementos que desees con los demás a '
-                  'través de múltiples aplicaciones o copiando el contenido '
-                  'en el portapapeles.'),
+              AppLocalizations.of(context)!.share,
+              AppLocalizations.of(context)!.shareExplanation),
           SizedBox(height: deviceHeight * 0.0125),
           ButtonExplanationContainer(
               Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth * 0.075),
-              'Eliminar',
-              'Se eliminará definitivamente el elemento seleccionado. Una vez '
-                  'eliminados, los elementos no se pueden recuperar.'),
+              AppLocalizations.of(context)!.delete,
+              AppLocalizations.of(context)!.deleteExplanation),
         ],),
         SizedBox(height: deviceHeight * 0.03),
 
-        Text('Botones del calendario', style: TextStyle(
+        Text(AppLocalizations.of(context)!.calendarButtons, style: TextStyle(
             color: colorMainText,
             fontSize: deviceWidth * fontSize * 0.05,
             fontWeight: FontWeight.bold)),
         Column(children: [
           SizedBox(height: deviceHeight * 0.0125),
           ButtonExplanationContainer(Image.asset(calendarButtonImage),
-              'Alternar vista de calendario',
-              'Podrás cambiar entre la vista de mes comleto y la de semana.'),
+              AppLocalizations.of(context)!.toggleCalendarView,
+              AppLocalizations.of(context)!.toggleCalendarViewExplanation),
           SizedBox(height: deviceHeight * 0.0125),
           ButtonExplanationContainer(
               Column(
@@ -98,12 +92,12 @@ class _HelpButtonsState extends State<HelpButtons> {
                 Icon(Icons.keyboard_arrow_left_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
                 Icon(Icons.keyboard_arrow_right_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
               ],),
-              'Navegación entre fechas',
-              'Permiten moverse hacia atrás y hacia adelante entre fechas.'),
+              AppLocalizations.of(context)!.datesNavigation,
+              AppLocalizations.of(context)!.datesNavigationExplanation),
         ],),
         SizedBox(height: deviceHeight * 0.03),
 
-        Text('Botones de las tareas', style: TextStyle(
+        Text(AppLocalizations.of(context)!.toDoButtons, style: TextStyle(
             color: colorMainText,
             fontSize: deviceWidth * fontSize * 0.05,
             fontWeight: FontWeight.bold)),
@@ -116,15 +110,13 @@ class _HelpButtonsState extends State<HelpButtons> {
                 Icon(Icons.keyboard_arrow_up_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
                 Icon(Icons.keyboard_arrow_down_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
               ],),
-              'Visibilidad de tareas',
-              'Puedes decidir si mostrar u ocultar tanto las tareas pendientes '
-                  'como las completadas.'),
+              AppLocalizations.of(context)!.toDoVisibility,
+              AppLocalizations.of(context)!.toDoVisibilityExplanation),
           SizedBox(height: deviceHeight * 0.0125),
           ButtonExplanationContainer(
               Icon(Icons.clear_all_rounded, color: colorSpecialItem, size: deviceWidth * 0.075),
-              'Eliminar tareas completadas',
-              'Se eliminarán todas las tareas que estén marcadas como '
-                  'completadas. Una vez eliminadas no podrás recuperarlas.'),
+              AppLocalizations.of(context)!.deleteDoneToDos,
+              AppLocalizations.of(context)!.deleteDoneToDosExplanation),
         ],),
       ]
       ),

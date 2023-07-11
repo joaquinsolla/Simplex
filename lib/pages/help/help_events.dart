@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 class HelpEvents extends StatefulWidget {
   const HelpEvents({Key? key}) : super(key: key);
 
@@ -27,33 +30,22 @@ class _HelpEventsState extends State<HelpEvents> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea(null,
-          PageHeader(context, 'Calendario'),
+          PageHeader(context, AppLocalizations.of(context)!.calendar),
           FooterCredits(),
           [
         Column(children: [
           SizedBox(height: deviceHeight * 0.0125),
-          TextExplanationContainer('Los eventos',
-              'Los eventos repesentan actividades o sucesos en una fecha y hora '
-                  'concretos. Siempre aparecen en el calendario y cuentan con: '
-                  'un título, descripción, fecha, hora, color y hasta 5 '
-                  'notificaciones.'),
+          TextExplanationContainer(AppLocalizations.of(context)!.theEvents,
+              AppLocalizations.of(context)!.theEventsExplanation),
           SizedBox(height: deviceHeight * 0.0125),
-          TextExplanationContainer('Creación de eventos',
-              'Los eventos pueden ser creados de dos formas: \n'
-                  '1) Pulsando el botón + en la ventana del calendario.\n'
-                  '2) Manteniendo pulsado el día deseado en el calendario.'),
+          TextExplanationContainer(AppLocalizations.of(context)!.eventsCreation,
+              AppLocalizations.of(context)!.eventsCreationExplanation),
           SizedBox(height: deviceHeight * 0.0125),
-          TextExplanationContainer('Notificaciones de eventos',
-              'Se te notificará acerca de un evento si configuras una '
-                  'notificación, esta te llegará al móvil en el momento '
-                  'seleccionado a modo de recordatorio indicándote en qué fecha'
-                  ' y hora será.'),
+          TextExplanationContainer(AppLocalizations.of(context)!.eventsNotifications,
+              AppLocalizations.of(context)!.eventsNotificationsExplanation),
           SizedBox(height: deviceHeight * 0.0125),
-          TextExplanationContainer('Otros elementos en el calendario',
-              'Además de eventos, el calendario también puede mostrar: tareas '
-                  'con fecha límite, notas de calendario y un acceso a tus rutinas. '
-                  'Todos estos elementos aparecerán representados como puntos '
-                  'en su día correspondiente.'),
+          TextExplanationContainer(AppLocalizations.of(context)!.otherElementsCalendar,
+              AppLocalizations.of(context)!.otherElementsCalendarExplanation),
         ],),
       ]
       ),
