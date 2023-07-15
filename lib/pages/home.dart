@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:introduction_screen/introduction_screen.dart';
 
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
@@ -49,7 +50,8 @@ class _HomeState extends State<Home> {
       SettingsView(),
     ];
 
-    return Scaffold(
+    if (showIntro == false)
+      return Scaffold(
       backgroundColor: colorMainBackground,
       body: PageView(
           children: homeViews,
@@ -61,6 +63,66 @@ class _HomeState extends State<Home> {
             });
           }),
       bottomNavigationBar: _homeBottomNavigationBar(),
+    );
+    else
+      return IntroductionPage();
+  }
+
+  /// INTRODUCTION PAGE
+  IntroductionScreen IntroductionPage() {
+    return IntroductionScreen(
+      showNextButton: false,
+      showBackButton: false,
+      showSkipButton: true,
+      pages: [
+        PageViewModel(
+          title: AppLocalizations.of(context)!.welcome,
+          body: AppLocalizations.of(context)!.welcomeExplanation,
+          image: Image.asset('assets/intro/intro_welcome.png'),
+        ),
+        PageViewModel(
+          title: AppLocalizations.of(context)!.theCalendar,
+          body: AppLocalizations.of(context)!.theCalendarExplanation,
+          image: Image.asset('assets/intro/intro_calendar.png'),
+        ),
+        PageViewModel(
+          title: AppLocalizations.of(context)!.toDosAndNotes,
+          body: AppLocalizations.of(context)!.toDosAndNotesExplanation,
+          image: Image.asset('assets/intro/intro_todo_note.png'),
+        ),
+        PageViewModel(
+          title: AppLocalizations.of(context)!.routines,
+          body: AppLocalizations.of(context)!.routinesExplanation,
+          image: Image.asset('assets/intro/intro_routines.png'),
+        ),
+        PageViewModel(
+          title: AppLocalizations.of(context)!.cloudSync,
+          body: AppLocalizations.of(context)!.cloudSyncExplanation,
+          image: Image.asset('assets/intro/intro_cloud.png'),
+        ),
+      ],
+      skip: Text(
+        AppLocalizations.of(context)!.skip,
+        style: TextStyle(color: colorSecondText),
+      ),
+      next: Text(
+        AppLocalizations.of(context)!.next,
+        style: TextStyle(color: colorSpecialItem),
+      ),
+      done: Text(
+        AppLocalizations.of(context)!.getStarted,
+        style: TextStyle(color: colorSpecialItem,),
+      ),
+      onDone: () {
+        setState(() {
+          showIntro = false;
+        });
+      },
+      onSkip: () {
+        setState(() {
+          showIntro = false;
+        });
+      },
     );
   }
 

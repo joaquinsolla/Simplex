@@ -98,6 +98,10 @@ class _VerifyEmailServiceState extends State<VerifyEmailService> {
     if (verifiedEmail) {
       timer?.cancel();
 
+      setState(() {
+        showIntro = true;
+      });
+
       final user = FirebaseAuth.instance.currentUser!;
       final doc = FirebaseFirestore.instance.collection('users').doc(user.uid);
 

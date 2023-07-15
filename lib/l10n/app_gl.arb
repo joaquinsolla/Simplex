@@ -329,5 +329,17 @@
   "without": "Sen ",
   "searchNoResults": "Sen coincidencias...",
   "checkOutOur": "Consulta a nosa ",
-  "welcome": "Benvido a Simplex"
+  "welcome": "Benvido a Simplex",
+  "welcomeExplanation": "Antes de comenzar a usar a aplicación ímosche dar un par de consellos para que aprendas as súas ferramentas e funcións básicas.",
+  "theCalendar": "O calendario",
+  "theCalendarExplanation": "No calendario poderás visualizar os elementos de cada día. No calendario de Simplex podes visualizar todo tipo de elementos que crees: Eventos, Tarefas e Notas.\n\nOs Eventos representan cualquera tipo de acontecemento nunha data e hora concretas.",
+  "toDosAndNotes": "Tarefas e notas",
+  "toDosAndNotesExplanation": "As Tarefas representan actividades ou obxetivos que deben completarse, poden contar cunha data límite para que aparezan no calendario.\n\nAs Notas son coleccións de texto, que tamén poden ter unha data asignada no calendario.",
+  "routines": "Rutinas",
+  "routinesExplanation": "Podes engadir elementos á túa Rutina dun día específico da semana. Por exemplo, unha asignatura do colexio tódolos luns ás 9:00.",
+  "cloudSync": "Sincronización ca nube",
+  "cloudSyncExplanation": "Todos os teus cambios se gardan automáticamente na nube, de forma que poderás iniciar sesión en múltiples dispositivos e terás a túa información sincronizada en tempo real.",
+  "skip": "Omitir",
+  "next": "Seguinte",
+  "getStarted": "Comezar"
 }

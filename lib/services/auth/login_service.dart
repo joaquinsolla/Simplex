@@ -113,6 +113,10 @@ class _LogInServiceState extends State<LogInService> {
     );
 
     try {
+      setState(() {
+        showIntro = true;
+      });
+
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),

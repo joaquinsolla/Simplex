@@ -329,5 +329,17 @@
   "without": "No ",
   "searchNoResults": "No results...",
   "checkOutOur": "Checkout our ",
-  "welcome": "Welcome to Simplex"
+  "welcome": "Welcome to Simplex",
+  "welcomeExplanation": "Before starting to use the application, we will give you a couple of tips so you can learn its basic tools and functions.",
+  "theCalendar": "The calendar",
+  "theCalendarExplanation": "In the calendar you can see the elements of each day. In the Simplex calendar you can view all kinds of elements that you create: Events, Tasks and Notes.\n\nEvents represent any type of happening at a specific date and time.",
+  "toDosAndNotes": "To-Dos and notes",
+  "toDosAndNotesExplanation": "To-Dos represent activities or goals that need to be completed, they may have a deadline to appear on the calendar.\n\nNotes are collections of text, which can also be assigned a date on the calendar.",
+  "routines": "Routines",
+  "routinesExplanation": "You can add elements to your Routine for a specific day of the week. For example, a school subject every Monday at 9:00.",
+  "cloudSync": "Cloud synchronization",
+  "cloudSyncExplanation": "All your changes are automatically saved in the cloud, so you can log in on multiple devices and you will have your information synchronized in real time.",
+  "skip": "Skip",
+  "next": "Next",
+  "getStarted": "Get started"
 }

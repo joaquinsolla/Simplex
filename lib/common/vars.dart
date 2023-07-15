@@ -25,6 +25,7 @@ bool formatDates = true;
 Locale appLocale = Locale('es', '');
 bool darkMode = false;
 double fontSize = 1;
+bool showIntro = false;
 
 /// SELECTED CLASSES
 Event? selectedEvent;
