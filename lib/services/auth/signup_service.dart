@@ -35,8 +35,8 @@ class _SignUpServiceState extends State<SignUpService> {
     return Scaffold(
         backgroundColor: colorMainBackground,
         body: HomeArea(null,
-            AuthHeader(),
-            FooterPrivacyPolicy(),
+            AuthHeader(context),
+            FooterPrivacyPolicy(context),
             [
           FormContainer([
             Text(AppLocalizations.of(context)!.signUp, style: TextStyle(color: colorMainText,

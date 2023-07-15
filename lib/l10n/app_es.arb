@@ -324,5 +324,10 @@
   "charThursday": "J",
   "charFriday": "V",
   "charSaturday": "S",
-  "charSunday": "D"
+  "charSunday": "D",
+  "errorReviewConnection": " Revisa tu conexión a Internet y reinicia la app.",
+  "without": "Sin ",
+  "searchNoResults": "Sin coincidencias...",
+  "checkOutOur": "Consulta nuestra ",
+  "welcome": "Bienvenido a Simplex"
 }

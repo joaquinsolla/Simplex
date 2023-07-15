@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 
-Column AuthHeader(){
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
+Column AuthHeader(BuildContext context){
   return Column(
     children: [
       SizedBox(
@@ -13,7 +16,7 @@ Column AuthHeader(){
           SizedBox(width: deviceWidth*0.02,),
           Container(
             width: deviceWidth*0.625,
-            child: Text('Bienvenido a Simplex',
+            child: Text(AppLocalizations.of(context)!.welcome,
                 style: TextStyle(
                     color: colorMainText,
                     fontSize: deviceWidth * fontSize * 0.1,

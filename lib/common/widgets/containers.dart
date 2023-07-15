@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 /// HOME AREAS
 Container HomeArea(ScrollController? scrollController,
     Widget header, Widget footer, List<Widget> body) {
@@ -207,7 +210,7 @@ Container TextExplanationContainer(String title, String body){
   ]);
 }
 
-Container ErrorContainer(String text, double heightProportion){
+Container ErrorContainer(String text, double heightProportion, BuildContext context){
   return Container(
     height: deviceHeight * heightProportion,
     alignment: Alignment.center,
@@ -217,7 +220,7 @@ Container ErrorContainer(String text, double heightProportion){
         Icon(Icons.wifi_tethering_error_rounded, color: colorSecondText, size: deviceWidth*0.15,),
         SizedBox(height: deviceHeight*0.025,),
         Text(
-          text + ' Revisa tu conexión a Internet y reinicia la app.',
+          text + AppLocalizations.of(context)!.errorReviewConnection,
           textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: deviceWidth * fontSize * 0.0475, color: colorSecondText),),
@@ -245,11 +248,11 @@ Container LoadingContainer(String text, double heightProportion){
   );
 }
 
-Container NoItemsContainer(String items, double heightProportion){
+Container NoItemsContainer(String items, double heightProportion, BuildContext context){
   return Container(
     height: deviceHeight*heightProportion,
     alignment: Alignment.center,
-    child: Text('Sin ' + items,
+    child: Text(AppLocalizations.of(context)!.without + items,
         textAlign: TextAlign.center,
         style: TextStyle(
             color: colorSecondText,
@@ -258,11 +261,11 @@ Container NoItemsContainer(String items, double heightProportion){
   );
 }
 
-Container NoResultsContainer(double heightProportion){
+Container NoResultsContainer(double heightProportion, BuildContext context){
   return Container(
     height: deviceHeight*heightProportion,
     alignment: Alignment.center,
-    child: Text("Sin resultados...",
+    child: Text(AppLocalizations.of(context)!.searchNoResults,
         textAlign: TextAlign.center,
         style: TextStyle(
             color: colorSecondText,

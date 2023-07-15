@@ -35,8 +35,8 @@ class _LogInServiceState extends State<LogInService> {
     return Scaffold(
         backgroundColor: colorMainBackground,
         body: HomeArea(null,
-            AuthHeader(),
-            FooterPrivacyPolicy(),
+            AuthHeader(context),
+            FooterPrivacyPolicy(context),
             [
           FormContainer([
             Text(AppLocalizations.of(context)!.toLogIn, style: TextStyle(color: colorMainText,fontSize: deviceWidth*0.075, fontWeight: FontWeight.bold),),

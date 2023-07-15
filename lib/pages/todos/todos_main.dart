@@ -164,7 +164,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   debugPrint('[ERR] Cannot load todos: ' + snapshot.error.toString());
-                  return ErrorContainer(AppLocalizations.of(context)!.errorCannotLoadToDos, 0.75);
+                  return ErrorContainer(AppLocalizations.of(context)!.errorCannotLoadToDos, 0.75, context);
                 }
                 else if (snapshot.hasData) {
 
@@ -189,8 +189,8 @@ class _TodosMainPageState extends State<TodosMainPage> {
                           }
                       ),
 
-                      if (pendingTodosLength == 0 && showPendingTodos && keywords=='') NoItemsContainer(AppLocalizations.of(context)!.pendingToDosSmall, 0.2),
-                      if (pendingTodosLength == 0 && showPendingTodos && keywords!='') NoResultsContainer(0.2),
+                      if (pendingTodosLength == 0 && showPendingTodos && keywords=='') NoItemsContainer(AppLocalizations.of(context)!.pendingToDosSmall, 0.2, context),
+                      if (pendingTodosLength == 0 && showPendingTodos && keywords!='') NoResultsContainer(0.2, context),
 
                       if (pendingTodosPriority3.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
                       if (pendingTodosPriority3.length > 0 && showPendingTodos) CustomDivider(AppLocalizations.of(context)!.highPriority),
@@ -219,8 +219,8 @@ class _TodosMainPageState extends State<TodosMainPage> {
                           }
                       ),
 
-                      if (doneTodos.length == 0 && showDoneTodos && keywords=='') NoItemsContainer(AppLocalizations.of(context)!.completedToDosSmall, 0.2),
-                      if (doneTodos.length == 0 && showDoneTodos && keywords!='') NoResultsContainer(0.2),
+                      if (doneTodos.length == 0 && showDoneTodos && keywords=='') NoItemsContainer(AppLocalizations.of(context)!.completedToDosSmall, 0.2, context),
+                      if (doneTodos.length == 0 && showDoneTodos && keywords!='') NoResultsContainer(0.2, context),
 
                       if (doneTodos.length > 0 && showDoneTodos) Column(children: doneTodos.map(buildDoneTodoBox).toList(),),
 

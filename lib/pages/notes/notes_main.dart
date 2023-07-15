@@ -140,7 +140,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   debugPrint('[ERR] Cannot load notes: ' + snapshot.error.toString());
-                  return ErrorContainer(AppLocalizations.of(context)!.errorCannotLoadNotes, 0.75);
+                  return ErrorContainer(AppLocalizations.of(context)!.errorCannotLoadNotes, 0.75, context);
                 }
                 else if (snapshot.hasData) {
                   final notes = snapshot.data!;
@@ -148,9 +148,9 @@ class _NotesMainPageState extends State<NotesMainPage> {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if (notes.length == 0 && keywords=='') NoItemsContainer(AppLocalizations.of(context)!.notesSmall, 0.65),
+                      if (notes.length == 0 && keywords=='') NoItemsContainer(AppLocalizations.of(context)!.notesSmall, 0.65, context),
 
-                      if (notes.length == 0 && keywords!='') NoResultsContainer(0.65),
+                      if (notes.length == 0 && keywords!='') NoResultsContainer(0.65, context),
 
                       MasonryGridView.count(
                           padding: EdgeInsets.zero,

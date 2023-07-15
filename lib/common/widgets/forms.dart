@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 SizedBox FormSeparator(){
   return SizedBox(height: deviceHeight * 0.025);
 }
@@ -211,32 +214,32 @@ Column FormCustomField(String fieldName, List<Widget> widgets, bool isLast){
 }
 
 Column FormColorPicker(BuildContext context, String fieldName, String dialogTitle, int colorCode, List<Widget> widgets, bool isLast) {
-  String colorName = 'Por defecto';
+  String colorName = AppLocalizations.of(context)!.byDefault;
 
   if(colorCode == -1 && darkMode == false) colorCode = 0xffe3e3e9;
   else if(colorCode == -1 && darkMode == true) colorCode = 0xff706e74;
 
   switch (colorCode) {
     case 0xffF44336:
-      colorName = 'Rojo';
+      colorName = AppLocalizations.of(context)!.colourRed;
       break;
     case 0xffFF9800:
-      colorName = 'Naranja';
+      colorName = AppLocalizations.of(context)!.colourOrange;
       break;
     case 0xffFFCC00:
-      colorName = 'Amarillo';
+      colorName = AppLocalizations.of(context)!.colourYellow;
       break;
     case 0xff4CAF50:
-      colorName = 'Verde';
+      colorName = AppLocalizations.of(context)!.colourGreen;
       break;
     case 0xff448AFF:
-      colorName = 'Azul';
+      colorName = AppLocalizations.of(context)!.colourBlue;
       break;
     case 0xff7C4DFF:
-      colorName = 'Violeta';
+      colorName = AppLocalizations.of(context)!.colourPurple;
       break;
     default:
-      colorName = 'Por defecto';
+      colorName = AppLocalizations.of(context)!.byDefault;
       break;
   }
 
@@ -267,7 +270,7 @@ Column FormColorPicker(BuildContext context, String fieldName, String dialogTitl
               context,
               dialogTitle,
               widgets,
-              'Listo',
+            AppLocalizations.of(context)!.done,
                   () {
                 Navigator.pop(context);
               },

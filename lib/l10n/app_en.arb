@@ -324,5 +324,10 @@
   "charThursday": "T",
   "charFriday": "F",
   "charSaturday": "S",
-  "charSunday": "S"
+  "charSunday": "S",
+  "errorReviewConnection": " Check your Internet connection and restart the app.",
+  "without": "No ",
+  "searchNoResults": "No results...",
+  "checkOutOur": "Checkout our ",
+  "welcome": "Welcome to Simplex"
 }

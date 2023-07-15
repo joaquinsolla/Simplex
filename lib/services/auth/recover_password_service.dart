@@ -27,7 +27,7 @@ class _RecoverPasswordServiceState extends State<RecoverPasswordService> {
     return Scaffold(
         backgroundColor: colorMainBackground,
         body: HomeArea(null,
-            AuthHeader(),
+            AuthHeader(context),
             FooterEmpty(),
             [
           FormContainer([

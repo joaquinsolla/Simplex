@@ -114,7 +114,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               debugPrint('[ERR] Cannot load calendar: ' + snapshot.error.toString());
-              return ErrorContainer(AppLocalizations.of(context)!.errorCannotLoadCalendar, 0.4);
+              return ErrorContainer(AppLocalizations.of(context)!.errorCannotLoadCalendar, 0.4, context);
             }
             else if (snapshot.hasData) {
 
@@ -229,7 +229,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
               debugPrint(
                   '[ERR] Cannot load day events: ' + snapshot.error.toString());
               return ErrorContainer(
-                  AppLocalizations.of(context)!.errorCannotLoadEvents, 0.35);
+                  AppLocalizations.of(context)!.errorCannotLoadEvents, 0.35, context);
             }
             else if (snapshot.hasData) {
               final events = snapshot.data![0];
@@ -298,7 +298,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
                     ],
                   ),
 
-                  if (events.length == 0 && todos.length == 0 && notes.length == 0) NoItemsContainer(AppLocalizations.of(context)!.events, 0.2),
+                  if (events.length == 0 && todos.length == 0 && notes.length == 0) NoItemsContainer(AppLocalizations.of(context)!.events, 0.2, context),
 
                   Column(children: todos.map(buildTodoBox).toList(),),
 

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:simplex/common/all_common.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 SizedBox FooterEmpty(){
   return SizedBox(height: deviceHeight * 0.05);
 }
@@ -43,14 +46,14 @@ Column FooterCredits(){
   );
 }
 
-Column FooterPrivacyPolicy(){
+Column FooterPrivacyPolicy(BuildContext context){
   return Column(
     children: [
       SizedBox(height: deviceHeight * 0.01),
       TextButton(
         child: Text.rich(
           TextSpan(
-            text: 'Consulta nuestra ',
+            text: AppLocalizations.of(context)!.checkOutOur,
             style: TextStyle(
               color: colorSecondText,
               fontSize: deviceWidth * fontSize * 0.025,
@@ -58,7 +61,7 @@ Column FooterPrivacyPolicy(){
             ),
             children: <TextSpan>[
               TextSpan(
-                  text: 'Política de privacidad',
+                  text: AppLocalizations.of(context)!.privacyPolicy,
                   style: TextStyle(
                     color: colorSecondText,
                     fontSize: deviceWidth * fontSize * 0.025,

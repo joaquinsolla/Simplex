@@ -57,7 +57,7 @@ class _StatsReportsState extends State<StatsReports> {
                     debugPrint(
                         '[ERR] Cannot read stats: ' + snapshot.error.toString());
                     return ErrorContainer(
-                        AppLocalizations.of(context)!.errorCannotLoadStats, 0.9);
+                        AppLocalizations.of(context)!.errorCannotLoadStats, 0.9, context);
                   }
                   else if (snapshot.hasData) {
 

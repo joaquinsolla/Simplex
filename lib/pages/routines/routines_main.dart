@@ -74,7 +74,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   debugPrint('[ERR] Cannot load routine: ' + snapshot.error.toString());
-                  return ErrorContainer(AppLocalizations.of(context)!.errorCannotLoadRoutine, 0.35);
+                  return ErrorContainer(AppLocalizations.of(context)!.errorCannotLoadRoutine, 0.35, context);
                 }
                 else if (snapshot.hasData) {
 
@@ -161,7 +161,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
                     ],
                   );
 
-                  else return NoItemsContainer(AppLocalizations.of(context)!.elementsForYourRoutineOf + ' ' + dayText, 0.65);
+                  else return NoItemsContainer(AppLocalizations.of(context)!.elementsForYourRoutineOf + ' ' + dayText, 0.65, context);
 
                 }
                 else return LoadingContainer(AppLocalizations.of(context)!.loadingRoutines, 0.35);
