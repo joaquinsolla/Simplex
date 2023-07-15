@@ -5,6 +5,9 @@ import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 class EditTodo extends StatefulWidget {
   const EditTodo({Key? key}) : super(key: key);
 
@@ -46,24 +49,24 @@ class _EditTodoState extends State<EditTodo> {
 
   @override
   Widget build(BuildContext context) {
-    String dateHintText = 'Hoy (Por defecto)';
+    String dateHintText = AppLocalizations.of(context)!.dateHintDefaultToday;
 
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea(null,
-          PageHeader(context, 'Editar Tarea'),
+          PageHeader(context, AppLocalizations.of(context)!.editToDo),
           FooterEmpty(),
           [
             FormContainer([
               FormTextField(
-                  nameController, 'Nombre:', '(Obligatorio)', nameFocusNode, false),
+                  nameController, AppLocalizations.of(context)!.name + ':', AppLocalizations.of(context)!.mandatory, nameFocusNode, false),
               FormTextField(
-                  descriptionController, 'Descripción:', '(Opcional)', descriptionFocusNode, true),
+                  descriptionController, AppLocalizations.of(context)!.description + ':', AppLocalizations.of(context)!.optional, descriptionFocusNode, true),
             ]),
             FormSeparator(),
             FormContainer([
               FormCustomField(
-                  'Prioridad:',
+                  AppLocalizations.of(context)!.priority + ':',
                   [
                     Row(mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -82,7 +85,7 @@ class _EditTodoState extends State<EditTodo> {
                             min: 1,
                             divisions: 2,
                             activeColor: colorSpecialItem,
-                            label: 'Baja',
+                            label: AppLocalizations.of(context)!.low,
                             onChanged: (val) {
                               setState(() {
                                 priority = val;
@@ -98,7 +101,7 @@ class _EditTodoState extends State<EditTodo> {
                               min: 1,
                               divisions: 2,
                               activeColor: Color(0xff2164f3),
-                              label: 'Media',
+                              label: AppLocalizations.of(context)!.medium,
                               onChanged: (val) {
                                 setState(() {
                                   priority = val;
@@ -113,7 +116,7 @@ class _EditTodoState extends State<EditTodo> {
                               min: 1,
                               divisions: 2,
                               activeColor: Color(0xff1828d7),
-                              label: 'Alta',
+                              label: AppLocalizations.of(context)!.high,
                               onChanged: (val) {
                                 setState(() {
                                   priority = val;
@@ -135,13 +138,12 @@ class _EditTodoState extends State<EditTodo> {
             FormSeparator(),
             FormContainer([
               FormCustomField(
-                  'Fecha límite:',
+                  AppLocalizations.of(context)!.dueDate + ':',
                   [
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'La tarea aparecerá en el calendario y recibirás notificaciones '
-                            'cuando se acerque la fecha límite.',
+                        AppLocalizations.of(context)!.dueDateExplanation,
                         style: TextStyle(
                             color: colorMainText,
                             fontSize: deviceWidth * fontSize * 0.03,
@@ -154,7 +156,7 @@ class _EditTodoState extends State<EditTodo> {
                       child: CheckboxListTile(
                         activeColor: colorSpecialItem,
                         title: Text(
-                          'Tarea con fecha límite',
+                          AppLocalizations.of(context)!.toDoWithDueDate,
                           style: TextStyle(
                               color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
@@ -199,10 +201,10 @@ class _EditTodoState extends State<EditTodo> {
             MainButton(
                 Icons.check_rounded,
                 colorSpecialItem,
-                ' Confirmar cambios ',
+                ' ' + AppLocalizations.of(context)!.confirmChanges + ' ',
                     () {
                   if (nameController.text.trim().isEmpty) {
-                    showErrorSnackBar(context, 'Debes indicar un nombre');
+                    showErrorSnackBar(context, AppLocalizations.of(context)!.errorTypeName);
                     nameFocusNode.requestFocus();
                   } else {
                     try {
@@ -217,13 +219,13 @@ class _EditTodoState extends State<EditTodo> {
                       );
                       updateTodo(newTodo);
                       cancelAllTodoNotifications(id);
-                      if (limited) buildTodoNotifications(id, 'Tarea pendiente: ' + nameController.text, limitDate);
+                      if (limited) buildTodoNotifications(id, AppLocalizations.of(context)!.pendingToDo + ': ' + nameController.text, limitDate);
 
                       Navigator.of(context).popUntil((route) => route.isFirst);
-                      showInfoSnackBar(context, 'Tarea actualizada.');
+                      showInfoSnackBar(context, AppLocalizations.of(context)!.toDoUpdated);
                     } on Exception catch (e) {
                       debugPrint('[ERR] Could not update todo: $e');
-                      showErrorSnackBar(context, 'Ha ocurrido un error');
+                      showErrorSnackBar(context, AppLocalizations.of(context)!.errorTryAgain);
                     }
                   }
                 }
@@ -232,7 +234,7 @@ class _EditTodoState extends State<EditTodo> {
             MainButton(
               Icons.close_rounded,
               Colors.red,
-              ' Cancelar ',
+              ' ' + AppLocalizations.of(context)!.cancel + ' ',
                   () => Navigator.pop(context),
             ),
         ]
@@ -250,12 +252,12 @@ class _EditTodoState extends State<EditTodo> {
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2099, 12, 31),
-      helpText: "SELECCIONA LA FECHA DEL EVENTO",
-      cancelText: "CANCELAR",
-      confirmText: "CONFIRMAR",
-      fieldHintText: "dd/mm/aaaa",
-      fieldLabelText: "Fecha del evento",
-      errorFormatText: "Introduce una fecha válida",
+      helpText: AppLocalizations.of(context)!.calendarSelectDueDate,
+      cancelText: AppLocalizations.of(context)!.calendarCancel,
+      confirmText: AppLocalizations.of(context)!.calendarConfirm,
+      fieldHintText: AppLocalizations.of(context)!.calendarHintDDMMYYYY,
+      fieldLabelText: AppLocalizations.of(context)!.dueDate,
+      errorFormatText: AppLocalizations.of(context)!.calendarErrorDate,
       builder: (context, child) {
         if (darkMode) return Theme(
           data: ThemeData.dark().copyWith(

@@ -5,6 +5,9 @@ import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 class AddTodo extends StatefulWidget {
   const AddTodo({Key? key}) : super(key: key);
 
@@ -41,24 +44,24 @@ class _AddTodoState extends State<AddTodo> {
 
   @override
   Widget build(BuildContext context) {
-    String dateHintText = 'Hoy (Por defecto)';
+    String dateHintText = AppLocalizations.of(context)!.dateHintDefaultToday;
 
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea(null,
-          PageHeader(context, 'Nueva Tarea'),
+          PageHeader(context, AppLocalizations.of(context)!.newToDo),
           FooterEmpty(),
           [
             FormContainer([
               FormTextField(
-                  nameController, 'Nombre:', '(Obligatorio)', nameFocusNode, false),
+                  nameController, AppLocalizations.of(context)!.name + ':', AppLocalizations.of(context)!.mandatory, nameFocusNode, false),
               FormTextField(
-                  descriptionController, 'Descripción:', '(Opcional)', descriptionFocusNode, true),
+                  descriptionController, AppLocalizations.of(context)!.description + ':', AppLocalizations.of(context)!.optional, descriptionFocusNode, true),
             ]),
             FormSeparator(),
             FormContainer([
               FormCustomField(
-                  'Prioridad:',
+                  AppLocalizations.of(context)!.priority + ':',
                   [
                     Row(mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -77,7 +80,7 @@ class _AddTodoState extends State<AddTodo> {
                             min: 1,
                             divisions: 2,
                             activeColor: colorSpecialItem,
-                            label: 'Baja',
+                            label: AppLocalizations.of(context)!.low,
                             onChanged: (val) {
                               setState(() {
                                 priority = val;
@@ -93,7 +96,7 @@ class _AddTodoState extends State<AddTodo> {
                               min: 1,
                               divisions: 2,
                               activeColor: Color(0xff2164f3),
-                              label: 'Media',
+                              label: AppLocalizations.of(context)!.medium,
                               onChanged: (val) {
                                 setState(() {
                                   priority = val;
@@ -108,7 +111,7 @@ class _AddTodoState extends State<AddTodo> {
                               min: 1,
                               divisions: 2,
                               activeColor: Color(0xff1828d7),
-                              label: 'Alta',
+                              label: AppLocalizations.of(context)!.high,
                               onChanged: (val) {
                                 setState(() {
                                   priority = val;
@@ -130,13 +133,12 @@ class _AddTodoState extends State<AddTodo> {
             FormSeparator(),
             FormContainer([
               FormCustomField(
-                  'Fecha límite:',
+                  AppLocalizations.of(context)!.dueDate + ':',
                   [
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'La tarea aparecerá en el calendario y recibirás notificaciones '
-                            'cuando se acerque la fecha límite.',
+                        AppLocalizations.of(context)!.dueDateExplanation,
                         style: TextStyle(
                             color: colorMainText,
                             fontSize: deviceWidth * fontSize * 0.03,
@@ -149,7 +151,7 @@ class _AddTodoState extends State<AddTodo> {
                       child: CheckboxListTile(
                         activeColor: colorSpecialItem,
                         title: Text(
-                          'Tarea con fecha límite',
+                          AppLocalizations.of(context)!.toDoWithDueDate,
                           style: TextStyle(
                               color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
@@ -194,10 +196,10 @@ class _AddTodoState extends State<AddTodo> {
             MainButton(
                 Icons.check_rounded,
                 colorSpecialItem,
-                ' Crear tarea ',
+                ' ' + AppLocalizations.of(context)!.createToDo + ' ',
                     () {
                   if (nameController.text.trim().isEmpty) {
-                    showErrorSnackBar(context, 'Debes indicar un nombre');
+                    showErrorSnackBar(context, AppLocalizations.of(context)!.errorTypeName);
                     nameFocusNode.requestFocus();
                   } else {
                     try {
@@ -211,12 +213,12 @@ class _AddTodoState extends State<AddTodo> {
                         done: false,
                       );
                       createTodo(newTodo);
-                      if (limited) buildTodoNotifications(id, 'Tarea pendiente: ' + nameController.text, limitDate);
+                      if (limited) buildTodoNotifications(id, AppLocalizations.of(context)!.pendingToDo +': ' + nameController.text, limitDate);
                       Navigator.pop(context);
-                      showInfoSnackBar(context, 'Tarea creada.');
+                      showInfoSnackBar(context, AppLocalizations.of(context)!.toDoCreated);
                     } on Exception catch (e) {
                       debugPrint('[ERR] Could not create todo: $e');
-                      showErrorSnackBar(context, 'Ha ocurrido un error');
+                      showErrorSnackBar(context, AppLocalizations.of(context)!.errorTryAgain);
                     }
                   }
                 }
@@ -236,12 +238,12 @@ class _AddTodoState extends State<AddTodo> {
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2099, 12, 31),
-      helpText: "SELECCIONA LA FECHA LÍMITE",
-      cancelText: "CANCELAR",
-      confirmText: "CONFIRMAR",
-      fieldHintText: "dd/mm/aaaa",
-      fieldLabelText: "Fecha límite",
-      errorFormatText: "Introduce una fecha válida",
+      helpText: AppLocalizations.of(context)!.calendarSelectDueDate,
+      cancelText: AppLocalizations.of(context)!.calendarCancel,
+      confirmText: AppLocalizations.of(context)!.calendarConfirm,
+      fieldHintText: AppLocalizations.of(context)!.calendarHintDDMMYYYY,
+      fieldLabelText: AppLocalizations.of(context)!.dueDate,
+      errorFormatText: AppLocalizations.of(context)!.calendarErrorDate,
       builder: (context, child) {
         if (darkMode) return Theme(
           data: ThemeData.dark().copyWith(

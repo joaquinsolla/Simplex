@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class TodoDetails extends StatefulWidget {
@@ -33,7 +34,7 @@ class _TodoDetailsState extends State<TodoDetails> {
     late String limitFormattedDate;
     FontStyle limitFontStyle = FontStyle.normal;
     if (selectedTodo!.limited==false) {
-      limitFormattedDate = 'Sin fecha límite';
+      limitFormattedDate = AppLocalizations.of(context)!.withoutDueDate;
       limitFontStyle = FontStyle.italic;
     }
     else if (formatDates==true) limitFormattedDate = DateFormat('dd/MM/yyyy').format(selectedTodo!.limitDate);
@@ -43,11 +44,11 @@ class _TodoDetailsState extends State<TodoDetails> {
     late String stateText;
     if (selectedTodo!.done == true) {
       stateIcon = Icons.done_all_rounded;
-      stateText = 'Hecho';
+      stateText = AppLocalizations.of(context)!.done;
     }
     else {
       stateIcon = Icons.remove_done_rounded;
-      stateText = 'Pendiente';
+      stateText = AppLocalizations.of(context)!.pending;
     }
 
 
@@ -55,15 +56,15 @@ class _TodoDetailsState extends State<TodoDetails> {
     late String priorityText;
     if (selectedTodo!.priority == 1) {
       priorityIcon = Icons.star_border_rounded;
-      priorityText = 'Baja';
+      priorityText = AppLocalizations.of(context)!.low;
     }
     else if (selectedTodo!.priority == 2) {
       priorityIcon = Icons.star_half_rounded;
-      priorityText = 'Media';
+      priorityText = AppLocalizations.of(context)!.medium;
     }
     else {
       priorityIcon = Icons.star_rounded;
-      priorityText = 'Alta';
+      priorityText = AppLocalizations.of(context)!.high;
     }
 
     late Icon limitFullIcon;
@@ -94,7 +95,7 @@ class _TodoDetailsState extends State<TodoDetails> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea(null,
-          PageHeader(context, 'Tarea'),
+          PageHeader(context, AppLocalizations.of(context)!.toDo),
           FooterEmpty(),
           [
         FormContainer([
@@ -117,7 +118,7 @@ class _TodoDetailsState extends State<TodoDetails> {
               borderRadius: BorderRadius.circular(10),
               color: colorThirdBackground,
             ),
-            child: Text('Sin descripción',
+            child: Text(AppLocalizations.of(context)!.noDescription,
               style: TextStyle(color: colorThirdText, fontSize: deviceWidth * fontSize * 0.04, fontStyle: FontStyle.italic),),
           ),
           if (selectedTodo!.description != '') Container(
@@ -134,7 +135,7 @@ class _TodoDetailsState extends State<TodoDetails> {
         FormSeparator(),
         FormContainer([
           Text(
-            'Estado: ',
+            AppLocalizations.of(context)!.status + ':',
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * fontSize * 0.0475,
@@ -154,7 +155,7 @@ class _TodoDetailsState extends State<TodoDetails> {
           ],),
           FormSeparator(),
           Text(
-            'Prioridad: ',
+            AppLocalizations.of(context)!.priority + ':',
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * fontSize * 0.0475,
@@ -176,7 +177,7 @@ class _TodoDetailsState extends State<TodoDetails> {
         FormSeparator(),
         FormContainer([
           Text(
-            'Fecha límite: ',
+            AppLocalizations.of(context)!.dueDate + ':',
             style: TextStyle(
                 color: colorMainText,
                 fontSize: deviceWidth * fontSize * 0.0475,
@@ -201,23 +202,23 @@ class _TodoDetailsState extends State<TodoDetails> {
         ]),
 
         FormSeparator(),
-        MainButton(Icons.edit, colorSpecialItem, ' Editar tarea ', (){
+        MainButton(Icons.edit, colorSpecialItem, ' ' + AppLocalizations.of(context)!.editToDo + ' ', (){
           Navigator.pushNamed(context, '/todos/edit_todo');
         }),
         FormSeparator(),
-        MainButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar tarea ', (){
+        MainButton(Icons.delete_outline_rounded, Colors.red, ' ' + AppLocalizations.of(context)!.deleteToDo + ' ', (){
           showTextDialog(
               context,
               Icons.delete_outline_outlined,
-              'Eliminar tarea',
-              'Una vez eliminada no podrás restaurarla.',
-              'Eliminar',
-              'Cancelar',
+              AppLocalizations.of(context)!.deleteToDo,
+              AppLocalizations.of(context)!.deleteToDoExplanation,
+              AppLocalizations.of(context)!.delete,
+              AppLocalizations.of(context)!.cancel,
                   () async {
                 await cancelAllTodoNotifications(selectedTodo!.id);
                 await deleteTodoById(selectedTodo!.id);
                 Navigator.of(context).popUntil((route) => route.isFirst);
-                showInfoSnackBar(context, 'Tarea eliminada.');
+                showInfoSnackBar(context, AppLocalizations.of(context)!.toDoDeleted);
               },
                   () {
                 Navigator.pop(context);

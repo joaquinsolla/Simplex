@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:focused_menu/focused_menu.dart';
@@ -9,6 +8,9 @@ import 'package:simplex/classes/todo.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class TodosMainPage extends StatefulWidget {
   const TodosMainPage({Key? key}) : super(key: key);
@@ -36,7 +38,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
   }
 
   String dateToString(DateTime dateTime){
-    String string = 'Fecha límite: ';
+    String string = AppLocalizations.of(context)!.dueDate + ':';
     late String dateFormat;
 
     if (formatDates==true) dateFormat = 'dd/MM/yyyy';
@@ -53,7 +55,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
     if (showSearchbar==true) searcherIcon = Icons.search_off_rounded;
 
     return HomeAreaWithSearchbar(_scrollController, showSearchbar,
-      HomeHeader('Tareas', [
+      HomeHeader(AppLocalizations.of(context)!.todos, [
         IconButton(
         icon: Icon(Icons.clear_all_rounded,
             color: colorSpecialItem, size: deviceWidth*fontSize*0.085),
@@ -108,7 +110,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   BorderSide(color: colorSpecialItem, width: 2),
                 ),
 
-                hintText: 'Buscar tareas...',
+                hintText: AppLocalizations.of(context)!.searchToDos,
                 hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
               ),
               onChanged: (text){
@@ -132,7 +134,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                 height: deviceHeight*0.07,
                 child: TextButton(
                   child: Text(
-                    'Borrar',
+                    AppLocalizations.of(context)!.search,
                     style: TextStyle(
                         color: colorSpecialItem,
                         fontSize: deviceWidth * fontSize * 0.035,
@@ -162,7 +164,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   debugPrint('[ERR] Cannot load todos: ' + snapshot.error.toString());
-                  return ErrorContainer('No se pueden cargar las tareas.', 0.75);
+                  return ErrorContainer(AppLocalizations.of(context)!.errorCannotLoadToDos, 0.75);
                 }
                 else if (snapshot.hasData) {
 
@@ -178,7 +180,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   return Column(
                     children: [
                       VisibilityButton(
-                          'Pendiente: ' + pendingTodosLength.toString(),
+                        AppLocalizations.of(context)!.pending + ': ' + pendingTodosLength.toString(),
                           showPendingTodos,
                               (){
                             setState(() {
@@ -187,28 +189,28 @@ class _TodosMainPageState extends State<TodosMainPage> {
                           }
                       ),
 
-                      if (pendingTodosLength == 0 && showPendingTodos && keywords=='') NoItemsContainer('tareas pendientes', 0.2),
+                      if (pendingTodosLength == 0 && showPendingTodos && keywords=='') NoItemsContainer(AppLocalizations.of(context)!.pendingToDosSmall, 0.2),
                       if (pendingTodosLength == 0 && showPendingTodos && keywords!='') NoResultsContainer(0.2),
 
                       if (pendingTodosPriority3.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
-                      if (pendingTodosPriority3.length > 0 && showPendingTodos) CustomDivider('Prioridad Alta'),
+                      if (pendingTodosPriority3.length > 0 && showPendingTodos) CustomDivider(AppLocalizations.of(context)!.highPriority),
                       if (pendingTodosPriority3.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
                       if (showPendingTodos) Column(children: pendingTodosPriority3.map(buildPendingTodoBox).toList(),),
 
                       if (pendingTodosPriority2.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
-                      if (pendingTodosPriority2.length > 0 && showPendingTodos) CustomDivider('Prioridad Media'),
+                      if (pendingTodosPriority2.length > 0 && showPendingTodos) CustomDivider(AppLocalizations.of(context)!.mediumPriority),
                       if (pendingTodosPriority2.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
                       if (showPendingTodos) Column(children: pendingTodosPriority2.map(buildPendingTodoBox).toList(),),
 
                       if (pendingTodosPriority1.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
-                      if (pendingTodosPriority1.length > 0 && showPendingTodos) CustomDivider('Prioridad Baja'),
+                      if (pendingTodosPriority1.length > 0 && showPendingTodos) CustomDivider(AppLocalizations.of(context)!.lowPriority),
                       if (pendingTodosPriority1.length > 0 && showPendingTodos) SizedBox(height: deviceHeight*0.01,),
                       if (showPendingTodos) Column(children: pendingTodosPriority1.map(buildPendingTodoBox).toList(),),
 
                       SizedBox(height: deviceHeight*0.02,),
 
                       VisibilityButton(
-                          'Completado: ' + doneTodos.length.toString(),
+                        AppLocalizations.of(context)!.completed + ': ' + doneTodos.length.toString(),
                           showDoneTodos,
                               () {
                             setState(() {
@@ -217,7 +219,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                           }
                       ),
 
-                      if (doneTodos.length == 0 && showDoneTodos && keywords=='') NoItemsContainer('tareas completadas', 0.2),
+                      if (doneTodos.length == 0 && showDoneTodos && keywords=='') NoItemsContainer(AppLocalizations.of(context)!.completedToDosSmall, 0.2),
                       if (doneTodos.length == 0 && showDoneTodos && keywords!='') NoResultsContainer(0.2),
 
                       if (doneTodos.length > 0 && showDoneTodos) Column(children: doneTodos.map(buildDoneTodoBox).toList(),),
@@ -242,7 +244,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     ],
                   );
                 }
-                else return LoadingContainer('Cargando tus tareas...', 0.75);
+                else return LoadingContainer(AppLocalizations.of(context)!.loadingToDos, 0.75);
               }),
         ],
     );
@@ -287,7 +289,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                         color: colorSpecialItem,
                         size: deviceWidth * 0.06),
                     SizedBox(width: deviceWidth * 0.025,),
-                    Text('Ver detalles', style: TextStyle(
+                    Text(AppLocalizations.of(context)!.seeDetails, style: TextStyle(
                         color: colorSpecialItem,
                         fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
@@ -310,7 +312,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                         color: colorSpecialItem,
                         size: deviceWidth * 0.06),
                     SizedBox(width: deviceWidth * 0.025,),
-                    Text('Marcar como completada', style: TextStyle(
+                    Text(AppLocalizations.of(context)!.markAsCompleted, style: TextStyle(
                         color: colorSpecialItem,
                         fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
@@ -331,7 +333,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     Icon(Icons.edit, color: colorSpecialItem,
                         size: deviceWidth * 0.06),
                     SizedBox(width: deviceWidth * 0.025,),
-                    Text('Editar', style: TextStyle(
+                    Text(AppLocalizations.of(context)!.edit, style: TextStyle(
                         color: colorSpecialItem,
                         fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
@@ -352,7 +354,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   children: [
                     Icon(Icons.share_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                     SizedBox(width: deviceWidth*0.025,),
-                    Text('Compartir', style: TextStyle(
+                    Text(AppLocalizations.of(context)!.share, style: TextStyle(
                         color: colorSpecialItem,
                         fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
@@ -375,7 +377,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                         Icons.delete_outline_rounded, color: Colors.red,
                         size: deviceWidth * 0.06),
                     SizedBox(width: deviceWidth * 0.025,),
-                    Text('Eliminar', style: TextStyle(
+                    Text(AppLocalizations.of(context)!.delete, style: TextStyle(
                         color: Colors.red,
                         fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
@@ -506,7 +508,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                         color: colorSpecialItem,
                         size: deviceWidth * 0.06),
                     SizedBox(width: deviceWidth * 0.025,),
-                    Text('Ver detalles', style: TextStyle(
+                    Text(AppLocalizations.of(context)!.seeDetails, style: TextStyle(
                         color: colorSpecialItem,
                         fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
@@ -529,7 +531,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                         color: colorSpecialItem,
                         size: deviceWidth * 0.06),
                     SizedBox(width: deviceWidth * 0.025,),
-                    Text('Marcar como pendiente', style: TextStyle(
+                    Text(AppLocalizations.of(context)!.markAsPending, style: TextStyle(
                         color: colorSpecialItem,
                         fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
@@ -550,7 +552,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                     Icon(Icons.edit, color: colorSpecialItem,
                         size: deviceWidth * 0.06),
                     SizedBox(width: deviceWidth * 0.025,),
-                    Text('Editar', style: TextStyle(
+                    Text(AppLocalizations.of(context)!.edit, style: TextStyle(
                         color: colorSpecialItem,
                         fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
@@ -571,7 +573,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                   children: [
                     Icon(Icons.share_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                     SizedBox(width: deviceWidth*0.025,),
-                    Text('Compartir', style: TextStyle(
+                    Text(AppLocalizations.of(context)!.share, style: TextStyle(
                         color: colorSpecialItem,
                         fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
@@ -594,7 +596,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                         Icons.delete_outline_rounded, color: Colors.red,
                         size: deviceWidth * 0.06),
                     SizedBox(width: deviceWidth * 0.025,),
-                    Text('Eliminar', style: TextStyle(
+                    Text(AppLocalizations.of(context)!.delete, style: TextStyle(
                         color: Colors.red,
                         fontSize: deviceWidth * fontSize * 0.04,
                         fontWeight: FontWeight.normal),),
@@ -691,15 +693,15 @@ class _TodosMainPageState extends State<TodosMainPage> {
     showTextDialog(
         context,
         Icons.delete_outline_outlined,
-        'Eliminar tarea',
-        'Una vez eliminada no podrás restaurarla.',
-        'Eliminar',
-        'Cancelar',
+        AppLocalizations.of(context)!.deleteToDo,
+        AppLocalizations.of(context)!.deleteToDoExplanation,
+        AppLocalizations.of(context)!.delete,
+        AppLocalizations.of(context)!.cancel,
             () async {
           await cancelAllTodoNotifications(id);
           await deleteTodoById(id);
           Navigator.pop(context);
-          showInfoSnackBar(context, 'Tarea eliminada.');
+          showInfoSnackBar(context, AppLocalizations.of(context)!.toDoDeleted);
         },
             () {
           Navigator.pop(context);
@@ -711,14 +713,14 @@ class _TodosMainPageState extends State<TodosMainPage> {
     showTextDialog(
         context,
         Icons.delete_outline_outlined,
-        'Eliminar tareas completadas',
-        'Una vez eliminadas no podrás restaurarlas.',
-        'Eliminar',
-        'Cancelar',
+        AppLocalizations.of(context)!.deleteDoneToDos,
+        AppLocalizations.of(context)!.deleteDoneToDosExplanation,
+        AppLocalizations.of(context)!.delete,
+        AppLocalizations.of(context)!.cancel,
             () async {
           await deleteDoneTodos();
           Navigator.pop(context);
-          showInfoSnackBar(context, 'Tareas completadas eliminadas.');
+          showInfoSnackBar(context, AppLocalizations.of(context)!.deletedDoneToDos);
         },
             () {
           Navigator.pop(context);
