@@ -256,8 +256,8 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
             ),
           ),
           onPressed: (){
-            // TODO
-            showInfoSnackBar(context, AppLocalizations.of(context)!.onDevelop);
+            selectedNote = note;
+            socialShare(selectedNote, context);
           },
         ),
         FocusedMenuItem(
@@ -462,8 +462,8 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
             ),
           ),
           onPressed: (){
-            // TODO
-            showInfoSnackBar(context, AppLocalizations.of(context)!.onDevelop);
+            selectedEvent = event;
+            socialShare(selectedEvent, context);
           },
         ),
         FocusedMenuItem(
