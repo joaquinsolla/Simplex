@@ -134,7 +134,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                 height: deviceHeight*0.07,
                 child: TextButton(
                   child: Text(
-                    AppLocalizations.of(context)!.search,
+                    AppLocalizations.of(context)!.clear,
                     style: TextStyle(
                         color: colorSpecialItem,
                         fontSize: deviceWidth * fontSize * 0.035,
