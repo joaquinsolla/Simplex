@@ -33,6 +33,7 @@
   "share": "Compartir",
   "no": "Non",
   "yes": "Si",
+  "onDevelop": "En desenvolvemento....",
 
   "comment2": "-----MENSAXES DE ERRO-----",
   "errorTryAgain": "Ocorreu un erro, téntao de novo.",
@@ -52,6 +53,7 @@
   "errorCannotLoadEvents": "Non se poden cargar os eventos deste día.",
   "errorDescribeProblem": "Debes describir o problema.",
   "errorCannotLoadNotes": "Non se poden cargar as notas.",
+  "errorCannotLoadRoutine": "Non se pode cargar esta rutina.",
 
   "comment3": "-----HOME + SETTINGS-----",
   "testersSpace": "Espazo para testers",
@@ -237,5 +239,13 @@
   "clear": "Borrar",
   "notesSmall": "notas",
   "loadingNotes": "Cargando as túas notas...",
-  "edited": "Editado"
+  "edited": "Editado",
+
+  "comment8": "-----ROUTINES-----",
+  "todaySmall": "hoxe",
+  "yourNotesFor": "As túas notas para",
+  "yourRoutineOf": "A túa rutina de",
+  "elementsForYourRoutineOf": "elementos para a túa rutina de",
+  "loadingRoutines": "Cargando rutinas...",
+  "toAddToRoutine": "Engadir a rutina"
 }

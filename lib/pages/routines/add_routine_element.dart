@@ -6,6 +6,9 @@ import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 class AddRoutineElement extends StatefulWidget {
   const AddRoutineElement({Key? key}) : super(key: key);
 
@@ -39,8 +42,6 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
   List<dynamic> routinesList = [];
   List<bool> weekValues = [false, false, false, false, false, false, false];
 
-  String eventTimeHintText = '00:00 (Por defecto)';
-  String noteDateHintText = 'Hoy (Por defecto)';
   Color errorColor = colorSecondBackground;
   bool daysSelected = false;
 
@@ -63,20 +64,23 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
   @override
   void initState() {
     super.initState();
-    if (format24Hours == false) eventTimeHintText = '12:00 AM (Por defecto)';
   }
 
   @override
   Widget build(BuildContext context) {
 
+    String eventTimeHintText = AppLocalizations.of(context)!.timeHintDefault0000;
+    String noteDateHintText = AppLocalizations.of(context)!.dateHintDefaultToday;
+    if (format24Hours == false) eventTimeHintText = AppLocalizations.of(context)!.timeHintDefault1200AM;
+
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea(
           null,
-          PageHeader(context, 'Añadir a rutina'),
+          PageHeader(context, AppLocalizations.of(context)!.toAddToRoutine),
           FooterEmpty(),
           [
-            FormSwitchButton('Evento', 'Nota', isNote, (){
+            FormSwitchButton(AppLocalizations.of(context)!.event, AppLocalizations.of(context)!.note, isNote, (){
               setState(() {
                 isNote = !isNote;
               });
@@ -85,22 +89,22 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
 
             if(!isNote) FormContainer([
               FormTextField(
-                  eventNameController, 'Nombre:', '(Obligatorio)', eventNameFocusNode, false),
-              FormTextField(eventDescriptionController, 'Descripción:', '(Opcional)',
+                  eventNameController, AppLocalizations.of(context)!.name + ':', AppLocalizations.of(context)!.mandatory, eventNameFocusNode, false),
+              FormTextField(eventDescriptionController, AppLocalizations.of(context)!.description, AppLocalizations.of(context)!.optional,
                   eventDescriptionFocusNode, true),
             ]),
             if(isNote) FormContainer([
               FormTextField(
-                  noteNameController, 'Título:', '(Opcional)', noteNameFocusNode, false),
+                  noteNameController, AppLocalizations.of(context)!.title + ':', AppLocalizations.of(context)!.optional, noteNameFocusNode, false),
               FormTextFieldMultiline(
-                  noteContentController, 'Contenido:', '(Opcional)', noteContentFocusNode, true),
+                  noteContentController, AppLocalizations.of(context)!.content + ':', AppLocalizations.of(context)!.optional, noteContentFocusNode, true),
             ]),
             FormSeparator(),
 
             if(!isNote) FormContainer([
               FormDateTimeSelector(
                 eventTimeController,
-                'Hora:',
+                AppLocalizations.of(context)!.time + ':',
                 eventTimeHintText,
                 eventTimeFocusNode,
                     () => _eventTimeSelector(context),
@@ -109,12 +113,12 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
             ]),
             if(isNote) FormContainer([
               FormCustomField(
-                  'En el calendario:',
+                  AppLocalizations.of(context)!.onTheCalendar + ':',
                   [
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'También recibirás una notificación en esa fecha.',
+                        AppLocalizations.of(context)!.willReceiveNotification,
                         style: TextStyle(
                             color: colorMainText,
                             fontSize: deviceWidth * fontSize * 0.03,
@@ -127,7 +131,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                       child: CheckboxListTile(
                         activeColor: colorSpecialItem,
                         title: Text(
-                          'Mostrar nota en el calendario',
+                          AppLocalizations.of(context)!.showOnCalendar,
                           style: TextStyle(
                               color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
@@ -172,8 +176,8 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
             if(!isNote) FormContainer([
               FormColorPicker(
                   context,
-                  'Color:',
-                  'Color del evento:',
+                  AppLocalizations.of(context)!.colour + ':',
+                  AppLocalizations.of(context)!.eventColour + ':',
                   eventColor,
                   [
                     Theme(
@@ -182,7 +186,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                         disabledColor: colorThirdBackground,
                       ),
                       child: RadioListTile(
-                        title: Text('Por defecto', style: TextStyle(color: colorMainText),),
+                        title: Text(AppLocalizations.of(context)!.byDefault, style: TextStyle(color: colorMainText),),
                         value: -1,
                         groupValue: eventColor,
                         activeColor: colorThirdBackground,
@@ -200,7 +204,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                         disabledColor: const Color(0xffF44336),
                       ),
                       child: RadioListTile(
-                        title: Text('Rojo', style: TextStyle(color: colorMainText)),
+                        title: Text(AppLocalizations.of(context)!.colourRed, style: TextStyle(color: colorMainText)),
                         value: 0xffF44336,
                         groupValue: eventColor,
                         activeColor: const Color(0xffF44336),
@@ -218,7 +222,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                         disabledColor: const Color(0xffFF9800),
                       ),
                       child: RadioListTile(
-                        title: Text('Naranja', style: TextStyle(color: colorMainText)),
+                        title: Text(AppLocalizations.of(context)!.colourOrange, style: TextStyle(color: colorMainText)),
                         value: 0xffFF9800,
                         groupValue: eventColor,
                         activeColor: const Color(0xffFF9800),
@@ -236,7 +240,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                         disabledColor: const Color(0xffFFCC00),
                       ),
                       child: RadioListTile(
-                        title: Text('Amarillo', style: TextStyle(color: colorMainText)),
+                        title: Text(AppLocalizations.of(context)!.colourYellow, style: TextStyle(color: colorMainText)),
                         value: 0xffFFCC00,
                         groupValue: eventColor,
                         activeColor: const Color(0xffFFCC00),
@@ -254,7 +258,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                         disabledColor: const Color(0xff4CAF50),
                       ),
                       child: RadioListTile(
-                        title: Text('Verde', style: TextStyle(color: colorMainText)),
+                        title: Text(AppLocalizations.of(context)!.colourGreen, style: TextStyle(color: colorMainText)),
                         value: 0xff4CAF50,
                         groupValue: eventColor,
                         activeColor: const Color(0xff4CAF50),
@@ -272,7 +276,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                         disabledColor: const Color(0xff448AFF),
                       ),
                       child: RadioListTile(
-                        title: Text('Azul', style: TextStyle(color: colorMainText)),
+                        title: Text(AppLocalizations.of(context)!.colourBlue, style: TextStyle(color: colorMainText)),
                         value: 0xff448AFF,
                         groupValue: eventColor,
                         activeColor: const Color(0xff448AFF),
@@ -290,7 +294,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                         disabledColor: const Color(0xff7C4DFF),
                       ),
                       child: RadioListTile(
-                        title: Text('Violeta', style: TextStyle(color: colorMainText)),
+                        title: Text(AppLocalizations.of(context)!.colourPurple, style: TextStyle(color: colorMainText)),
                         value: 0xff7C4DFF,
                         groupValue: eventColor,
                         activeColor: const Color(0xff7C4DFF),
@@ -311,7 +315,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                 errorColor,
                 [
                   FormCustomField(
-                      'Días de la rutina:',
+                      AppLocalizations.of(context)!.routineDays + ':',
                       [
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -325,7 +329,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Lunes',
+                                    Text(AppLocalizations.of(context)!.dayMonday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -342,7 +346,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Martes',
+                                    Text(AppLocalizations.of(context)!.dayTuesday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -359,7 +363,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Miércoles',
+                                    Text(AppLocalizations.of(context)!.dayWednesday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -376,7 +380,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Jueves',
+                                    Text(AppLocalizations.of(context)!.dayThursday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -393,7 +397,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Viernes',
+                                    Text(AppLocalizations.of(context)!.dayFriday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -410,7 +414,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Sábado',
+                                    Text(AppLocalizations.of(context)!.daySaturday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -427,7 +431,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Domingo',
+                                    Text(AppLocalizations.of(context)!.daySunday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -443,7 +447,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                                 children: [
                                   Icon(Icons.loop_rounded, color: colorSpecialItem,
                                     size: deviceWidth * 0.055,),
-                                  Text(' Gestionar días ', style: TextStyle(
+                                  Text(' ' + AppLocalizations.of(context)!.manageDays + ' ', style: TextStyle(
                                       color: colorSpecialItem,
                                       fontSize: deviceWidth * fontSize * 0.04,
                                       fontWeight: FontWeight.normal),),
@@ -454,9 +458,9 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                               onPressed: () {
                                 showRoutinePickerDialog(
                                     context,
-                                    'Días de la rutina:',
+                                    AppLocalizations.of(context)!.routineDays + ':',
                                     weekValues,
-                                    'Listo',
+                                    AppLocalizations.of(context)!.done,
                                         () {
                                       setState(() {
                                         // Updates the weekDays list
@@ -478,17 +482,17 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
             if(!isNote) MainButton(
                 Icons.check_rounded,
                 colorSpecialItem,
-                ' Crear evento ',
+                ' ' + AppLocalizations.of(context)!.createEvent + ' ',
                     () {
                   if (eventNameController.text.trim().isEmpty) {
-                    showErrorSnackBar(context, 'Debes indicar un nombre');
+                    showErrorSnackBar(context, AppLocalizations.of(context)!.errorTypeName);
                     eventNameFocusNode.requestFocus();
                   } else {
                     weekValues.forEach((value) {
                       if (value==true) daysSelected=true;
                     });
                     if (daysSelected==false){
-                      showErrorSnackBar(context, 'Debes seleccionar al menos un día para la rutina');
+                      showErrorSnackBar(context, AppLocalizations.of(context)!.errorSelectRoutineDays);
                       setState(() {
                         errorColor = Colors.red;
                       });
@@ -509,10 +513,10 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                         );
                         createEvent(newEvent);
                         Navigator.pop(context);
-                        showInfoSnackBar(context, 'Evento creado.');
+                        showInfoSnackBar(context, AppLocalizations.of(context)!.eventCreated);
                       } on Exception catch (e) {
                         debugPrint('[ERR] Could not create event: $e');
-                        showErrorSnackBar(context, 'Ha ocurrido un error');
+                        showErrorSnackBar(context, AppLocalizations.of(context)!.errorTryAgain);
                       }
                     }
                   }
@@ -521,14 +525,14 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
             if(isNote) MainButton(
                 Icons.check_rounded,
                 colorSpecialItem,
-                ' Crear nota ',
+                ' ' + AppLocalizations.of(context)!.toCreateNote + ' ',
                     () {
                   weekValues.forEach((value) {
                     if (value == true) daysSelected = true;
                   });
                   if (daysSelected == false) {
                     showErrorSnackBar(context,
-                        'Debes seleccionar al menos un día para la rutina');
+                        AppLocalizations.of(context)!.errorSelectRoutineDays);
                     setState(() {
                       errorColor = Colors.red;
                     });
@@ -549,10 +553,10 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                       if (noteOnCalendar) buildNoteNotification(
                           id, noteNameController.text, noteCalendarDate);
                       Navigator.pop(context);
-                      showInfoSnackBar(context, 'Nota creada.');
+                      showInfoSnackBar(context, AppLocalizations.of(context)!.noteCreated);
                     } on Exception catch (e) {
                       debugPrint('[ERR] Could not create note: $e');
-                      showErrorSnackBar(context, 'Ha ocurrido un error');
+                      showErrorSnackBar(context, AppLocalizations.of(context)!.errorTryAgain);
                     }
                   }
                 }),
@@ -567,9 +571,9 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
 
     final TimeOfDay? selected = await showTimePicker(
       context: context,
-      helpText: "SELECCIONA LA HORA DEL EVENTO",
-      cancelText: "CANCELAR",
-      confirmText: "CONFIRMAR",
+      helpText: AppLocalizations.of(context)!.timePickerSelectEventTime,
+      cancelText: AppLocalizations.of(context)!.calendarCancel,
+      confirmText: AppLocalizations.of(context)!.calendarConfirm,
       initialTime: TimeOfDay(hour: 0, minute: 0),
       initialEntryMode: TimePickerEntryMode.dial,
       builder: (context, child) {
@@ -615,12 +619,12 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2099, 12, 31),
-      helpText: "SELECCIONA LA FECHA PARA LA NOTA",
-      cancelText: "CANCELAR",
-      confirmText: "CONFIRMAR",
-      fieldHintText: "dd/mm/aaaa",
-      fieldLabelText: "Fecha para la nota",
-      errorFormatText: "Introduce una fecha válida",
+      helpText: AppLocalizations.of(context)!.calendarSelectNoteDate,
+      cancelText: AppLocalizations.of(context)!.calendarCancel,
+      confirmText: AppLocalizations.of(context)!.calendarConfirm,
+      fieldHintText: AppLocalizations.of(context)!.calendarHintDDMMYYYY,
+      fieldLabelText: AppLocalizations.of(context)!.noteDate,
+      errorFormatText: AppLocalizations.of(context)!.calendarErrorDate,
       builder: (context, child) {
         if (darkMode) return Theme(
           data: ThemeData.dark().copyWith(

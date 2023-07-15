@@ -8,6 +8,9 @@ import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 class RoutinesMainPage extends StatefulWidget {
   const RoutinesMainPage({Key? key}) : super(key: key);
 
@@ -33,11 +36,11 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
   @override
   Widget build(BuildContext context) {
 
-    if(weekDay == routineDay) dayText = 'hoy';
+    if(weekDay == routineDay) dayText = AppLocalizations.of(context)!.todaySmall;
     else dayText = dayToString(routineDay).toLowerCase();
 
     return HomeArea(_scrollController,
-        HomeHeader('Rutina', [
+        HomeHeader(AppLocalizations.of(context)!.routine, [
             IconButton(
               icon: Icon(Icons.add_rounded,
                   color: colorSpecialItem, size: deviceWidth*fontSize*0.085),
@@ -70,7 +73,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   debugPrint('[ERR] Cannot load routine: ' + snapshot.error.toString());
-                  return ErrorContainer('No se puede cargar esta rutina.', 0.35);
+                  return ErrorContainer(AppLocalizations.of(context)!.errorCannotLoadRoutine, 0.35);
                 }
                 else if (snapshot.hasData) {
 
@@ -84,7 +87,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
 
                       if(notes.length > 0) FormSeparator(),
                       if(notes.length > 0) ExpandedRow(
-                        Text('Tus notas para $dayText',
+                        Text(AppLocalizations.of(context)!.yourNotesFor + ' ' + dayText,
                           style: TextStyle(color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.045,
                               fontWeight: FontWeight.bold),
@@ -123,7 +126,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
                       if(events.length > 0) FormSeparator(),
                       if(events.length > 0) Column(children: [
                         ExpandedRow(
-                          Text('Tu rutina de $dayText',
+                          Text(AppLocalizations.of(context)!.yourRoutineOf + ' ' + dayText,
                             style: TextStyle(color: colorMainText,
                                 fontSize: deviceWidth * fontSize * 0.045,
                                 fontWeight: FontWeight.bold),
@@ -157,10 +160,10 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
                     ],
                   );
 
-                  else return NoItemsContainer('elementos para tu rutina de $dayText', 0.65);
+                  else return NoItemsContainer(AppLocalizations.of(context)!.elementsForYourRoutineOf + ' ' + dayText, 0.65);
 
                 }
-                else return LoadingContainer('Cargando rutinas...', 0.35);
+                else return LoadingContainer(AppLocalizations.of(context)!.loadingRoutines, 0.35);
               }),
         ]
     );
@@ -202,7 +205,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
               children: [
                 Icon(Icons.input_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Ver detalles', style: TextStyle(
+                Text(AppLocalizations.of(context)!.seeDetails, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -223,7 +226,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
               children: [
                 Icon(Icons.edit, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Editar', style: TextStyle(
+                Text(AppLocalizations.of(context)!.edit, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -244,7 +247,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
               children: [
                 Icon(Icons.share_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Compartir', style: TextStyle(
+                Text(AppLocalizations.of(context)!.share, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -252,7 +255,8 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
             ),
           ),
           onPressed: (){
-            showInfoSnackBar(context, 'En desarollo...');
+            // TODO
+            showInfoSnackBar(context, AppLocalizations.of(context)!.onDevelop);
           },
         ),
         FocusedMenuItem(
@@ -264,7 +268,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
               children: [
                 Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Eliminar', style: TextStyle(
+                Text(AppLocalizations.of(context)!.delete, style: TextStyle(
                     color: Colors.red,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -275,15 +279,15 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
             showTextDialog(
                 context,
                 Icons.delete_outline_outlined,
-                'Eliminar nota',
-                'Una vez eliminada no podrás restaurarla.',
-                'Eliminar',
-                'Cancelar',
+                AppLocalizations.of(context)!.deleteNote,
+                AppLocalizations.of(context)!.deleteNoteExplanation,
+                AppLocalizations.of(context)!.delete,
+                AppLocalizations.of(context)!.cancel,
                     () async {
                   await cancelNoteNotification(note.id);
                   await deleteNoteById(note.id);
                   Navigator.pop(context);
-                  showInfoSnackBar(context, 'Nota eliminada.');
+                  showInfoSnackBar(context, AppLocalizations.of(context)!.noteDeleted);
                 },
                     () {
                   Navigator.pop(context);
@@ -321,7 +325,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
                   ],)
               ),
               if (note.name == '') ExpandedRow(
-                  Text('Sin título',
+                  Text(AppLocalizations.of(context)!.noTitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -344,7 +348,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
                       fontSize: deviceWidth * fontSize * 0.03,
                       fontWeight: FontWeight.normal)
               ),),
-              if (note.content == '') Expanded(child: Text('Sin contenido',
+              if (note.content == '') Expanded(child: Text(AppLocalizations.of(context)!.noContent,
                   style: TextStyle(
                       color: colorSecondText,
                       fontSize: deviceWidth * fontSize * 0.03,
@@ -357,7 +361,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
                 children: [
                   Icon(Icons.edit_note_rounded, color: iconColor, size: deviceWidth*fontSize*0.04,),
                   SizedBox(width: deviceWidth*0.01,),
-                  Text('Editado: ' + dateToString(note.modificationDate),
+                  Text(AppLocalizations.of(context)!.edited + ' :' + dateToString(note.modificationDate),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -407,7 +411,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
               children: [
                 Icon(Icons.input_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Ver detalles', style: TextStyle(
+                Text(AppLocalizations.of(context)!.seeDetails, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -428,7 +432,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
               children: [
                 Icon(Icons.edit, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Editar', style: TextStyle(
+                Text(AppLocalizations.of(context)!.edit, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -449,7 +453,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
               children: [
                 Icon(Icons.share_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Compartir', style: TextStyle(
+                Text(AppLocalizations.of(context)!.share, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -457,7 +461,8 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
             ),
           ),
           onPressed: (){
-            showInfoSnackBar(context, 'En desarollo...');
+            // TODO
+            showInfoSnackBar(context, AppLocalizations.of(context)!.onDevelop);
           },
         ),
         FocusedMenuItem(
@@ -469,7 +474,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
               children: [
                 Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Eliminar', style: TextStyle(
+                Text(AppLocalizations.of(context)!.delete, style: TextStyle(
                     color: Colors.red,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -480,15 +485,15 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
             showTextDialog(
                 context,
                 Icons.delete_outline_outlined,
-                'Eliminar evento',
-                'Una vez eliminado no podrás restaurarlo.',
-                'Eliminar',
-                'Cancelar',
+                AppLocalizations.of(context)!.deleteEvent,
+                AppLocalizations.of(context)!.deleteEventExplanation,
+                AppLocalizations.of(context)!.delete,
+                AppLocalizations.of(context)!.cancel,
                     () async {
                   await cancelAllEventNotifications(event.id);
                   await deleteEventById(event.id);
                   Navigator.pop(context);
-                  showInfoSnackBar(context, 'Evento eliminado.');
+                  showInfoSnackBar(context, AppLocalizations.of(context)!.eventDeleted);
                 },
                     () {
                   Navigator.pop(context);

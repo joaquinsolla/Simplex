@@ -33,6 +33,7 @@
   "share": "Share",
   "no": "No",
   "yes": "Yes",
+  "onDevelop": "Under development....",
 
   "comment2": "-----ERROR MESSAGES-----",
   "errorTryAgain": "An error has occurred, please try again.",
@@ -52,6 +53,7 @@
   "errorCannotLoadEvents": "Cannot load this day events.",
   "errorDescribeProblem": "You must describe the problem.",
   "errorCannotLoadNotes": "Cannot load notes.",
+  "errorCannotLoadRoutine": "Cannot load this routine.",
 
   "comment3": "-----HOME + SETTINGS-----",
   "testersSpace": "Testers' space",
@@ -237,5 +239,13 @@
   "clear": "Clear",
   "notesSmall": "notes",
   "loadingNotes": "Loading your notes...",
-  "edited": "Edited"
+  "edited": "Edited",
+
+  "comment8": "-----ROUTINES-----",
+  "todaySmall": "today",
+  "yourNotesFor": "Your notes for",
+  "yourRoutineOf": "Your routine of",
+  "elementsForYourRoutineOf": "elements for your routine of",
+  "loadingRoutines": "Loading routines...",
+  "toAddToRoutine": "Add to routine"
 }
