@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class NoteDetails extends StatefulWidget {
@@ -36,13 +37,13 @@ class _NoteDetailsState extends State<NoteDetails> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea(null,
-          PageHeader(context, 'Nota'),
+          PageHeader(context, AppLocalizations.of(context)!.note),
           FooterEmpty(),
           [
             FormContainer([
               if (selectedNote!.name == '') ExpandedRow(
                 Text(
-                  'Sin título',
+                  AppLocalizations.of(context)!.noTitle,
                   style: TextStyle(color: colorThirdText, fontSize: deviceWidth * fontSize * 0.065, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
                 ),
                 ShareButton((){
@@ -68,7 +69,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                   borderRadius: BorderRadius.circular(10),
                   color: colorThirdBackground,
                 ),
-                child: Text('Sin contenido',
+                child: Text(AppLocalizations.of(context)!.noContent,
                   style: TextStyle(color: colorThirdText, fontSize: deviceWidth * fontSize * 0.04, fontStyle: FontStyle.italic),),
               ),
               if (selectedNote!.content != '') Container(
@@ -85,7 +86,7 @@ class _NoteDetailsState extends State<NoteDetails> {
             FormSeparator(),
             FormContainer([
               FormCustomField(
-                  'Última edición:',
+                  AppLocalizations.of(context)!.lastEdit + ':',
                   [
                     Row(children: [
                       Icon(Icons.edit_note_rounded, color: colorSpecialItem, size: deviceWidth * 0.05),
@@ -102,13 +103,13 @@ class _NoteDetailsState extends State<NoteDetails> {
                   false
               ),
               FormCustomField(
-                  'En el calendario:',
+                  AppLocalizations.of(context)!.onTheCalendar + ':',
                   [
                     if (selectedNote!.onCalendar==false) Row(children: [
                       Icon(Icons.calendar_month_rounded, color: colorSecondText, size: deviceWidth * 0.05),
                       SizedBox(width: deviceWidth*0.025,),
                       Text(
-                        'No',
+                        AppLocalizations.of(context)!.no,
                         style: TextStyle(
                             color: colorSecondText,
                             fontSize: deviceWidth * fontSize * 0.04,
@@ -132,13 +133,13 @@ class _NoteDetailsState extends State<NoteDetails> {
                   false
               ),
               FormCustomField(
-                  'En mis rutinas:',
+                  AppLocalizations.of(context)!.onMyRoutines + ':',
                   [
                     if (selectedNote!.routineNote==false) Row(children: [
                       Icon(Icons.sync_disabled_rounded, color: colorSecondText, size: deviceWidth*0.05,),
                       SizedBox(width: deviceWidth*0.025,),
                       Text(
-                        'No',
+                        AppLocalizations.of(context)!.no,
                         style: TextStyle(
                             color: colorSecondText,
                             fontSize: deviceWidth * fontSize * 0.04,
@@ -178,23 +179,23 @@ class _NoteDetailsState extends State<NoteDetails> {
               ),
             ]),
             FormSeparator(),
-            MainButton(Icons.edit, colorSpecialItem, ' Editar nota ', (){
+            MainButton(Icons.edit, colorSpecialItem, ' ' + AppLocalizations.of(context)!.toEditNote + ' ', (){
               Navigator.pushNamed(context, '/notes/edit_note');
             }),
             FormSeparator(),
-            MainButton(Icons.delete_outline_rounded, Colors.red, ' Eliminar nota ', (){
+            MainButton(Icons.delete_outline_rounded, Colors.red, ' ' + AppLocalizations.of(context)!.deleteNote + ' ', (){
               showTextDialog(
                   context,
                   Icons.delete_outline_outlined,
-                  'Eliminar nota',
-                  'Una vez eliminada no podrás restaurarla.',
-                  'Eliminar',
-                  'Cancelar',
+                  AppLocalizations.of(context)!.deleteNote,
+                  AppLocalizations.of(context)!.deleteNoteExplanation,
+                  AppLocalizations.of(context)!.delete,
+                  AppLocalizations.of(context)!.cancel,
                       () async {
                     await cancelNoteNotification(selectedNote!.id);
                     await deleteNoteById(selectedNote!.id);
                     Navigator.of(context).popUntil((route) => route.isFirst);
-                    showInfoSnackBar(context, 'Nota eliminada.');
+                    showInfoSnackBar(context, AppLocalizations.of(context)!.noteDeleted);
                   },
                       () {
                     Navigator.pop(context);

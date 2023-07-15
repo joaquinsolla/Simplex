@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:focused_menu/focused_menu.dart';
@@ -8,6 +7,9 @@ import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class NotesMainPage extends StatefulWidget {
   const NotesMainPage({Key? key}) : super(key: key);
@@ -41,7 +43,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
     if (showSearchbar==true) searcherIcon = Icons.search_off_rounded;
 
     return HomeAreaWithSearchbar(_scrollController, showSearchbar,
-        HomeHeader('Notas', [
+        HomeHeader(AppLocalizations.of(context)!.notes, [
           IconButton(
             icon: Icon(searcherIcon,
                 color: colorSpecialItem, size: deviceWidth*fontSize*0.085),
@@ -89,7 +91,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                     BorderSide(color: colorSpecialItem, width: 2),
                   ),
 
-                  hintText: 'Buscar notas...',
+                  hintText: AppLocalizations.of(context)!.searchNotes,
                   hintStyle: TextStyle(color: colorThirdText, fontStyle: FontStyle.italic),
                 ),
                 onChanged: (text){
@@ -113,7 +115,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                   height: deviceHeight*0.07,
                   child: TextButton(
                     child: Text(
-                      'Borrar',
+                      AppLocalizations.of(context)!.clear,
                       style: TextStyle(
                           color: colorSpecialItem,
                           fontSize: deviceWidth * fontSize * 0.035,
@@ -138,7 +140,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   debugPrint('[ERR] Cannot load notes: ' + snapshot.error.toString());
-                  return ErrorContainer('No se pueden cargar las notas.', 0.75);
+                  return ErrorContainer(AppLocalizations.of(context)!.errorCannotLoadNotes, 0.75);
                 }
                 else if (snapshot.hasData) {
                   final notes = snapshot.data!;
@@ -146,7 +148,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if (notes.length == 0 && keywords=='') NoItemsContainer('notas', 0.65),
+                      if (notes.length == 0 && keywords=='') NoItemsContainer(AppLocalizations.of(context)!.notesSmall, 0.65),
 
                       if (notes.length == 0 && keywords!='') NoResultsContainer(0.65),
 
@@ -182,7 +184,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                     ],
                   );
                 }
-                else return LoadingContainer('Cargando tus notas...', 0.75);
+                else return LoadingContainer(AppLocalizations.of(context)!.loadingNotes, 0.75);
               }),
         ]
     );
@@ -217,7 +219,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
               children: [
                 Icon(Icons.input_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Ver detalles', style: TextStyle(
+                Text(AppLocalizations.of(context)!.seeDetails, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -238,7 +240,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
               children: [
                 Icon(Icons.edit, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Editar', style: TextStyle(
+                Text(AppLocalizations.of(context)!.edit, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -259,7 +261,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
               children: [
                 Icon(Icons.share_rounded, color: colorSpecialItem, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Compartir', style: TextStyle(
+                Text(AppLocalizations.of(context)!.share, style: TextStyle(
                     color: colorSpecialItem,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -280,7 +282,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
               children: [
                 Icon(Icons.delete_outline_rounded, color: Colors.red, size: deviceWidth * 0.06),
                 SizedBox(width: deviceWidth*0.025,),
-                Text('Eliminar', style: TextStyle(
+                Text(AppLocalizations.of(context)!.delete, style: TextStyle(
                     color: Colors.red,
                     fontSize: deviceWidth * fontSize * 0.04,
                     fontWeight: FontWeight.normal),),
@@ -291,15 +293,15 @@ class _NotesMainPageState extends State<NotesMainPage> {
             showTextDialog(
                 context,
                 Icons.delete_outline_outlined,
-                'Eliminar nota',
-                'Una vez eliminada no podrás restaurarla.',
-                'Eliminar',
-                'Cancelar',
+                AppLocalizations.of(context)!.deleteNote,
+                AppLocalizations.of(context)!.deleteNoteExplanation,
+                AppLocalizations.of(context)!.delete,
+                AppLocalizations.of(context)!.cancel,
                     () async {
                   await cancelNoteNotification(note.id);
                   await deleteNoteById(note.id);
                   Navigator.pop(context);
-                  showInfoSnackBar(context, 'Nota eliminada.');
+                  showInfoSnackBar(context, AppLocalizations.of(context)!.noteDeleted);
                 },
                     () {
                   Navigator.pop(context);
@@ -335,7 +337,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                   ],)
               ),
               if (note.name == '') ExpandedRow(
-                  Text('Sin título',
+                  Text(AppLocalizations.of(context)!.noTitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -358,7 +360,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                       fontSize: deviceWidth * fontSize * 0.03,
                       fontWeight: FontWeight.normal)
               ),
-              if (note.content == '') Text('Sin contenido',
+              if (note.content == '') Text(AppLocalizations.of(context)!.noContent,
                   style: TextStyle(
                       color: colorSecondText,
                       fontSize: deviceWidth * fontSize * 0.03,
@@ -371,7 +373,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
                 children: [
                   Icon(Icons.edit_note_rounded, color: iconColor, size: deviceWidth*fontSize*0.04,),
                   SizedBox(width: deviceWidth*0.01,),
-                  Text('Editado: ' + dateToString(note.modificationDate),
+                  Text(AppLocalizations.of(context)!.edited + ':' + dateToString(note.modificationDate),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(

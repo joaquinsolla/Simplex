@@ -5,6 +5,9 @@ import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 class AddNote extends StatefulWidget {
   const AddNote({Key? key}) : super(key: key);
 
@@ -29,7 +32,6 @@ class _AddNoteState extends State<AddNote> {
   List<dynamic> routinesList = [];
   List<bool> weekValues = [false, false, false, false, false, false, false];
 
-  String dateHintText = 'Hoy (Por defecto)';
   Color errorColor = colorSecondBackground;
   bool daysSelected = false;
 
@@ -48,28 +50,29 @@ class _AddNoteState extends State<AddNote> {
 
   @override
   Widget build(BuildContext context) {
+    String dateHintText = AppLocalizations.of(context)!.dateHintDefaultToday;
 
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea(null,
-          PageHeader(context, 'Nueva Nota'),
+          PageHeader(context, AppLocalizations.of(context)!.newNote),
           FooterEmpty(),
           [
             FormContainer([
               FormTextField(
-                  nameController, 'Título:', '(Opcional)', nameFocusNode, false),
+                  nameController, AppLocalizations.of(context)!.title + ':', AppLocalizations.of(context)!.optional, nameFocusNode, false),
               FormTextFieldMultiline(
-                  contentController, 'Contenido:', '(Opcional)', contentFocusNode, true),
+                  contentController, AppLocalizations.of(context)!.content + ':', AppLocalizations.of(context)!.optional, contentFocusNode, true),
             ]),
             FormSeparator(),
             FormContainer([
               FormCustomField(
-                  'En el calendario:',
+                  AppLocalizations.of(context)!.onTheCalendar + ':',
                   [
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'También recibirás una notificación en esa fecha.',
+                        AppLocalizations.of(context)!.willReceiveNotification,
                         style: TextStyle(
                             color: colorMainText,
                             fontSize: deviceWidth * fontSize * 0.03,
@@ -82,7 +85,7 @@ class _AddNoteState extends State<AddNote> {
                       child: CheckboxListTile(
                         activeColor: colorSpecialItem,
                         title: Text(
-                          'Mostrar nota en el calendario',
+                          AppLocalizations.of(context)!.showOnCalendar,
                           style: TextStyle(
                               color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
@@ -127,7 +130,7 @@ class _AddNoteState extends State<AddNote> {
                 errorColor,
                 [
                   FormCustomField(
-                      'Días de la rutina:',
+                      AppLocalizations.of(context)!.routineDays + ':',
                       [
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -141,7 +144,7 @@ class _AddNoteState extends State<AddNote> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Lunes',
+                                    Text(AppLocalizations.of(context)!.dayMonday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -158,7 +161,7 @@ class _AddNoteState extends State<AddNote> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Martes',
+                                    Text(AppLocalizations.of(context)!.dayTuesday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -175,7 +178,7 @@ class _AddNoteState extends State<AddNote> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Miércoles',
+                                    Text(AppLocalizations.of(context)!.dayWednesday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -192,7 +195,7 @@ class _AddNoteState extends State<AddNote> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Jueves',
+                                    Text(AppLocalizations.of(context)!.dayThursday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -209,7 +212,7 @@ class _AddNoteState extends State<AddNote> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Viernes',
+                                    Text(AppLocalizations.of(context)!.dayFriday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -226,7 +229,7 @@ class _AddNoteState extends State<AddNote> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Sábado',
+                                    Text(AppLocalizations.of(context)!.daySaturday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -243,7 +246,7 @@ class _AddNoteState extends State<AddNote> {
                                   children: [
                                     Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                     SizedBox(width: deviceWidth*0.025,),
-                                    Text('Domingo',
+                                    Text(AppLocalizations.of(context)!.daySunday,
                                         style: TextStyle(
                                             color: colorMainText,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -259,7 +262,7 @@ class _AddNoteState extends State<AddNote> {
                                 children: [
                                   Icon(Icons.loop_rounded, color: colorSpecialItem,
                                     size: deviceWidth * 0.055,),
-                                  Text(' Gestionar días ', style: TextStyle(
+                                  Text(' ' + AppLocalizations.of(context)!.manageDays + ' ', style: TextStyle(
                                       color: colorSpecialItem,
                                       fontSize: deviceWidth * fontSize * 0.04,
                                       fontWeight: FontWeight.normal),),
@@ -270,9 +273,9 @@ class _AddNoteState extends State<AddNote> {
                               onPressed: () {
                                 showRoutinePickerDialog(
                                     context,
-                                    'Días de la rutina:',
+                                    AppLocalizations.of(context)!.routineDays + ':',
                                     weekValues,
-                                    'Listo',
+                                    AppLocalizations.of(context)!.done,
                                         () {
                                       setState(() {
                                         // Updates the weekDays list
@@ -294,7 +297,7 @@ class _AddNoteState extends State<AddNote> {
             MainButton(
                 Icons.check_rounded,
                 colorSpecialItem,
-                ' Crear nota ',
+                ' ' + AppLocalizations.of(context)!.toCreateNote + ' ',
                     () {
                       weekValues.forEach((value) {
                         if (value == true) daysSelected = true;
@@ -315,10 +318,10 @@ class _AddNoteState extends State<AddNote> {
                         if (onCalendar) buildNoteNotification(
                             id, nameController.text, calendarDate);
                         Navigator.pop(context);
-                        showInfoSnackBar(context, 'Nota creada.');
+                        showInfoSnackBar(context, AppLocalizations.of(context)!.noteCreated);
                       } on Exception catch (e) {
                         debugPrint('[ERR] Could not create note: $e');
-                        showErrorSnackBar(context, 'Ha ocurrido un error');
+                        showErrorSnackBar(context, AppLocalizations.of(context)!.errorTryAgain);
                       }
                     }),
           ]
@@ -336,12 +339,12 @@ class _AddNoteState extends State<AddNote> {
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2099, 12, 31),
-      helpText: "SELECCIONA LA FECHA PARA LA NOTA",
-      cancelText: "CANCELAR",
-      confirmText: "CONFIRMAR",
-      fieldHintText: "dd/mm/aaaa",
-      fieldLabelText: "Fecha para la nota",
-      errorFormatText: "Introduce una fecha válida",
+      helpText: AppLocalizations.of(context)!.calendarSelectNoteDate,
+      cancelText: AppLocalizations.of(context)!.calendarCancel,
+      confirmText: AppLocalizations.of(context)!.calendarConfirm,
+      fieldHintText: AppLocalizations.of(context)!.calendarHintDDMMYYYY,
+      fieldLabelText: AppLocalizations.of(context)!.noteDate,
+      errorFormatText: AppLocalizations.of(context)!.calendarErrorDate,
       builder: (context, child) {
         if (darkMode) return Theme(
           data: ThemeData.dark().copyWith(

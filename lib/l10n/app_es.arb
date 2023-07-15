@@ -16,6 +16,7 @@
   "addNotification": "Añadir notificación",
   "calendarSelectNotificationDate": "SELECCIONA LA FECHA DE NOTIFICACIÓN",
   "calendarSelectEventDate": "SELECCIONA LA FECHA DEL EVENTO",
+  "calendarSelectNoteDate": "SELECCIONA LA FECHA PARA LA NOTA",
   "calendarCancel": "CANCELAR",
   "calendarConfirm": "CONFIRMAR",
   "calendarHintDDMMYYYY": "dd/mm/aaaa",
@@ -30,6 +31,8 @@
   "seeDetails": "Ver detalles",
   "edit": "Editar",
   "share": "Compartir",
+  "no": "No",
+  "yes": "Sí",
 
   "comment2": "-----MENSAJES DE ERROR-----",
   "errorTryAgain": "Ha ocurrido un error, inténtalo de nuevo.",
@@ -48,6 +51,7 @@
   "errorCannotLoadCalendar": "No se puede cargar el calendario.",
   "errorCannotLoadEvents": "No se pueden cargar los eventos de este día.",
   "errorDescribeProblem": "Debes describir el problema.",
+  "errorCannotLoadNotes": "No se pueden cargar las notas.",
 
   "comment3": "-----HOME + SETTINGS-----",
   "testersSpace": "Espacio para testers",
@@ -212,5 +216,26 @@
   "theToDos": "Las tareas",
   "theToDosExplanation": "Las tareas representan objetivos o actividades que tienen dos posibles estados: pendientes y completadas. Cada tarea cuenta con: título, descripción, una prioridad y una fecha límite opcional.",
   "limitedToDos": "Tareas limitadas y sus notificaciones",
-  "limitedToDosExplanation": "Puede definirse una fecha límite para las tareas. Las tareas limitadas y pendientes aparecerán en el calendario en la fecha límite. Además, se notificará cuando queden 24 horas para que se alcance la fecha límite y cuando la tarea ya haya caducado."
+  "limitedToDosExplanation": "Puede definirse una fecha límite para las tareas. Las tareas limitadas y pendientes aparecerán en el calendario en la fecha límite. Además, se notificará cuando queden 24 horas para que se alcance la fecha límite y cuando la tarea ya haya caducado.",
+
+  "comment7": "-----NOTES-----",
+  "newNote": "Nueva nota",
+  "title": "Título",
+  "content": "Contenido",
+  "onTheCalendar": "En el calendario",
+  "willReceiveNotification": "Recibirás una notificación en esa fecha.",
+  "showOnCalendar": "Mostrar en el calendario",
+  "toCreateNote": "Crear nota",
+  "noteCreated": "Nota creada correctamente.",
+  "noteDate": "Fecha para la nota",
+  "toEditNote": "Editar nota",
+  "noteUpdated": "Nota actualizada correctamente.",
+  "noContent": "Sin contenido",
+  "lastEdit": "Última edición",
+  "onMyRoutines": "En mis rutinas",
+  "searchNotes": "Buscar notas...",
+  "clear": "Borrar",
+  "notesSmall": "notas",
+  "loadingNotes": "Cargando tus notas...",
+  "edited": "Editado"
 }

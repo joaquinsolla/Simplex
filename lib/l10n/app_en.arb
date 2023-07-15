@@ -16,6 +16,7 @@
   "addNotification": "Add notification",
   "calendarSelectNotificationDate": "SELECT THE NOTIFICATION DATE",
   "calendarSelectEventDate": "SELECT THE EVENT DATE",
+  "calendarSelectNoteDate": "SELECT THE NOTE DATE",
   "calendarCancel": "CANCEL",
   "calendarConfirm": "CONFIRM",
   "calendarHintDDMMYYYY": "dd/mm/yyyy",
@@ -30,6 +31,8 @@
   "seeDetails": "See details",
   "edit": "Edit",
   "share": "Share",
+  "no": "No",
+  "yes": "Yes",
 
   "comment2": "-----ERROR MESSAGES-----",
   "errorTryAgain": "An error has occurred, please try again.",
@@ -48,6 +51,7 @@
   "errorCannotLoadCalendar": "Cannot load the calendar.",
   "errorCannotLoadEvents": "Cannot load this day events.",
   "errorDescribeProblem": "You must describe the problem.",
+  "errorCannotLoadNotes": "Cannot load notes.",
 
   "comment3": "-----HOME + SETTINGS-----",
   "testersSpace": "Testers' space",
@@ -212,5 +216,26 @@
   "theToDos": "The To-Dos",
   "theToDosExplanation": "To-Dos represent objectives or activities that have two possible states: pending and completed. Each To-Do has: title, description, a priority and an optional due date.",
   "limitedToDos": "Limited To-Dos and their notifications",
-  "limitedToDosExplanation": "A deadline date can be defined for the To-Dos. Limited and pending To-Dos will appear on the calendar on the due date. In addition, you will be notified when there are 24 hours left until the due date is reached and when the To-Do has already expired."
+  "limitedToDosExplanation": "A deadline date can be defined for the To-Dos. Limited and pending To-Dos will appear on the calendar on the due date. In addition, you will be notified when there are 24 hours left until the due date is reached and when the To-Do has already expired.",
+
+  "comment7": "-----NOTES-----",
+  "newNote": "New note",
+  "title": "Title",
+  "content": "Content",
+  "onTheCalendar": "On the calendar",
+  "willReceiveNotification": "You will receive a notification on this date.",
+  "showOnCalendar": "Show on calendar",
+  "toCreateNote": "Create note",
+  "noteCreated": "Note created successfully.",
+  "noteDate": "Note's date",
+  "toEditNote": "Edit note",
+  "noteUpdated": "Note updated successfully.",
+  "noContent": "No content",
+  "lastEdit": "Last edit",
+  "onMyRoutines": "On my routines",
+  "searchNotes": "Search notes...",
+  "clear": "Clear",
+  "notesSmall": "notes",
+  "loadingNotes": "Loading your notes...",
+  "edited": "Edited"
 }
