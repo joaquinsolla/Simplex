@@ -5,8 +5,10 @@ import 'package:simplex/classes/stats/reports_stat.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
-
 import 'package:syncfusion_flutter_charts/charts.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class StatsReports extends StatefulWidget {
   const StatsReports({Key? key}) : super(key: key);
@@ -36,12 +38,12 @@ class _StatsReportsState extends State<StatsReports> {
   @override
   Widget build(BuildContext context) {
 
-    String nowString = dateToString(DateTime.now()) + " a las " + timeToString(DateTime.now());
+    String nowString = dateToString(DateTime.now()) + AppLocalizations.of(context)!.at + timeToString(DateTime.now());
 
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea(null,
-          PageHeader(context, 'Estadísticas'),
+          PageHeader(context, AppLocalizations.of(context)!.stats),
           FooterCredits(),
           [
             StreamBuilder<List<dynamic>>(
@@ -55,7 +57,7 @@ class _StatsReportsState extends State<StatsReports> {
                     debugPrint(
                         '[ERR] Cannot read stats: ' + snapshot.error.toString());
                     return ErrorContainer(
-                        'No se pueden cargar las estadísticas.', 0.9);
+                        AppLocalizations.of(context)!.errorCannotLoadStats, 0.9);
                   }
                   else if (snapshot.hasData) {
 
@@ -66,7 +68,7 @@ class _StatsReportsState extends State<StatsReports> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Actualizado a $nowString.',
+                        Text(AppLocalizations.of(context)!.updatedAt + nowString + '.',
                             style: TextStyle(
                                 color: colorMainText,
                                 fontSize: deviceWidth * fontSize * 0.03,
@@ -76,7 +78,7 @@ class _StatsReportsState extends State<StatsReports> {
                         ),
 
                         FormContainer([
-                          Text('Historial de reportes',
+                          Text(AppLocalizations.of(context)!.reportsHistory,
                               style: TextStyle(
                                   color: colorMainText,
                                   fontSize: deviceWidth * fontSize * 0.05,
@@ -111,7 +113,7 @@ class _StatsReportsState extends State<StatsReports> {
                         ),
 
                         FormContainer([
-                          Text('Estado de los reportes',
+                          Text(AppLocalizations.of(context)!.reportsStatus,
                               style: TextStyle(
                                   color: colorMainText,
                                   fontSize: deviceWidth * fontSize * 0.05,
@@ -136,7 +138,7 @@ class _StatsReportsState extends State<StatsReports> {
                                   widget:
                                   Container(
                                     alignment: Alignment.center,
-                                    child: Text('Total:\n' + (activeReports.quantity + closedReports.quantity).toString(),
+                                    child: Text(AppLocalizations.of(context)!.total + ':\n' + (activeReports.quantity + closedReports.quantity).toString(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: colorMainText,
@@ -164,7 +166,7 @@ class _StatsReportsState extends State<StatsReports> {
                         ]),
                       ],);
                   }
-                  else return LoadingContainer('Cargando estadísticas...', 0.9);
+                  else return LoadingContainer(AppLocalizations.of(context)!.loadingStats, 0.9);
                 }
             ),
           ]

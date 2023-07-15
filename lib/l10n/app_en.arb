@@ -54,6 +54,7 @@
   "errorDescribeProblem": "You must describe the problem.",
   "errorCannotLoadNotes": "Cannot load notes.",
   "errorCannotLoadRoutine": "Cannot load this routine.",
+  "errorCannotLoadStats": "Cannot load the stats.",
 
   "comment3": "-----HOME + SETTINGS-----",
   "testersSpace": "Testers' space",
@@ -163,6 +164,7 @@
   "tomorrow": "Tomorrow",
   "loadingCalendar": "Loading calendar...",
   "events": "events",
+  "eventsCapital": "Events",
   "loadingEvents": "Loading events...",
   "markAsCompleted": "Mark as completed",
   "deleteToDo": "Delete To-Do",
@@ -257,5 +259,23 @@
   "yourRoutineOf": "Your routine of",
   "elementsForYourRoutineOf": "elements for your routine of",
   "loadingRoutines": "Loading routines...",
-  "toAddToRoutine": "Add to routine"
+  "toAddToRoutine": "Add to routine",
+
+  "comment9": "-----REPORTS-----",
+  "at": " at ",
+  "stats": "Stats",
+  "updatedAt": "Updated at ",
+  "reportsHistory": "Reports history",
+  "reportsStatus": "Reports status",
+  "total": "Total",
+  "loadingStats": "Loading stats...",
+  "activePlural": "Active",
+  "deletedPlural": "Deleted",
+  "users": "Users",
+  "emailVerified": "Email verified",
+  "testers": "Testers",
+  "active": "Active",
+  "deleted": "Deleted",
+  "elementsCount": "Elements count",
+  "activityProportions": "Activity proportions (%)"
 }

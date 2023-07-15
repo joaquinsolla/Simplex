@@ -54,6 +54,7 @@
   "errorDescribeProblem": "Debes describir o problema.",
   "errorCannotLoadNotes": "Non se poden cargar as notas.",
   "errorCannotLoadRoutine": "Non se pode cargar esta rutina.",
+  "errorCannotLoadStats": "Non se poden cargar as estadísticas.",
 
   "comment3": "-----HOME + SETTINGS-----",
   "testersSpace": "Espazo para testers",
@@ -163,6 +164,7 @@
   "tomorrow": "Mañá",
   "loadingCalendar": "Cargando calendario...",
   "events": "eventos",
+  "eventsCapital": "Eventos",
   "loadingEvents": "Cargando eventos...",
   "markAsCompleted": "Marcar coma completada",
   "deleteToDo": "Eliminar tarefa",
@@ -257,5 +259,23 @@
   "yourRoutineOf": "A túa rutina de",
   "elementsForYourRoutineOf": "elementos para a túa rutina de",
   "loadingRoutines": "Cargando rutinas...",
-  "toAddToRoutine": "Engadir a rutina"
+  "toAddToRoutine": "Engadir a rutina",
+
+  "comment9": "-----REPORTS-----",
+  "at": " ás ",
+  "stats": "Estadísticas",
+  "updatedAt": "Actualizado a ",
+  "reportsHistory": "Historial de reportes",
+  "reportsStatus": "Estado dos reportes",
+  "total": "Total",
+  "loadingStats": "Cargando estadísticas...",
+  "activePlural": "Activos",
+  "deletedPlural": "Eliminados",
+  "users": "Usuarios",
+  "emailVerified": "Email verificado",
+  "testers": "Testers",
+  "active": "Activo",
+  "deleted": "Eliminado",
+  "elementsCount": "Reconto de elementos",
+  "activityProportions": "Proporcións de actividade (%)"
 }

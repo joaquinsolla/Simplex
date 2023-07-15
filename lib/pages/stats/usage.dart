@@ -5,8 +5,10 @@ import 'package:simplex/classes/stats/element_stat.dart';
 import 'package:simplex/common/all_common.dart';
 import 'package:simplex/common/widgets/all_widgets.dart';
 import 'package:simplex/services/firestore_service.dart';
-
 import 'package:syncfusion_flutter_charts/charts.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class StatsUsage extends StatefulWidget {
   const StatsUsage({Key? key}) : super(key: key);
@@ -32,12 +34,12 @@ class _StatsUsageState extends State<StatsUsage> {
   @override
   Widget build(BuildContext context) {
 
-    String nowString = dateToString(DateTime.now()) + " a las " + timeToString(DateTime.now());
+    String nowString = dateToString(DateTime.now()) + AppLocalizations.of(context)!.at + timeToString(DateTime.now());
 
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeArea(null,
-          PageHeader(context, 'Estadísticas'),
+          PageHeader(context, AppLocalizations.of(context)!.stats),
           FooterCredits(),
           [
             StreamBuilder<List<dynamic>>(
@@ -52,7 +54,7 @@ class _StatsUsageState extends State<StatsUsage> {
                     debugPrint(
                         '[ERR] Cannot read stats: ' + snapshot.error.toString());
                     return ErrorContainer(
-                        'No se pueden cargar las estadísticas.', 0.9);
+                        AppLocalizations.of(context)!.errorCannotLoadStats, 0.9);
                   }
                   else if (snapshot.hasData) {
                     final userStats = snapshot.data![0];
@@ -66,12 +68,12 @@ class _StatsUsageState extends State<StatsUsage> {
                       notesStat
                     ];
 
-                    ElementStat activeEventsStat = ElementStat(status: "Activos", percentage: 0);
-                    ElementStat deletedEventsStat = ElementStat(status: "Eliminados", percentage: 0);
-                    ElementStat activeTodosStat = ElementStat(status: "Activos", percentage: 0);
-                    ElementStat deletedTodosStat = ElementStat(status: "Eliminados", percentage: 0);
-                    ElementStat activeNotesStat = ElementStat(status: "Activos", percentage: 0);
-                    ElementStat deletedNotesStat = ElementStat(status: "Eliminados", percentage: 0);
+                    ElementStat activeEventsStat = ElementStat(status: AppLocalizations.of(context)!.activePlural, percentage: 0);
+                    ElementStat deletedEventsStat = ElementStat(status: AppLocalizations.of(context)!.deletedPlural, percentage: 0);
+                    ElementStat activeTodosStat = ElementStat(status: AppLocalizations.of(context)!.activePlural, percentage: 0);
+                    ElementStat deletedTodosStat = ElementStat(status: AppLocalizations.of(context)!.deletedPlural, percentage: 0);
+                    ElementStat activeNotesStat = ElementStat(status: AppLocalizations.of(context)!.activePlural, percentage: 0);
+                    ElementStat deletedNotesStat = ElementStat(status: AppLocalizations.of(context)!.deletedPlural, percentage: 0);
 
                     if (eventsStat.active > 0) activeEventsStat.percentage = double.parse(((eventsStat.active/eventsStat.total)*100).toStringAsFixed(1));
                     if (eventsStat.deleted > 0) deletedEventsStat.percentage = double.parse(((eventsStat.deleted/eventsStat.total)*100).toStringAsFixed(1));
@@ -83,7 +85,7 @@ class _StatsUsageState extends State<StatsUsage> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Actualizado a $nowString.',
+                        Text(AppLocalizations.of(context)!.updatedAt + nowString + '.',
                             style: TextStyle(
                                 color: colorMainText,
                                 fontSize: deviceWidth * fontSize * 0.03,
@@ -93,7 +95,7 @@ class _StatsUsageState extends State<StatsUsage> {
                         ),
 
                         FormContainer([
-                          Text('Usuarios',
+                          Text(AppLocalizations.of(context)!.users,
                               style: TextStyle(
                                   color: colorMainText,
                                   fontSize: deviceWidth * fontSize * 0.05,
@@ -107,7 +109,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                 Container(
                                   padding: EdgeInsets.fromLTRB(0, 4.0, 0, 4.0),
                                   alignment: Alignment.centerLeft,
-                                  child: Text('Total:',
+                                  child: Text(AppLocalizations.of(context)!.total + ':',
                                     style: TextStyle(
                                         color: colorMainText,
                                         fontSize: deviceWidth * fontSize * 0.035,
@@ -137,7 +139,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                 Container(
                                   padding: EdgeInsets.fromLTRB(0, 4.0, 0, 4.0),
                                   alignment: Alignment.centerLeft,
-                                  child: Text('Email verificado:',
+                                  child: Text(AppLocalizations.of(context)!.emailVerified + ':',
                                     style: TextStyle(
                                         color: colorMainText,
                                         fontSize: deviceWidth * fontSize * 0.035,
@@ -176,7 +178,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                 Container(
                                   padding: EdgeInsets.fromLTRB(0, 4.0, 0, 4.0),
                                   alignment: Alignment.centerLeft,
-                                  child: Text('Testers:',
+                                  child: Text(AppLocalizations.of(context)!.testers + ':',
                                     style: TextStyle(
                                         color: colorMainText,
                                         fontSize: deviceWidth * fontSize * 0.035,
@@ -219,7 +221,7 @@ class _StatsUsageState extends State<StatsUsage> {
                         ),
 
                         FormContainer([
-                          Text('Uso de la aplicación',
+                          Text(AppLocalizations.of(context)!.appUsage,
                               style: TextStyle(
                                   color: colorMainText,
                                   fontSize: deviceWidth * fontSize * 0.05,
@@ -244,7 +246,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                     showCumulativeValues: false,
                                   ),
                                   dataSource: usageData,
-                                  name: 'Activo',
+                                  name: AppLocalizations.of(context)!.active,
                                   xValueMapper: (UsageStat stat, _) => stat.name,
                                   yValueMapper: (UsageStat stat, _) => stat.active,
                                   animationDuration: 1000,
@@ -255,7 +257,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                     showCumulativeValues: false,
                                   ),
                                   dataSource: usageData,
-                                  name: 'Eliminado',
+                                  name: AppLocalizations.of(context)!.deleted,
                                   xValueMapper: (UsageStat stat, _) => stat.name,
                                   yValueMapper: (UsageStat stat, _) => stat.deleted,
                                   animationDuration: 1000,
@@ -268,7 +270,7 @@ class _StatsUsageState extends State<StatsUsage> {
                         ),
 
                         FormContainer([
-                          Text('Recuento de elementos',
+                          Text(AppLocalizations.of(context)!.elementsCount,
                               style: TextStyle(
                                   color: colorMainText,
                                   fontSize: deviceWidth * fontSize * 0.05,
@@ -303,7 +305,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                     ),
                                   ),
                                   alignment: Alignment.center,
-                                  child: Text('Total',
+                                  child: Text(AppLocalizations.of(context)!.total,
                                     style: TextStyle(
                                         color: colorMainText,
                                         fontSize: deviceWidth * fontSize * 0.035,
@@ -319,7 +321,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                     ),
                                   ),
                                   alignment: Alignment.center,
-                                  child: Text('Activos',
+                                  child: Text(AppLocalizations.of(context)!.activePlural,
                                     style: TextStyle(
                                         color: colorMainText,
                                         fontSize: deviceWidth * fontSize * 0.035,
@@ -335,7 +337,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                     ),
                                   ),
                                   alignment: Alignment.center,
-                                  child: Text('Eliminados',
+                                  child: Text(AppLocalizations.of(context)!.deletedPlural,
                                     style: TextStyle(
                                         color: colorMainText,
                                         fontSize: deviceWidth * fontSize * 0.035,
@@ -347,7 +349,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                 Container(
                                   padding: EdgeInsets.fromLTRB(0, 4.0, 0, 4.0),
                                   alignment: Alignment.center,
-                                  child: Text('Eventos',
+                                  child: Text(AppLocalizations.of(context)!.eventsCapital,
                                     style: TextStyle(
                                         color: colorMainText,
                                         fontSize: deviceWidth * fontSize * 0.035),
@@ -400,7 +402,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                 Container(
                                   padding: EdgeInsets.fromLTRB(0, 4.0, 0, 4.0),
                                   alignment: Alignment.center,
-                                  child: Text('Tareas',
+                                  child: Text(AppLocalizations.of(context)!.todos,
                                     style: TextStyle(
                                         color: colorMainText,
                                         fontSize: deviceWidth * fontSize * 0.035),
@@ -453,7 +455,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                 Container(
                                   padding: EdgeInsets.fromLTRB(0, 4.0, 0, 4.0),
                                   alignment: Alignment.center,
-                                  child: Text('Notas',
+                                  child: Text(AppLocalizations.of(context)!.notes,
                                     style: TextStyle(
                                         color: colorMainText,
                                         fontSize: deviceWidth * fontSize * 0.035),
@@ -510,7 +512,7 @@ class _StatsUsageState extends State<StatsUsage> {
                         ),
 
                         FormContainer([
-                          Text('Proporciones de actividad (%)',
+                          Text(AppLocalizations.of(context)!.activityProportions,
                               style: TextStyle(
                                   color: colorMainText,
                                   fontSize: deviceWidth * fontSize * 0.05,
@@ -532,7 +534,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                   children: [
                                     TextButton(
                                       child: Text(
-                                        'Eventos',
+                                        AppLocalizations.of(context)!.eventsCapital,
                                         style: TextStyle(
                                             color: colorSpecialItem,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -552,7 +554,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                 if(proportionsIndex != 0) Expanded(
                                     child: OutlinedButton(
                                       child: Text(
-                                        'Eventos',
+                                        AppLocalizations.of(context)!.eventsCapital,
                                         style: TextStyle(
                                             color: colorSpecialItem,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -577,7 +579,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                   children: [
                                     TextButton(
                                       child: Text(
-                                        'Tareas',
+                                        AppLocalizations.of(context)!.todos,
                                         style: TextStyle(
                                             color: colorSpecialItem,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -597,7 +599,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                 if(proportionsIndex != 1) Expanded(
                                     child: OutlinedButton(
                                       child: Text(
-                                        'Tareas',
+                                        AppLocalizations.of(context)!.todos,
                                         style: TextStyle(
                                             color: colorSpecialItem,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -622,7 +624,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                   children: [
                                     TextButton(
                                       child: Text(
-                                        'Notas',
+                                        AppLocalizations.of(context)!.notes,
                                         style: TextStyle(
                                             color: colorSpecialItem,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -642,7 +644,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                 if(proportionsIndex != 2) Expanded(
                                     child: OutlinedButton(
                                       child: Text(
-                                        'Notas',
+                                        AppLocalizations.of(context)!.notes,
                                         style: TextStyle(
                                             color: colorSpecialItem,
                                             fontSize: deviceWidth * fontSize * 0.04,
@@ -682,7 +684,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                   widget:
                                   Container(
                                     alignment: Alignment.center,
-                                    child: Text('Total:\n' + eventsStat.total.toString(),
+                                    child: Text(AppLocalizations.of(context)!.total + ':\n' + eventsStat.total.toString(),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: colorMainText,
@@ -724,7 +726,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                   widget:
                                   Container(
                                     alignment: Alignment.center,
-                                    child: Text('Total:\n' + todosStat.total.toString(),
+                                    child: Text(AppLocalizations.of(context)!.total + ':\n' + todosStat.total.toString(),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: colorMainText,
@@ -766,7 +768,7 @@ class _StatsUsageState extends State<StatsUsage> {
                                   widget:
                                   Container(
                                     alignment: Alignment.center,
-                                    child: Text('Total:\n' + notesStat.total.toString(),
+                                    child: Text(AppLocalizations.of(context)!.total + ':\n' + notesStat.total.toString(),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: colorMainText,
@@ -794,7 +796,7 @@ class _StatsUsageState extends State<StatsUsage> {
                         ]),
                       ],);
                   }
-                  else return LoadingContainer('Cargando estadísticas...', 0.9);
+                  else return LoadingContainer(AppLocalizations.of(context)!.loadingStats, 0.9);
                 }
             ),
           ]
