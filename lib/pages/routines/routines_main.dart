@@ -37,7 +37,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
   Widget build(BuildContext context) {
 
     if(weekDay == routineDay) dayText = AppLocalizations.of(context)!.todaySmall;
-    else dayText = dayToString(routineDay).toLowerCase();
+    else dayText = dayToString(routineDay, context).toLowerCase();
 
     return HomeArea(_scrollController,
         HomeHeader(AppLocalizations.of(context)!.routine, [
@@ -63,6 +63,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
                 (){_setRoutineDay(6);},
                 (){_setRoutineDay(7);},
               ]
+              , context
           ),
 
           StreamBuilder<List<dynamic>>(
@@ -132,7 +133,7 @@ class _RoutinesMainPageState extends State<RoutinesMainPage> {
                                 fontWeight: FontWeight.bold),
                           ),
                           ShareButton((){
-                            socialShare(routineDay);
+                            socialShare(routineDay, context);
                           }),
                         ),
                         Column(children: events.map<Widget>(buildEventBox).toList(),),

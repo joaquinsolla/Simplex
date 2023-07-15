@@ -307,5 +307,22 @@
   "completedToDosSmall": "complted To-Dos",
   "loadingToDos": "Loading your To-Dos...",
   "markAsPending": "Mark as pending",
-  "deletedDoneToDos": "Deleted completed To-Dos."
+  "deletedDoneToDos": "Deleted completed To-Dos.",
+
+  "comment11": "-----OTHERS-----",
+  "isOn": "Is on ",
+  "dueDateToday": "The due date is today.",
+  "dueDateExpired": "The due date has expired.",
+  "haveANote": "You have a note",
+  "on": "On ",
+  "atCapital": "At ",
+  "noEvents": "No events",
+  "createdSimplex": "Created with \u00a9Simplex.",
+  "charMonday": "M",
+  "charTuesday": "T",
+  "charWednesday": "W",
+  "charThursday": "T",
+  "charFriday": "F",
+  "charSaturday": "S",
+  "charSunday": "S"
 }

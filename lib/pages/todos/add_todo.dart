@@ -213,7 +213,7 @@ class _AddTodoState extends State<AddTodo> {
                         done: false,
                       );
                       createTodo(newTodo);
-                      if (limited) buildTodoNotifications(id, AppLocalizations.of(context)!.pendingToDo +': ' + nameController.text, limitDate);
+                      if (limited) buildTodoNotifications(id, AppLocalizations.of(context)!.pendingToDo +': ' + nameController.text, limitDate, context);
                       Navigator.pop(context);
                       showInfoSnackBar(context, AppLocalizations.of(context)!.toDoCreated);
                     } on Exception catch (e) {

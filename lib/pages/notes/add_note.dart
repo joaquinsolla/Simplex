@@ -316,7 +316,7 @@ class _AddNoteState extends State<AddNote> {
                         );
                         createNote(newNote);
                         if (onCalendar) buildNoteNotification(
-                            id, nameController.text, calendarDate);
+                            id, nameController.text, calendarDate, context);
                         Navigator.pop(context);
                         showInfoSnackBar(context, AppLocalizations.of(context)!.noteCreated);
                       } on Exception catch (e) {

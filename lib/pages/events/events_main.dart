@@ -415,7 +415,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
           ),
           onPressed: (){
             selectedEvent = event;
-            socialShare(selectedEvent);
+            socialShare(selectedEvent, context);
           },
         ),
         FocusedMenuItem(
@@ -570,7 +570,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
             ),
           ),
           onPressed: () {
-            toggleTodo(todo.id, todo.name, todo.limited, todo.limitDate, !todo.done);
+            toggleTodo(todo.id, todo.name, todo.limited, todo.limitDate, !todo.done, context);
           },
         ),
         FocusedMenuItem(
@@ -612,7 +612,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
           ),
           onPressed: (){
             selectedTodo = todo;
-            socialShare(selectedTodo);
+            socialShare(selectedTodo, context);
           },
         ),
         FocusedMenuItem(
@@ -786,7 +786,7 @@ class _EventsMainPageState extends State<EventsMainPage> {
           ),
           onPressed: (){
             selectedNote = note;
-            socialShare(selectedNote);
+            socialShare(selectedNote, context);
           },
         ),
         FocusedMenuItem(

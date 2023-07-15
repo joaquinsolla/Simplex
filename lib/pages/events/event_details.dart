@@ -83,7 +83,7 @@ class _EventDetailsState extends State<EventDetails> {
                     fontWeight: FontWeight.bold),
               ),
                 ShareButton((){
-                  socialShare(selectedEvent);
+                  socialShare(selectedEvent, context);
                 }),
               ),
               if (selectedEvent!.description == '') Container(
@@ -191,7 +191,7 @@ class _EventDetailsState extends State<EventDetails> {
                                 children: [
                                   Icon(Icons.check, color: colorSpecialItem, size: deviceWidth*0.05,),
                                   SizedBox(width: deviceWidth*0.025,),
-                                  Text(dayIdToString(selectedEvent!.routinesList[index]),
+                                  Text(dayIdToString(selectedEvent!.routinesList[index], context),
                                       style: TextStyle(
                                           color: colorMainText,
                                           fontSize: deviceWidth * fontSize * 0.04,
@@ -266,7 +266,7 @@ class _EventDetailsState extends State<EventDetails> {
                                   if (selectedEvent!.notificationsList[index].values.first.toDate().isBefore(eventDateTime)) Icon(Icons.notifications_active_outlined, color: colorSpecialItem, size: deviceWidth*0.05,),
                                   if (selectedEvent!.notificationsList[index].values.first.toDate().isAfter(eventDateTime)) Icon(Icons.notification_important_outlined, color: Colors.red, size: deviceWidth*0.05,),
                                   SizedBox(width: deviceWidth*0.025,),
-                                  Text(formatEventNotificationDate(selectedEvent!.notificationsList[index].values.first.toDate()),
+                                  Text(formatEventNotificationDate(selectedEvent!.notificationsList[index].values.first.toDate(), context),
                                       style: TextStyle(
                                           color: colorMainText,
                                           fontSize: deviceWidth * fontSize * 0.04,

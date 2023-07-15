@@ -270,7 +270,7 @@ class _NotesMainPageState extends State<NotesMainPage> {
           ),
           onPressed: (){
             selectedNote = note;
-            socialShare(selectedNote);
+            socialShare(selectedNote, context);
           },
         ),
         FocusedMenuItem(

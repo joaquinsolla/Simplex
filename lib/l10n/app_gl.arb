@@ -307,5 +307,22 @@
   "completedToDosSmall": "tarefas completadas",
   "loadingToDos": "Cargando as túas tarefas...",
   "markAsPending": "Marcar coma pendente",
-  "deletedDoneToDos": "Tarefas completadas eliminadas."
+  "deletedDoneToDos": "Tarefas completadas eliminadas.",
+
+  "comment11": "-----OTHERS-----",
+  "isOn": "É o ",
+  "dueDateToday": "A data límite é hoxe.",
+  "dueDateExpired": "Venceu a data límite.",
+  "haveANote": "Tes unha nota",
+  "on": "O ",
+  "atCapital": "Ás ",
+  "noEvents": "Sen eventos",
+  "createdSimplex": "Creado con \u00a9Simplex.",
+  "charMonday": "L",
+  "charTuesday": "M",
+  "charWednesday": "M",
+  "charThursday": "X",
+  "charFriday": "V",
+  "charSaturday": "S",
+  "charSunday": "D"
 }

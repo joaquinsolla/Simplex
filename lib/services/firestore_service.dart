@@ -328,13 +328,13 @@ Future createTodo(Todo todo) async{
   await addElement("todos");
 }
 
-toggleTodo(int id, String name, bool limited, DateTime limitDate, bool newDone) async{
+toggleTodo(int id, String name, bool limited, DateTime limitDate, bool newDone, BuildContext context) async{
   final doc = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid)
       .collection('todos').doc(id.toString());
 
   if (limited){
     if (newDone) cancelAllTodoNotifications(id);
-    else if (limitDate.isAfter(DateTime.now())) buildTodoNotifications(id, 'Tarea pendiente: ' + name, limitDate);
+    else if (limitDate.isAfter(DateTime.now())) buildTodoNotifications(id, 'Tarea pendiente: ' + name, limitDate, context);
   }
 
   await doc.update({

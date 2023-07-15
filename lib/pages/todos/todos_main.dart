@@ -269,7 +269,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
             splashRadius: 0.0001,
             icon: Icon(Icons.circle_outlined, color: colorSecondText,
                 size: deviceWidth * 0.07),
-            onPressed: () => toggleTodo(todo.id, todo.name, todo.limited, todo.limitDate, true),
+            onPressed: () => toggleTodo(todo.id, todo.name, todo.limited, todo.limitDate, true, context),
           ),
         ),
         FocusedMenuHolder(
@@ -320,7 +320,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                 ),
               ),
               onPressed: () {
-                toggleTodo(todo.id, todo.name, todo.limited, todo.limitDate, !todo.done);
+                toggleTodo(todo.id, todo.name, todo.limited, todo.limitDate, !todo.done, context);
               },
             ),
             FocusedMenuItem(
@@ -363,7 +363,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
               ),
               onPressed: (){
                 selectedTodo = todo;
-                socialShare(selectedTodo);
+                socialShare(selectedTodo, context);
               },
             ),
             FocusedMenuItem(
@@ -488,7 +488,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
             splashRadius: 0.0001,
             icon: Icon(Icons.check_circle_outline_rounded, color: colorSecondText,
                 size: deviceWidth * 0.07),
-            onPressed: () => toggleTodo(todo.id, todo.name, todo.limited, todo.limitDate, false),
+            onPressed: () => toggleTodo(todo.id, todo.name, todo.limited, todo.limitDate, false, context),
           ),
         ),
         FocusedMenuHolder(
@@ -539,7 +539,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
                 ),
               ),
               onPressed: () {
-                toggleTodo(todo.id, todo.name, todo.limited, todo.limitDate, !todo.done);
+                toggleTodo(todo.id, todo.name, todo.limited, todo.limitDate, !todo.done, context);
               },
             ),
             FocusedMenuItem(
@@ -582,7 +582,7 @@ class _TodosMainPageState extends State<TodosMainPage> {
               ),
               onPressed: (){
                   selectedTodo = todo;
-                  socialShare(selectedTodo);
+                  socialShare(selectedTodo, context);
                 },
             ),
             FocusedMenuItem(

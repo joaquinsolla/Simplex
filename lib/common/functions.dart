@@ -9,6 +9,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../classes/all_classes.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 void showTextDialog(BuildContext context, IconData icon, String title, String content,
     String textAccept, String textCancel, Function() actionsAccept,
@@ -91,7 +93,7 @@ void showRoutinePickerDialog(BuildContext context, String title, List<bool> week
                         CheckboxListTile(
                           activeColor: colorSpecialItem,
                           title: Text(
-                            'Lunes',
+                            AppLocalizations.of(context)!.dayMonday,
                             style: TextStyle(
                               color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
@@ -109,7 +111,7 @@ void showRoutinePickerDialog(BuildContext context, String title, List<bool> week
                         CheckboxListTile(
                           activeColor: colorSpecialItem,
                           title: Text(
-                            'Martes',
+                            AppLocalizations.of(context)!.dayTuesday,
                             style: TextStyle(
                               color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
@@ -127,7 +129,7 @@ void showRoutinePickerDialog(BuildContext context, String title, List<bool> week
                         CheckboxListTile(
                           activeColor: colorSpecialItem,
                           title: Text(
-                            'Miércoles',
+                            AppLocalizations.of(context)!.dayWednesday,
                             style: TextStyle(
                               color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
@@ -145,7 +147,7 @@ void showRoutinePickerDialog(BuildContext context, String title, List<bool> week
                         CheckboxListTile(
                           activeColor: colorSpecialItem,
                           title: Text(
-                            'Jueves',
+                            AppLocalizations.of(context)!.dayThursday,
                             style: TextStyle(
                               color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
@@ -163,7 +165,7 @@ void showRoutinePickerDialog(BuildContext context, String title, List<bool> week
                         CheckboxListTile(
                           activeColor: colorSpecialItem,
                           title: Text(
-                            'Viernes',
+                            AppLocalizations.of(context)!.dayFriday,
                             style: TextStyle(
                               color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
@@ -181,7 +183,7 @@ void showRoutinePickerDialog(BuildContext context, String title, List<bool> week
                         CheckboxListTile(
                           activeColor: colorSpecialItem,
                           title: Text(
-                            'Sábado',
+                            AppLocalizations.of(context)!.daySaturday,
                             style: TextStyle(
                               color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
@@ -199,7 +201,7 @@ void showRoutinePickerDialog(BuildContext context, String title, List<bool> week
                         CheckboxListTile(
                           activeColor: colorSpecialItem,
                           title: Text(
-                            'Domingo',
+                            AppLocalizations.of(context)!.daySunday,
                             style: TextStyle(
                               color: colorMainText,
                               fontSize: deviceWidth * fontSize * 0.04,
@@ -327,15 +329,15 @@ String timeOfDayToSpecificString(TimeOfDay time, String timeFormat) {
 }
 
 void buildEventNotification(int id, String title, DateTime notificationDateTime,
-    DateTime eventDate, DateTime eventTime) {
+    DateTime eventDate, DateTime eventTime, BuildContext context) {
   final dt = DateTime(eventDate.year, eventDate.month, eventDate.day, eventTime.hour, eventTime.minute);
 
-  String body = 'Es el ';
+  String body = AppLocalizations.of(context)!.isOn;
   if (formatDates == true)
     body = body + DateFormat('dd/MM/yyyy').format(dt);
   else
     body = body + DateFormat('MM/dd/yyyy').format(dt);
-  body = body + ' a las ';
+  body = body + AppLocalizations.of(context)!.at;
   if (format24Hours == true)
     body = body + DateFormat('H:mm').format(dt);
   else
@@ -355,11 +357,11 @@ void buildEventNotification(int id, String title, DateTime notificationDateTime,
   }
 }
 
-void buildTodoNotifications(int id, String title, DateTime todoLimitDate) {
+void buildTodoNotifications(int id, String title, DateTime todoLimitDate, BuildContext context) {
   int id1 = int.parse("1" + "$id");
   int id2 = int.parse("2" + "$id");
-  String body1 = 'La fecha límite es hoy';
-  String body2 = 'Ha vencido la fecha límite';
+  String body1 = AppLocalizations.of(context)!.dueDateToday;
+  String body2 = AppLocalizations.of(context)!.dueDateExpired;
 
   if (todoLimitDate.isAfter(DateTime.now())) {
     WidgetsFlutterBinding.ensureInitialized();
@@ -381,11 +383,11 @@ void buildTodoNotifications(int id, String title, DateTime todoLimitDate) {
   debugPrint('[OK] Notification ready: $id2');
 }
 
-void buildNoteNotification(int id, String noteName, DateTime calendarDate) {
+void buildNoteNotification(int id, String noteName, DateTime calendarDate, BuildContext context) {
 
-  if (noteName == '') noteName = 'Sin título';
-  String title = 'Tienes una nota';
-  String body = 'Echa un vistazo a: $noteName';
+  if (noteName == '') noteName = AppLocalizations.of(context)!.noTitle;
+  String title = AppLocalizations.of(context)!.haveANote;
+  String body = noteName;
 
   if (calendarDate.isAfter(DateTime.now())) {
     WidgetsFlutterBinding.ensureInitialized();
@@ -397,24 +399,6 @@ void buildNoteNotification(int id, String noteName, DateTime calendarDate) {
   } else {
     debugPrint('[WRN] Cannot show notification $id: Time out of range');
   }
-}
-
-void buildNotificationNow() {
-  /// TESTING METHOD
-
-  DateTime dateTime = DateTime.now().add(const Duration(seconds: 5));
-  int id = dateTime.millisecondsSinceEpoch;
-  String title = '[TEST] Notificación';
-  String body = 'Mostrada el ' + dateToString(dateTime) +
-      ' a las ' + timeToString(dateTime);
-
-  WidgetsFlutterBinding.ensureInitialized();
-  NotificationService().initNotification();
-  tz.initializeTimeZones();
-
-  NotificationService().showNotification(id, title, body, dateTime);
-  debugPrint('[OK] Testing notification ready: $id');
-
 }
 
 cancelAllEventNotifications(int eventId) async {
@@ -456,14 +440,14 @@ cancelNoteNotification(int noteId) async {
   debugPrint('[OK] All notifications canceled for note $noteId');
 }
 
-String formatEventNotificationDate(DateTime dateTime) {
-  String formattedDate = 'El ';
+String formatEventNotificationDate(DateTime dateTime, BuildContext context) {
+  String formattedDate = AppLocalizations.of(context)!.on;
   if (formatDates == true)
     formattedDate = formattedDate + DateFormat('dd/MM/yyyy').format(dateTime);
   else
     formattedDate = formattedDate + DateFormat('MM/dd/yyyy').format(dateTime);
 
-  formattedDate = formattedDate + ' a las ';
+  formattedDate = formattedDate + AppLocalizations.of(context)!.at;
 
   if (format24Hours == true)
     formattedDate = formattedDate + DateFormat('H:mm').format(dateTime);
@@ -473,16 +457,16 @@ String formatEventNotificationDate(DateTime dateTime) {
   return formattedDate;
 }
 
-String dayIdToString(int day) {
+String dayIdToString(int day, BuildContext context) {
   List<String> strings = [
     '[Index 0]',
-    'Lunes',
-    'Martes',
-    'Miércoles',
-    'Jueves',
-    'Viernes',
-    'Sábado',
-    'Domingo'
+    AppLocalizations.of(context)!.dayMonday,
+    AppLocalizations.of(context)!.dayTuesday,
+    AppLocalizations.of(context)!.dayWednesday,
+    AppLocalizations.of(context)!.dayThursday,
+    AppLocalizations.of(context)!.dayFriday,
+    AppLocalizations.of(context)!.daySaturday,
+    AppLocalizations.of(context)!.daySunday
   ];
 
   return strings[day];
@@ -504,109 +488,108 @@ void tryLaunchUrl(Uri url) async {
   }
 }
 
-String buildEventShareText(Event event) {
-  String text = "Evento: ";
+String buildEventShareText(Event event, BuildContext context) {
+  String text = AppLocalizations.of(context)!.event + ': ';
   text += (event.name + "\n");
   if (event.description != "") text += (event.description + "\n");
   text += "\n";
-  if (!event.routineEvent) text += ("El día " + dateToString(event.date) + "\n");
-  text += ("A las " + timeToString(event.time));
+  if (!event.routineEvent) text += (AppLocalizations.of(context)!.on + dateToString(event.date) + "\n");
+  text += (AppLocalizations.of(context)!.atCapital + timeToString(event.time));
 
   if (event.routineEvent){
-    text += "\n\nDías de la rutina: ";
-    if (event.routinesList.contains(1)) text += "\n • " + dayToString(1);
-    if (event.routinesList.contains(2)) text += "\n • " + dayToString(2);
-    if (event.routinesList.contains(3)) text += "\n • " + dayToString(3);
-    if (event.routinesList.contains(4)) text += "\n • " + dayToString(4);
-    if (event.routinesList.contains(5)) text += "\n • " + dayToString(5);
-    if (event.routinesList.contains(6)) text += "\n • " + dayToString(6);
-    if (event.routinesList.contains(7)) text += "\n • " + dayToString(7);
+    text += "\n\n" + AppLocalizations.of(context)!.routineDays + ': ';
+    if (event.routinesList.contains(1)) text += "\n • " + dayToString(1, context);
+    if (event.routinesList.contains(2)) text += "\n • " + dayToString(2, context);
+    if (event.routinesList.contains(3)) text += "\n • " + dayToString(3, context);
+    if (event.routinesList.contains(4)) text += "\n • " + dayToString(4, context);
+    if (event.routinesList.contains(5)) text += "\n • " + dayToString(5, context);
+    if (event.routinesList.contains(6)) text += "\n • " + dayToString(6, context);
+    if (event.routinesList.contains(7)) text += "\n • " + dayToString(7, context);
   }
 
   return text;
 }
 
-String buildTodoShareText(Todo todo) {
-  String text = "Tarea: ";
+String buildTodoShareText(Todo todo, BuildContext context) {
+  String text = AppLocalizations.of(context)!.toDo + ': ';
   text += (todo.name + "\n");
   if (todo.description != "") text += (todo.description + "\n");
   text += "\n";
-  if (todo.limited) text += ("Fecha límite: " + dateToString(todo.limitDate) + "\n");
-  text += "Prioridad: ";
-  if (todo.priority == 1) text+= "Baja\n";
-  else if (todo.priority == 2) text+= "Media\n";
-  else text += "Alta\n";
+  if (todo.limited) text += (AppLocalizations.of(context)!.dueDate + ': ' + dateToString(todo.limitDate) + "\n");
+  text += AppLocalizations.of(context)!.priority + ': ';
+  if (todo.priority == 1) text+= AppLocalizations.of(context)!.low + '\n';
+  else if (todo.priority == 2) text+= AppLocalizations.of(context)!.medium + '\n';
+  else text += AppLocalizations.of(context)!.high + '\n';
   text += "\n";
-  text += "Estado: ";
-  if (todo.done) text += "Completado";
-  else text += "Pendiente";
+  text += AppLocalizations.of(context)!.status + ': ';
+  if (todo.done) text += AppLocalizations.of(context)!.completed;
+  else text += AppLocalizations.of(context)!.pending;
 
   return text;
 }
 
-String buildNoteShareText(Note note) {
-  String text = "Nota";
+String buildNoteShareText(Note note, BuildContext context) {
+  String text = AppLocalizations.of(context)!.note;
   if (note.name != "") text += (": " + note.name + "\n\n");
-  else text += (": Sin título.\n\n");
+  else text += (": " + AppLocalizations.of(context)!.noTitle + ".\n\n");
 
   if (note.content != "") text += note.content;
-  else text += "Sin contenido.";
+  else text += AppLocalizations.of(context)!.noContent + '.';
 
   return text;
 }
 
-String buildRoutineShareText(int day) {
+String buildRoutineShareText(int day, BuildContext context) {
 
-  String dayText = dayToString(day);
-  String text = "Rutina: $dayText\n";
+  String dayText = dayToString(day, context);
+  String text = AppLocalizations.of(context)!.routine + ": $dayText\n";
 
   if (selectedRoutineEvents.length > 0){
     for(int i=0; i<selectedRoutineEvents.length; i++){
       text += ("\n" + timeToString(selectedRoutineEvents[i].time) + " - "
           + selectedRoutineEvents[i].name);
     }
-  } else text += "Sin eventos.";
+  } else text += AppLocalizations.of(context)!.noEvents + '.';
 
   return text;
 }
 
-Future<void> socialShare(dynamic element) async {
+Future<void> socialShare(dynamic element, BuildContext context) async {
   late String text;
 
-  if (element is Event) text = buildEventShareText(element);
-  else if (element is Todo) text = buildTodoShareText(element);
-  else if (element is Note) text = buildNoteShareText(element);
-  else if (element is int) text = buildRoutineShareText(element);
+  if (element is Event) text = buildEventShareText(element, context);
+  else if (element is Todo) text = buildTodoShareText(element, context);
+  else if (element is Note) text = buildNoteShareText(element, context);
+  else if (element is int) text = buildRoutineShareText(element, context);
   else debugPrint("[ERR] 'element' type didn't match.");
 
-  text += "\n\nCreado con \u00a9Simplex.";
+  text += "\n\n" + AppLocalizations.of(context)!.createdSimplex;
 
   debugPrint("[OK] Generated text:\n" + text + "\n");
 
-  // TODO: REVIEW
   await SocialShare.shareOptions(text);
 }
 
-String dayToString(int day){
+String dayToString(int day, BuildContext context){
 
-  if (day == 1) return "Lunes";
-  else if (day == 2) return "Martes";
-  else if (day == 3) return "Miércoles";
-  else if (day == 4) return "Jueves";
-  else if (day == 5) return "Viernes";
-  else if (day == 6) return "Sábado";
-  else return "Domingo";
+  if (day == 1) return AppLocalizations.of(context)!.dayMonday;
+  else if (day == 2) return AppLocalizations.of(context)!.dayTuesday;
+  else if (day == 3) return AppLocalizations.of(context)!.dayWednesday;
+  else if (day == 4) return AppLocalizations.of(context)!.dayThursday;
+  else if (day == 5) return AppLocalizations.of(context)!.dayFriday;
+  else if (day == 6) return AppLocalizations.of(context)!.daySaturday;
+  else return AppLocalizations.of(context)!.daySunday;
 
 }
 
-String dayToChar(int day){
+String dayToChar(int day, BuildContext context){
 
-  if (day == 1) return "L";
-  else if (day == 2) return "M";
-  else if (day == 3) return "X";
-  else if (day == 4) return "J";
-  else if (day == 5) return "V";
-  else if (day == 6) return "S";
-  else return "D";
+  if (day == 1) return AppLocalizations.of(context)!.charMonday;
+  else if (day == 2) return AppLocalizations.of(context)!.charTuesday;
+  else if (day == 3) return AppLocalizations.of(context)!.charWednesday;
+  else if (day == 4) return AppLocalizations.of(context)!.charThursday;
+  else if (day == 5) return AppLocalizations.of(context)!.charFriday;
+  else if (day == 6) return AppLocalizations.of(context)!.charSaturday;
+  else return AppLocalizations.of(context)!.charSunday;
 
 }

@@ -428,7 +428,7 @@ class _AddEventState extends State<AddEvent> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(formatEventNotificationDate(
-                                      notificationsList[index].values.first),
+                                      notificationsList[index].values.first, context),
                                     style: TextStyle(
                                         color: colorMainText,
                                         fontSize: deviceWidth * fontSize * 0.04,
@@ -643,7 +643,7 @@ class _AddEventState extends State<AddEvent> {
                           routineEvent: routineEvent,
                         );
                         createEvent(newEvent);
-                        if(!routineEvent) _buildAllEventNotifications();
+                        if(!routineEvent) _buildAllEventNotifications(context);
                         Navigator.pop(context);
                         showInfoSnackBar(context, AppLocalizations.of(context)!.eventCreated);
                       } on Exception catch (e) {
@@ -752,28 +752,28 @@ class _AddEventState extends State<AddEvent> {
     }
   }
 
-  _buildAllEventNotifications(){
+  _buildAllEventNotifications(BuildContext context){
     String notificationTitle = AppLocalizations.of(context)!.event + ': ' + nameController.text;
     if (not1.keys.first != null) buildEventNotification(
         int.parse(not1.keys.first!),
         notificationTitle, not1.values.first!,
-        date, time);
+        date, time, context);
     if (not2.keys.first != null) buildEventNotification(
         int.parse(not2.keys.first!),
         notificationTitle, not2.values.first!,
-        date, time);
+        date, time, context);
     if (not3.keys.first != null) buildEventNotification(
         int.parse(not3.keys.first!),
         notificationTitle, not3.values.first!,
-        date, time);
+        date, time, context);
     if (not4.keys.first != null) buildEventNotification(
         int.parse(not4.keys.first!),
         notificationTitle, not4.values.first!,
-        date, time);
+        date, time, context);
     if (not5.keys.first != null) buildEventNotification(
         int.parse(not5.keys.first!),
         notificationTitle, not5.values.first!,
-        date, time);
+        date, time, context);
   }
 
   _addEventRoutines(){

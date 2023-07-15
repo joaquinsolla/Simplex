@@ -219,7 +219,7 @@ class _EditTodoState extends State<EditTodo> {
                       );
                       updateTodo(newTodo);
                       cancelAllTodoNotifications(id);
-                      if (limited) buildTodoNotifications(id, AppLocalizations.of(context)!.pendingToDo + ': ' + nameController.text, limitDate);
+                      if (limited) buildTodoNotifications(id, AppLocalizations.of(context)!.pendingToDo + ': ' + nameController.text, limitDate, context);
 
                       Navigator.of(context).popUntil((route) => route.isFirst);
                       showInfoSnackBar(context, AppLocalizations.of(context)!.toDoUpdated);

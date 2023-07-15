@@ -323,7 +323,7 @@ class _EditNoteState extends State<EditNote> {
                         updateNote(newNote);
                         cancelNoteNotification(id);
                         if (onCalendar) buildNoteNotification(
-                            id, nameController.text, calendarDate);
+                            id, nameController.text, calendarDate, context);
                         Navigator.of(context).popUntil((route) => route.isFirst);
                         showInfoSnackBar(context, AppLocalizations.of(context)!.noteUpdated);
                       } on Exception catch (e) {

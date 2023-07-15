@@ -47,7 +47,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                   style: TextStyle(color: colorThirdText, fontSize: deviceWidth * fontSize * 0.065, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
                 ),
                 ShareButton((){
-                  socialShare(selectedNote);
+                  socialShare(selectedNote, context);
                 }),
               ),
               if (selectedNote!.name != '') ExpandedRow(
@@ -59,7 +59,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                       fontWeight: FontWeight.bold),
                 ),
                 ShareButton((){
-                  socialShare(selectedNote);
+                  socialShare(selectedNote, context);
                 }),
               ),
               if (selectedNote!.content == '') Container(
@@ -161,7 +161,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                                 children: [
                                   Icon(Icons.loop_rounded, color: colorSpecialItem, size: deviceWidth*0.05,),
                                   SizedBox(width: deviceWidth*0.025,),
-                                  Text(dayIdToString(selectedNote!.routinesList[index]),
+                                  Text(dayIdToString(selectedNote!.routinesList[index], context),
                                       style: TextStyle(
                                           color: colorMainText,
                                           fontSize: deviceWidth * fontSize * 0.04,

@@ -551,7 +551,7 @@ class _AddRoutineElementState extends State<AddRoutineElement> {
                       );
                       createNote(newNote);
                       if (noteOnCalendar) buildNoteNotification(
-                          id, noteNameController.text, noteCalendarDate);
+                          id, noteNameController.text, noteCalendarDate, context);
                       Navigator.pop(context);
                       showInfoSnackBar(context, AppLocalizations.of(context)!.noteCreated);
                     } on Exception catch (e) {
