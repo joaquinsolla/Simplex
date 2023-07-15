@@ -6,6 +6,9 @@ import 'package:simplex/common/widgets/all_widgets.dart';
 import '../../services/shared_preferences_service.dart';
 import '../home.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 class SettingsFont extends StatefulWidget {
   const SettingsFont({Key? key}) : super(key: key);
 
@@ -39,7 +42,7 @@ class _SettingsFontState extends State<SettingsFont> {
     return Scaffold(
       backgroundColor: colorMainBackground,
       body: HomeAreaWithFixedFooter(null,
-          PageHeader(context, 'Tamaño del texto'),
+          PageHeader(context, AppLocalizations.of(context)!.fontSize),
           Column(children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +65,7 @@ class _SettingsFontState extends State<SettingsFont> {
                         min: 0.8,
                         divisions: 4,
                         activeColor: Color(0xff40C4FF),
-                        label: 'Muy pequeño',
+                        label: AppLocalizations.of(context)!.verySmall,
                         onChanged: (val) {
                           setState(() {
                             previewFontSize = val;
@@ -78,7 +81,7 @@ class _SettingsFontState extends State<SettingsFont> {
                         min: 0.8,
                         divisions: 4,
                         activeColor: Color(0xff1eb3ff),
-                        label: 'Pequeño',
+                        label: AppLocalizations.of(context)!.small,
                         onChanged: (val) {
                           setState(() {
                             previewFontSize = val;
@@ -94,7 +97,7 @@ class _SettingsFontState extends State<SettingsFont> {
                         min: 0.8,
                         divisions: 4,
                         activeColor: colorSpecialItem,
-                        label: 'Normal',
+                        label: AppLocalizations.of(context)!.normal,
                         onChanged: (val) {
                           setState(() {
                             previewFontSize = val;
@@ -110,7 +113,7 @@ class _SettingsFontState extends State<SettingsFont> {
                         min: 0.8,
                         divisions: 4,
                         activeColor: Color(0xff2164f3),
-                        label: 'Grande',
+                        label: AppLocalizations.of(context)!.big,
                         onChanged: (val) {
                           setState(() {
                             previewFontSize = val;
@@ -126,7 +129,7 @@ class _SettingsFontState extends State<SettingsFont> {
                         min: 0.8,
                         divisions: 4,
                         activeColor: Color(0xff0347da),
-                        label: 'Muy grande',
+                        label: AppLocalizations.of(context)!.veryBig,
                         onChanged: (val) {
                           setState(() {
                             previewFontSize = val;
@@ -146,7 +149,7 @@ class _SettingsFontState extends State<SettingsFont> {
                 MainButton(
                     Icons.check,
                     colorSpecialItem,
-                    ' Confirmar cambios ',
+                    ' ' + AppLocalizations.of(context)!.confirmChanges + ' ',
                         () {
                       saveSettingDouble('fontSize', previewFontSize);
                       fontSize = previewFontSize;
@@ -159,12 +162,12 @@ class _SettingsFontState extends State<SettingsFont> {
                         homeIndex = 0;
                       });
 
-                      late String stringSize = 'Normal';
-                      if (previewFontSize == 0.8) stringSize = 'Muy pequeño';
-                      else if (previewFontSize == 0.9) stringSize = 'Pequeño';
-                      else if (previewFontSize == 1.1) stringSize = 'Grande';
-                      else if (previewFontSize == 1.2) stringSize = 'Muy Grande';
-                      showInfoSnackBar(context, 'Tamaño de texto ajustado: ' + stringSize + '.');
+                      late String stringSize = AppLocalizations.of(context)!.normal;
+                      if (previewFontSize == 0.8) stringSize = AppLocalizations.of(context)!.verySmall;
+                      else if (previewFontSize == 0.9) stringSize = AppLocalizations.of(context)!.small;
+                      else if (previewFontSize == 1.1) stringSize = AppLocalizations.of(context)!.big;
+                      else if (previewFontSize == 1.2) stringSize = AppLocalizations.of(context)!.veryBig;
+                      showInfoSnackBar(context, AppLocalizations.of(context)!.fontSizeAdjusted + stringSize + '.');
                     }
                 ),
               ],
@@ -172,7 +175,7 @@ class _SettingsFontState extends State<SettingsFont> {
             FooterCredits(),
           ],),
           [
-            Text('Esto es una previsualización:',
+            Text(AppLocalizations.of(context)!.thisIsAPreview,
               style: TextStyle(
                   color: colorMainText,
                   fontSize: deviceWidth * previewFontSize * 0.045,
@@ -211,7 +214,7 @@ class _SettingsFontState extends State<SettingsFont> {
                             Container(
                                 width: deviceWidth*0.585,
                                 alignment: Alignment.centerLeft,
-                                child: Text('Evento',
+                                child: Text(AppLocalizations.of(context)!.event,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(color: colorMainText, fontSize: deviceWidth * previewFontSize * 0.06, fontWeight: FontWeight.bold))),
@@ -219,7 +222,7 @@ class _SettingsFontState extends State<SettingsFont> {
                             Container(
                                 width: deviceWidth*0.585,
                                 alignment: Alignment.centerLeft,
-                                child: Text('Descripción del evento',
+                                child: Text(AppLocalizations.of(context)!.eventDescription,
                                     maxLines: 5,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(color: colorSecondText, fontSize: deviceWidth * previewFontSize * 0.03, fontWeight: FontWeight.normal))),
@@ -235,9 +238,7 @@ class _SettingsFontState extends State<SettingsFont> {
             ),
 
             SizedBox(height: deviceHeight * 0.025),
-            Text('Ajusta el tamaño del texto a tu gusto, una vez termines pulsa '
-                'el botón de abajo para guardar los cambios.\n\n'
-                'También se actualiza el tamaño de los iconos y botones:',
+            Text(AppLocalizations.of(context)!.fontSizeExplanation,
               style: TextStyle(
                 color: colorSecondText,
                 fontSize: deviceWidth * previewFontSize * 0.0325,
