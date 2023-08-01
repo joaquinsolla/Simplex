@@ -1,2 +1,0 @@
-# Simplex - Documentación
-
