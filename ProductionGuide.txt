@@ -7,5 +7,7 @@ flutter install
 Compilar Appbundle a partir del APK:
 flutter build appbundle --no-tree-shake-icons
 
+RUTA: /build/app/outputs/
+
 * Añadido para este proyecto
 --no-tree-shake-icons
