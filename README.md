@@ -1,6 +1,7 @@
 # <img src="https://github.com/joaquinsolla/Simplex/blob/master/assets/app_banner.png" height="100" />
 
-A personal organizer.
+Simplex: Organización personal. 
 
-### Taiga project:
-_https://tree.taiga.io/project/joaquinsolla-simplex_
+Autor: _Joaquín Solla Vázquez_
+
+Disponible en _Google Play Store_: https://play.google.com/store/apps/details?id=com.joa.simplex
